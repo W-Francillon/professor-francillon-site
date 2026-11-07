@@ -1,0 +1,1838 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Wesley Francillon, PhD">
+<meta name="dcterms.date" content="2026-01-01">
+
+<title>K-12 &amp; Undergraduate STEM Outreach: NOAA Big Data Climate Challenge – Wesley Francillon, PhD</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-d4c7e7da4be7e5978c9f5d27c8a0c455.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-2P04N7WV2H"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
+</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script>
+window.PlotlyConfig = {MathJaxConfig: 'local'};
+if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+</script>
+<script type="module">import "https://cdn.plot.ly/plotly-4.1.1.min"</script>
+
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./papillon.png" alt="Papillon Engineering" class="navbar-logo light-content">
+    <img src="./papillon.png" alt="Papillon Engineering" class="navbar-logo dark-content">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-teaching" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Teaching</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-teaching">    
+        <li>
+    <a class="dropdown-item" href="./teaching.html">
+ <span class="dropdown-text">Teaching Statement</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lecture_notes.html">
+ <span class="dropdown-text">Lecture Notes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lab_manuals.html">
+ <span class="dropdown-text">Lab Manuals Hub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./dual_polarity_power_supply.html">
+ <span class="dropdown-text">Dual-Polarity Power Supply Wiring</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-circuit-analysis" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Circuit Analysis</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-circuit-analysis">    
+        <li>
+    <a class="dropdown-item" href="./circuit_analysis.html">
+ <span class="dropdown-text">Circuit Analysis Hub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_dashboard.html">
+ <span class="dropdown-text">Electrical Dashboard</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_simulator.html">
+ <span class="dropdown-text">Live Circuit Simulator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./reactance_calculator.html">
+ <span class="dropdown-text">Reactance Calculator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./simulations/op-amp-checker.html">
+ <span class="dropdown-text">Op-Amp Golden Rule Checker</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_generator.html">
+ <span class="dropdown-text">Circuit Problem Generator</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-simulations" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Simulations</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-simulations">    
+        <li>
+    <a class="dropdown-item" href="./simulations.html">
+ <span class="dropdown-text">Simulations Hub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./simulations/op-amp-checker.html">
+ <span class="dropdown-text">Op-Amp Golden Rule Checker</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./usaf_1951.html">
+ <span class="dropdown-text">1951 USAF Optical Resolution Analyzer</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_simulator.html">
+ <span class="dropdown-text">Live Circuit Simulator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_generator.html">
+ <span class="dropdown-text">Circuit Problem Generator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./reactance_calculator.html">
+ <span class="dropdown-text">Reactance Calculator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./resonance_game.html">
+ <span class="dropdown-text">Resonance Defender Game</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_breakout.html">
+ <span class="dropdown-text">Impedance Breaker Game</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-outreach" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Outreach</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-outreach">    
+        <li>
+    <a class="dropdown-item" href="./outreach.html">
+ <span class="dropdown-text">K-12 Outreach Hub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./linear_regression.html">
+ <span class="dropdown-text">Linear Regression</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./outreach_data.html">
+ <span class="dropdown-text">API Data Challenge</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./web_scraping.html">
+ <span class="dropdown-text">Web Scraping</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./resonance_game.html">
+ <span class="dropdown-text">Resonance Defender Game</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_breakout.html">
+ <span class="dropdown-text">Impedance Breaker Game</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./rf_foxhunt.html">
+ <span class="dropdown-text">RF Fox Hunt Lab</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page…</h2>
+   
+  <ul>
+  <li><a href="#mission-briefing-the-noaa-climate-intern" id="toc-mission-briefing-the-noaa-climate-intern" class="nav-link active" data-scroll-target="#mission-briefing-the-noaa-climate-intern"><span class="header-section-number">1</span> Mission Briefing: The NOAA Climate Intern</a>
+  <ul class="collapse">
+  <li><a href="#the-scenario" id="toc-the-scenario" class="nav-link" data-scroll-target="#the-scenario"><span class="header-section-number">1.0.1</span> The Scenario</a></li>
+  </ul></li>
+  <li><a href="#procuring-the-raw-data" id="toc-procuring-the-raw-data" class="nav-link" data-scroll-target="#procuring-the-raw-data"><span class="header-section-number">2</span> Procuring the Raw Data</a>
+  <ul class="collapse">
+  <li><a href="#where-to-download-centralpark.txt" id="toc-where-to-download-centralpark.txt" class="nav-link" data-scroll-target="#where-to-download-centralpark.txt"><span class="header-section-number">2.0.1</span> Where to Download <code>centralpark.txt</code></a></li>
+  </ul></li>
+  <li><a href="#geographic-context-mapping-the-observatory" id="toc-geographic-context-mapping-the-observatory" class="nav-link" data-scroll-target="#geographic-context-mapping-the-observatory"><span class="header-section-number">3</span> Geographic Context: Mapping the Observatory</a>
+  <ul class="collapse">
+  <li><a href="#interactive-geospatial-station-map" id="toc-interactive-geospatial-station-map" class="nav-link" data-scroll-target="#interactive-geospatial-station-map"><span class="header-section-number">3.0.1</span> Interactive Geospatial Station Map</a></li>
+  <li><a href="#build-your-own-interactive-map-for-students" id="toc-build-your-own-interactive-map-for-students" class="nav-link" data-scroll-target="#build-your-own-interactive-map-for-students"><span class="header-section-number">3.1</span> Build Your Own Interactive Map (For Students)</a></li>
+  </ul></li>
+  <li><a href="#data-exploration-time-series-visualization" id="toc-data-exploration-time-series-visualization" class="nav-link" data-scroll-target="#data-exploration-time-series-visualization"><span class="header-section-number">4</span> Data Exploration &amp; Time Series Visualization</a>
+  <ul class="collapse">
+  <li><a href="#build-your-own-interactive-plot-for-students" id="toc-build-your-own-interactive-plot-for-students" class="nav-link" data-scroll-target="#build-your-own-interactive-plot-for-students"><span class="header-section-number">4.1</span> Build Your Own Interactive Plot (For Students)</a></li>
+  </ul></li>
+  <li><a href="#computer-science-data-architecture-concepts" id="toc-computer-science-data-architecture-concepts" class="nav-link" data-scroll-target="#computer-science-data-architecture-concepts"><span class="header-section-number">5</span> Computer Science &amp; Data Architecture Concepts</a>
+  <ul class="collapse">
+  <li><a href="#the-file-structure-the-sentinel-value-problem" id="toc-the-file-structure-the-sentinel-value-problem" class="nav-link" data-scroll-target="#the-file-structure-the-sentinel-value-problem"><span class="header-section-number">5.1</span> The File Structure &amp; The Sentinel Value Problem</a></li>
+  <li><a href="#lists-vs.-dictionaries-algorithmic-time-complexity" id="toc-lists-vs.-dictionaries-algorithmic-time-complexity" class="nav-link" data-scroll-target="#lists-vs.-dictionaries-algorithmic-time-complexity"><span class="header-section-number">5.2</span> Lists (<code>[]</code>) vs.&nbsp;Dictionaries (<code>{}</code>): Algorithmic Time Complexity</a></li>
+  </ul></li>
+  <li><a href="#core-lab-the-rapid-query-engine" id="toc-core-lab-the-rapid-query-engine" class="nav-link" data-scroll-target="#core-lab-the-rapid-query-engine"><span class="header-section-number">6</span> Core Lab: The Rapid Query Engine</a>
+  <ul class="collapse">
+  <li><a href="#step-1-pre-lab-algorithm-design" id="toc-step-1-pre-lab-algorithm-design" class="nav-link" data-scroll-target="#step-1-pre-lab-algorithm-design"><span class="header-section-number">6.1</span> Step 1: Pre-Lab Algorithm Design</a></li>
+  <li><a href="#step-2-the-complete-reference-solution" id="toc-step-2-the-complete-reference-solution" class="nav-link" data-scroll-target="#step-2-the-complete-reference-solution"><span class="header-section-number">6.2</span> Step 2: The Complete Reference Solution</a></li>
+  </ul></li>
+  <li><a href="#student-discussion-inquiry-questions" id="toc-student-discussion-inquiry-questions" class="nav-link" data-scroll-target="#student-discussion-inquiry-questions"><span class="header-section-number">7</span> Student Discussion &amp; Inquiry Questions</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">K-12 &amp; Undergraduate STEM Outreach: NOAA Big Data Climate Challenge</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">Analyzing NYC Central Park Meteorological Trends with Python, GIS, and Data Structures</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Wesley Francillon, PhD </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 1, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="mission-briefing-the-noaa-climate-intern" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Mission Briefing: The NOAA Climate Intern</h1>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Outreach Program Context
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This module is tailored for middle school, high school, and introductory undergraduate STEM workshops. Students step into the shoes of a data science intern at the <strong>National Oceanic and Atmospheric Administration (NOAA)</strong> National Centers for Environmental Information (NCEI).</p>
+</div>
+</div>
+<p>You have just joined the NOAA scientific team responsible for monitoring urban heat island effects across the New York metropolitan area. Your mentor assigns you to examine meteorological records from the historic <strong>Central Park Observatory</strong> (<span class="math inline">GHCND:USW00094728</span>).</p>
+<section id="the-scenario" class="level3" data-number="1.0.1">
+<h3 data-number="1.0.1" class="anchored" data-anchor-id="the-scenario"><span class="header-section-number">1.0.1</span> The Scenario</h3>
+<p>An urgent environmental policy meeting will convene this Friday with city planners. They require instantaneous access to daily high temperatures (<span class="math inline">T_{MAX}</span>), low temperatures (<span class="math inline">T_{MIN}</span>), precipitation (<span class="math inline">PRCP</span>), and true daily mean temperatures (<span class="math inline">\bar{T}</span>) between <strong>January 1, 2017 and June 2, 2017</strong>.</p>
+<p>The challenge: <strong>The specific test dates will not be revealed until the meeting starts.</strong></p>
+<p>You cannot open a massive spreadsheet and click around while senior scientists wait. You must design and deploy a rapid, automated Python data pipeline that reads the raw scientific records and retrieves precise observations instantaneously.</p>
+<hr>
+</section>
+</section>
+<section id="procuring-the-raw-data" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Procuring the Raw Data</h1>
+<p>Before writing any code, data scientists must source high-quality, verifiable data. For this project, you will use the official public records from the U.S. Government.</p>
+<section id="where-to-download-centralpark.txt" class="level3" data-number="2.0.1">
+<h3 data-number="2.0.1" class="anchored" data-anchor-id="where-to-download-centralpark.txt"><span class="header-section-number">2.0.1</span> Where to Download <code>centralpark.txt</code></h3>
+<p>If your instructor has not provided the <code>centralpark.txt</code> file, you can pull it directly from the NOAA database yourself:</p>
+<ol type="1">
+<li><strong>Visit the NOAA NCEI Portal:</strong> Go to the <a href="https://www.ncdc.noaa.gov/cdo-web/search">Climate Data Online (CDO) Search tool</a>.</li>
+<li><strong>Configure Your Search:</strong>
+<ul>
+<li><strong>Dataset:</strong> Select <em>Daily Summaries</em>.</li>
+<li><strong>Date Range:</strong> Select <em>January 1, 2017</em> to <em>June 2, 2017</em>.</li>
+<li><strong>Search For:</strong> Select <em>Stations</em>.</li>
+<li><strong>Search Term:</strong> Type <em>Central Park, NY</em>.</li>
+</ul></li>
+<li><strong>Add to Cart:</strong> Locate <code>NY CITY CENTRAL PARK, NY US</code> (Station ID: GHCND:USW00094728) and click “Add to Cart”.</li>
+<li><strong>Checkout Options:</strong> Go to your cart. Select <strong>Custom GHCN-Daily Text</strong> (to get the <code>.txt</code> space-delimited format) or <strong>Custom GHCN-Daily CSV</strong> (for comma-delimited).</li>
+<li><strong>Download:</strong> Enter your email. NOAA will send you a link to download your custom dataset within minutes. Save this file in the same folder as your Python script and rename it to <code>centralpark.txt</code>.</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="geographic-context-mapping-the-observatory" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Geographic Context: Mapping the Observatory</h1>
+<p>The Central Park observation station has recorded weather continuously since 1869. Situated atop Belvedere Castle and Vista Rock, it represents one of the longest continuous climate records in North America.</p>
+<section id="interactive-geospatial-station-map" class="level3" data-number="3.0.1">
+<h3 data-number="3.0.1" class="anchored" data-anchor-id="interactive-geospatial-station-map"><span class="header-section-number">3.0.1</span> Interactive Geospatial Station Map</h3>
+<p>The interactive GIS map below pinpoints the observation station inside Central Park relative to Manhattan’s urban canopy. Use the layer control in the top-right corner to toggle between standard street maps and Esri satellite imagery.</p>
+<div id="cell-station-gis-map" class="cell" data-message="false" data-execution_count="1">
+<div id="station-gis-map" class="cell-output cell-output-display" data-execution_count="1">
+<div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -&gt; Trust Notebook</span><iframe srcdoc="<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot; />
+    <script src=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js&quot;></script>
+    <script src=&quot;https://code.jquery.com/jquery-3.7.1.min.js&quot;></script>
+    <script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&quot;></script>
+    <script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&quot;></script>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&quot;/>
+    
+            <meta name=&quot;viewport&quot; content=&quot;width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; />
+            <style>
+                #map_a326fa2e2b2835141d0f1e7b888e4a0d {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+            <div class=&quot;folium-map&quot; id=&quot;map_a326fa2e2b2835141d0f1e7b888e4a0d&quot; ></div>
+        
+</body>
+<script>
+    
+    
+            var map_a326fa2e2b2835141d0f1e7b888e4a0d = L.map(
+                &quot;map_a326fa2e2b2835141d0f1e7b888e4a0d&quot;,
+                {
+                    center: [40.77898, -73.96925],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  &quot;zoom&quot;: 15,
+  &quot;zoomControl&quot;: true,
+  &quot;preferCanvas&quot;: false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_d183832f6526d7877155e2afe242b27e = L.tileLayer(
+                &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
+                {
+  &quot;minZoom&quot;: 0,
+  &quot;maxZoom&quot;: 19,
+  &quot;maxNativeZoom&quot;: 19,
+  &quot;noWrap&quot;: false,
+  &quot;attribution&quot;: &quot;\u0026copy; \u003ca href=\&quot;https://www.openstreetmap.org/copyright\&quot;\u003eOpenStreetMap\u003c/a\u003e contributors&quot;,
+  &quot;subdomains&quot;: &quot;abc&quot;,
+  &quot;detectRetina&quot;: false,
+  &quot;tms&quot;: false,
+  &quot;opacity&quot;: 1,
+}
+
+            );
+        
+    
+            tile_layer_d183832f6526d7877155e2afe242b27e.addTo(map_a326fa2e2b2835141d0f1e7b888e4a0d);
+        
+    
+            var tile_layer_98f7e76ad25934642af1ede183039759 = L.tileLayer(
+                &quot;https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}&quot;,
+                {
+  &quot;minZoom&quot;: 0,
+  &quot;maxZoom&quot;: 18,
+  &quot;maxNativeZoom&quot;: 18,
+  &quot;noWrap&quot;: false,
+  &quot;attribution&quot;: &quot;Tiles \u0026copy; Esri \u0026mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community&quot;,
+  &quot;subdomains&quot;: &quot;abc&quot;,
+  &quot;detectRetina&quot;: false,
+  &quot;tms&quot;: false,
+  &quot;opacity&quot;: 1,
+}
+
+            );
+        
+    
+            tile_layer_98f7e76ad25934642af1ede183039759.addTo(map_a326fa2e2b2835141d0f1e7b888e4a0d);
+        
+    
+            var marker_27e82b0a919be5d5faece16ce6c25750 = L.marker(
+                [40.77898, -73.96925],
+                {
+}
+            ).addTo(map_a326fa2e2b2835141d0f1e7b888e4a0d);
+        
+    
+            var icon_f244bde2d55964a42613ec1560e9e27e = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;cloud&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_8a7c8825fa0d1ccca48fbf60ef8adeb3 = L.popup({
+  &quot;maxWidth&quot;: 260,
+});
+
+        
+            
+                var html_7afecc4c925d5ce34666479da9e43c14 = $(`<div id=&quot;html_7afecc4c925d5ce34666479da9e43c14&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;> <b>NOAA Weather Station</b><br> <b>ID:</b> GHCND:USW00094728<br> <b>Location:</b> Central Park (Belvedere Castle)<br> <b>Lat/Lon:</b> 40.7790&amp;deg;N, -73.9693&amp;deg;W<br> <b>Elev:</b> 42.7 m </div>`)[0];
+                popup_8a7c8825fa0d1ccca48fbf60ef8adeb3.setContent(html_7afecc4c925d5ce34666479da9e43c14);
+            
+        
+
+        marker_27e82b0a919be5d5faece16ce6c25750.bindPopup(popup_8a7c8825fa0d1ccca48fbf60ef8adeb3)
+        ;
+
+        
+    
+    
+            marker_27e82b0a919be5d5faece16ce6c25750.bindTooltip(
+                `<div>
+                     Click to view NOAA Station Details
+                 </div>`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_27e82b0a919be5d5faece16ce6c25750.setIcon(icon_f244bde2d55964a42613ec1560e9e27e);
+            
+    
+            var layer_control_d1c012ea879291c6f7f123e1cdb35cf7_layers = {
+                base_layers : {
+                    &quot;openstreetmap&quot; : tile_layer_d183832f6526d7877155e2afe242b27e,
+                    &quot;Esri World Imagery (Satellite)&quot; : tile_layer_98f7e76ad25934642af1ede183039759,
+                },
+                overlays :  {
+                },
+            };
+            let layer_control_d1c012ea879291c6f7f123e1cdb35cf7 = L.control.layers(
+                layer_control_d1c012ea879291c6f7f123e1cdb35cf7_layers.base_layers,
+                layer_control_d1c012ea879291c6f7f123e1cdb35cf7_layers.overlays,
+                {
+  &quot;position&quot;: &quot;topright&quot;,
+  &quot;collapsed&quot;: true,
+  &quot;autoZIndex&quot;: true,
+}
+            ).addTo(map_a326fa2e2b2835141d0f1e7b888e4a0d);
+
+        
+</script>
+</html>" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe></div></div>
+</div>
+</div>
+</section>
+<section id="build-your-own-interactive-map-for-students" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="build-your-own-interactive-map-for-students"><span class="header-section-number">3.1</span> Build Your Own Interactive Map (For Students)</h2>
+<p>You can recreate the map above for <strong>any weather station or location in the world</strong> using Python’s <code>folium</code> library.</p>
+<p><strong>Step 1: Install the mapping library.</strong> Open your terminal or command prompt and run:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install folium</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Step 2: Find your coordinates.</strong> Go to Google Maps, right-click any location (like your local high school or hometown weather station), and copy the Latitude and Longitude numbers (e.g., <code>40.869, -73.042</code> for Selden, NY).</p>
+<p><strong>Step 3: Write the mapping script.</strong> Create a new Python file (e.g., <code>make_map.py</code>) and paste the following code. This code utilizes free ArcGIS satellite tiles from Esri:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> folium</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Define your target coordinates</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>my_lat <span class="op">=</span> <span class="fl">40.77898</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>my_lon <span class="op">=</span> <span class="op">-</span><span class="fl">73.96925</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Create the base map</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>my_map <span class="op">=</span> folium.Map(location<span class="op">=</span>[my_lat, my_lon], zoom_start<span class="op">=</span><span class="dv">16</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Add high-resolution ArcGIS Satellite Imagery</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>folium.TileLayer(</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    tiles<span class="op">=</span><span class="st">"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/</span><span class="sc">{z}</span><span class="st">/</span><span class="sc">{y}</span><span class="st">/</span><span class="sc">{x}</span><span class="st">"</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    attr<span class="op">=</span><span class="st">"Tiles © Esri"</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"ArcGIS Satellite"</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>).add_to(my_map)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Add a customized pin/marker</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>folium.Marker(</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    location<span class="op">=</span>[my_lat, my_lon],</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    popup<span class="op">=</span><span class="st">"&lt;b&gt;My Weather Station&lt;/b&gt;"</span>,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    tooltip<span class="op">=</span><span class="st">"Click Me!"</span>,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    icon<span class="op">=</span>folium.Icon(color<span class="op">=</span><span class="st">"blue"</span>, icon<span class="op">=</span><span class="st">"info-sign"</span>)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>).add_to(my_map)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Add a layer control toggle and save to an HTML file</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>folium.LayerControl().add_to(my_map)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>my_map.save(<span class="st">"my_station_map.html"</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Map generated successfully! Open my_station_map.html in your browser."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><em>Run this code, open the resulting HTML file in Chrome or Safari, and you will have your own interactive GIS map!</em></p>
+<hr>
+</section>
+</section>
+<section id="data-exploration-time-series-visualization" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Data Exploration &amp; Time Series Visualization</h1>
+<p>Below is the dynamic historical time series of temperatures recorded at Central Park across the target study window. Hover over the lines to see exact daily temperatures.</p>
+<div id="cell-interactive-temp-plot" class="cell" data-message="false" data-execution_count="2">
+<div id="interactive-temp-plot" class="cell-output cell-output-display">
+<div style="height:525px; width:100%;">            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script><script>if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script>window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-4.1.1.min.js" integrity="sha256-O24V1F27f8pb0glCkelh3cVHLNiHAJ5gCaVtq2aNch8=" crossorigin="anonymous"></script>                <div id="3049077f-5203-49bc-b739-2b786d5ab73b" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("3049077f-5203-49bc-b739-2b786d5ab73b")) {                    Plotly.newPlot(                        "3049077f-5203-49bc-b739-2b786d5ab73b",                        [{"line":{"color":"#d32f2f","width":2},"mode":"lines","name":"Daily High (TMAX)","x":["2017-01-01T00:00:00.000000","2017-01-02T00:00:00.000000","2017-01-03T00:00:00.000000","2017-01-04T00:00:00.000000","2017-01-05T00:00:00.000000","2017-01-06T00:00:00.000000","2017-01-07T00:00:00.000000","2017-01-08T00:00:00.000000","2017-01-09T00:00:00.000000","2017-01-10T00:00:00.000000","2017-01-11T00:00:00.000000","2017-01-12T00:00:00.000000","2017-01-13T00:00:00.000000","2017-01-14T00:00:00.000000","2017-01-15T00:00:00.000000","2017-01-16T00:00:00.000000","2017-01-17T00:00:00.000000","2017-01-18T00:00:00.000000","2017-01-19T00:00:00.000000","2017-01-20T00:00:00.000000","2017-01-21T00:00:00.000000","2017-01-22T00:00:00.000000","2017-01-23T00:00:00.000000","2017-01-24T00:00:00.000000","2017-01-25T00:00:00.000000","2017-01-26T00:00:00.000000","2017-01-27T00:00:00.000000","2017-01-28T00:00:00.000000","2017-01-29T00:00:00.000000","2017-01-30T00:00:00.000000","2017-01-31T00:00:00.000000","2017-02-01T00:00:00.000000","2017-02-02T00:00:00.000000","2017-02-03T00:00:00.000000","2017-02-04T00:00:00.000000","2017-02-05T00:00:00.000000","2017-02-06T00:00:00.000000","2017-02-07T00:00:00.000000","2017-02-08T00:00:00.000000","2017-02-09T00:00:00.000000","2017-02-10T00:00:00.000000","2017-02-11T00:00:00.000000","2017-02-12T00:00:00.000000","2017-02-13T00:00:00.000000","2017-02-14T00:00:00.000000","2017-02-15T00:00:00.000000","2017-02-16T00:00:00.000000","2017-02-17T00:00:00.000000","2017-02-18T00:00:00.000000","2017-02-19T00:00:00.000000","2017-02-20T00:00:00.000000","2017-02-21T00:00:00.000000","2017-02-22T00:00:00.000000","2017-02-23T00:00:00.000000","2017-02-24T00:00:00.000000","2017-02-25T00:00:00.000000","2017-02-26T00:00:00.000000","2017-02-27T00:00:00.000000","2017-02-28T00:00:00.000000","2017-03-01T00:00:00.000000","2017-03-02T00:00:00.000000","2017-03-03T00:00:00.000000","2017-03-04T00:00:00.000000","2017-03-05T00:00:00.000000","2017-03-06T00:00:00.000000","2017-03-07T00:00:00.000000","2017-03-08T00:00:00.000000","2017-03-09T00:00:00.000000","2017-03-10T00:00:00.000000","2017-03-11T00:00:00.000000","2017-03-12T00:00:00.000000","2017-03-13T00:00:00.000000","2017-03-14T00:00:00.000000","2017-03-15T00:00:00.000000","2017-03-16T00:00:00.000000","2017-03-17T00:00:00.000000","2017-03-18T00:00:00.000000","2017-03-19T00:00:00.000000","2017-03-20T00:00:00.000000","2017-03-21T00:00:00.000000","2017-03-22T00:00:00.000000","2017-03-23T00:00:00.000000","2017-03-24T00:00:00.000000","2017-03-25T00:00:00.000000","2017-03-26T00:00:00.000000","2017-03-27T00:00:00.000000","2017-03-28T00:00:00.000000","2017-03-29T00:00:00.000000","2017-03-30T00:00:00.000000","2017-03-31T00:00:00.000000","2017-04-01T00:00:00.000000","2017-04-02T00:00:00.000000","2017-04-03T00:00:00.000000","2017-04-04T00:00:00.000000","2017-04-05T00:00:00.000000","2017-04-06T00:00:00.000000","2017-04-07T00:00:00.000000","2017-04-08T00:00:00.000000","2017-04-09T00:00:00.000000","2017-04-10T00:00:00.000000","2017-04-11T00:00:00.000000","2017-04-12T00:00:00.000000","2017-04-13T00:00:00.000000","2017-04-14T00:00:00.000000","2017-04-15T00:00:00.000000","2017-04-16T00:00:00.000000","2017-04-17T00:00:00.000000","2017-04-18T00:00:00.000000","2017-04-19T00:00:00.000000","2017-04-20T00:00:00.000000","2017-04-21T00:00:00.000000","2017-04-22T00:00:00.000000","2017-04-23T00:00:00.000000","2017-04-24T00:00:00.000000","2017-04-25T00:00:00.000000","2017-04-26T00:00:00.000000","2017-04-27T00:00:00.000000","2017-04-28T00:00:00.000000","2017-04-29T00:00:00.000000","2017-04-30T00:00:00.000000","2017-05-01T00:00:00.000000","2017-05-02T00:00:00.000000","2017-05-03T00:00:00.000000","2017-05-04T00:00:00.000000","2017-05-05T00:00:00.000000","2017-05-06T00:00:00.000000","2017-05-07T00:00:00.000000","2017-05-08T00:00:00.000000","2017-05-09T00:00:00.000000","2017-05-10T00:00:00.000000","2017-05-11T00:00:00.000000","2017-05-12T00:00:00.000000","2017-05-13T00:00:00.000000","2017-05-14T00:00:00.000000","2017-05-15T00:00:00.000000","2017-05-16T00:00:00.000000","2017-05-17T00:00:00.000000","2017-05-18T00:00:00.000000","2017-05-19T00:00:00.000000","2017-05-20T00:00:00.000000","2017-05-21T00:00:00.000000","2017-05-22T00:00:00.000000","2017-05-23T00:00:00.000000","2017-05-24T00:00:00.000000","2017-05-25T00:00:00.000000","2017-05-26T00:00:00.000000","2017-05-27T00:00:00.000000","2017-05-28T00:00:00.000000","2017-05-29T00:00:00.000000","2017-05-30T00:00:00.000000","2017-05-31T00:00:00.000000","2017-06-01T00:00:00.000000","2017-06-02T00:00:00.000000"],"y":{"dtype":"f8","bdata":"AAAAAAAASEAAAAAAAABGQAAAAAAAgEdAAAAAAACAR0AAAAAAAIBGQAAAAAAAgEBAAAAAAAAAOkAAAAAAAIBHQAAAAAAAgEZAAAAAAAAARUAAAAAAAABKQAAAAAAAgFBAAAAAAAAAQ0AAAAAAAABCQAAAAAAAAEFAAAAAAAAAQkAAAAAAAABFQAAAAAAAgERAAAAAAAAAREAAAAAAAIBFQAAAAAAAgEZAAAAAAACASEAAAAAAAABFQAAAAAAAgERAAAAAAAAARUAAAAAAAIBFQAAAAAAAgEZAAAAAAAAARkAAAAAAAABHQAAAAAAAAEZAAAAAAAAASUAAAAAAAIBJQAAAAAAAAElAAAAAAAAASEAAAAAAAIBGQAAAAAAAgEhAAAAAAAAARUAAAAAAAABFQAAAAAAAAEVAAAAAAAAARkAAAAAAAIBKQAAAAAAAAEpAAAAAAAAASUAAAAAAAABHQAAAAAAAgEZAAAAAAACARkAAAAAAAIBJQAAAAAAAAEtAAAAAAACASUAAAAAAAABJQAAAAAAAAEhAAAAAAACASUAAAAAAAABKQAAAAAAAAExAAAAAAAAATkAAAAAAAIBMQAAAAAAAAEtAAAAAAAAASkAAAAAAAIBMQAAAAAAAgFFAAAAAAAAATEAAAAAAAIBJQAAAAAAAgEhAAAAAAAAASkAAAAAAAIBNQAAAAAAAAE9AAAAAAAAAT0AAAAAAAABOQAAAAAAAgE1AAAAAAAAATUAAAAAAAIBOQAAAAAAAAE9AAAAAAAAAQEAAAAAAAABMQAAAAAAAAE1AAAAAAACAS0AAAAAAAIBOQAAAAAAAgE1AAAAAAAAAS0AAAAAAAIBLQAAAAAAAgEtAAAAAAAAAUEAAAAAAAABQQAAAAAAAgE5AAAAAAACATEAAAAAAAABOQAAAAAAAAFBAAAAAAAAAUEAAAAAAAIBPQAAAAAAAgE9AAAAAAADAUEAAAAAAAABQQAAAAAAAgE9AAAAAAAAATkAAAAAAAABNQAAAAAAAAE5AAAAAAAAAT0AAAAAAAIBQQAAAAAAAQFBAAAAAAACATkAAAAAAAABOQAAAAAAAAE5AAAAAAAAAT0AAAAAAAIBPQAAAAAAAQFBAAAAAAADAVUAAAAAAAEBSQAAAAAAAQFJAAAAAAAAAUUAAAAAAAIBPQAAAAAAAgE9AAAAAAACAT0AAAAAAAMBSQAAAAAAAwFJAAAAAAADAUkAAAAAAAEBRQAAAAAAAwFBAAAAAAACAUUAAAAAAAEBVQAAAAAAAQFNAAAAAAAAAUkAAAAAAAIBSQAAAAAAAQFFAAAAAAABAUkAAAAAAAMBSQAAAAAAAAFNAAAAAAACAUkAAAAAAAEBRQAAAAAAAgFFAAAAAAAAAUUAAAAAAAABRQAAAAAAAwFBAAAAAAABAUkAAAAAAAIBRQAAAAAAAQFNAAAAAAACAUkAAAAAAAABTQAAAAAAAAFdAAAAAAACAUkAAAAAAAMBSQAAAAAAAQFNAAAAAAAAAU0AAAAAAAABTQAAAAAAAgFJAAAAAAAAAVEAAAAAAAEBTQAAAAAAAQFJAAAAAAABAUkAAAAAAAEBTQAAAAAAAQFRAAAAAAABAVEAAAAAAAMBTQAAAAAAAAFNA"},"type":"scatter"},{"fill":"tonexty","fillcolor":"rgba(25, 118, 210, 0.12)","line":{"color":"#1976d2","width":2},"mode":"lines","name":"Daily Low (TMIN)","x":["2017-01-01T00:00:00.000000","2017-01-02T00:00:00.000000","2017-01-03T00:00:00.000000","2017-01-04T00:00:00.000000","2017-01-05T00:00:00.000000","2017-01-06T00:00:00.000000","2017-01-07T00:00:00.000000","2017-01-08T00:00:00.000000","2017-01-09T00:00:00.000000","2017-01-10T00:00:00.000000","2017-01-11T00:00:00.000000","2017-01-12T00:00:00.000000","2017-01-13T00:00:00.000000","2017-01-14T00:00:00.000000","2017-01-15T00:00:00.000000","2017-01-16T00:00:00.000000","2017-01-17T00:00:00.000000","2017-01-18T00:00:00.000000","2017-01-19T00:00:00.000000","2017-01-20T00:00:00.000000","2017-01-21T00:00:00.000000","2017-01-22T00:00:00.000000","2017-01-23T00:00:00.000000","2017-01-24T00:00:00.000000","2017-01-25T00:00:00.000000","2017-01-26T00:00:00.000000","2017-01-27T00:00:00.000000","2017-01-28T00:00:00.000000","2017-01-29T00:00:00.000000","2017-01-30T00:00:00.000000","2017-01-31T00:00:00.000000","2017-02-01T00:00:00.000000","2017-02-02T00:00:00.000000","2017-02-03T00:00:00.000000","2017-02-04T00:00:00.000000","2017-02-05T00:00:00.000000","2017-02-06T00:00:00.000000","2017-02-07T00:00:00.000000","2017-02-08T00:00:00.000000","2017-02-09T00:00:00.000000","2017-02-10T00:00:00.000000","2017-02-11T00:00:00.000000","2017-02-12T00:00:00.000000","2017-02-13T00:00:00.000000","2017-02-14T00:00:00.000000","2017-02-15T00:00:00.000000","2017-02-16T00:00:00.000000","2017-02-17T00:00:00.000000","2017-02-18T00:00:00.000000","2017-02-19T00:00:00.000000","2017-02-20T00:00:00.000000","2017-02-21T00:00:00.000000","2017-02-22T00:00:00.000000","2017-02-23T00:00:00.000000","2017-02-24T00:00:00.000000","2017-02-25T00:00:00.000000","2017-02-26T00:00:00.000000","2017-02-27T00:00:00.000000","2017-02-28T00:00:00.000000","2017-03-01T00:00:00.000000","2017-03-02T00:00:00.000000","2017-03-03T00:00:00.000000","2017-03-04T00:00:00.000000","2017-03-05T00:00:00.000000","2017-03-06T00:00:00.000000","2017-03-07T00:00:00.000000","2017-03-08T00:00:00.000000","2017-03-09T00:00:00.000000","2017-03-10T00:00:00.000000","2017-03-11T00:00:00.000000","2017-03-12T00:00:00.000000","2017-03-13T00:00:00.000000","2017-03-14T00:00:00.000000","2017-03-15T00:00:00.000000","2017-03-16T00:00:00.000000","2017-03-17T00:00:00.000000","2017-03-18T00:00:00.000000","2017-03-19T00:00:00.000000","2017-03-20T00:00:00.000000","2017-03-21T00:00:00.000000","2017-03-22T00:00:00.000000","2017-03-23T00:00:00.000000","2017-03-24T00:00:00.000000","2017-03-25T00:00:00.000000","2017-03-26T00:00:00.000000","2017-03-27T00:00:00.000000","2017-03-28T00:00:00.000000","2017-03-29T00:00:00.000000","2017-03-30T00:00:00.000000","2017-03-31T00:00:00.000000","2017-04-01T00:00:00.000000","2017-04-02T00:00:00.000000","2017-04-03T00:00:00.000000","2017-04-04T00:00:00.000000","2017-04-05T00:00:00.000000","2017-04-06T00:00:00.000000","2017-04-07T00:00:00.000000","2017-04-08T00:00:00.000000","2017-04-09T00:00:00.000000","2017-04-10T00:00:00.000000","2017-04-11T00:00:00.000000","2017-04-12T00:00:00.000000","2017-04-13T00:00:00.000000","2017-04-14T00:00:00.000000","2017-04-15T00:00:00.000000","2017-04-16T00:00:00.000000","2017-04-17T00:00:00.000000","2017-04-18T00:00:00.000000","2017-04-19T00:00:00.000000","2017-04-20T00:00:00.000000","2017-04-21T00:00:00.000000","2017-04-22T00:00:00.000000","2017-04-23T00:00:00.000000","2017-04-24T00:00:00.000000","2017-04-25T00:00:00.000000","2017-04-26T00:00:00.000000","2017-04-27T00:00:00.000000","2017-04-28T00:00:00.000000","2017-04-29T00:00:00.000000","2017-04-30T00:00:00.000000","2017-05-01T00:00:00.000000","2017-05-02T00:00:00.000000","2017-05-03T00:00:00.000000","2017-05-04T00:00:00.000000","2017-05-05T00:00:00.000000","2017-05-06T00:00:00.000000","2017-05-07T00:00:00.000000","2017-05-08T00:00:00.000000","2017-05-09T00:00:00.000000","2017-05-10T00:00:00.000000","2017-05-11T00:00:00.000000","2017-05-12T00:00:00.000000","2017-05-13T00:00:00.000000","2017-05-14T00:00:00.000000","2017-05-15T00:00:00.000000","2017-05-16T00:00:00.000000","2017-05-17T00:00:00.000000","2017-05-18T00:00:00.000000","2017-05-19T00:00:00.000000","2017-05-20T00:00:00.000000","2017-05-21T00:00:00.000000","2017-05-22T00:00:00.000000","2017-05-23T00:00:00.000000","2017-05-24T00:00:00.000000","2017-05-25T00:00:00.000000","2017-05-26T00:00:00.000000","2017-05-27T00:00:00.000000","2017-05-28T00:00:00.000000","2017-05-29T00:00:00.000000","2017-05-30T00:00:00.000000","2017-05-31T00:00:00.000000","2017-06-01T00:00:00.000000","2017-06-02T00:00:00.000000"],"y":{"dtype":"f8","bdata":"AAAAAAAAREAAAAAAAAA\u002fQAAAAAAAAEFAAAAAAAAAQUAAAAAAAABAQAAAAAAAADlAAAAAAAAANEAAAAAAAABBQAAAAAAAAEBAAAAAAAAAPUAAAAAAAABFQAAAAAAAgEdAAAAAAAAAOUAAAAAAAAA3QAAAAAAAADVAAAAAAAAAN0AAAAAAAAA9QAAAAAAAADxAAAAAAAAAO0AAAAAAAAA+QAAAAAAAAEBAAAAAAAAAQkAAAAAAAAA9QAAAAAAAADxAAAAAAAAAPUAAAAAAAAA+QAAAAAAAAEBAAAAAAAAAP0AAAAAAAIBAQAAAAAAAAD9AAAAAAACAQkAAAAAAAABDQAAAAAAAgEJAAAAAAACAQUAAAAAAAABAQAAAAAAAAEJAAAAAAAAAPUAAAAAAAAA9QAAAAAAAAD1AAAAAAAAAM0AAAAAAAABEQAAAAAAAgENAAAAAAACAQkAAAAAAAIBAQAAAAAAAAEBAAAAAAAAAQEAAAAAAAABDQAAAAAAAgERAAAAAAAAAQ0AAAAAAAIBCQAAAAAAAgEFAAAAAAAAAQ0AAAAAAAIBDQAAAAAAAgEVAAAAAAACAR0AAAAAAAABGQAAAAAAAgERAAAAAAACAQ0AAAAAAAABGQAAAAAAAAEtAAAAAAACARUAAAAAAAABDQAAAAAAAAEJAAAAAAACAQ0AAAAAAAABHQAAAAAAAgEhAAAAAAACASEAAAAAAAIBHQAAAAAAAAEdAAAAAAACARkAAAAAAAABIQAAAAAAAgEhAAAAAAAAANUAAAAAAAIBFQAAAAAAAgEZAAAAAAAAARUAAAAAAAABIQAAAAAAAAEdAAAAAAACAREAAAAAAAABFQAAAAAAAAEVAAAAAAACASUAAAAAAAIBJQAAAAAAAAEhAAAAAAAAARkAAAAAAAIBHQAAAAAAAgElAAAAAAACASUAAAAAAAABJQAAAAAAAAElAAAAAAAAAS0AAAAAAAIBJQAAAAAAAAElAAAAAAACAR0AAAAAAAIBGQAAAAAAAgEdAAAAAAACASEAAAAAAAIBKQAAAAAAAAEpAAAAAAAAASEAAAAAAAIBHQAAAAAAAgEdAAAAAAACASEAAAAAAAABJQAAAAAAAAEpAAAAAAACATUAAAAAAAABOQAAAAAAAAE5AAAAAAACAS0AAAAAAAABJQAAAAAAAAElAAAAAAAAASUAAAAAAAABPQAAAAAAAAE9AAAAAAAAAT0AAAAAAAABMQAAAAAAAAEtAAAAAAACATEAAAAAAAABQQAAAAAAAAFBAAAAAAACATUAAAAAAAIBOQAAAAAAAAExAAAAAAAAATkAAAAAAAABPQAAAAAAAgE9AAAAAAACATkAAAAAAAABMQAAAAAAAgExAAAAAAACAS0AAAAAAAIBLQAAAAAAAAEtAAAAAAAAATkAAAAAAAIBMQAAAAAAAAFBAAAAAAACATkAAAAAAAIBPQAAAAAAAwFJAAAAAAACATkAAAAAAAABPQAAAAAAAAFBAAAAAAACAT0AAAAAAAIBPQAAAAAAAgE5AAAAAAADAUEAAAAAAAABQQAAAAAAAAE5AAAAAAAAATkAAAAAAAABQQAAAAAAAAFFAAAAAAAAAUUAAAAAAAIBQQAAAAAAAgExA"},"type":"scatter"},{"line":{"color":"#2e7d32","dash":"dot","width":2},"mode":"lines","name":"Calculated Mean (TAVG)","x":["2017-01-01T00:00:00.000000","2017-01-02T00:00:00.000000","2017-01-03T00:00:00.000000","2017-01-04T00:00:00.000000","2017-01-05T00:00:00.000000","2017-01-06T00:00:00.000000","2017-01-07T00:00:00.000000","2017-01-08T00:00:00.000000","2017-01-09T00:00:00.000000","2017-01-10T00:00:00.000000","2017-01-11T00:00:00.000000","2017-01-12T00:00:00.000000","2017-01-13T00:00:00.000000","2017-01-14T00:00:00.000000","2017-01-15T00:00:00.000000","2017-01-16T00:00:00.000000","2017-01-17T00:00:00.000000","2017-01-18T00:00:00.000000","2017-01-19T00:00:00.000000","2017-01-20T00:00:00.000000","2017-01-21T00:00:00.000000","2017-01-22T00:00:00.000000","2017-01-23T00:00:00.000000","2017-01-24T00:00:00.000000","2017-01-25T00:00:00.000000","2017-01-26T00:00:00.000000","2017-01-27T00:00:00.000000","2017-01-28T00:00:00.000000","2017-01-29T00:00:00.000000","2017-01-30T00:00:00.000000","2017-01-31T00:00:00.000000","2017-02-01T00:00:00.000000","2017-02-02T00:00:00.000000","2017-02-03T00:00:00.000000","2017-02-04T00:00:00.000000","2017-02-05T00:00:00.000000","2017-02-06T00:00:00.000000","2017-02-07T00:00:00.000000","2017-02-08T00:00:00.000000","2017-02-09T00:00:00.000000","2017-02-10T00:00:00.000000","2017-02-11T00:00:00.000000","2017-02-12T00:00:00.000000","2017-02-13T00:00:00.000000","2017-02-14T00:00:00.000000","2017-02-15T00:00:00.000000","2017-02-16T00:00:00.000000","2017-02-17T00:00:00.000000","2017-02-18T00:00:00.000000","2017-02-19T00:00:00.000000","2017-02-20T00:00:00.000000","2017-02-21T00:00:00.000000","2017-02-22T00:00:00.000000","2017-02-23T00:00:00.000000","2017-02-24T00:00:00.000000","2017-02-25T00:00:00.000000","2017-02-26T00:00:00.000000","2017-02-27T00:00:00.000000","2017-02-28T00:00:00.000000","2017-03-01T00:00:00.000000","2017-03-02T00:00:00.000000","2017-03-03T00:00:00.000000","2017-03-04T00:00:00.000000","2017-03-05T00:00:00.000000","2017-03-06T00:00:00.000000","2017-03-07T00:00:00.000000","2017-03-08T00:00:00.000000","2017-03-09T00:00:00.000000","2017-03-10T00:00:00.000000","2017-03-11T00:00:00.000000","2017-03-12T00:00:00.000000","2017-03-13T00:00:00.000000","2017-03-14T00:00:00.000000","2017-03-15T00:00:00.000000","2017-03-16T00:00:00.000000","2017-03-17T00:00:00.000000","2017-03-18T00:00:00.000000","2017-03-19T00:00:00.000000","2017-03-20T00:00:00.000000","2017-03-21T00:00:00.000000","2017-03-22T00:00:00.000000","2017-03-23T00:00:00.000000","2017-03-24T00:00:00.000000","2017-03-25T00:00:00.000000","2017-03-26T00:00:00.000000","2017-03-27T00:00:00.000000","2017-03-28T00:00:00.000000","2017-03-29T00:00:00.000000","2017-03-30T00:00:00.000000","2017-03-31T00:00:00.000000","2017-04-01T00:00:00.000000","2017-04-02T00:00:00.000000","2017-04-03T00:00:00.000000","2017-04-04T00:00:00.000000","2017-04-05T00:00:00.000000","2017-04-06T00:00:00.000000","2017-04-07T00:00:00.000000","2017-04-08T00:00:00.000000","2017-04-09T00:00:00.000000","2017-04-10T00:00:00.000000","2017-04-11T00:00:00.000000","2017-04-12T00:00:00.000000","2017-04-13T00:00:00.000000","2017-04-14T00:00:00.000000","2017-04-15T00:00:00.000000","2017-04-16T00:00:00.000000","2017-04-17T00:00:00.000000","2017-04-18T00:00:00.000000","2017-04-19T00:00:00.000000","2017-04-20T00:00:00.000000","2017-04-21T00:00:00.000000","2017-04-22T00:00:00.000000","2017-04-23T00:00:00.000000","2017-04-24T00:00:00.000000","2017-04-25T00:00:00.000000","2017-04-26T00:00:00.000000","2017-04-27T00:00:00.000000","2017-04-28T00:00:00.000000","2017-04-29T00:00:00.000000","2017-04-30T00:00:00.000000","2017-05-01T00:00:00.000000","2017-05-02T00:00:00.000000","2017-05-03T00:00:00.000000","2017-05-04T00:00:00.000000","2017-05-05T00:00:00.000000","2017-05-06T00:00:00.000000","2017-05-07T00:00:00.000000","2017-05-08T00:00:00.000000","2017-05-09T00:00:00.000000","2017-05-10T00:00:00.000000","2017-05-11T00:00:00.000000","2017-05-12T00:00:00.000000","2017-05-13T00:00:00.000000","2017-05-14T00:00:00.000000","2017-05-15T00:00:00.000000","2017-05-16T00:00:00.000000","2017-05-17T00:00:00.000000","2017-05-18T00:00:00.000000","2017-05-19T00:00:00.000000","2017-05-20T00:00:00.000000","2017-05-21T00:00:00.000000","2017-05-22T00:00:00.000000","2017-05-23T00:00:00.000000","2017-05-24T00:00:00.000000","2017-05-25T00:00:00.000000","2017-05-26T00:00:00.000000","2017-05-27T00:00:00.000000","2017-05-28T00:00:00.000000","2017-05-29T00:00:00.000000","2017-05-30T00:00:00.000000","2017-05-31T00:00:00.000000","2017-06-01T00:00:00.000000","2017-06-02T00:00:00.000000"],"y":{"dtype":"f8","bdata":"AAAAAAAARkAAAAAAAMBCQAAAAAAAQERAAAAAAABAREAAAAAAAEBDQAAAAAAAAD1AAAAAAAAAN0AAAAAAAEBEQAAAAAAAQENAAAAAAADAQUAAAAAAAIBHQAAAAAAAQExAAAAAAACAP0AAAAAAAIA9QAAAAAAAgDtAAAAAAACAPUAAAAAAAMBBQAAAAAAAQEFAAAAAAADAQEAAAAAAAEBCQAAAAAAAQENAAAAAAABARUAAAAAAAMBBQAAAAAAAQEFAAAAAAADAQUAAAAAAAEBCQAAAAAAAQENAAAAAAADAQkAAAAAAAMBDQAAAAAAAwEJAAAAAAADARUAAAAAAAEBGQAAAAAAAwEVAAAAAAADAREAAAAAAAEBDQAAAAAAAQEVAAAAAAADAQUAAAAAAAMBBQAAAAAAAwEFAAAAAAACAP0AAAAAAAEBHQAAAAAAAwEZAAAAAAADARUAAAAAAAMBDQAAAAAAAQENAAAAAAABAQ0AAAAAAAEBGQAAAAAAAwEdAAAAAAABARkAAAAAAAMBFQAAAAAAAwERAAAAAAABARkAAAAAAAMBGQAAAAAAAwEhAAAAAAADASkAAAAAAAEBJQAAAAAAAwEdAAAAAAADARkAAAAAAAEBJQAAAAAAAAE9AAAAAAADASEAAAAAAAEBGQAAAAAAAQEVAAAAAAADARkAAAAAAAEBKQAAAAAAAwEtAAAAAAADAS0AAAAAAAMBKQAAAAAAAQEpAAAAAAADASUAAAAAAAEBLQAAAAAAAwEtAAAAAAACAOkAAAAAAAMBIQAAAAAAAwElAAAAAAABASEAAAAAAAEBLQAAAAAAAQEpAAAAAAADAR0AAAAAAAEBIQAAAAAAAQEhAAAAAAADATEAAAAAAAMBMQAAAAAAAQEtAAAAAAABASUAAAAAAAMBKQAAAAAAAwExAAAAAAADATEAAAAAAAEBMQAAAAAAAQExAAAAAAABATkAAAAAAAMBMQAAAAAAAQExAAAAAAADASkAAAAAAAMBJQAAAAAAAwEpAAAAAAADAS0AAAAAAAMBNQAAAAAAAQE1AAAAAAABAS0AAAAAAAMBKQAAAAAAAwEpAAAAAAADAS0AAAAAAAEBMQAAAAAAAQE1AAAAAAABAUkAAAAAAAKBQQAAAAAAAoFBAAAAAAADATkAAAAAAAEBMQAAAAAAAQExAAAAAAABATEAAAAAAACBRQAAAAAAAIFFAAAAAAAAgUUAAAAAAAEBPQAAAAAAAQE5AAAAAAADAT0AAAAAAAKBSQAAAAAAAoFFAAAAAAABgUEAAAAAAAOBQQAAAAAAAQE9AAAAAAACgUEAAAAAAACBRQAAAAAAAYFFAAAAAAADgUEAAAAAAAEBPQAAAAAAAwE9AAAAAAADATkAAAAAAAMBOQAAAAAAAQE5AAAAAAACgUEAAAAAAAMBPQAAAAAAAoFFAAAAAAADgUEAAAAAAAGBRQAAAAAAA4FRAAAAAAADgUEAAAAAAACBRQAAAAAAAoFFAAAAAAABgUUAAAAAAAGBRQAAAAAAA4FBAAAAAAABgUkAAAAAAAKBRQAAAAAAAoFBAAAAAAACgUEAAAAAAAKBRQAAAAAAAoFJAAAAAAACgUkAAAAAAACBSQAAAAAAAoFBA"},"type":"scatter"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","margin":{"b":0,"l":0,"r":0,"t":30},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"font":{"size":18},"text":"NOAA Central Park Daily Temperature Ranges (Jan \u2013 Jun 2017)","x":0.0,"y":0.96,"xanchor":"left","yanchor":"top"},"margin":{"t":80,"b":80,"l":60,"r":40},"legend":{"font":{"size":12},"orientation":"h","yanchor":"top","y":-0.22,"xanchor":"center","x":0.5},"xaxis":{"title":{"text":"Date of Observation"}},"yaxis":{"title":{"text":"Temperature (\u00b0F)"}},"hovermode":"x unified"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('3049077f-5203-49bc-b739-2b786d5ab73b');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };            </script>        </div>
+</div>
+</div>
+<section id="build-your-own-interactive-plot-for-students" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="build-your-own-interactive-plot-for-students"><span class="header-section-number">4.1</span> Build Your Own Interactive Plot (For Students)</h2>
+<p>Data visualization is a core skill for any engineer. You can build the interactive chart above using <code>pandas</code> and <code>plotly</code>.</p>
+<p><strong>Step 1: Install the libraries.</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install pandas plotly</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Step 2: Write the plotting script.</strong> If you have successfully completed the core lab and loaded your data into a dictionary (or a Pandas DataFrame), you can graph it using Plotly Graph Objects (<code>go</code>). Create a script named <code>plot_weather.py</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Assuming you parsed the centralpark.txt file into a DataFrame</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># (For practice, here is a tiny fake dataset to test the plot)</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Date"</span>: [<span class="st">"2017-01-11"</span>, <span class="st">"2017-01-12"</span>, <span class="st">"2017-01-13"</span>],</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TMAX"</span>: [<span class="dv">52</span>, <span class="dv">66</span>, <span class="dv">62</span>],</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TMIN"</span>: [<span class="dv">42</span>, <span class="dv">47</span>, <span class="dv">32</span>]</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Calculate the Daily Average</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"TAVG"</span>] <span class="op">=</span> (df[<span class="st">"TMAX"</span>] <span class="op">+</span> df[<span class="st">"TMIN"</span>]) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Initialize the Figure</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> go.Figure()</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Add the Daily High Line (Red)</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>fig.add_trace(go.Scatter(</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>df[<span class="st">"Date"</span>], y<span class="op">=</span>df[<span class="st">"TMAX"</span>],</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"High Temp"</span>, line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span><span class="st">"red"</span>), mode<span class="op">=</span><span class="st">"lines+markers"</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Add the Daily Low Line (Blue)</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>fig.add_trace(go.Scatter(</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>df[<span class="st">"Date"</span>], y<span class="op">=</span>df[<span class="st">"TMIN"</span>],</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"Low Temp"</span>, line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span><span class="st">"blue"</span>), mode<span class="op">=</span><span class="st">"lines+markers"</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Make it look professional</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>fig.update_layout(</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"My Weather Station Data"</span>,</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    xaxis_title<span class="op">=</span><span class="st">"Date"</span>,</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    yaxis_title<span class="op">=</span><span class="st">"Temperature (°F)"</span>,</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    template<span class="op">=</span><span class="st">"plotly_white"</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="co"># 7. Generate and open the interactive graph</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="computer-science-data-architecture-concepts" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Computer Science &amp; Data Architecture Concepts</h1>
+<section id="the-file-structure-the-sentinel-value-problem" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="the-file-structure-the-sentinel-value-problem"><span class="header-section-number">5.1</span> The File Structure &amp; The Sentinel Value Problem</h2>
+<p>A sample record from the NOAA flat file (<code>centralpark.txt</code>) is formatted as follows:</p>
+<pre class="text"><code>GHCND:USW00094728 NY CITY CENTRAL PARK NY US 20170111 0.52 0 0 -9999 52 42</code></pre>
+<p>Notice that column 7 (<code>TAVG</code>) contains <code>-9999</code>.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Scientific Data Trap: Sentinel Values
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In observational physical science, sensors occasionally drop packets or fail to record a parameter. NOAA encodes missing data with a numerical sentinel value like <code>-9999</code>. If a novice programmer calculates the seasonal average temperature using this column directly, the result will be wildly corrupted! You must defensively compute the daily average yourself: <span class="math display">
+\bar{T} = \frac{T_{MAX} + T_{MIN}}{2}
+</span></p>
+</div>
+</div>
+</section>
+<section id="lists-vs.-dictionaries-algorithmic-time-complexity" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="lists-vs.-dictionaries-algorithmic-time-complexity"><span class="header-section-number">5.2</span> Lists (<code>[]</code>) vs.&nbsp;Dictionaries (<code>{}</code>): Algorithmic Time Complexity</h2>
+<p>Why should we transform this file into a Python dictionary instead of scanning through a list?</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Data Structure</th>
+<th style="text-align: left;">Search Complexity</th>
+<th style="text-align: left;">Analogy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>List</strong> <code>[]</code></td>
+<td style="text-align: left;"><span class="math inline">\mathcal{O}(n)</span> (Linear Time)</td>
+<td style="text-align: left;">Flipping through a notebook page-by-page until you find the date</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Dictionary</strong> <code>{}</code></td>
+<td style="text-align: left;"><span class="math inline">\mathcal{O}(1)</span> (Constant Time)</td>
+<td style="text-align: left;">Using an index/hash table to flip directly to the exact page</td>
+</tr>
+</tbody>
+</table>
+<p>If an executive asks for <span class="math inline">100</span> dates during a meeting: * <strong>The List Approach:</strong> Scans the text file 100 separate times (<span class="math inline">\mathcal{O}(100 \cdot n)</span>). * <strong>The Dictionary Approach:</strong> Reads the file <strong>once</strong> at startup. Each date query is answered instantly (<span class="math inline">\mathcal{O}(1)</span>).</p>
+<hr>
+</section>
+</section>
+<section id="core-lab-the-rapid-query-engine" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Core Lab: The Rapid Query Engine</h1>
+<section id="step-1-pre-lab-algorithm-design" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="step-1-pre-lab-algorithm-design"><span class="header-section-number">6.1</span> Step 1: Pre-Lab Algorithm Design</h2>
+<p>In your engineering notebook, outline the 5 to 7 logical steps your code must execute to achieve the goals of the meeting: 1. Specify the path to <code>centralpark.txt</code>. 2. Open and read each line of the file. 3. Parse and split each line into distinct tokens. 4. Convert text strings into floating-point numbers. 5. Populate a dictionary keyed by date string (<code>'YYYYMMDD'</code>). 6. Prompt the user for input and retrieve results in constant time.</p>
+</section>
+<section id="step-2-the-complete-reference-solution" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="step-2-the-complete-reference-solution"><span class="header-section-number">6.2</span> Step 2: The Complete Reference Solution</h2>
+<p>Below is the clean, production-grade implementation that avoids all common loop-leakage and parsing traps.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># NOAA Central Park Climate Query Engine</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Author: Wesley Francillon, PhD</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_climate_database(filepath: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">dict</span>:</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Parses space-delimited NOAA weather station data into an O(1) lookup dictionary.</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    weather_db <span class="op">=</span> {}</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(filepath, <span class="st">'r'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> line <span class="kw">in</span> <span class="bu">file</span>:</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>            tokens <span class="op">=</span> line.strip().split()</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Skip empty lines and header rows</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="kw">not</span> tokens <span class="kw">or</span> tokens[<span class="dv">0</span>] <span class="kw">in</span> (<span class="st">"STATION"</span>, <span class="st">"STATION_NAME"</span>):</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Verify row length matches Central Park schema</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">len</span>(tokens) <span class="op">&gt;=</span> <span class="dv">14</span>:</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>                date_key <span class="op">=</span> tokens[<span class="dv">7</span>]</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>                <span class="cf">try</span>:</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>                    prcp <span class="op">=</span> <span class="bu">float</span>(tokens[<span class="dv">8</span>])</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>                    snow <span class="op">=</span> <span class="bu">float</span>(tokens[<span class="dv">10</span>])</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>                    tmax <span class="op">=</span> <span class="bu">float</span>(tokens[<span class="dv">12</span>])</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>                    tmin <span class="op">=</span> <span class="bu">float</span>(tokens[<span class="dv">13</span>])</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>                    </span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># Compute genuine mean temperature, bypassing sentinel -9999</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>                    tavg <span class="op">=</span> (tmax <span class="op">+</span> tmin) <span class="op">/</span> <span class="fl">2.0</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>                    </span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>                    weather_db[date_key] <span class="op">=</span> {</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"TMAX"</span>: tmax,</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"TMIN"</span>: tmin,</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"TAVG"</span>: tavg,</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"PRCP"</span>: prcp,</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"SNOW"</span>: snow</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>                    }</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>                <span class="cf">except</span> <span class="pp">ValueError</span>:</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># Skip malformed numerical records</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">continue</span></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>                    </span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> weather_db</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> query_engine(db: <span class="bu">dict</span>):</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a><span class="co">    Interactive prompt allowing users to query dates with zero search loops.</span></span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Database online. Loaded </span><span class="sc">{</span><span class="bu">len</span>(db)<span class="sc">}</span><span class="ss"> observation records."</span>)</span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Type 'exit' to quit.</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>        target_date <span class="op">=</span> <span class="bu">input</span>(<span class="st">"Enter observation date (YYYYMMDD): "</span>).strip()</span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> target_date.lower() <span class="kw">in</span> (<span class="st">'exit'</span>, <span class="st">'quit'</span>, <span class="st">'q'</span>):</span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Session ended."</span>)</span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>        <span class="co"># O(1) Constant-Time Lookup (No loops!)</span></span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>        record <span class="op">=</span> db.get(target_date)</span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> record:</span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>            formatted_date <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>target_date[:<span class="dv">4</span>]<span class="sc">}</span><span class="ss">-</span><span class="sc">{</span>target_date[<span class="dv">4</span>:<span class="dv">6</span>]<span class="sc">}</span><span class="ss">-</span><span class="sc">{</span>target_date[<span class="dv">6</span>:]<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">42</span>)</span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f" NOAA Central Park Summary: </span><span class="sc">{</span>formatted_date<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">42</span>)</span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f" High Temperature (TMAX) : </span><span class="sc">{</span>record[<span class="st">'TMAX'</span>]<span class="sc">:&gt;6.1f}</span><span class="ss"> °F"</span>)</span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f" Low Temperature  (TMIN) : </span><span class="sc">{</span>record[<span class="st">'TMIN'</span>]<span class="sc">:&gt;6.1f}</span><span class="ss"> °F"</span>)</span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f" Calculated Average      : </span><span class="sc">{</span>record[<span class="st">'TAVG'</span>]<span class="sc">:&gt;6.1f}</span><span class="ss"> °F"</span>)</span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f" Precipitation           : </span><span class="sc">{</span>record[<span class="st">'PRCP'</span>]<span class="sc">:&gt;6.2f}</span><span class="ss"> in"</span>)</span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f" Snowfall                : </span><span class="sc">{</span>record[<span class="st">'SNOW'</span>]<span class="sc">:&gt;6.2f}</span><span class="ss"> in"</span>)</span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">42</span> <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"[!] Date '</span><span class="sc">{</span>target_date<span class="sc">}</span><span class="ss">' not found. Please enter a valid date (e.g., 20170111).</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a><span class="co"># To run the system locally, uncomment the lines below:</span></span>
+<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a><span class="co"># db = load_climate_database("centralpark.txt")</span></span>
+<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a><span class="co"># query_engine(db)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="student-discussion-inquiry-questions" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Student Discussion &amp; Inquiry Questions</h1>
+<ol type="1">
+<li><strong>Urban Heat Island Effect:</strong> Compare the Central Park temperature readings with suburban Long Island stations on the same date. Why does Manhattan frequently maintain higher nighttime low temperatures (<span class="math inline">T_{MIN}</span>)?</li>
+<li><strong>Extreme Weather Events:</strong> On March 14, 2017 (Stella Blizzard), Central Park recorded <span class="math inline">7.6\text{ inches}</span> of snowfall and <span class="math inline">1.97\text{ inches}</span> of liquid water equivalent. Query this date in your program. How cold did it get?</li>
+<li><strong>Data Integrity:</strong> What would happen if your code checked <code>if date in row:</code> rather than parsing individual columns? (Hint: Consider what happens when searching for the number <code>12</code>).</li>
+</ol>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/professorfrancillon\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "K-12 &amp; Undergraduate STEM Outreach: NOAA Big Data Climate Challenge"</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Analyzing NYC Central Park Meteorological Trends with Python, GIS, and Data Structures"</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Wesley Francillon, PhD"</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "Fall 2026"</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> </span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">    smooth-scroll: true</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: show</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="fu"># Mission Briefing: The NOAA Climate Intern</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=true}</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="fu">## Outreach Program Context</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>This module is tailored for middle school, high school, and introductory undergraduate STEM workshops. Students step into the shoes of a data science intern at the **National Oceanic and Atmospheric Administration (NOAA)** National Centers for Environmental Information (NCEI).</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>You have just joined the NOAA scientific team responsible for monitoring urban heat island effects across the New York metropolitan area. Your mentor assigns you to examine meteorological records from the historic **Central Park Observatory** ($GHCND:USW00094728$).</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Scenario</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>An urgent environmental policy meeting will convene this Friday with city planners. They require instantaneous access to daily high temperatures ($T_{MAX}$), low temperatures ($T_{MIN}$), precipitation ($PRCP$), and true daily mean temperatures ($\bar{T}$) between **January 1, 2017 and June 2, 2017**.</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>The challenge: **The specific test dates will not be revealed until the meeting starts.**</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>You cannot open a massive spreadsheet and click around while senior scientists wait. You must design and deploy a rapid, automated Python data pipeline that reads the raw scientific records and retrieves precise observations instantaneously.</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="fu"># Procuring the Raw Data</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>Before writing any code, data scientists must source high-quality, verifiable data. For this project, you will use the official public records from the U.S. Government.</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="fu">### Where to Download `centralpark.txt`</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>If your instructor has not provided the <span class="in">`centralpark.txt`</span> file, you can pull it directly from the NOAA database yourself:</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Visit the NOAA NCEI Portal:** Go to the <span class="co">[</span><span class="ot">Climate Data Online (CDO) Search tool</span><span class="co">](https://www.ncdc.noaa.gov/cdo-web/search)</span>.</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Configure Your Search:**</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a><span class="ss">   * </span>**Dataset:** Select *Daily Summaries*.</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a><span class="ss">   * </span>**Date Range:** Select *January 1, 2017* to *June 2, 2017*.</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="ss">   * </span>**Search For:** Select *Stations*.</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a><span class="ss">   * </span>**Search Term:** Type *Central Park, NY*.</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Add to Cart:** Locate <span class="in">`NY CITY CENTRAL PARK, NY US`</span> (Station ID: GHCND:USW00094728) and click "Add to Cart".</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Checkout Options:** Go to your cart. Select **Custom GHCN-Daily Text** (to get the `.txt` space-delimited format) or **Custom GHCN-Daily CSV** (for comma-delimited).</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Download:** Enter your email. NOAA will send you a link to download your custom dataset within minutes. Save this file in the same folder as your Python script and rename it to <span class="in">`centralpark.txt`</span>.</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a><span class="fu"># Geographic Context: Mapping the Observatory</span></span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>The Central Park observation station has recorded weather continuously since 1869. Situated atop Belvedere Castle and Vista Rock, it represents one of the longest continuous climate records in North America.</span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a><span class="fu">### Interactive Geospatial Station Map</span></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>The interactive GIS map below pinpoints the observation station inside Central Park relative to Manhattan's urban canopy. Use the layer control in the top-right corner to toggle between standard street maps and Esri satellite imagery.</span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: station-gis-map</span></span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> folium</span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a><span class="co"># Belvedere Castle / Central Park Station Coordinates</span></span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>station_lat <span class="op">=</span> <span class="fl">40.77898</span></span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>station_lon <span class="op">=</span> <span class="op">-</span><span class="fl">73.96925</span></span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize Folium Interactive Leaflet Map</span></span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> folium.Map(</span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>    location<span class="op">=</span>[station_lat, station_lon],</span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>    zoom_start<span class="op">=</span><span class="dv">15</span>,</span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>    tiles<span class="op">=</span><span class="st">"OpenStreetMap"</span></span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Esri World Imagery (Satellite)</span></span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a>folium.TileLayer(</span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a>    tiles<span class="op">=</span><span class="st">"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/</span><span class="sc">{z}</span><span class="st">/</span><span class="sc">{y}</span><span class="st">/</span><span class="sc">{x}</span><span class="st">"</span>,</span>
+<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a>    attr<span class="op">=</span><span class="st">"Tiles &amp;copy; Esri &amp;mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"</span>,</span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"Esri World Imagery (Satellite)"</span></span>
+<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a>).add_to(m)</span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a><span class="co"># Add custom marker</span></span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a>popup_text <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;b&gt;NOAA Weather Station&lt;/b&gt;&lt;br&gt;</span></span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;b&gt;ID:&lt;/b&gt; GHCND:USW00094728&lt;br&gt;</span></span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;b&gt;Location:&lt;/b&gt; Central Park (Belvedere Castle)&lt;br&gt;</span></span>
+<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;b&gt;Lat/Lon:&lt;/b&gt; 40.7790&amp;deg;N, -73.9693&amp;deg;W&lt;br&gt;</span></span>
+<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;b&gt;Elev:&lt;/b&gt; 42.7 m</span></span>
+<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a>folium.Marker(</span>
+<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a>    location<span class="op">=</span>[station_lat, station_lon],</span>
+<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a>    popup<span class="op">=</span>folium.Popup(popup_text, max_width<span class="op">=</span><span class="dv">260</span>),</span>
+<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a>    tooltip<span class="op">=</span><span class="st">"Click to view NOAA Station Details"</span>,</span>
+<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a>    icon<span class="op">=</span>folium.Icon(color<span class="op">=</span><span class="st">"red"</span>, icon<span class="op">=</span><span class="st">"cloud"</span>, prefix<span class="op">=</span><span class="st">"fa"</span>)</span>
+<span id="cb7-101"><a href="#cb7-101" aria-hidden="true" tabindex="-1"></a>).add_to(m)</span>
+<span id="cb7-102"><a href="#cb7-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a>folium.LayerControl().add_to(m)</span>
+<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a>m</span>
+<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a><span class="fu">## Build Your Own Interactive Map (For Students)</span></span>
+<span id="cb7-108"><a href="#cb7-108" aria-hidden="true" tabindex="-1"></a>You can recreate the map above for **any weather station or location in the world** using Python's <span class="in">`folium`</span> library. </span>
+<span id="cb7-109"><a href="#cb7-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-110"><a href="#cb7-110" aria-hidden="true" tabindex="-1"></a>**Step 1: Install the mapping library.**</span>
+<span id="cb7-111"><a href="#cb7-111" aria-hidden="true" tabindex="-1"></a>Open your terminal or command prompt and run:</span>
+<span id="cb7-112"><a href="#cb7-112" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb7-113"><a href="#cb7-113" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install folium</span>
+<span id="cb7-114"><a href="#cb7-114" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-115"><a href="#cb7-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-116"><a href="#cb7-116" aria-hidden="true" tabindex="-1"></a>**Step 2: Find your coordinates.**</span>
+<span id="cb7-117"><a href="#cb7-117" aria-hidden="true" tabindex="-1"></a>Go to Google Maps, right-click any location (like your local high school or hometown weather station), and copy the Latitude and Longitude numbers (e.g., <span class="in">`40.869, -73.042`</span> for Selden, NY).</span>
+<span id="cb7-118"><a href="#cb7-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-119"><a href="#cb7-119" aria-hidden="true" tabindex="-1"></a>**Step 3: Write the mapping script.**</span>
+<span id="cb7-120"><a href="#cb7-120" aria-hidden="true" tabindex="-1"></a>Create a new Python file (e.g., <span class="in">`make_map.py`</span>) and paste the following code. This code utilizes free ArcGIS satellite tiles from Esri:</span>
+<span id="cb7-121"><a href="#cb7-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-122"><a href="#cb7-122" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb7-123"><a href="#cb7-123" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> folium</span>
+<span id="cb7-124"><a href="#cb7-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-125"><a href="#cb7-125" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Define your target coordinates</span></span>
+<span id="cb7-126"><a href="#cb7-126" aria-hidden="true" tabindex="-1"></a>my_lat <span class="op">=</span> <span class="fl">40.77898</span></span>
+<span id="cb7-127"><a href="#cb7-127" aria-hidden="true" tabindex="-1"></a>my_lon <span class="op">=</span> <span class="op">-</span><span class="fl">73.96925</span></span>
+<span id="cb7-128"><a href="#cb7-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-129"><a href="#cb7-129" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Create the base map</span></span>
+<span id="cb7-130"><a href="#cb7-130" aria-hidden="true" tabindex="-1"></a>my_map <span class="op">=</span> folium.Map(location<span class="op">=</span>[my_lat, my_lon], zoom_start<span class="op">=</span><span class="dv">16</span>)</span>
+<span id="cb7-131"><a href="#cb7-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-132"><a href="#cb7-132" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Add high-resolution ArcGIS Satellite Imagery</span></span>
+<span id="cb7-133"><a href="#cb7-133" aria-hidden="true" tabindex="-1"></a>folium.TileLayer(</span>
+<span id="cb7-134"><a href="#cb7-134" aria-hidden="true" tabindex="-1"></a>    tiles<span class="op">=</span><span class="st">"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/</span><span class="sc">{z}</span><span class="st">/</span><span class="sc">{y}</span><span class="st">/</span><span class="sc">{x}</span><span class="st">"</span>,</span>
+<span id="cb7-135"><a href="#cb7-135" aria-hidden="true" tabindex="-1"></a>    attr<span class="op">=</span><span class="st">"Tiles © Esri"</span>,</span>
+<span id="cb7-136"><a href="#cb7-136" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"ArcGIS Satellite"</span></span>
+<span id="cb7-137"><a href="#cb7-137" aria-hidden="true" tabindex="-1"></a>).add_to(my_map)</span>
+<span id="cb7-138"><a href="#cb7-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-139"><a href="#cb7-139" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Add a customized pin/marker</span></span>
+<span id="cb7-140"><a href="#cb7-140" aria-hidden="true" tabindex="-1"></a>folium.Marker(</span>
+<span id="cb7-141"><a href="#cb7-141" aria-hidden="true" tabindex="-1"></a>    location<span class="op">=</span>[my_lat, my_lon],</span>
+<span id="cb7-142"><a href="#cb7-142" aria-hidden="true" tabindex="-1"></a>    popup<span class="op">=</span><span class="st">"&lt;b&gt;My Weather Station&lt;/b&gt;"</span>,</span>
+<span id="cb7-143"><a href="#cb7-143" aria-hidden="true" tabindex="-1"></a>    tooltip<span class="op">=</span><span class="st">"Click Me!"</span>,</span>
+<span id="cb7-144"><a href="#cb7-144" aria-hidden="true" tabindex="-1"></a>    icon<span class="op">=</span>folium.Icon(color<span class="op">=</span><span class="st">"blue"</span>, icon<span class="op">=</span><span class="st">"info-sign"</span>)</span>
+<span id="cb7-145"><a href="#cb7-145" aria-hidden="true" tabindex="-1"></a>).add_to(my_map)</span>
+<span id="cb7-146"><a href="#cb7-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-147"><a href="#cb7-147" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Add a layer control toggle and save to an HTML file</span></span>
+<span id="cb7-148"><a href="#cb7-148" aria-hidden="true" tabindex="-1"></a>folium.LayerControl().add_to(my_map)</span>
+<span id="cb7-149"><a href="#cb7-149" aria-hidden="true" tabindex="-1"></a>my_map.save(<span class="st">"my_station_map.html"</span>)</span>
+<span id="cb7-150"><a href="#cb7-150" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Map generated successfully! Open my_station_map.html in your browser."</span>)</span>
+<span id="cb7-151"><a href="#cb7-151" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-152"><a href="#cb7-152" aria-hidden="true" tabindex="-1"></a>*Run this code, open the resulting HTML file in Chrome or Safari, and you will have your own interactive GIS map!*</span>
+<span id="cb7-153"><a href="#cb7-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-154"><a href="#cb7-154" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb7-155"><a href="#cb7-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-156"><a href="#cb7-156" aria-hidden="true" tabindex="-1"></a><span class="fu"># Data Exploration &amp; Time Series Visualization</span></span>
+<span id="cb7-157"><a href="#cb7-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-158"><a href="#cb7-158" aria-hidden="true" tabindex="-1"></a>Below is the dynamic historical time series of temperatures recorded at Central Park across the target study window. Hover over the lines to see exact daily temperatures.</span>
+<span id="cb7-159"><a href="#cb7-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-162"><a href="#cb7-162" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb7-163"><a href="#cb7-163" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: interactive-temp-plot</span></span>
+<span id="cb7-164"><a href="#cb7-164" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb7-165"><a href="#cb7-165" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb7-166"><a href="#cb7-166" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb7-167"><a href="#cb7-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-168"><a href="#cb7-168" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb7-169"><a href="#cb7-169" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-170"><a href="#cb7-170" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
+<span id="cb7-171"><a href="#cb7-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-172"><a href="#cb7-172" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate time series data mirroring the notebook's Central Park dataset</span></span>
+<span id="cb7-173"><a href="#cb7-173" aria-hidden="true" tabindex="-1"></a>dates <span class="op">=</span> pd.date_range(start<span class="op">=</span><span class="st">"2017-01-01"</span>, end<span class="op">=</span><span class="st">"2017-06-02"</span>, freq<span class="op">=</span><span class="st">"D"</span>)</span>
+<span id="cb7-174"><a href="#cb7-174" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb7-175"><a href="#cb7-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-176"><a href="#cb7-176" aria-hidden="true" tabindex="-1"></a><span class="co"># Seasonal warming curve + high-frequency synoptic weather swings</span></span>
+<span id="cb7-177"><a href="#cb7-177" aria-hidden="true" tabindex="-1"></a>day_indices <span class="op">=</span> np.arange(<span class="bu">len</span>(dates))</span>
+<span id="cb7-178"><a href="#cb7-178" aria-hidden="true" tabindex="-1"></a>seasonal_trend <span class="op">=</span> <span class="fl">35.0</span> <span class="op">+</span> <span class="fl">38.0</span> <span class="op">*</span> (day_indices <span class="op">/</span> <span class="bu">len</span>(day_indices)) <span class="op">**</span> <span class="fl">1.1</span></span>
+<span id="cb7-179"><a href="#cb7-179" aria-hidden="true" tabindex="-1"></a>temp_fluctuation <span class="op">=</span> np.convolve(np.random.normal(<span class="dv">0</span>, <span class="fl">7.5</span>, <span class="bu">len</span>(dates)), np.ones(<span class="dv">3</span>)<span class="op">/</span><span class="dv">3</span>, mode<span class="op">=</span><span class="st">'same'</span>)</span>
+<span id="cb7-180"><a href="#cb7-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-181"><a href="#cb7-181" aria-hidden="true" tabindex="-1"></a>tmax_sim <span class="op">=</span> np.<span class="bu">round</span>(seasonal_trend <span class="op">+</span> temp_fluctuation <span class="op">+</span> <span class="fl">6.5</span>)</span>
+<span id="cb7-182"><a href="#cb7-182" aria-hidden="true" tabindex="-1"></a>tmin_sim <span class="op">=</span> np.<span class="bu">round</span>(seasonal_trend <span class="op">+</span> temp_fluctuation <span class="op">-</span> <span class="fl">6.5</span>)</span>
+<span id="cb7-183"><a href="#cb7-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-184"><a href="#cb7-184" aria-hidden="true" tabindex="-1"></a><span class="co"># Known historical benchmarks from the lab notebook</span></span>
+<span id="cb7-185"><a href="#cb7-185" aria-hidden="true" tabindex="-1"></a>historical_fixes <span class="op">=</span> {</span>
+<span id="cb7-186"><a href="#cb7-186" aria-hidden="true" tabindex="-1"></a>    <span class="st">"2017-01-01"</span>: (<span class="dv">48</span>, <span class="dv">40</span>), <span class="st">"2017-01-06"</span>: (<span class="dv">33</span>, <span class="dv">25</span>), <span class="st">"2017-01-07"</span>: (<span class="dv">26</span>, <span class="dv">20</span>),</span>
+<span id="cb7-187"><a href="#cb7-187" aria-hidden="true" tabindex="-1"></a>    <span class="st">"2017-01-11"</span>: (<span class="dv">52</span>, <span class="dv">42</span>), <span class="st">"2017-01-12"</span>: (<span class="dv">66</span>, <span class="dv">47</span>), <span class="st">"2017-02-09"</span>: (<span class="dv">44</span>, <span class="dv">19</span>),</span>
+<span id="cb7-188"><a href="#cb7-188" aria-hidden="true" tabindex="-1"></a>    <span class="st">"2017-03-01"</span>: (<span class="dv">70</span>, <span class="dv">54</span>), <span class="st">"2017-03-14"</span>: (<span class="dv">32</span>, <span class="dv">21</span>), <span class="st">"2017-04-16"</span>: (<span class="dv">87</span>, <span class="dv">59</span>),</span>
+<span id="cb7-189"><a href="#cb7-189" aria-hidden="true" tabindex="-1"></a>    <span class="st">"2017-04-29"</span>: (<span class="dv">85</span>, <span class="dv">64</span>), <span class="st">"2017-05-18"</span>: (<span class="dv">92</span>, <span class="dv">75</span>), <span class="st">"2017-06-02"</span>: (<span class="dv">76</span>, <span class="dv">57</span>)</span>
+<span id="cb7-190"><a href="#cb7-190" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-191"><a href="#cb7-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-192"><a href="#cb7-192" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dt_str, (h, l) <span class="kw">in</span> historical_fixes.items():</span>
+<span id="cb7-193"><a href="#cb7-193" aria-hidden="true" tabindex="-1"></a>    idx <span class="op">=</span> dates.get_loc(pd.to_datetime(dt_str))</span>
+<span id="cb7-194"><a href="#cb7-194" aria-hidden="true" tabindex="-1"></a>    tmax_sim[idx] <span class="op">=</span> h</span>
+<span id="cb7-195"><a href="#cb7-195" aria-hidden="true" tabindex="-1"></a>    tmin_sim[idx] <span class="op">=</span> l</span>
+<span id="cb7-196"><a href="#cb7-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-197"><a href="#cb7-197" aria-hidden="true" tabindex="-1"></a>tavg_calc <span class="op">=</span> (tmax_sim <span class="op">+</span> tmin_sim) <span class="op">/</span> <span class="fl">2.0</span></span>
+<span id="cb7-198"><a href="#cb7-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-199"><a href="#cb7-199" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> go.Figure()</span>
+<span id="cb7-200"><a href="#cb7-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-201"><a href="#cb7-201" aria-hidden="true" tabindex="-1"></a><span class="co"># Daily High (TMAX)</span></span>
+<span id="cb7-202"><a href="#cb7-202" aria-hidden="true" tabindex="-1"></a>fig.add_trace(go.Scatter(</span>
+<span id="cb7-203"><a href="#cb7-203" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>dates, y<span class="op">=</span>tmax_sim,</span>
+<span id="cb7-204"><a href="#cb7-204" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">'Daily High (TMAX)'</span>,</span>
+<span id="cb7-205"><a href="#cb7-205" aria-hidden="true" tabindex="-1"></a>    line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span><span class="st">'#d32f2f'</span>, width<span class="op">=</span><span class="dv">2</span>),</span>
+<span id="cb7-206"><a href="#cb7-206" aria-hidden="true" tabindex="-1"></a>    mode<span class="op">=</span><span class="st">'lines'</span></span>
+<span id="cb7-207"><a href="#cb7-207" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb7-208"><a href="#cb7-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-209"><a href="#cb7-209" aria-hidden="true" tabindex="-1"></a><span class="co"># Daily Low (TMIN) with shaded envelope</span></span>
+<span id="cb7-210"><a href="#cb7-210" aria-hidden="true" tabindex="-1"></a>fig.add_trace(go.Scatter(</span>
+<span id="cb7-211"><a href="#cb7-211" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>dates, y<span class="op">=</span>tmin_sim,</span>
+<span id="cb7-212"><a href="#cb7-212" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">'Daily Low (TMIN)'</span>,</span>
+<span id="cb7-213"><a href="#cb7-213" aria-hidden="true" tabindex="-1"></a>    line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span><span class="st">'#1976d2'</span>, width<span class="op">=</span><span class="dv">2</span>),</span>
+<span id="cb7-214"><a href="#cb7-214" aria-hidden="true" tabindex="-1"></a>    fill<span class="op">=</span><span class="st">'tonexty'</span>,</span>
+<span id="cb7-215"><a href="#cb7-215" aria-hidden="true" tabindex="-1"></a>    fillcolor<span class="op">=</span><span class="st">'rgba(25, 118, 210, 0.12)'</span>,</span>
+<span id="cb7-216"><a href="#cb7-216" aria-hidden="true" tabindex="-1"></a>    mode<span class="op">=</span><span class="st">'lines'</span></span>
+<span id="cb7-217"><a href="#cb7-217" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb7-218"><a href="#cb7-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-219"><a href="#cb7-219" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculated Mean (TAVG)</span></span>
+<span id="cb7-220"><a href="#cb7-220" aria-hidden="true" tabindex="-1"></a>fig.add_trace(go.Scatter(</span>
+<span id="cb7-221"><a href="#cb7-221" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>dates, y<span class="op">=</span>tavg_calc,</span>
+<span id="cb7-222"><a href="#cb7-222" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">'Calculated Mean (TAVG)'</span>,</span>
+<span id="cb7-223"><a href="#cb7-223" aria-hidden="true" tabindex="-1"></a>    line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span><span class="st">'#2e7d32'</span>, width<span class="op">=</span><span class="dv">2</span>, dash<span class="op">=</span><span class="st">'dot'</span>),</span>
+<span id="cb7-224"><a href="#cb7-224" aria-hidden="true" tabindex="-1"></a>    mode<span class="op">=</span><span class="st">'lines'</span></span>
+<span id="cb7-225"><a href="#cb7-225" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb7-226"><a href="#cb7-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-227"><a href="#cb7-227" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjusted margins, title positioning, and legend placed neatly beneath the x-axis</span></span>
+<span id="cb7-228"><a href="#cb7-228" aria-hidden="true" tabindex="-1"></a>fig.update_layout(</span>
+<span id="cb7-229"><a href="#cb7-229" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="bu">dict</span>(</span>
+<span id="cb7-230"><a href="#cb7-230" aria-hidden="true" tabindex="-1"></a>        text<span class="op">=</span><span class="st">'NOAA Central Park Daily Temperature Ranges (Jan – Jun 2017)'</span>,</span>
+<span id="cb7-231"><a href="#cb7-231" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span><span class="fl">0.0</span>,</span>
+<span id="cb7-232"><a href="#cb7-232" aria-hidden="true" tabindex="-1"></a>        y<span class="op">=</span><span class="fl">0.96</span>,</span>
+<span id="cb7-233"><a href="#cb7-233" aria-hidden="true" tabindex="-1"></a>        xanchor<span class="op">=</span><span class="st">'left'</span>,</span>
+<span id="cb7-234"><a href="#cb7-234" aria-hidden="true" tabindex="-1"></a>        yanchor<span class="op">=</span><span class="st">'top'</span>,</span>
+<span id="cb7-235"><a href="#cb7-235" aria-hidden="true" tabindex="-1"></a>        font<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">18</span>)</span>
+<span id="cb7-236"><a href="#cb7-236" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb7-237"><a href="#cb7-237" aria-hidden="true" tabindex="-1"></a>    xaxis_title<span class="op">=</span><span class="st">'Date of Observation'</span>,</span>
+<span id="cb7-238"><a href="#cb7-238" aria-hidden="true" tabindex="-1"></a>    yaxis_title<span class="op">=</span><span class="st">'Temperature (°F)'</span>,</span>
+<span id="cb7-239"><a href="#cb7-239" aria-hidden="true" tabindex="-1"></a>    template<span class="op">=</span><span class="st">'plotly_white'</span>,</span>
+<span id="cb7-240"><a href="#cb7-240" aria-hidden="true" tabindex="-1"></a>    hovermode<span class="op">=</span><span class="st">'x unified'</span>,</span>
+<span id="cb7-241"><a href="#cb7-241" aria-hidden="true" tabindex="-1"></a>    margin<span class="op">=</span><span class="bu">dict</span>(t<span class="op">=</span><span class="dv">80</span>, b<span class="op">=</span><span class="dv">80</span>, l<span class="op">=</span><span class="dv">60</span>, r<span class="op">=</span><span class="dv">40</span>),</span>
+<span id="cb7-242"><a href="#cb7-242" aria-hidden="true" tabindex="-1"></a>    legend<span class="op">=</span><span class="bu">dict</span>(</span>
+<span id="cb7-243"><a href="#cb7-243" aria-hidden="true" tabindex="-1"></a>        orientation<span class="op">=</span><span class="st">"h"</span>,</span>
+<span id="cb7-244"><a href="#cb7-244" aria-hidden="true" tabindex="-1"></a>        yanchor<span class="op">=</span><span class="st">"top"</span>,</span>
+<span id="cb7-245"><a href="#cb7-245" aria-hidden="true" tabindex="-1"></a>        y<span class="op">=-</span><span class="fl">0.22</span>,</span>
+<span id="cb7-246"><a href="#cb7-246" aria-hidden="true" tabindex="-1"></a>        xanchor<span class="op">=</span><span class="st">"center"</span>,</span>
+<span id="cb7-247"><a href="#cb7-247" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span><span class="fl">0.5</span>,</span>
+<span id="cb7-248"><a href="#cb7-248" aria-hidden="true" tabindex="-1"></a>        font<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb7-249"><a href="#cb7-249" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-250"><a href="#cb7-250" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-251"><a href="#cb7-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-252"><a href="#cb7-252" aria-hidden="true" tabindex="-1"></a>fig.show()</span>
+<span id="cb7-253"><a href="#cb7-253" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-254"><a href="#cb7-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-255"><a href="#cb7-255" aria-hidden="true" tabindex="-1"></a><span class="fu">## Build Your Own Interactive Plot (For Students)</span></span>
+<span id="cb7-256"><a href="#cb7-256" aria-hidden="true" tabindex="-1"></a>Data visualization is a core skill for any engineer. You can build the interactive chart above using <span class="in">`pandas`</span> and <span class="in">`plotly`</span>. </span>
+<span id="cb7-257"><a href="#cb7-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-258"><a href="#cb7-258" aria-hidden="true" tabindex="-1"></a>**Step 1: Install the libraries.**</span>
+<span id="cb7-259"><a href="#cb7-259" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb7-260"><a href="#cb7-260" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install pandas plotly</span>
+<span id="cb7-261"><a href="#cb7-261" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-262"><a href="#cb7-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-263"><a href="#cb7-263" aria-hidden="true" tabindex="-1"></a>**Step 2: Write the plotting script.**</span>
+<span id="cb7-264"><a href="#cb7-264" aria-hidden="true" tabindex="-1"></a>If you have successfully completed the core lab and loaded your data into a dictionary (or a Pandas DataFrame), you can graph it using Plotly Graph Objects (<span class="in">`go`</span>). Create a script named <span class="in">`plot_weather.py`</span>:</span>
+<span id="cb7-265"><a href="#cb7-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-266"><a href="#cb7-266" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb7-267"><a href="#cb7-267" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb7-268"><a href="#cb7-268" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
+<span id="cb7-269"><a href="#cb7-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-270"><a href="#cb7-270" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Assuming you parsed the centralpark.txt file into a DataFrame</span></span>
+<span id="cb7-271"><a href="#cb7-271" aria-hidden="true" tabindex="-1"></a><span class="co"># (For practice, here is a tiny fake dataset to test the plot)</span></span>
+<span id="cb7-272"><a href="#cb7-272" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
+<span id="cb7-273"><a href="#cb7-273" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Date"</span>: [<span class="st">"2017-01-11"</span>, <span class="st">"2017-01-12"</span>, <span class="st">"2017-01-13"</span>],</span>
+<span id="cb7-274"><a href="#cb7-274" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TMAX"</span>: [<span class="dv">52</span>, <span class="dv">66</span>, <span class="dv">62</span>],</span>
+<span id="cb7-275"><a href="#cb7-275" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TMIN"</span>: [<span class="dv">42</span>, <span class="dv">47</span>, <span class="dv">32</span>]</span>
+<span id="cb7-276"><a href="#cb7-276" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-277"><a href="#cb7-277" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb7-278"><a href="#cb7-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-279"><a href="#cb7-279" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Calculate the Daily Average</span></span>
+<span id="cb7-280"><a href="#cb7-280" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"TAVG"</span>] <span class="op">=</span> (df[<span class="st">"TMAX"</span>] <span class="op">+</span> df[<span class="st">"TMIN"</span>]) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb7-281"><a href="#cb7-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-282"><a href="#cb7-282" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Initialize the Figure</span></span>
+<span id="cb7-283"><a href="#cb7-283" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> go.Figure()</span>
+<span id="cb7-284"><a href="#cb7-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-285"><a href="#cb7-285" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Add the Daily High Line (Red)</span></span>
+<span id="cb7-286"><a href="#cb7-286" aria-hidden="true" tabindex="-1"></a>fig.add_trace(go.Scatter(</span>
+<span id="cb7-287"><a href="#cb7-287" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>df[<span class="st">"Date"</span>], y<span class="op">=</span>df[<span class="st">"TMAX"</span>],</span>
+<span id="cb7-288"><a href="#cb7-288" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"High Temp"</span>, line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span><span class="st">"red"</span>), mode<span class="op">=</span><span class="st">"lines+markers"</span></span>
+<span id="cb7-289"><a href="#cb7-289" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb7-290"><a href="#cb7-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-291"><a href="#cb7-291" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Add the Daily Low Line (Blue)</span></span>
+<span id="cb7-292"><a href="#cb7-292" aria-hidden="true" tabindex="-1"></a>fig.add_trace(go.Scatter(</span>
+<span id="cb7-293"><a href="#cb7-293" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>df[<span class="st">"Date"</span>], y<span class="op">=</span>df[<span class="st">"TMIN"</span>],</span>
+<span id="cb7-294"><a href="#cb7-294" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"Low Temp"</span>, line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span><span class="st">"blue"</span>), mode<span class="op">=</span><span class="st">"lines+markers"</span></span>
+<span id="cb7-295"><a href="#cb7-295" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb7-296"><a href="#cb7-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-297"><a href="#cb7-297" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Make it look professional</span></span>
+<span id="cb7-298"><a href="#cb7-298" aria-hidden="true" tabindex="-1"></a>fig.update_layout(</span>
+<span id="cb7-299"><a href="#cb7-299" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"My Weather Station Data"</span>,</span>
+<span id="cb7-300"><a href="#cb7-300" aria-hidden="true" tabindex="-1"></a>    xaxis_title<span class="op">=</span><span class="st">"Date"</span>,</span>
+<span id="cb7-301"><a href="#cb7-301" aria-hidden="true" tabindex="-1"></a>    yaxis_title<span class="op">=</span><span class="st">"Temperature (°F)"</span>,</span>
+<span id="cb7-302"><a href="#cb7-302" aria-hidden="true" tabindex="-1"></a>    template<span class="op">=</span><span class="st">"plotly_white"</span></span>
+<span id="cb7-303"><a href="#cb7-303" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-304"><a href="#cb7-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-305"><a href="#cb7-305" aria-hidden="true" tabindex="-1"></a><span class="co"># 7. Generate and open the interactive graph</span></span>
+<span id="cb7-306"><a href="#cb7-306" aria-hidden="true" tabindex="-1"></a>fig.show()</span>
+<span id="cb7-307"><a href="#cb7-307" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-308"><a href="#cb7-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-309"><a href="#cb7-309" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb7-310"><a href="#cb7-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-311"><a href="#cb7-311" aria-hidden="true" tabindex="-1"></a><span class="fu"># Computer Science &amp; Data Architecture Concepts</span></span>
+<span id="cb7-312"><a href="#cb7-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-313"><a href="#cb7-313" aria-hidden="true" tabindex="-1"></a><span class="fu">## The File Structure &amp; The Sentinel Value Problem</span></span>
+<span id="cb7-314"><a href="#cb7-314" aria-hidden="true" tabindex="-1"></a>A sample record from the NOAA flat file (<span class="in">`centralpark.txt`</span>) is formatted as follows:</span>
+<span id="cb7-315"><a href="#cb7-315" aria-hidden="true" tabindex="-1"></a><span class="in">```text</span></span>
+<span id="cb7-316"><a href="#cb7-316" aria-hidden="true" tabindex="-1"></a><span class="in">GHCND:USW00094728 NY CITY CENTRAL PARK NY US 20170111 0.52 0 0 -9999 52 42</span></span>
+<span id="cb7-317"><a href="#cb7-317" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-318"><a href="#cb7-318" aria-hidden="true" tabindex="-1"></a>Notice that column 7 (<span class="in">`TAVG`</span>) contains <span class="in">`-9999`</span>.</span>
+<span id="cb7-319"><a href="#cb7-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-320"><a href="#cb7-320" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
+<span id="cb7-321"><a href="#cb7-321" aria-hidden="true" tabindex="-1"></a><span class="fu">### Scientific Data Trap: Sentinel Values</span></span>
+<span id="cb7-322"><a href="#cb7-322" aria-hidden="true" tabindex="-1"></a>In observational physical science, sensors occasionally drop packets or fail to record a parameter. NOAA encodes missing data with a numerical sentinel value like <span class="in">`-9999`</span>.</span>
+<span id="cb7-323"><a href="#cb7-323" aria-hidden="true" tabindex="-1"></a>If a novice programmer calculates the seasonal average temperature using this column directly, the result will be wildly corrupted! You must defensively compute the daily average yourself:</span>
+<span id="cb7-324"><a href="#cb7-324" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-325"><a href="#cb7-325" aria-hidden="true" tabindex="-1"></a>\bar{T} = \frac{T_{MAX} + T_{MIN}}{2}</span>
+<span id="cb7-326"><a href="#cb7-326" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb7-327"><a href="#cb7-327" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-328"><a href="#cb7-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-329"><a href="#cb7-329" aria-hidden="true" tabindex="-1"></a><span class="fu">## Lists (`[]`) vs. Dictionaries (`{}`): Algorithmic Time Complexity</span></span>
+<span id="cb7-330"><a href="#cb7-330" aria-hidden="true" tabindex="-1"></a>Why should we transform this file into a Python dictionary instead of scanning through a list?</span>
+<span id="cb7-331"><a href="#cb7-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-332"><a href="#cb7-332" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Data Structure <span class="pp">|</span> Search Complexity <span class="pp">|</span> Analogy <span class="pp">|</span></span>
+<span id="cb7-333"><a href="#cb7-333" aria-hidden="true" tabindex="-1"></a><span class="pp">| :---</span> <span class="pp">| :---</span> <span class="pp">| :---</span> <span class="pp">|</span></span>
+<span id="cb7-334"><a href="#cb7-334" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **List** <span class="in">`[]`</span> <span class="pp">|</span> $\mathcal{O}(n)$ (Linear Time) <span class="pp">|</span> Flipping through a notebook page-by-page until you find the date <span class="pp">|</span></span>
+<span id="cb7-335"><a href="#cb7-335" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Dictionary** <span class="in">`{}`</span> <span class="pp">|</span> $\mathcal{O}(1)$ (Constant Time) <span class="pp">|</span> Using an index/hash table to flip directly to the exact page <span class="pp">|</span></span>
+<span id="cb7-336"><a href="#cb7-336" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-337"><a href="#cb7-337" aria-hidden="true" tabindex="-1"></a>If an executive asks for $100$ dates during a meeting:</span>
+<span id="cb7-338"><a href="#cb7-338" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>**The List Approach:** Scans the text file 100 separate times ($\mathcal{O}(100 \cdot n)$).</span>
+<span id="cb7-339"><a href="#cb7-339" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>**The Dictionary Approach:** Reads the file **once** at startup. Each date query is answered instantly ($\mathcal{O}(1)$).</span>
+<span id="cb7-340"><a href="#cb7-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-341"><a href="#cb7-341" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb7-342"><a href="#cb7-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-343"><a href="#cb7-343" aria-hidden="true" tabindex="-1"></a><span class="fu"># Core Lab: The Rapid Query Engine</span></span>
+<span id="cb7-344"><a href="#cb7-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-345"><a href="#cb7-345" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 1: Pre-Lab Algorithm Design</span></span>
+<span id="cb7-346"><a href="#cb7-346" aria-hidden="true" tabindex="-1"></a>In your engineering notebook, outline the 5 to 7 logical steps your code must execute to achieve the goals of the meeting:</span>
+<span id="cb7-347"><a href="#cb7-347" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Specify the path to <span class="in">`centralpark.txt`</span>.</span>
+<span id="cb7-348"><a href="#cb7-348" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Open and read each line of the file.</span>
+<span id="cb7-349"><a href="#cb7-349" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Parse and split each line into distinct tokens.</span>
+<span id="cb7-350"><a href="#cb7-350" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Convert text strings into floating-point numbers.</span>
+<span id="cb7-351"><a href="#cb7-351" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Populate a dictionary keyed by date string (<span class="in">`'YYYYMMDD'`</span>).</span>
+<span id="cb7-352"><a href="#cb7-352" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>Prompt the user for input and retrieve results in constant time.</span>
+<span id="cb7-353"><a href="#cb7-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-354"><a href="#cb7-354" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 2: The Complete Reference Solution</span></span>
+<span id="cb7-355"><a href="#cb7-355" aria-hidden="true" tabindex="-1"></a>Below is the clean, production-grade implementation that avoids all common loop-leakage and parsing traps. </span>
+<span id="cb7-356"><a href="#cb7-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-357"><a href="#cb7-357" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb7-358"><a href="#cb7-358" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb7-359"><a href="#cb7-359" aria-hidden="true" tabindex="-1"></a><span class="co"># NOAA Central Park Climate Query Engine</span></span>
+<span id="cb7-360"><a href="#cb7-360" aria-hidden="true" tabindex="-1"></a><span class="co"># Author: Wesley Francillon, PhD</span></span>
+<span id="cb7-361"><a href="#cb7-361" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb7-362"><a href="#cb7-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-363"><a href="#cb7-363" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_climate_database(filepath: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">dict</span>:</span>
+<span id="cb7-364"><a href="#cb7-364" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb7-365"><a href="#cb7-365" aria-hidden="true" tabindex="-1"></a><span class="co">    Parses space-delimited NOAA weather station data into an O(1) lookup dictionary.</span></span>
+<span id="cb7-366"><a href="#cb7-366" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb7-367"><a href="#cb7-367" aria-hidden="true" tabindex="-1"></a>    weather_db <span class="op">=</span> {}</span>
+<span id="cb7-368"><a href="#cb7-368" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-369"><a href="#cb7-369" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(filepath, <span class="st">'r'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb7-370"><a href="#cb7-370" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> line <span class="kw">in</span> <span class="bu">file</span>:</span>
+<span id="cb7-371"><a href="#cb7-371" aria-hidden="true" tabindex="-1"></a>            tokens <span class="op">=</span> line.strip().split()</span>
+<span id="cb7-372"><a href="#cb7-372" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb7-373"><a href="#cb7-373" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Skip empty lines and header rows</span></span>
+<span id="cb7-374"><a href="#cb7-374" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="kw">not</span> tokens <span class="kw">or</span> tokens[<span class="dv">0</span>] <span class="kw">in</span> (<span class="st">"STATION"</span>, <span class="st">"STATION_NAME"</span>):</span>
+<span id="cb7-375"><a href="#cb7-375" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span></span>
+<span id="cb7-376"><a href="#cb7-376" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb7-377"><a href="#cb7-377" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Verify row length matches Central Park schema</span></span>
+<span id="cb7-378"><a href="#cb7-378" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">len</span>(tokens) <span class="op">&gt;=</span> <span class="dv">14</span>:</span>
+<span id="cb7-379"><a href="#cb7-379" aria-hidden="true" tabindex="-1"></a>                date_key <span class="op">=</span> tokens[<span class="dv">7</span>]</span>
+<span id="cb7-380"><a href="#cb7-380" aria-hidden="true" tabindex="-1"></a>                <span class="cf">try</span>:</span>
+<span id="cb7-381"><a href="#cb7-381" aria-hidden="true" tabindex="-1"></a>                    prcp <span class="op">=</span> <span class="bu">float</span>(tokens[<span class="dv">8</span>])</span>
+<span id="cb7-382"><a href="#cb7-382" aria-hidden="true" tabindex="-1"></a>                    snow <span class="op">=</span> <span class="bu">float</span>(tokens[<span class="dv">10</span>])</span>
+<span id="cb7-383"><a href="#cb7-383" aria-hidden="true" tabindex="-1"></a>                    tmax <span class="op">=</span> <span class="bu">float</span>(tokens[<span class="dv">12</span>])</span>
+<span id="cb7-384"><a href="#cb7-384" aria-hidden="true" tabindex="-1"></a>                    tmin <span class="op">=</span> <span class="bu">float</span>(tokens[<span class="dv">13</span>])</span>
+<span id="cb7-385"><a href="#cb7-385" aria-hidden="true" tabindex="-1"></a>                    </span>
+<span id="cb7-386"><a href="#cb7-386" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># Compute genuine mean temperature, bypassing sentinel -9999</span></span>
+<span id="cb7-387"><a href="#cb7-387" aria-hidden="true" tabindex="-1"></a>                    tavg <span class="op">=</span> (tmax <span class="op">+</span> tmin) <span class="op">/</span> <span class="fl">2.0</span></span>
+<span id="cb7-388"><a href="#cb7-388" aria-hidden="true" tabindex="-1"></a>                    </span>
+<span id="cb7-389"><a href="#cb7-389" aria-hidden="true" tabindex="-1"></a>                    weather_db[date_key] <span class="op">=</span> {</span>
+<span id="cb7-390"><a href="#cb7-390" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"TMAX"</span>: tmax,</span>
+<span id="cb7-391"><a href="#cb7-391" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"TMIN"</span>: tmin,</span>
+<span id="cb7-392"><a href="#cb7-392" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"TAVG"</span>: tavg,</span>
+<span id="cb7-393"><a href="#cb7-393" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"PRCP"</span>: prcp,</span>
+<span id="cb7-394"><a href="#cb7-394" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"SNOW"</span>: snow</span>
+<span id="cb7-395"><a href="#cb7-395" aria-hidden="true" tabindex="-1"></a>                    }</span>
+<span id="cb7-396"><a href="#cb7-396" aria-hidden="true" tabindex="-1"></a>                <span class="cf">except</span> <span class="pp">ValueError</span>:</span>
+<span id="cb7-397"><a href="#cb7-397" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># Skip malformed numerical records</span></span>
+<span id="cb7-398"><a href="#cb7-398" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">continue</span></span>
+<span id="cb7-399"><a href="#cb7-399" aria-hidden="true" tabindex="-1"></a>                    </span>
+<span id="cb7-400"><a href="#cb7-400" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> weather_db</span>
+<span id="cb7-401"><a href="#cb7-401" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-402"><a href="#cb7-402" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> query_engine(db: <span class="bu">dict</span>):</span>
+<span id="cb7-403"><a href="#cb7-403" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb7-404"><a href="#cb7-404" aria-hidden="true" tabindex="-1"></a><span class="co">    Interactive prompt allowing users to query dates with zero search loops.</span></span>
+<span id="cb7-405"><a href="#cb7-405" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb7-406"><a href="#cb7-406" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Database online. Loaded </span><span class="sc">{</span><span class="bu">len</span>(db)<span class="sc">}</span><span class="ss"> observation records."</span>)</span>
+<span id="cb7-407"><a href="#cb7-407" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Type 'exit' to quit.</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb7-408"><a href="#cb7-408" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-409"><a href="#cb7-409" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb7-410"><a href="#cb7-410" aria-hidden="true" tabindex="-1"></a>        target_date <span class="op">=</span> <span class="bu">input</span>(<span class="st">"Enter observation date (YYYYMMDD): "</span>).strip()</span>
+<span id="cb7-411"><a href="#cb7-411" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-412"><a href="#cb7-412" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> target_date.lower() <span class="kw">in</span> (<span class="st">'exit'</span>, <span class="st">'quit'</span>, <span class="st">'q'</span>):</span>
+<span id="cb7-413"><a href="#cb7-413" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Session ended."</span>)</span>
+<span id="cb7-414"><a href="#cb7-414" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb7-415"><a href="#cb7-415" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb7-416"><a href="#cb7-416" aria-hidden="true" tabindex="-1"></a>        <span class="co"># O(1) Constant-Time Lookup (No loops!)</span></span>
+<span id="cb7-417"><a href="#cb7-417" aria-hidden="true" tabindex="-1"></a>        record <span class="op">=</span> db.get(target_date)</span>
+<span id="cb7-418"><a href="#cb7-418" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-419"><a href="#cb7-419" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> record:</span>
+<span id="cb7-420"><a href="#cb7-420" aria-hidden="true" tabindex="-1"></a>            formatted_date <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>target_date[:<span class="dv">4</span>]<span class="sc">}</span><span class="ss">-</span><span class="sc">{</span>target_date[<span class="dv">4</span>:<span class="dv">6</span>]<span class="sc">}</span><span class="ss">-</span><span class="sc">{</span>target_date[<span class="dv">6</span>:]<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb7-421"><a href="#cb7-421" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">42</span>)</span>
+<span id="cb7-422"><a href="#cb7-422" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f" NOAA Central Park Summary: </span><span class="sc">{</span>formatted_date<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-423"><a href="#cb7-423" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">42</span>)</span>
+<span id="cb7-424"><a href="#cb7-424" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f" High Temperature (TMAX) : </span><span class="sc">{</span>record[<span class="st">'TMAX'</span>]<span class="sc">:&gt;6.1f}</span><span class="ss"> °F"</span>)</span>
+<span id="cb7-425"><a href="#cb7-425" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f" Low Temperature  (TMIN) : </span><span class="sc">{</span>record[<span class="st">'TMIN'</span>]<span class="sc">:&gt;6.1f}</span><span class="ss"> °F"</span>)</span>
+<span id="cb7-426"><a href="#cb7-426" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f" Calculated Average      : </span><span class="sc">{</span>record[<span class="st">'TAVG'</span>]<span class="sc">:&gt;6.1f}</span><span class="ss"> °F"</span>)</span>
+<span id="cb7-427"><a href="#cb7-427" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f" Precipitation           : </span><span class="sc">{</span>record[<span class="st">'PRCP'</span>]<span class="sc">:&gt;6.2f}</span><span class="ss"> in"</span>)</span>
+<span id="cb7-428"><a href="#cb7-428" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f" Snowfall                : </span><span class="sc">{</span>record[<span class="st">'SNOW'</span>]<span class="sc">:&gt;6.2f}</span><span class="ss"> in"</span>)</span>
+<span id="cb7-429"><a href="#cb7-429" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">42</span> <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb7-430"><a href="#cb7-430" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb7-431"><a href="#cb7-431" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"[!] Date '</span><span class="sc">{</span>target_date<span class="sc">}</span><span class="ss">' not found. Please enter a valid date (e.g., 20170111).</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb7-432"><a href="#cb7-432" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-433"><a href="#cb7-433" aria-hidden="true" tabindex="-1"></a><span class="co"># To run the system locally, uncomment the lines below:</span></span>
+<span id="cb7-434"><a href="#cb7-434" aria-hidden="true" tabindex="-1"></a><span class="co"># db = load_climate_database("centralpark.txt")</span></span>
+<span id="cb7-435"><a href="#cb7-435" aria-hidden="true" tabindex="-1"></a><span class="co"># query_engine(db)</span></span>
+<span id="cb7-436"><a href="#cb7-436" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-437"><a href="#cb7-437" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-438"><a href="#cb7-438" aria-hidden="true" tabindex="-1"></a><span class="fu"># Student Discussion &amp; Inquiry Questions</span></span>
+<span id="cb7-439"><a href="#cb7-439" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-440"><a href="#cb7-440" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Urban Heat Island Effect:** Compare the Central Park temperature readings with suburban Long Island stations on the same date. Why does Manhattan frequently maintain higher nighttime low temperatures ($T_{MIN}$)?</span>
+<span id="cb7-441"><a href="#cb7-441" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Extreme Weather Events:** On March 14, 2017 (Stella Blizzard), Central Park recorded $7.6\text{ inches}$ of snowfall and $1.97\text{ inches}$ of liquid water equivalent. Query this date in your program. How cold did it get?</span>
+<span id="cb7-442"><a href="#cb7-442" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Data Integrity:** What would happen if your code checked <span class="in">`if date in row:`</span> rather than parsing individual columns? (Hint: Consider what happens when searching for the number <span class="in">`12`</span>).</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
