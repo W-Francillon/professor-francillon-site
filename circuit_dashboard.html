@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Circuit Analysis Dashboard – Wesley Francillon, PhD</title>
+<title>circuit_dashboard – Wesley Francillon, PhD</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -42,22 +42,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-7664d39b3d1dc080317c587e6341903d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-7664d39b3d1dc080317c587e6341903d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-7664d39b3d1dc080317c587e6341903d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<script src="site_libs/quarto-dashboard/quarto-dashboard.js"></script>
-<script src="site_libs/quarto-dashboard/stickythead.js"></script>
-
-
-
-<script src="site_libs/quarto-dashboard/web-components.js" type="module"></script>
-<script src="site_libs/quarto-dashboard/components.js"></script>
-
+<link href="site_libs/bootstrap/bootstrap-d4c7e7da4be7e5978c9f5d27c8a0c455.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -94,12 +82,55 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
 </script>
+<style>html{ scroll-behavior: smooth; }</style>
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
-<body class="quarto-dashboard nav-fixed dashboard-fill fullcontent quarto-light">
-
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -259,111 +290,1412 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
 </div>
       </div> <!-- /container-fluid -->
     </nav>
-<header id="quarto-dashboard-header">
-<nav class="navbar navbar-expand-md slim" data-bs-theme="dark">
-  <div class="navbar-container container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-controls="dashboard-collapse" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>    
-
-
-    <div class="navbar-brand-container">
-
-
-      <div class="navbar-title">
-        <div class="navbar-title-text"><a href="#">Circuit Analysis Dashboard</a></div>
-        
-        
-      </div>
-    </div>
-<div id="dashboard-collapse" class="navbar-collapse collapse"><ul class="navbar-nav navbar-nav-scroll me-auto" role="tablist"><li class="nav-item" role="presentation"><a id="tab-interactive-tools" class="nav-link active" data-bs-toggle="tab" role="tab" data-bs-target="#interactive-tools" data-scrolling="false" href="#interactive-tools" aria-controls="interactive-tools" aria-selected="true"><span class="nav-link-text">Interactive Tools</span></a></li><li class="nav-item" role="presentation"><a id="tab-define-the-user-interface" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#define-the-user-interface" data-scrolling="false" href="#define-the-user-interface" aria-controls="define-the-user-interface" aria-selected="false"><span class="nav-link-text">1. Define the User Interface</span></a></li><li class="nav-item" role="presentation"><a id="tab-define-the-server-logic" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#define-the-server-logic" data-scrolling="false" href="#define-the-server-logic" aria-controls="define-the-server-logic" aria-selected="false"><span class="nav-link-text">2. Define the Server Logic</span></a></li></ul></div></div>
-</nav>
-</header></header>
+</header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-layout-custom page-navbar quarto-dashboard-content bslib-gap-spacing html-fill-container bslib-page-fill quarto-dashboard-pages">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
+    
 <!-- main -->
-
-<div class="bslib-grid-item html-fill-item tab-content bslib-grid" data-layout="fill" style="display: grid; grid-template-rows: minmax(3em, 1fr); grid-auto-columns: minmax(0, 1fr);">
-<div id="interactive-tools" class="dashboard-page tab-pane show active html-fill-item html-fill-container" data-orientation="rows" aria-labelledby="tab-interactive-tools">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, 100fr); grid-auto-columns: minmax(0, 1fr);">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 100fr);
-grid-auto-rows: minmax(0, 1fr);">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content); grid-auto-columns: minmax(0, 1fr);">
-<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
-<div class="card-body html-fill-item html-fill-container">
-<p>```xgwnlngkzcbfpthcjo #| standalone: true #| viewerHeight: 600</p>
-<p>from shiny import App, render, ui import numpy as np import matplotlib.pyplot as plt</p>
-</div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
-    <template>Expand</template>
-    <span class="bslib-full-screen-enter badge rounded-pill">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
-    </span>
-</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-</div>
-</div>
-</div>
-</div>
-<div id="define-the-user-interface" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="rows" aria-labelledby="tab-define-the-user-interface">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content); grid-auto-columns: minmax(0, 1fr);">
-<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
-<div class="card-body html-fill-item html-fill-container">
-<p>app_ui = ui.page_fluid( ui.input_slider(“C_uF”, “Capacitance (uF)”, min=10, max=500, value=100, step=10), ui.input_slider(“L_mH”, “Inductance (mH)”, min=1, max=50, value=10, step=1), ui.output_plot(“reactance_plot”) )</p>
-</div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
-    <template>Expand</template>
-    <span class="bslib-full-screen-enter badge rounded-pill">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
-    </span>
-</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-</div>
-</div>
-<div id="define-the-server-logic" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="rows" aria-labelledby="tab-define-the-server-logic">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content); grid-auto-columns: minmax(0, 1fr);">
-<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
-<div class="card-body html-fill-item html-fill-container">
-<p>def server(input, output, session): <span class="citation" data-cites="output">@output</span> <span class="citation" data-cites="render.plot">@render.plot</span>(alt=“Reactance vs Frequency”) def reactance_plot(): C = input.C_uF() * 1e-6 L = input.L_mH() * 1e-3</p>
-<pre><code>    f = np.linspace(10, 1000, 500)
-    X_C = 1 / (2 * np.pi * f * C)
-    X_L = 2 * np.pi * f * L
-    
-    fig, ax = plt.subplots(figsize=(8, 5))
-    ax.plot(f, X_C, label='Capacitive Reactance ($X_C$)', color='#0072B2', linewidth=2.5)
-    ax.plot(f, X_L, label='Inductive Reactance ($X_L$)', color='#D55E00', linewidth=2.5)
-    
-    f_res = 1 / (2 * np.pi * np.sqrt(L * C))
-    if f_res &lt;= 1000:
-        X_res = 2 * np.pi * f_res * L
-        ax.plot(f_res, X_res, 'ko', markersize=8, label=f'Resonance ({f_res:.1f} Hz)')
-        
-    ax.set_title('Reactance vs Frequency', fontsize=14, fontweight='bold')
-    ax.set_xlabel('Frequency (Hz)', fontsize=12)
-    ax.set_ylabel('Reactance (Ohms)', fontsize=12)
-    ax.set_ylim(0, 150)
-    ax.grid(True, linestyle='--', alpha=0.7)
-    ax.legend(fontsize=11)
-    
-    return fig</code></pre>
-<p>app = App(app_ui, server)</p>
-</div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
-    <template>Expand</template>
-    <span class="bslib-full-screen-enter badge rounded-pill">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
-    </span>
-</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="dash-header title display-7">
+ELECTRICAL ENGINEERING COMMAND CENTER
+</h1></header>
 
 
-<div id="3ade8a4a-fb1d-4a6c-8409-ac45482d5fc9" class="hidden html-fill-item html-fill-container">
+
+
+<style>
+.dash-container {
+  max-width: 1220px;
+  margin: 1.5rem auto 4rem auto;
+  padding: 0 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+.dash-header-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #0f172a;
+}
+.dash-header {
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #000000;
+  text-transform: uppercase;
+  margin: 0 0 0.35rem 0;
+}
+.dash-subtitle {
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: #475569;
+  margin: 0;
+}
+.dash-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.45rem 0.85rem;
+  background: #f3e8ff;
+  color: #2e1065;
+  border: 1px solid #d8b4fe;
+  border-radius: 4px;
+}
+.dash-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #16a34a;
+  display: inline-block;
+  box-shadow: 0 0 0 rgba(22, 163, 74, 0.6);
+  animation: dashPulse 1.8s infinite;
+}
+@keyframes dashPulse {
+  0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); }
+  70% { box-shadow: 0 0 0 7px rgba(22, 163, 74, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); }
+}
+.dash-section {
+  margin-bottom: 3rem;
+}
+.dash-section-banner {
+  border-left: 4px solid #5b21b6;
+  padding: 0.2rem 0 0.5rem 0.9rem;
+  margin-bottom: 1.35rem;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.dash-section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.dash-section-meta {
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 500;
+}
+.dash-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+  gap: 1.5rem;
+}
+.dash-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.5rem;
+}
+@media (max-width: 768px) {
+  .dash-grid-2, .dash-grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
+.dash-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  padding: 1.4rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.dash-card:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.06);
+  border-color: #cbd5e1;
+}
+.dash-tag {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.22rem 0.55rem;
+  border-radius: 3px;
+  margin-bottom: 0.6rem;
+  background: #f3e8ff;
+  color: #5b21b6;
+}
+.dash-card-title {
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 0.35rem 0;
+}
+.dash-card-desc {
+  font-size: 0.86rem;
+  color: #475569;
+  line-height: 1.45;
+  margin: 0 0 0.9rem 0;
+}
+.dash-input-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+.dash-input-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem;
+  margin-bottom: 0.85rem;
+}
+@media (max-width: 600px) {
+  .dash-input-grid-4 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.dash-field label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #334155;
+  margin-bottom: 0.25rem;
+  letter-spacing: 0.03em;
+}
+.dash-field input, .dash-field select {
+  width: 100%;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #0f172a;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  box-sizing: border-box;
+  outline: none;
+}
+.dash-field input:focus, .dash-field select:focus {
+  border-color: #6d28d9;
+  background: #ffffff;
+  box-shadow: 0 0 0 2px rgba(109, 40, 217, 0.12);
+}
+.dash-readout {
+  background: #09090b;
+  color: #f8fafc;
+  border-radius: 6px;
+  padding: 0.8rem 0.95rem;
+  font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  margin-top: 0.4rem;
+}
+.dash-readout-accent {
+  color: #c084fc;
+  font-weight: 700;
+}
+.dash-readout-orange {
+  color: #fb923c;
+  font-weight: 700;
+}
+.dash-readout-cyan {
+  color: #38bdf8;
+  font-weight: 700;
+}
+.dash-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+.dash-btn {
+  display: inline-block;
+  background-color: #191326;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  border: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.5rem 0.95rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.dash-btn:hover {
+  background-color: #4c1d95;
+  color: #ffffff !important;
+}
+.dash-btn-outline {
+  background-color: #ffffff;
+  color: #2e1065 !important;
+  border: 1px solid #c084fc;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.45rem 0.85rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.dash-btn-outline:hover {
+  background-color: #f3e8ff;
+}
+.dash-btn-tab-active {
+  background-color: #2e1065 !important;
+  color: #ffffff !important;
+  border: 1px solid #2e1065 !important;
+}
+.law-strip {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-left: 3px solid #5b21b6;
+  border-radius: 4px;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.8rem;
+  color: #1e293b;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+.matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.65rem;
+}
+.matrix-table td {
+  padding: 0.22rem;
+}
+.matrix-table input {
+  width: 100%;
+  text-align: center;
+  padding: 0.38rem;
+  font-family: monospace;
+  font-size: 0.84rem;
+  font-weight: 700;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  background: #f8fafc;
+}
+.potd-schematic-box {
+  width: 100%;
+  height: 165px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+.potd-schematic-box svg {
+  width: 100%;
+  height: 100%;
+}
+.launcher-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.launcher-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.07);
+  border-color: #cbd5e1;
+}
+.launcher-visual {
+  height: 150px;
+  background: #ffffff;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.launcher-visual svg {
+  width: 100%;
+  height: 100%;
+}
+.launcher-body {
+  padding: 1.15rem 1.4rem 1.4rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.telemetry-strip {
+  font-family: monospace;
+  font-size: 0.75rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #1e293b;
+  padding: 0.35rem 0.6rem;
+  border-radius: 3px;
+  margin-bottom: 1rem;
+}
+</style>
+<div class="dash-container">
+<div class="dash-header-row">
+<div>
+
+<p class="dash-subtitle">
+Real-Time Bench Utilities, Mesh/Nodal Matrix Solver, Daily Circuit Challenge &amp; Simulation Telemetry
+</p>
+</div>
+<div class="dash-status-pill">
+<p><span class="dash-pulse"></span> Bench Telemetry Online • 6 Utilities + 6 Labs</p>
+</div>
+</div>
+<div class="dash-section">
+<div class="dash-section-banner">
+<h2 class="dash-section-title anchored">
+<ol type="1">
+<li>Master Bench Calculator Grid (Tiles A – F)
+</li></ol></h2>
+<span class="dash-section-meta">Instant Sanity-Check Solvers for DC/AC Homework, Lab Wiring &amp; Network Theorems</span>
+</div>
+
+<div class="dash-grid-2">
+<div class="dash-card">
+<div>
+<span class="dash-tag">Tile A • Ohm’s Law &amp; DC Power</span>
+<h3 class="dash-card-title anchored">
+Ohm’s Law (<span class="math inline">V = I \cdot R</span>) &amp; Power Matrix Solver
+</h3>
+<p class="dash-card-desc">
+Enter <strong>any two</strong> parameters (<span class="math inline">V</span>, <span class="math inline">I</span>, <span class="math inline">R</span>, or <span class="math inline">P</span>) to compute the remaining unknowns.
+</p>
+<div style="display:grid; grid-template-columns: 1.15fr 0.85fr; gap:0.75rem; align-items:center; margin-bottom:0.75rem;">
+<div class="law-strip" style="margin-bottom:0;">
+<p><strong>Ohm’s Law:</strong><br> <span class="math inline">V = I \cdot R \quad \big| \quad I = \dfrac{V}{R} \quad \big| \quad R = \dfrac{V}{I}</span><br> <strong>Watt’s Power Law:</strong><br> <span class="math inline">P = V \cdot I = I^2 R = \dfrac{V^2}{R}</span></p>
+</div>
+<svg viewbox="0 0 210 115" style="width:100%; height:105px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:4px;">
+<polygon points="60,10 12,102 108,102" fill="#f3e8ff" stroke="#2e1065" stroke-width="2"></polygon> <line x1="36" y1="56" x2="84" y2="56" stroke="#2e1065" stroke-width="2"></line> <line x1="60" y1="56" x2="60" y2="102" stroke="#2e1065" stroke-width="2"></line> <text x="60" y="46" fill="#2e1065" font-size="16" font-weight="800" text-anchor="middle">V</text> <text x="42" y="88" fill="#e86c3a" font-size="15" font-weight="800" text-anchor="middle">I</text> <text x="78" y="88" fill="#1e3a5f" font-size="15" font-weight="800" text-anchor="middle">R</text> <text x="60" y="112" fill="#475569" font-size="8.5" font-family="monospace" font-weight="bold" text-anchor="middle">V = I · R</text> <polygon points="158,10 114,102 202,102" fill="#eff6ff" stroke="#1e3a5f" stroke-width="2"></polygon> <line x1="136" y1="56" x2="180" y2="56" stroke="#1e3a5f" stroke-width="2"></line> <line x1="158" y1="56" x2="158" y2="102" stroke="#1e3a5f" stroke-width="2"></line> <text x="158" y="46" fill="#e86c3a" font-size="16" font-weight="800" text-anchor="middle">P</text> <text x="141" y="88" fill="#2e1065" font-size="15" font-weight="800" text-anchor="middle">V</text> <text x="175" y="88" fill="#1e3a5f" font-size="15" font-weight="800" text-anchor="middle">I</text> <text x="158" y="112" fill="#475569" font-size="8.5" font-family="monospace" font-weight="bold" text-anchor="middle">P = V · I</text>
+</svg>
+</div>
+<div class="dash-input-grid">
+<div class="dash-field">
+<p><label>Voltage <span class="math inline">V</span> (Volts)</label> <input type="number" id="ohmV" step="any" placeholder="e.g. 12" value="12"></p>
+</div>
+<div class="dash-field">
+<p><label>Current <span class="math inline">I</span> (Amps)</label> <input type="number" id="ohmI" step="any" placeholder="e.g. 0.5"></p>
+</div>
+<div class="dash-field">
+<p><label>Resistance <span class="math inline">R</span> (<span class="math inline">\Omega</span>)</label> <input type="number" id="ohmR" step="any" placeholder="e.g. 24" value="24"></p>
+</div>
+<div class="dash-field">
+<p><label>Power <span class="math inline">P</span> (Watts)</label> <input type="number" id="ohmP" step="any" placeholder="e.g. 6"></p>
+</div>
+</div>
+</div>
+<div>
+<div id="ohmReadout" class="dash-readout">
+
+</div>
+<div class="dash-btn-row">
+<button class="dash-btn" onclick="solveOhm()">
+Compute Unknowns
+</button>
+<button class="dash-btn-outline" onclick="clearOhm()">
+Clear Fields
+</button>
+</div>
+</div>
+</div>
+<div class="dash-card">
+<div>
+<span class="dash-tag">Tile B • 1st-Order Transients</span>
+<h3 class="dash-card-title anchored">
+RC / RL Time Constant (<span class="math inline">\tau</span>) &amp; Cutoff Solver
+</h3>
+<p class="dash-card-desc">
+Compute the time constant <span class="math inline">\tau</span>, <span class="math inline">5\tau</span> settling time, and <span class="math inline">-3\text{ dB}</span> corner frequency <span class="math inline">f_c = \frac{1}{2\pi\tau}</span>.
+</p>
+<div class="dash-input-grid">
+<div class="dash-field">
+<p><label>Network Topology</label> <select id="tauMode" onchange="solveTau()"> <option value="rc">Series RC Network (τ = R · C)</option> <option value="rl">Series RL Network (τ = L / R)</option> </select></p>
+</div>
+<div class="dash-field">
+<p><label>Resistance <span class="math inline">R</span> (<span class="math inline">\text{k}\Omega</span>)</label> <input type="number" id="tauR" step="any" value="10" oninput="solveTau()"></p>
+</div>
+<div id="tauCapField" class="dash-field">
+<p><label id="tauReactLabel">Capacitance <span class="math inline">C</span> (<span class="math inline">\mu\text{F}</span>)</label> <input type="number" id="tauC" step="any" value="4.7" oninput="solveTau()"></p>
+</div>
+<div class="dash-field">
+<p><label>Target Step <span class="math inline">V_s</span> (V)</label> <input type="number" id="tauVs" step="any" value="5.0" oninput="solveTau()"></p>
+</div>
+</div>
+<svg viewbox="0 0 360 150" style="width:100%; height:155px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; margin-bottom:0.45rem;">
+<line x1="42" y1="22" x2="342" y2="22" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4,4"></line> <line x1="42" y1="59" x2="112" y2="59" stroke="#e86c3a" stroke-width="1.2" stroke-dasharray="3,3"></line> <line x1="112" y1="59" x2="112" y2="125" stroke="#e86c3a" stroke-width="1.2" stroke-dasharray="3,3"></line> <line x1="305" y1="23" x2="305" y2="125" stroke="#64748b" stroke-width="1.1" stroke-dasharray="3,3"></line> <line x1="42" y1="12" x2="42" y2="125" stroke="#475569" stroke-width="1.6"></line> <line x1="42" y1="125" x2="346" y2="125" stroke="#475569" stroke-width="1.6"></line> <path d="M 42 125 C 65 78, 88 66, 112 59 C 165 36, 225 25, 342 22.5" fill="none" stroke="#5b21b6" stroke-width="3"></path> <circle cx="112" cy="59" r="4.5" fill="#e86c3a" stroke="#ffffff" stroke-width="1.5"></circle> <circle cx="305" cy="23" r="4.5" fill="#1e3a5f" stroke="#ffffff" stroke-width="1.5"></circle> <text x="36" y="25" fill="#1e293b" font-size="9.5" font-family="monospace" font-weight="bold" text-anchor="end" id="svgVsTop">5.0V</text> <text x="36" y="62" fill="#e86c3a" font-size="9" font-family="monospace" font-weight="bold" text-anchor="end" id="svgVs63">3.2V</text> <text x="36" y="128" fill="#64748b" font-size="9" font-family="monospace" text-anchor="end">0V</text> <text x="118" y="64" fill="#1e293b" font-size="10" font-family="monospace" font-weight="bold" id="svgTauLabel">1τ (63.2%): 47.0 ms</text> <text x="195" y="42" fill="#1e3a5f" font-size="10" font-family="monospace" font-weight="bold" id="svg5TauLabel">5τ (99.3%): 235.0 ms</text> <text x="195" y="142" fill="#475569" font-size="9.5" font-family="monospace" text-anchor="middle">Transient Step Response v(t) = Vs · (1 − e^(−t/τ))</text>
+</svg>
+</div>
+<div id="tauReadout" class="dash-readout">
+
+</div>
+</div>
+<div class="dash-card">
+<div>
+<span class="dash-tag">Tile C • Component Metrology</span>
+<h3 class="dash-card-title anchored">
+4-Band Resistor Color Decoder &amp; E12 Matcher
+</h3>
+<p class="dash-card-desc">
+Select resistor color bands to decode nominal resistance, tolerance bounds, and closest standard E12 value.
+</p>
+<div class="dash-input-grid">
+<div class="dash-field">
+<p><label>Band 1 (1st Digit)</label> <select id="band1" onchange="solveResistor()"> <option value="1" selected="">Brown (1)</option> <option value="2">Red (2)</option> <option value="3">Orange (3)</option> <option value="4">Yellow (4)</option> <option value="5">Green (5)</option> <option value="6">Blue (6)</option> <option value="7">Violet (7)</option> <option value="8">Grey (8)</option> <option value="9">White (9)</option> </select></p>
+</div>
+<div class="dash-field">
+<p><label>Band 2 (2nd Digit)</label> <select id="band2" onchange="solveResistor()"> <option value="0" selected="">Black (0)</option> <option value="1">Brown (1)</option> <option value="2">Red (2)</option> <option value="3">Orange (3)</option> <option value="4">Yellow (4)</option> <option value="5">Green (5)</option> <option value="6">Blue (6)</option> <option value="7">Violet (7)</option> <option value="8">Grey (8)</option> <option value="9">White (9)</option> </select></p>
+</div>
+<div class="dash-field">
+<p><label>Band 3 (Multiplier)</label> <select id="bandMult" onchange="solveResistor()"> <option value="1">Black (×1 Ω)</option> <option value="10">Brown (×10 Ω)</option> <option value="100" selected="">Red (×100 Ω)</option> <option value="1000">Orange (×1 kΩ)</option> <option value="10000">Yellow (×10 kΩ)</option> <option value="100000">Green (×100 kΩ)</option> <option value="1000000">Blue (×1 MΩ)</option> </select></p>
+</div>
+<div class="dash-field">
+<p><label>Band 4 (Tolerance)</label> <select id="bandTol" onchange="solveResistor()"> <option value="1">±1% (Brown)</option> <option value="2">±2% (Red)</option> <option value="5" selected="">±5% (Gold)</option> <option value="10">±10% (Silver)</option> </select></p>
+</div>
+</div>
+<svg viewbox="0 0 360 66" style="width:100%; height:62px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:4px; margin-bottom:0.4rem;">
+<line x1="20" y1="33" x2="340" y2="33" stroke="#64748b" stroke-width="4.5"></line> <rect x="75" y="11" width="210" height="44" rx="12" fill="#f5deb3" stroke="#94a3b8" stroke-width="1.5"></rect> <rect id="svgB1" x="102" y="11" width="15" height="44" fill="#8b4513"></rect> <rect id="svgB2" x="134" y="11" width="15" height="44" fill="#000000"></rect> <rect id="svgB3" x="166" y="11" width="15" height="44" fill="#dc2626"></rect> <rect id="svgB4" x="235" y="11" width="15" height="44" fill="#eab308"></rect>
+</svg>
+</div>
+<div id="resReadout" class="dash-readout">
+
+</div>
+</div>
+<div class="dash-card">
+<div>
+<span class="dash-tag">Tile D • Amplifier &amp; Filter Gain</span>
+<h3 class="dash-card-title anchored">
+Decibel (dB) Gain &amp; Attenuation Converter
+</h3>
+<p class="dash-card-desc">
+Compute linear ratio <span class="math inline">A_v = V_{\text{out}}/V_{\text{in}}</span>, voltage dB (<span class="math inline">20\log_{10}</span>), and power dB (<span class="math inline">10\log_{10}</span>).
+</p>
+<div class="dash-input-grid">
+<div class="dash-field">
+<p><label>Input Signal <span class="math inline">V_{\text{in}}</span> (V or W)</label> <input type="number" id="dbVin" step="any" value="1.0" oninput="solveDb()"></p>
+</div>
+<div class="dash-field">
+<p><label>Output Signal <span class="math inline">V_{\text{out}}</span> (V or W)</label> <input type="number" id="dbVout" step="any" value="0.7071" oninput="solveDb()"></p>
+</div>
+</div>
+<div class="dash-btn-row" style="margin-top:0; margin-bottom:0.75rem;">
+<button class="dash-btn-outline" onclick="setDbPreset(1, 0.7071)">
+-3 dB Cutoff (0.707x)
+</button>
+<button class="dash-btn-outline" onclick="setDbPreset(1, 10)">
++20 dB Gain (10x)
+</button>
+<button class="dash-btn-outline" onclick="setDbPreset(1, 100)">
++40 dB Gain (100x)
+</button>
+</div>
+</div>
+<div id="dbReadout" class="dash-readout">
+
+</div>
+</div>
+<div class="dash-card">
+<div>
+<span class="dash-tag">Tile E • AC Phasors &amp; Complex Impedance</span>
+<h3 class="dash-card-title anchored">
+RLC Complex Impedance (<span class="math inline">Z</span>) &amp; Phasor Solver
+</h3>
+<p class="dash-card-desc">
+Compute <span class="math inline">X_L = 2\pi fL</span>, <span class="math inline">X_C = \frac{1}{2\pi fC}</span>, rectangular <span class="math inline">Z = R + j(X_L - X_C)</span>, polar <span class="math inline">|Z|\angle\theta</span>, and resonance <span class="math inline">f_0</span>.
+</p>
+<div class="dash-input-grid-4">
+<div class="dash-field">
+<p><label>Freq <span class="math inline">f</span> (Hz)</label> <input type="number" id="rlcF" step="any" value="1000" oninput="solveRlcZ()"></p>
+</div>
+<div class="dash-field">
+<p><label>Res <span class="math inline">R</span> (<span class="math inline">\Omega</span>)</label> <input type="number" id="rlcR" step="any" value="100" oninput="solveRlcZ()"></p>
+</div>
+<div class="dash-field">
+<p><label>Ind <span class="math inline">L</span> (mH)</label> <input type="number" id="rlcL" step="any" value="25" oninput="solveRlcZ()"></p>
+</div>
+<div class="dash-field">
+<p><label>Cap <span class="math inline">C</span> (<span class="math inline">\mu\text{F}</span>)</label> <input type="number" id="rlcC" step="any" value="2.2" oninput="solveRlcZ()"></p>
+</div>
+</div>
+<svg viewbox="0 0 360 150" style="width:100%; height:155px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; margin-bottom:0.45rem;">
+<line x1="35" y1="120" x2="335" y2="120" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3,3"></line> <line x1="55" y1="12" x2="55" y2="138" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3,3"></line> <rect x="213" y="108" width="12" height="12" fill="none" stroke="#64748b" stroke-width="1.2"></rect> <path d="M 102 120 A 47 47 0 0 0 94 97" fill="none" stroke="#6d28d9" stroke-width="1.8"></path> <text x="112" y="110" fill="#5b21b6" font-size="10" font-family="monospace" font-weight="bold" id="svgZAngle">θ = +40.3°</text> <line x1="55" y1="120" x2="225" y2="120" stroke="#1e3a5f" stroke-width="3.2"></line> <line x1="225" y1="120" x2="225" y2="24" stroke="#e86c3a" stroke-width="3.2"></line> <line x1="55" y1="120" x2="225" y2="24" stroke="#6d28d9" stroke-width="3.2"></line> <circle cx="55" cy="120" r="4" fill="#1e3a5f"></circle> <circle cx="225" cy="24" r="4.5" fill="#6d28d9" stroke="#ffffff" stroke-width="1.5"></circle> <text x="140" y="136" fill="#1e3a5f" font-size="10.5" font-family="monospace" font-weight="bold" text-anchor="middle" id="svgZReal">Real R = 100.0 Ω</text> <text x="234" y="75" fill="#e86c3a" font-size="10.5" font-family="monospace" font-weight="bold" id="svgZImag">j(XL - XC) = +84.8 Ω</text> <text x="122" y="60" fill="#5b21b6" font-size="10.5" font-family="monospace" font-weight="bold" text-anchor="middle" id="svgZMag">|Z| = 131.1 Ω</text>
+</svg>
+</div>
+<div id="rlcZReadout" class="dash-readout">
+
+</div>
+</div>
+<div class="dash-card">
+<div>
+<span class="dash-tag">Tile F • Network Equivalency &amp; Kirchhoff’s Laws</span>
+<h3 class="dash-card-title anchored">
+Series / Parallel <span class="math inline">R, L, C</span> Solver &amp; KVL / KCL Reference
+</h3>
+<p class="dash-card-desc">
+Compute equivalent 2- or 3-branch combinations (leave 3rd blank for 2-branch) and review Kirchhoff’s Laws.
+</p>
+<div class="dash-input-grid" style="margin-bottom:0.6rem;">
+<div class="dash-field">
+<p><label>Component Type</label> <select id="eqComp" onchange="solveEqNetwork()"> <option value="R" selected="">Resistors R (Ω)</option> <option value="L">Inductors L (mH)</option> <option value="C">Capacitors C (μF)</option> </select></p>
+</div>
+<div class="dash-field">
+<p><label>Connection Topology</label> <select id="eqTopo" onchange="solveEqNetwork()"> <option value="parallel" selected="">Parallel Branches</option> <option value="series">Series Chain</option> </select></p>
+</div>
+</div>
+<div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0.6rem; margin-bottom:0.65rem;">
+<div class="dash-field">
+<p><label id="eqLab1">Branch 1</label> <input type="number" id="eqVal1" step="any" value="100" oninput="solveEqNetwork()"></p>
+</div>
+<div class="dash-field">
+<p><label id="eqLab2">Branch 2</label> <input type="number" id="eqVal2" step="any" value="100" oninput="solveEqNetwork()"></p>
+</div>
+<div class="dash-field">
+<p><label id="eqLab3">Branch 3 (Opt)</label> <input type="number" id="eqVal3" step="any" placeholder="Optional" value="50" oninput="solveEqNetwork()"></p>
+</div>
+</div>
+<div class="law-strip" style="margin-bottom:0.4rem;">
+<p><strong>Kirchhoff’s Voltage Law (KVL):</strong> <span class="math inline">\displaystyle\sum_{k=1}^{N} V_k = 0</span> around any closed loop (Conservation of Energy).<br> <strong>Kirchhoff’s Current Law (KCL):</strong> <span class="math inline">\displaystyle\sum I_{\text{in}} = \sum I_{\text{out}}</span> at any node (Conservation of Charge).</p>
+</div>
+</div>
+<div id="eqNetReadout" class="dash-readout">
 
 </div>
 </div>
 </div>
 </div>
+<div class="dash-section">
+<div class="dash-section-banner">
+<h2 class="dash-section-title anchored">
+<ol start="2" type="1">
+<li>Circuit Problem of the Day &amp; 2×2 / 3×3 Mesh Resistance Matrix Solver
+</li></ol></h2>
+<span class="dash-section-meta">Daily Exam Readiness Challenge with Schematic + Simultaneous KVL Mesh (<span class="math inline">\mathbf{R}\mathbf{I} = \mathbf{V}</span>) Engine</span>
+</div>
+
+<div class="dash-grid-2">
+<div class="dash-card">
+<div>
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+<p><span id="potdTopicTag" class="dash-tag">Problem 1 of 5 • DC Resistive Networks</span> <span id="potdDiffBadge" style="font-size:0.75rem; font-family:monospace; color:#64748b;">Difficulty: Intermediate</span></p>
+</div>
+<h3 class="dash-card-title anchored" id="potdTitle">
+Loaded Voltage Divider Node Voltage
+</h3>
+<div id="potdSchematic" class="potd-schematic-box">
+
+</div>
+<p class="dash-card-desc" id="potdPrompt" style="font-size:0.9rem; color:#1e293b; background:#f8fafc; padding:0.7rem; border-left:3px solid #6d28d9; border-radius:3px;">
+</p>
+<div class="dash-input-grid" style="align-items:end;">
+<div class="dash-field">
+<p><label id="potdInputLabel">Your Numerical Answer</label> <input type="number" id="potdUserAns" step="any" placeholder="Enter value..."></p>
+</div>
+<div>
+<button class="dash-btn" style="width:100%;" onclick="checkPotd()">
+Check Answer
+</button>
+</div>
+</div>
+<div id="potdFeedback" class="dash-readout" style="display:none;">
+
+</div>
+</div>
+<div class="dash-btn-row" style="justify-content:space-between; border-top:1px solid #e2e8f0; padding-top:0.85rem;">
+<div>
+<button class="dash-btn-outline" onclick="togglePotdSolution()">
+Show Step-by-Step Derivation
+</button>
+<button class="dash-btn-outline" onclick="nextPotd()">
+Next Problem →
+</button>
+</div>
+<p><a href="circuit_generator.html" class="dash-btn">Full 200+ Problem Generator</a></p>
+</div>
+</div>
+<div class="dash-card">
+<div>
+<div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
+<span class="dash-tag">Linear Algebra Engine • Cramer’s Rule</span>
+<div style="display:flex; gap:0.35rem;">
+<button id="btnMat2" class="dash-btn-outline dash-btn-tab-active" onclick="setMatrixDim(2)">
+2×2 Matrix
+</button>
+<button id="btnMat3" class="dash-btn-outline" onclick="setMatrixDim(3)">
+3×3 Matrix
+</button>
+</div>
+</div>
+<h3 class="dash-card-title anchored">
+Simultaneous 2×2 &amp; 3×3 Mesh Resistance Matrix Solver (<span class="math inline">\mathbf{R}\mathbf{I} = \mathbf{V}</span>)
+</h3>
+<p class="dash-card-desc">
+Defaults to <strong>Mesh Resistance (<span class="math inline">\Omega</span>)</strong> and <strong>Source Voltage (<span class="math inline">\text{V}</span>)</strong> to solve loop currents <span class="math inline">I_1, I_2, I_3</span> (or switch to Nodal Conductance <span class="math inline">\mathbf{G}\mathbf{V}=\mathbf{I}</span>).
+</p>
+<div style="margin-bottom:0.65rem;">
+<p><select id="matDomain" onchange="renderMatrixInputs()" style="width:100%; font-size:0.82rem; font-weight:700; padding:0.42rem 0.6rem; border:1px solid #cbd5e1; border-radius:4px; background:#f8fafc; color:#0f172a;"> <option value="mesh" selected="">Mesh Analysis Mode: Resistance [R (Ω)] · [I (A)] = [V (Volts)] (Default)</option> <option value="nodal">Nodal Analysis Mode: Conductance [G (S)] · [V (V)] = [I (Amps)]</option> </select></p>
+</div>
+<div id="matrixInputContainer">
+
+</div>
+</div>
+<div>
+<div id="matrixReadout" class="dash-readout">
+
+</div>
+<div class="dash-btn-row">
+<button class="dash-btn" onclick="solveMatrix()">
+Solve Linear System
+</button>
+<button class="dash-btn-outline" onclick="renderMatrixInputs()">
+Reset Default Example
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="dash-section">
+<div class="dash-section-banner">
+<h2 class="dash-section-title anchored">
+<ol start="3" type="1">
+<li>Interactive Simulation &amp; Telemetry Launcher
+</li></ol></h2>
+<span class="dash-section-meta">Direct Mission-Control Access to All Virtual Instrumentation Benches</span>
+</div>
+
+<div class="dash-grid-3">
+<div class="launcher-card">
+<div class="launcher-visual">
+<svg viewbox="0 0 320 150" xmlns="http://www.w3.org/2000/svg">
+<line x1="35" y1="85" x2="110" y2="85" stroke="#1e3a5f" stroke-width="2.4"></line> <polygon points="110,45 110,125 200,85" fill="#eff6ff" stroke="#1e3a5f" stroke-width="2.5"></polygon> <text x="122" y="72" fill="#1e3a5f" font-size="15" font-weight="bold">−</text> <text x="122" y="106" fill="#e86c3a" font-size="14" font-weight="bold">+</text> <line x1="200" y1="85" x2="280" y2="85" stroke="#1e3a5f" stroke-width="2.5"></line> <circle cx="240" cy="85" r="4.5" fill="#6d28d9"></circle>
+</svg>
+</div>
+<div class="launcher-body">
+<span class="dash-tag">Operational Amplifiers</span>
+<h3 class="dash-card-title anchored">
+Op-Amp Golden Rule Studio
+</h3>
+<p class="dash-card-desc">
+60 FPS dual-channel oscilloscope, nodal KCL solver, rail saturation detector, and 5-stage design challenge.
+</p>
+<div id="opAmpTelemetry" class="telemetry-strip">
+Status: Ready • 3 Topologies + Saturation Bench
+</div>
+<p><a href="simulations/op-amp-checker.html" class="dash-btn">Launch Studio →</a></p>
+</div>
+</div>
+<div class="launcher-card">
+<div class="launcher-visual">
+<svg viewbox="0 0 320 150" xmlns="http://www.w3.org/2000/svg">
+<path d="M 25 120 C 55 15, 85 125, 115 45 C 145 95, 175 55, 205 75 C 235 68, 265 72, 295 72" fill="none" stroke="#1e3a5f" stroke-width="2.8"></path> <line x1="25" y1="72" x2="295" y2="72" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="4,4"></line> <circle cx="115" cy="45" r="4.5" fill="#e86c3a"></circle>
+</svg>
+</div>
+<div class="launcher-body">
+<span class="dash-tag">Transient &amp; AC Response</span>
+<h3 class="dash-card-title anchored">
+Live RLC Circuit Simulator
+</h3>
+<p class="dash-card-desc">
+Real-time time-domain and frequency-domain waveform simulation for series and parallel RLC networks.
+</p>
+<div class="telemetry-strip">
+Modes: Overdamped, Critically Damped, Underdamped
+</div>
+<p><a href="circuit_simulator.html" class="dash-btn">Launch Simulator →</a></p>
+</div>
+</div>
+<div class="launcher-card">
+<div class="launcher-visual">
+<svg viewbox="0 0 320 150" xmlns="http://www.w3.org/2000/svg">
+<line x1="40" y1="45" x2="105" y2="45" stroke="#1e3a5f" stroke-width="2.2"></line> <polyline points="105,45 112,35 122,55 132,35 142,55 152,35 158,45" fill="none" stroke="#e86c3a" stroke-width="2.5"></polyline> <line x1="158" y1="45" x2="280" y2="45" stroke="#1e3a5f" stroke-width="2.2"></line> <circle cx="40" cy="45" r="4" fill="#6d28d9"></circle> <circle cx="280" cy="45" r="4" fill="#6d28d9"></circle> <rect x="75" y="78" width="170" height="36" rx="4" fill="#f3e8ff" stroke="#5b21b6" stroke-width="1.5"></rect> <text x="160" y="100" fill="#2e1065" font-size="11" font-family="monospace" font-weight="bold" text-anchor="middle">200+ ALGORITHMIC BANKS</text>
+</svg>
+</div>
+<div class="launcher-body">
+<span class="dash-tag">Algorithmic Practice</span>
+<h3 class="dash-card-title anchored">
+Circuit Problem Generator
+</h3>
+<p class="dash-card-desc">
+DC Mesh/Nodal, Thévenin/Norton, AC Phasors, and 1st/2nd-order transients with LaTeX and LTspice <code>.cir</code> export.
+</p>
+<div class="telemetry-strip">
+Export Formats: KaTeX Derivations • LTspice / TINA
+</div>
+<p><a href="circuit_generator.html" class="dash-btn">Open Generator →</a></p>
+</div>
+</div>
+<div class="launcher-card">
+<div class="launcher-visual">
+<svg viewbox="0 0 320 150" xmlns="http://www.w3.org/2000/svg">
+<line x1="40" y1="125" x2="280" y2="30" stroke="#1e3a5f" stroke-width="2.6"></line> <path d="M 50 25 Q 100 115, 280 120" fill="none" stroke="#e86c3a" stroke-width="2.6"></path> <circle cx="142" cy="85" r="6" fill="#6d28d9" stroke="#ffffff" stroke-width="2"></circle>
+</svg>
+</div>
+<div class="launcher-body">
+<span class="dash-tag">AC Impedance</span>
+<h3 class="dash-card-title anchored">
+Reactance &amp; Resonance Calculator
+</h3>
+<p class="dash-card-desc">
+Compute inductive reactance (<span class="math inline">X_L</span>), capacitive reactance (<span class="math inline">X_C</span>), resonant crossover <span class="math inline">f_0</span>, and impedance phasors.
+</p>
+<div class="telemetry-strip">
+Sweep Range: Hz to GHz • Phasor Angle θ
+</div>
+<p><a href="reactance_calculator.html" class="dash-btn">Open Calculator →</a></p>
+</div>
+</div>
+<div class="launcher-card">
+<div class="launcher-visual">
+<svg viewbox="0 0 320 150" xmlns="http://www.w3.org/2000/svg">
+<path d="M 35 125 Q 115 120, 145 50 Q 160 15, 175 50 Q 205 120, 285 125" fill="none" stroke="#1e3a5f" stroke-width="2.6"></path> <circle cx="160" cy="32" r="6" fill="#e86c3a"></circle> <line x1="160" y1="15" x2="160" y2="130" stroke="#e86c3a" stroke-width="1.5" stroke-dasharray="4,4"></line>
+</svg>
+</div>
+<div class="launcher-body">
+<span class="dash-tag">Gamified RLC Tuning</span>
+<h3 class="dash-card-title anchored">
+Resonance Defender Game
+</h3>
+<p class="dash-card-desc">
+Dynamically tune tank inductance and capacitance to lock onto incoming RF signal frequencies in real time.
+</p>
+<div class="telemetry-strip">
+Physics Engine: <span class="math inline">f_0 = 1 / (2\pi\sqrt{LC})</span>
+</div>
+<p><a href="resonance_game.html" class="dash-btn">Play Game →</a></p>
+</div>
+</div>
+<div class="launcher-card">
+<div class="launcher-visual">
+<svg viewbox="0 0 320 150" xmlns="http://www.w3.org/2000/svg">
+<rect x="45" y="25" width="65" height="20" fill="#1e3a5f" rx="2"></rect> <rect x="125" y="25" width="65" height="20" fill="#e86c3a" rx="2"></rect> <rect x="205" y="25" width="65" height="20" fill="#6d28d9" rx="2"></rect> <polyline points="90,125 158,62 220,115" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4,4"></polyline> <circle cx="158" cy="62" r="6" fill="#e86c3a"></circle>
+</svg>
+</div>
+<div class="launcher-body">
+<span class="dash-tag">Arcade Circuit Challenge</span>
+<h3 class="dash-card-title anchored">
+Impedance Breaker Game
+</h3>
+<p class="dash-card-desc">
+Combine brick-breaker physics with series/parallel equivalent circuit simplification and conjugate matching.
+</p>
+<div class="telemetry-strip">
+Topics: Equivalent <span class="math inline">Z_{\text{eq}}</span> • Max Power Transfer
+</div>
+<p><a href="circuit_breakout.html" class="dash-btn">Play Game →</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+// ================= TILE A: OHM'S LAW & POWER SOLVER =================
+window.solveOhm = function() {
+  const vEl = document.getElementById('ohmV');
+  const iEl = document.getElementById('ohmI');
+  const rEl = document.getElementById('ohmR');
+  const pEl = document.getElementById('ohmP');
+  const out = document.getElementById('ohmReadout');
+
+  let V = parseFloat(vEl.value);
+  let I = parseFloat(iEl.value);
+  let R = parseFloat(rEl.value);
+  let P = parseFloat(pEl.value);
+
+  const knowns = [!isNaN(V), !isNaN(I), !isNaN(R), !isNaN(P)].filter(Boolean).length;
+  if (knowns < 2) {
+    out.innerHTML = `<span class="dash-readout-orange">Please enter at least 2 values (e.g., V and R) to solve the network.</span>`;
+    return;
+  }
+
+  let formula = "";
+  if (!isNaN(V) && !isNaN(R) && R > 0) {
+    I = V / R;
+    P = (V * V) / R;
+    formula = "Ohm's Law: I = V / R | Watt's Law: P = V² / R";
+  } else if (!isNaN(V) && !isNaN(I)) {
+    R = I !== 0 ? V / I : 0;
+    P = V * I;
+    formula = "Ohm's Law: R = V / I | Watt's Law: P = V · I";
+  } else if (!isNaN(I) && !isNaN(R)) {
+    V = I * R;
+    P = I * I * R;
+    formula = "Ohm's Law: V = I · R | Watt's Law: P = I² · R";
+  } else if (!isNaN(P) && !isNaN(R) && R > 0) {
+    V = Math.sqrt(P * R);
+    I = Math.sqrt(P / R);
+    formula = "Derived: V = √(P · R) | I = √(P / R)";
+  } else if (!isNaN(P) && !isNaN(V) && V !== 0) {
+    I = P / V;
+    R = (V * V) / P;
+    formula = "Derived: I = P / V | R = V² / P";
+  } else if (!isNaN(P) && !isNaN(I) && I !== 0) {
+    V = P / I;
+    R = P / (I * I);
+    formula = "Derived: V = P / I | R = P / I²";
+  }
+
+  vEl.value = V.toFixed(4);
+  iEl.value = I.toFixed(4);
+  rEl.value = R.toFixed(4);
+  pEl.value = P.toFixed(4);
+
+  out.innerHTML = `V = <span class="dash-readout-accent">${V.toFixed(3)} V</span> | I = <span class="dash-readout-cyan">${I.toFixed(4)} A (${(I*1000).toFixed(2)} mA)</span><br>R = <span class="dash-readout-accent">${R.toFixed(3)} &Omega;</span> | P = <span class="dash-readout-orange">${P.toFixed(3)} W (${(P*1000).toFixed(1)} mW)</span><br><span style="color:#a1a1aa; font-size:0.75rem;">${formula}</span>`;
+};
+
+window.clearOhm = function() {
+  document.getElementById('ohmV').value = '';
+  document.getElementById('ohmI').value = '';
+  document.getElementById('ohmR').value = '';
+  document.getElementById('ohmP').value = '';
+  document.getElementById('ohmReadout').innerHTML = 'Fields cleared. Enter any 2 parameters and click Compute Unknowns.';
+};
+
+// ================= TILE B: RC / RL TIME CONSTANT SOLVER =================
+window.solveTau = function() {
+  const mode = document.getElementById('tauMode').value;
+  const R_k = parseFloat(document.getElementById('tauR').value) || 1;
+  const X_val = parseFloat(document.getElementById('tauC').value) || 1;
+  const Vs = parseFloat(document.getElementById('tauVs').value) || 5;
+  const label = document.getElementById('tauReactLabel');
+
+  const R = R_k * 1000;
+  let tau = 0;
+  if (mode === 'rc') {
+    label.innerHTML = 'Capacitance C (&mu;F)';
+    const C = X_val * 1e-6;
+    tau = R * C;
+  } else {
+    label.innerHTML = 'Inductance L (mH)';
+    const L = X_val * 1e-3;
+    tau = L / R;
+  }
+
+  const tau_ms = tau * 1000;
+  const fc = tau > 0 ? 1 / (2 * Math.PI * tau) : 0;
+  const v1 = Vs * (1 - Math.exp(-1));
+  const v5 = Vs * (1 - Math.exp(-5));
+
+  const unitStr = tau_ms >= 1 ? `${tau_ms.toFixed(3)} ms` : `${(tau * 1e6).toFixed(2)} &mu;s`;
+  const fiveUnitStr = (tau_ms * 5) >= 1 ? `${(tau_ms * 5).toFixed(2)} ms` : `${(tau * 5e6).toFixed(1)} &mu;s`;
+
+  document.getElementById('svgVsTop').textContent = `${Vs.toFixed(1)}V`;
+  document.getElementById('svgVs63').textContent = `${v1.toFixed(1)}V`;
+  document.getElementById('svgTauLabel').textContent = `1τ (63.2%): ${tau_ms >= 1 ? tau_ms.toFixed(1) + ' ms' : (tau*1e6).toFixed(1) + ' μs'}`;
+  document.getElementById('svg5TauLabel').textContent = `5τ (99.3%): ${(tau_ms*5) >= 1 ? (tau_ms*5).toFixed(1) + ' ms' : (tau*5e6).toFixed(1) + ' μs'}`;
+
+  document.getElementById('tauReadout').innerHTML = `&tau; = <span class="dash-readout-accent">${unitStr}</span> | Settling (5&tau;) = <span class="dash-readout-orange">${fiveUnitStr}</span><br>V(1&tau;) = <span class="dash-readout-cyan">${v1.toFixed(2)} V</span> | V(5&tau;) = <span class="dash-readout-cyan">${v5.toFixed(2)} V</span> | Cutoff f<sub>c</sub> = <span class="dash-readout-accent">${fc.toFixed(2)} Hz</span>`;
+};
+
+// ================= TILE C: 4-BAND RESISTOR DECODER =================
+const bandHex = {
+  "0": "#000000", "1": "#8b4513", "2": "#dc2626", "3": "#f97316",
+  "4": "#facc15", "5": "#16a34a", "6": "#2563eb", "7": "#7c3aed",
+  "8": "#64748b", "9": "#ffffff"
+};
+const multHex = {
+  "1": "#000000", "10": "#8b4513", "100": "#dc2626", "1000": "#f97316",
+  "10000": "#facc15", "100000": "#16a34a", "1000000": "#2563eb"
+};
+const tolHex = { "1": "#8b4513", "2": "#dc2626", "5": "#eab308", "10": "#94a3b8" };
+const e12Series = [10, 12, 15, 18, 22, 27, 33, 39, 47, 56, 68, 82, 100];
+
+function formatOhms(r) {
+  if (r >= 1e6) return (r / 1e6).toFixed(2) + " M&Omega;";
+  if (r >= 1e3) return (r / 1e3).toFixed(2) + " k&Omega;";
+  return r.toFixed(1) + " &Omega;";
+}
+
+window.solveResistor = function() {
+  const b1 = document.getElementById('band1').value;
+  const b2 = document.getElementById('band2').value;
+  const mult = parseFloat(document.getElementById('bandMult').value);
+  const tol = parseFloat(document.getElementById('bandTol').value);
+
+  document.getElementById('svgB1').setAttribute('fill', bandHex[b1]);
+  document.getElementById('svgB2').setAttribute('fill', bandHex[b2]);
+  document.getElementById('svgB3').setAttribute('fill', multHex[String(mult)]);
+  document.getElementById('svgB4').setAttribute('fill', tolHex[String(tol)]);
+
+  const baseVal = parseInt(b1) * 10 + parseInt(b2);
+  const R = baseVal * mult;
+  const rMin = R * (1 - tol / 100);
+  const rMax = R * (1 + tol / 100);
+
+  let closestE12 = e12Series[0];
+  let minDiff = Math.abs(baseVal - closestE12);
+  for (let i = 1; i < e12Series.length; i++) {
+    const d = Math.abs(baseVal - e12Series[i]);
+    if (d < minDiff) { minDiff = d; closestE12 = e12Series[i]; }
+  }
+  const e12Val = closestE12 * mult;
+
+  document.getElementById('resReadout').innerHTML = `Nominal R = <span class="dash-readout-accent">${formatOhms(R)} &plusmn;${tol}%</span><br>Range: [<span class="dash-readout-cyan">${formatOhms(rMin)}</span> to <span class="dash-readout-cyan">${formatOhms(rMax)}</span>]<br>Closest Standard E12 Stock: <span class="dash-readout-orange">${formatOhms(e12Val)}</span>`;
+};
+
+// ================= TILE D: DECIBEL CONVERTER =================
+window.solveDb = function() {
+  const vin = parseFloat(document.getElementById('dbVin').value) || 1;
+  const vout = parseFloat(document.getElementById('dbVout').value) || 1;
+  const out = document.getElementById('dbReadout');
+
+  if (vin <= 0 || vout <= 0) {
+    out.innerHTML = `<span class="dash-readout-orange">Signal magnitudes must be positive (> 0).</span>`;
+    return;
+  }
+
+  const ratio = vout / vin;
+  const dbV = 20 * Math.log10(ratio);
+  const dbP = 10 * Math.log10(ratio);
+  const stateLabel = Math.abs(dbV + 3.01) < 0.15
+    ? "Half-Power Cutoff Point (-3 dB)"
+    : (dbV > 0 ? "Amplification (+Gain)" : (dbV < 0 ? "Attenuation (-Loss)" : "Unity Gain (0 dB)"));
+
+  out.innerHTML = `Linear Ratio (V<sub>out</sub>/V<sub>in</sub>) = <span class="dash-readout-cyan">${ratio.toFixed(4)} V/V</span><br>Voltage Gain (20 log<sub>10</sub>) = <span class="dash-readout-accent">${dbV >= 0 ? '+' : ''}${dbV.toFixed(2)} dB</span> | Power (10 log<sub>10</sub>) = <span class="dash-readout-orange">${dbP >= 0 ? '+' : ''}${dbP.toFixed(2)} dB</span><br>Regime: <span style="color:#a1a1aa;">${stateLabel}</span>`;
+};
+
+window.setDbPreset = function(vin, vout) {
+  document.getElementById('dbVin').value = vin;
+  document.getElementById('dbVout').value = vout;
+  solveDb();
+};
+
+// ================= TILE E: RLC COMPLEX IMPEDANCE SOLVER =================
+window.solveRlcZ = function() {
+  const f = parseFloat(document.getElementById('rlcF').value) || 0;
+  const R = parseFloat(document.getElementById('rlcR').value) || 0;
+  const L_mH = parseFloat(document.getElementById('rlcL').value) || 0;
+  const C_uF = parseFloat(document.getElementById('rlcC').value) || 0;
+
+  const L = L_mH * 1e-3;
+  const C = C_uF * 1e-6;
+  const w = 2 * Math.PI * f;
+
+  const XL = w * L;
+  const XC = (w > 0 && C > 0) ? 1 / (w * C) : 0;
+  const Xnet = XL - XC;
+  const Zmag = Math.sqrt(R * R + Xnet * Xnet);
+  const thetaDeg = Math.atan2(Xnet, R) * (180 / Math.PI);
+  const pf = Zmag > 0 ? Math.cos(thetaDeg * Math.PI / 180) : 1;
+  const f0 = (L > 0 && C > 0) ? 1 / (2 * Math.PI * Math.sqrt(L * C)) : 0;
+
+  const signStr = Xnet >= 0 ? `+ j${Xnet.toFixed(2)}` : `- j${Math.abs(Xnet).toFixed(2)}`;
+  const regime = Math.abs(Xnet) < 0.05 ? "Resonant (Unity PF)" : (Xnet > 0 ? "Inductive (Lagging PF)" : "Capacitive (Leading PF)");
+
+  document.getElementById('svgZReal').textContent = `Real R = ${R.toFixed(1)} Ω`;
+  document.getElementById('svgZImag').textContent = `j(XL - XC) = ${Xnet >= 0 ? '+' : ''}${Xnet.toFixed(1)} Ω`;
+  document.getElementById('svgZMag').textContent = `|Z| = ${Zmag.toFixed(1)} Ω`;
+  document.getElementById('svgZAngle').textContent = `θ = ${thetaDeg >= 0 ? '+' : ''}${thetaDeg.toFixed(1)}°`;
+
+  document.getElementById('rlcZReadout').innerHTML = `X<sub>L</sub> = <span class="dash-readout-cyan">${XL.toFixed(2)} &Omega;</span> | X<sub>C</sub> = <span class="dash-readout-cyan">${XC.toFixed(2)} &Omega;</span> | f<sub>0</sub> = <span class="dash-readout-orange">${f0.toFixed(1)} Hz</span><br>Rect: Z = <span class="dash-readout-accent">${R.toFixed(2)} ${signStr} &Omega;</span> | Polar: <span class="dash-readout-accent">${Zmag.toFixed(2)} &Omega; &angle; ${thetaDeg.toFixed(2)}&deg;</span><br>Power Factor (cos &theta;) = <span class="dash-readout-cyan">${pf.toFixed(3)}</span> (<span style="color:#a1a1aa;">${regime}</span>)`;
+};
+
+// ================= TILE F: SERIES / PARALLEL R, L, C EQUIVALENT SOLVER =================
+window.solveEqNetwork = function() {
+  const comp = document.getElementById('eqComp').value;
+  const topo = document.getElementById('eqTopo').value;
+  const v1 = parseFloat(document.getElementById('eqVal1').value);
+  const v2 = parseFloat(document.getElementById('eqVal2').value);
+  const v3 = parseFloat(document.getElementById('eqVal3').value);
+
+  const unitMap = { R: "&Omega;", L: "mH", C: "&mu;F" };
+  const unit = unitMap[comp];
+
+  document.getElementById('eqLab1').innerHTML = `${comp}<sub>1</sub> (${unit})`;
+  document.getElementById('eqLab2').innerHTML = `${comp}<sub>2</sub> (${unit})`;
+  document.getElementById('eqLab3').innerHTML = `${comp}<sub>3</sub> (Opt ${unit})`;
+
+  const vals = [v1, v2, v3].filter(v => !isNaN(v) && v > 0);
+  const out = document.getElementById('eqNetReadout');
+  if (vals.length === 0) {
+    out.innerHTML = `<span class="dash-readout-orange">Enter at least one positive branch value.</span>`;
+    return;
+  }
+
+  const isAdditive = (comp === 'R' && topo === 'series') ||
+                     (comp === 'L' && topo === 'series') ||
+                     (comp === 'C' && topo === 'parallel');
+
+  let eq = 0;
+  let formulaStr = "";
+  if (isAdditive) {
+    eq = vals.reduce((acc, x) => acc + x, 0);
+    formulaStr = `${comp}<sub>eq</sub> = ` + vals.map((_, i) => `${comp}<sub>${i+1}</sub>`).join(' + ');
+  } else {
+    const invSum = vals.reduce((acc, x) => acc + (1 / x), 0);
+    eq = invSum > 0 ? 1 / invSum : 0;
+    formulaStr = `1/${comp}<sub>eq</sub> = ` + vals.map((_, i) => `1/${comp}<sub>${i+1}</sub>`).join(' + ');
+  }
+
+  out.innerHTML = `Equivalent ${comp}<sub>eq</sub> (${topo.toUpperCase()}) = <span class="dash-readout-accent">${eq.toFixed(4)} ${unit}</span><br>Active Law: <span class="dash-readout-cyan">${formulaStr}</span> (${vals.length} active branches)`;
+};
+
+// ================= SECTION 2A: CIRCUIT PROBLEM OF THE DAY WITH SCHEMATICS =================
+const potdBank = [
+  {
+    topic: "Problem 1 of 5 • DC Resistive Networks",
+    diff: "Difficulty: Intermediate",
+    title: "Loaded Voltage Divider Node Voltage",
+    svg: `<svg viewBox="0 0 360 140" xmlns="http://www.w3.org/2000/svg">
+      <line x1="55" y1="22" x2="180" y2="22" stroke="#1e3a5f" stroke-width="2.2"/>
+      <line x1="55" y1="22" x2="55" y2="52" stroke="#1e3a5f" stroke-width="2.2"/>
+      <circle cx="55" cy="72" r="20" fill="#eff6ff" stroke="#1e3a5f" stroke-width="2.2"/>
+      <text x="55" y="69" fill="#1e3a5f" font-size="11" font-weight="bold" text-anchor="middle">+</text>
+      <text x="55" y="83" fill="#1e3a5f" font-size="11" font-weight="bold" text-anchor="middle">&minus;</text>
+      <text x="28" y="76" fill="#2e1065" font-size="10.5" font-family="monospace" font-weight="bold" text-anchor="end">24V</text>
+      <line x1="55" y1="92" x2="55" y2="122" stroke="#1e3a5f" stroke-width="2.2"/>
+      <line x1="55" y1="122" x2="275" y2="122" stroke="#1e3a5f" stroke-width="2.2"/>
+      <line x1="180" y1="22" x2="180" y2="32" stroke="#1e3a5f" stroke-width="2.2"/>
+      <polyline points="180,32 187,36 173,43 187,50 173,57 180,61" fill="none" stroke="#e86c3a" stroke-width="2.4"/>
+      <text x="166" y="50" fill="#e86c3a" font-size="10" font-family="monospace" font-weight="bold" text-anchor="end">R1=6k&Omega;</text>
+      <line x1="180" y1="61" x2="180" y2="75" stroke="#1e3a5f" stroke-width="2.2"/>
+      <circle cx="180" cy="68" r="4" fill="#6d28d9"/>
+      <line x1="180" y1="68" x2="310" y2="68" stroke="#6d28d9" stroke-width="2" stroke-dasharray="3,3"/>
+      <circle cx="310" cy="68" r="3.5" fill="#6d28d9"/>
+      <text x="316" y="72" fill="#5b21b6" font-size="10.5" font-family="monospace" font-weight="bold">V_out</text>
+      <line x1="180" y1="75" x2="180" y2="82" stroke="#1e3a5f" stroke-width="2.2"/>
+      <polyline points="180,82 187,86 173,93 187,100 173,107 180,111" fill="none" stroke="#1e3a5f" stroke-width="2.2"/>
+      <text x="166" y="101" fill="#1e3a5f" font-size="10" font-family="monospace" font-weight="bold" text-anchor="end">R2=12k&Omega;</text>
+      <line x1="180" y1="111" x2="180" y2="122" stroke="#1e3a5f" stroke-width="2.2"/>
+      <line x1="255" y1="68" x2="255" y2="82" stroke="#1e3a5f" stroke-width="2.2"/>
+      <polyline points="255,82 262,86 248,93 262,100 248,107 255,111" fill="none" stroke="#6d28d9" stroke-width="2.2"/>
+      <text x="267" y="101" fill="#5b21b6" font-size="10" font-family="monospace" font-weight="bold">RL=12k&Omega;</text>
+      <line x1="255" y1="111" x2="255" y2="122" stroke="#1e3a5f" stroke-width="2.2"/>
+    </svg>`,
+    prompt: "A 24 V DC source feeds a series voltage divider with R₁ = 6 kΩ (top) and R₂ = 12 kΩ (bottom). If a load resistor R_L = 12 kΩ is connected in parallel across R₂, calculate the loaded output node voltage V_out (in Volts).",
+    unit: "V",
+    answer: 12.0,
+    tol: 0.15,
+    steps: "1. Combine parallel lower branch: R_eq = R₂ || R_L = (12 kΩ × 12 kΩ) / (12 + 12) = 6.0 kΩ.<br>2. Apply voltage divider rule: V_out = 24 V × [6 kΩ / (6 kΩ + 6 kΩ)] = 12.00 V."
+  },
+  {
+    topic: "Problem 2 of 5 • Operational Amplifiers",
+    diff: "Difficulty: Intermediate",
+    title: "Inverting Op-Amp Closed-Loop Output",
+    svg: `<svg viewBox="0 0 360 140" xmlns="http://www.w3.org/2000/svg">
+      <text x="22" y="79" fill="#2e1065" font-size="10" font-family="monospace" font-weight="bold">Vin=+1.5V</text>
+      <line x1="78" y1="75" x2="96" y2="75" stroke="#1e3a5f" stroke-width="2.2"/>
+      <polyline points="96,75 101,67 109,83 117,67 125,83 130,75" fill="none" stroke="#e86c3a" stroke-width="2.4"/>
+      <text x="113" y="61" fill="#e86c3a" font-size="9.5" font-family="monospace" font-weight="bold" text-anchor="middle">Rin=2.5k&Omega;</text>
+      <line x1="130" y1="75" x2="165" y2="75" stroke="#1e3a5f" stroke-width="2.2"/>
+      <circle cx="148" cy="75" r="4" fill="#6d28d9"/>
+      <line x1="148" y1="75" x2="148" y2="26" stroke="#1e3a5f" stroke-width="2.2"/>
+      <line x1="148" y1="26" x2="182" y2="26" stroke="#1e3a5f" stroke-width="2.2"/>
+      <polyline points="182,26 188,18 196,34 204,18 212,34 220,18 226,26" fill="none" stroke="#6d28d9" stroke-width="2.4"/>
+      <text x="204" y="14" fill="#5b21b6" font-size="9.5" font-family="monospace" font-weight="bold" text-anchor="middle">Rf=15k&Omega;</text>
+      <line x1="226" y1="26" x2="262" y2="26" stroke="#1e3a5f" stroke-width="2.2"/>
+      <line x1="262" y1="26" x2="262" y2="90" stroke="#1e3a5f" stroke-width="2.2"/>
+      <polygon points="165,55 165,125 242,90" fill="#eff6ff" stroke="#1e3a5f" stroke-width="2.4"/>
+      <text x="176" y="80" fill="#1e3a5f" font-size="14" font-weight="bold">&minus;</text>
+      <text x="176" y="110" fill="#e86c3a" font-size="13" font-weight="bold">+</text>
+      <line x1="165" y1="105" x2="142" y2="105" stroke="#1e3a5f" stroke-width="2.2"/>
+      <line x1="142" y1="105" x2="142" y2="125" stroke="#1e3a5f" stroke-width="2.2"/>
+      <line x1="132" y1="125" x2="152" y2="125" stroke="#1e3a5f" stroke-width="2"/>
+      <line x1="136" y1="130" x2="148" y2="130" stroke="#1e3a5f" stroke-width="2"/>
+      <line x1="242" y1="90" x2="298" y2="90" stroke="#1e3a5f" stroke-width="2.4"/>
+      <circle cx="298" cy="90" r="4" fill="#e86c3a"/>
+      <text x="306" y="94" fill="#1e3a5f" font-size="10.5" font-family="monospace" font-weight="bold">V_out=?</text>
+    </svg>`,
+    prompt: "An ideal op-amp in the inverting configuration has input resistor R_in = 2.5 kΩ, feedback resistor R_f = 15 kΩ, and dual supply rails ±15 V. If V_in = +1.5 V DC is applied, compute V_out (in Volts).",
+    unit: "V",
+    answer: -9.0,
+    tol: 0.15,
+    steps: "1. Virtual ground rule sets V_(-) = V_(+) = 0 V.<br>2. Closed-loop gain: A_v = -R_f / R_in = -15 kΩ / 2.5 kΩ = -6.0 V/V.<br>3. V_out = (-6.0) × (1.5 V) = -9.00 V (within ±15 V linear rails)."
+  },
+  {
+    topic: "Problem 3 of 5 • Thévenin Equivalents",
+    diff: "Difficulty: Intermediate",
+    title: "Maximum Power Transfer to Load",
+    svg: `<svg viewBox="0 0 360 140" xmlns="http://www.w3.org/2000/svg">
+      <rect x="35" y="16" width="185" height="108" rx="6" fill="#f3e8ff" stroke="#5b21b6" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="125" y="30" fill="#5b21b6" font-size="9.5" font-family="monospace" font-weight="bold" text-anchor="middle">TH&Eacute;VENIN EQUIVALENT</text>
+      <line x1="70" y1="42" x2="115" y2="42" stroke="#1e3a5f" stroke-width="2.2"/>
+      <polyline points="115,42 121,34 129,50 137,34 145,50 151,42" fill="none" stroke="#e86c3a" stroke-width="2.4"/>
+      <text x="133" y="63" fill="#e86c3a" font-size="9.5" font-family="monospace" font-weight="bold" text-anchor="middle">R_Th = V_Th/I_sc</text>
+      <line x1="151" y1="42" x2="235" y2="42" stroke="#1e3a5f" stroke-width="2.2"/>
+      <circle cx="235" cy="42" r="4" fill="#1e3a5f"/>
+      <text x="235" y="32" fill="#1e3a5f" font-size="10" font-family="monospace" font-weight="bold" text-anchor="middle">A</text>
+      <line x1="70" y1="42" x2="70" y2="62" stroke="#1e3a5f" stroke-width="2.2"/>
+      <circle cx="70" cy="80" r="18" fill="#ffffff" stroke="#1e3a5f" stroke-width="2.2"/>
+      <text x="70" y="77" fill="#1e3a5f" font-size="10" font-weight="bold" text-anchor="middle">+</text>
+      <text x="70" y="90" fill="#1e3a5f" font-size="10" font-weight="bold" text-anchor="middle">&minus;</text>
+      <text x="93" y="84" fill="#2e1065" font-size="9.5" font-family="monospace" font-weight="bold">V_Th=18V</text>
+      <line x1="70" y1="98" x2="70" y2="112" stroke="#1e3a5f" stroke-width="2.2"/>
+      <line x1="70" y1="112" x2="235" y2="112" stroke="#1e3a5f" stroke-width="2.2"/>
+      <circle cx="235" cy="112" r="4" fill="#1e3a5f"/>
+      <text x="235" y="126" fill="#1e3a5f" font-size="10" font-family="monospace" font-weight="bold" text-anchor="middle">B</text>
+      <line x1="235" y1="42" x2="290" y2="42" stroke="#6d28d9" stroke-width="2.2"/>
+      <line x1="290" y1="42" x2="290" y2="58" stroke="#6d28d9" stroke-width="2.2"/>
+      <polyline points="290,58 297,63 283,71 297,79 283,87 290,92" fill="none" stroke="#6d28d9" stroke-width="2.4"/>
+      <text x="303" y="79" fill="#5b21b6" font-size="10" font-family="monospace" font-weight="bold">R_L (Matched)</text>
+      <line x1="290" y1="92" x2="290" y2="112" stroke="#6d28d9" stroke-width="2.2"/>
+      <line x1="235" y1="112" x2="290" y2="112" stroke="#6d28d9" stroke-width="2.2"/>
+    </svg>`,
+    prompt: "A linear DC network is characterized at terminals A–B by open-circuit voltage V_Th = 18 V and short-circuit current I_sc = 3.0 A. Calculate the maximum power P_max (in Watts) that can be delivered to an optimally matched load resistor R_L.",
+    unit: "W",
+    answer: 13.5,
+    tol: 0.15,
+    steps: "1. Find Thévenin resistance: R_Th = V_Th / I_sc = 18 V / 3.0 A = 6.0 Ω.<br>2. Set R_L = R_Th = 6.0 Ω for maximum power transfer.<br>3. P_max = V_Th² / (4 · R_Th) = 324 / 24 = 13.50 W."
+  },
+  {
+    topic: "Problem 4 of 5 • First-Order RC Transients",
+    diff: "Difficulty: Advanced",
+    title: "Capacitor Discharging Transient",
+    svg: `<svg viewBox="0 0 360 140" xmlns="http://www.w3.org/2000/svg">
+      <line x1="85" y1="30" x2="145" y2="30" stroke="#1e3a5f" stroke-width="2.2"/>
+      <circle cx="145" cy="30" r="3.5" fill="#e86c3a"/>
+      <line x1="145" y1="30" x2="182" y2="14" stroke="#e86c3a" stroke-width="2.4"/>
+      <circle cx="188" cy="30" r="3.5" fill="#e86c3a"/>
+      <text x="166" y="12" fill="#e86c3a" font-size="9.5" font-family="monospace" font-weight="bold" text-anchor="middle">Closes t=0</text>
+      <line x1="188" y1="30" x2="255" y2="30" stroke="#1e3a5f" stroke-width="2.2"/>
+      <line x1="85" y1="30" x2="85" y2="68" stroke="#1e3a5f" stroke-width="2.2"/>
+      <line x1="65" y1="68" x2="105" y2="68" stroke="#6d28d9" stroke-width="3.2"/>
+      <line x1="65" y1="78" x2="105" y2="78" stroke="#6d28d9" stroke-width="3.2"/>
+      <text x="58" y="65" fill="#5b21b6" font-size="10" font-family="monospace" font-weight="bold" text-anchor="end">C=100&mu;F</text>
+      <text x="58" y="82" fill="#e86c3a" font-size="10" font-family="monospace" font-weight="bold" text-anchor="end">V0=20V</text>
+      <line x1="85" y1="78" x2="85" y2="115" stroke="#1e3a5f" stroke-width="2.2"/>
+      <line x1="85" y1="115" x2="255" y2="115" stroke="#1e3a5f" stroke-width="2.2"/>
+      <line x1="255" y1="30" x2="255" y2="52" stroke="#1e3a5f" stroke-width="2.2"/>
+      <polyline points="255,52 263,57 247,65 263,73 247,81 263,89 255,94" fill="none" stroke="#1e3a5f" stroke-width="2.4"/>
+      <text x="270" y="76" fill="#1e3a5f" font-size="10" font-family="monospace" font-weight="bold">R = 5 k&Omega;</text>
+      <line x1="255" y1="94" x2="255" y2="115" stroke="#1e3a5f" stroke-width="2.2"/>
+    </svg>`,
+    prompt: "A 100 μF capacitor initially charged to V_0 = 20 V discharges through a 5 kΩ resistor starting at t = 0. Calculate the capacitor voltage v_C(t) (in Volts) at t = 0.50 seconds.",
+    unit: "V",
+    answer: 7.358,
+    tol: 0.15,
+    steps: "1. Time constant: τ = R · C = 5,000 Ω × 100×10⁻⁶ F = 0.50 s.<br>2. At t = 0.50 s = 1τ: v_C(0.5) = 20 · e⁻¹ = 20 × 0.36788 = 7.36 V."
+  },
+  {
+    topic: "Problem 5 of 5 • AC Resonance",
+    diff: "Difficulty: Advanced",
+    title: "Series RLC Resonant Frequency",
+    svg: `<svg viewBox="0 0 360 140" xmlns="http://www.w3.org/2000/svg">
+      <line x1="55" y1="35" x2="95" y2="35" stroke="#1e3a5f" stroke-width="2.2"/>
+      <polyline points="95,35 101,27 109,43 117,27 125,43 131,35" fill="none" stroke="#1e3a5f" stroke-width="2.3"/>
+      <text x="113" y="20" fill="#1e3a5f" font-size="9.5" font-family="monospace" font-weight="bold" text-anchor="middle">R=10&Omega;</text>
+      <line x1="131" y1="35" x2="165" y2="35" stroke="#1e3a5f" stroke-width="2.2"/>
+      <path d="M 165 35 Q 173 18, 181 35 Q 189 18, 197 35 Q 205 18, 213 35 Q 221 18, 229 35" fill="none" stroke="#e86c3a" stroke-width="2.4"/>
+      <text x="197" y="20" fill="#e86c3a" font-size="9.5" font-family="monospace" font-weight="bold" text-anchor="middle">L=2.0mH</text>
+      <line x1="229" y1="35" x2="285" y2="35" stroke="#1e3a5f" stroke-width="2.2"/>
+      <line x1="285" y1="35" x2="285" y2="68" stroke="#1e3a5f" stroke-width="2.2"/>
+      <line x1="268" y1="68" x2="302" y2="68" stroke="#6d28d9" stroke-width="3"/>
+      <line x1="268" y1="78" x2="302" y2="78" stroke="#6d28d9" stroke-width="3"/>
+      <text x="308" y="76" fill="#5b21b6" font-size="9.5" font-family="monospace" font-weight="bold">C=8.0&mu;F</text>
+      <line x1="285" y1="78" x2="285" y2="112" stroke="#1e3a5f" stroke-width="2.2"/>
+      <line x1="55" y1="112" x2="285" y2="112" stroke="#1e3a5f" stroke-width="2.2"/>
+      <line x1="55" y1="35" x2="55" y2="55" stroke="#1e3a5f" stroke-width="2.2"/>
+      <circle cx="55" cy="73" r="18" fill="#eff6ff" stroke="#1e3a5f" stroke-width="2.2"/>
+      <path d="M 45 73 Q 50 63, 55 73 T 65 73" fill="none" stroke="#6d28d9" stroke-width="2"/>
+      <line x1="55" y1="91" x2="55" y2="112" stroke="#1e3a5f" stroke-width="2.2"/>
+      <text x="170" y="96" fill="#2e1065" font-size="10" font-family="monospace" font-weight="bold" text-anchor="middle">Find f0 where XL = XC</text>
+    </svg>`,
+    prompt: "A series RLC tank circuit contains R = 10 Ω, L = 2.0 mH, and C = 8.0 μF. Calculate the undamped resonant frequency f_0 (in Hz).",
+    unit: "Hz",
+    answer: 397.89,
+    tol: 5.0,
+    steps: "1. ω_0 = 1 / √(L · C) = 1 / √(2×10⁻³ × 8×10⁻⁶) = 1 / (4×10⁻⁴) = 2,500 rad/s.<br>2. f_0 = ω_0 / (2π) = 2500 / 6.28318 = 397.89 Hz."
+  }
+];
+
+let potdIdx = new Date().getDate() % potdBank.length;
+let potdShowSteps = false;
+
+function renderPotd() {
+  const p = potdBank[potdIdx];
+  document.getElementById('potdTopicTag').textContent = p.topic;
+  document.getElementById('potdDiffBadge').textContent = p.diff;
+  document.getElementById('potdTitle').textContent = p.title;
+  document.getElementById('potdSchematic').innerHTML = p.svg;
+  document.getElementById('potdPrompt').textContent = p.prompt;
+  document.getElementById('potdInputLabel').textContent = `Your Answer (${p.unit})`;
+  document.getElementById('potdUserAns').value = '';
+  const fb = document.getElementById('potdFeedback');
+  fb.style.display = 'none';
+  potdShowSteps = false;
+}
+
+window.checkPotd = function() {
+  const p = potdBank[potdIdx];
+  const userVal = parseFloat(document.getElementById('potdUserAns').value);
+  const fb = document.getElementById('potdFeedback');
+  fb.style.display = 'block';
+
+  if (isNaN(userVal)) {
+    fb.innerHTML = `<span class="dash-readout-orange">Enter a numerical value in ${p.unit} to verify your solution.</span>`;
+    return;
+  }
+
+  const pass = Math.abs(userVal - p.answer) <= p.tol;
+  if (pass) {
+    fb.innerHTML = `<span class="dash-readout-cyan">✓ Correct! (${p.answer} ${p.unit})</span><br>${p.steps}`;
+  } else {
+    fb.innerHTML = `<span class="dash-readout-orange">✗ Not quite (${userVal} ${p.unit}). Expected ${p.answer} ${p.unit}.</span><br>${p.steps}`;
+  }
+};
+
+window.togglePotdSolution = function() {
+  const p = potdBank[potdIdx];
+  const fb = document.getElementById('potdFeedback');
+  potdShowSteps = !potdShowSteps;
+  if (potdShowSteps) {
+    fb.style.display = 'block';
+    fb.innerHTML = `<span class="dash-readout-accent">Step-by-Step Solution (${p.answer} ${p.unit}):</span><br>${p.steps}`;
+  } else {
+    fb.style.display = 'none';
+  }
+};
+
+window.nextPotd = function() {
+  potdIdx = (potdIdx + 1) % potdBank.length;
+  renderPotd();
+};
+
+// ================= SECTION 2B: 2x2 & 3x3 MESH RESISTANCE MATRIX SOLVER =================
+let activeMatrixDim = 2;
+
+const meshPresets = {
+  2: { M: [[15, -5], [-5, 20]], S: [12.0, 0.0] },
+  3: { M: [[20, -6, -4], [-6, 18, -5], [-4, -5, 15]], S: [24.0, 0.0, 12.0] }
+};
+const nodalPresets = {
+  2: { M: [[0.15, -0.05], [-0.05, 0.10]], S: [2.0, 1.0] },
+  3: { M: [[0.30, -0.10, -0.10], [-0.10, 0.25, -0.05], [-0.10, -0.05, 0.20]], S: [3.0, 0.0, 1.5] }
+};
+
+window.setMatrixDim = function(n) {
+  activeMatrixDim = n;
+  document.getElementById('btnMat2').className = n === 2 ? 'dash-btn-outline dash-btn-tab-active' : 'dash-btn-outline';
+  document.getElementById('btnMat3').className = n === 3 ? 'dash-btn-outline dash-btn-tab-active' : 'dash-btn-outline';
+  renderMatrixInputs();
+};
+
+window.renderMatrixInputs = function() {
+  const n = activeMatrixDim;
+  const domain = document.getElementById('matDomain').value;
+  const container = document.getElementById('matrixInputContainer');
+  const preset = domain === 'mesh' ? meshPresets[n] : nodalPresets[n];
+
+  const coeffSym = domain === 'mesh' ? 'R' : 'G';
+  const coeffUnit = domain === 'mesh' ? '&Omega;' : 'S';
+  const unkSym = domain === 'mesh' ? 'I' : 'V';
+  const srcSym = domain === 'mesh' ? 'V' : 'I';
+  const srcUnit = domain === 'mesh' ? 'V' : 'A';
+
+  let html = '<table class="matrix-table"><thead><tr>';
+  for (let j = 0; j < n; j++) {
+    html += `<th style="font-size:0.72rem; color:#475569; text-align:center;">${coeffSym}<sub>k,${j+1}</sub> (${coeffUnit}) &middot; ${unkSym}<sub>${j+1}</sub></th>`;
+  }
+  html += `<th style="font-size:0.72rem; color:#5b21b6; text-align:center;">= ${srcSym}<sub>source</sub> (${srcUnit})</th></tr></thead><tbody>`;
+
+  for (let i = 0; i < n; i++) {
+    html += '<tr>';
+    for (let j = 0; j < n; j++) {
+      html += `<td><input type="number" step="any" id="matM_${i}_${j}" value="${preset.M[i][j]}" oninput="solveMatrix()"></td>`;
+    }
+    html += `<td><input type="number" step="any" id="matS_${i}" value="${preset.S[i]}" oninput="solveMatrix()" style="border-color:#c084fc; background:#faf5ff;"></td></tr>`;
+  }
+  html += '</tbody></table>';
+  container.innerHTML = html;
+  solveMatrix();
+};
+
+function det2(m) { return m[0][0]*m[1][1] - m[0][1]*m[1][0]; }
+function det3(m) {
+  return m[0][0]*(m[1][1]*m[2][2] - m[1][2]*m[2][1])
+       - m[0][1]*(m[1][0]*m[2][2] - m[1][2]*m[2][0])
+       + m[0][2]*(m[1][0]*m[2][1] - m[1][1]*m[2][0]);
+}
+
+window.solveMatrix = function() {
+  const n = activeMatrixDim;
+  const domain = document.getElementById('matDomain').value;
+  const out = document.getElementById('matrixReadout');
+  const M = [];
+  const S = [];
+
+  for (let i = 0; i < n; i++) {
+    const row = [];
+    for (let j = 0; j < n; j++) {
+      row.push(parseFloat(document.getElementById(`matM_${i}_${j}`).value) || 0);
+    }
+    M.push(row);
+    S.push(parseFloat(document.getElementById(`matS_${i}`).value) || 0);
+  }
+
+  const D = n === 2 ? det2(M) : det3(M);
+  if (Math.abs(D) < 1e-12) {
+    out.innerHTML = `<span class="dash-readout-orange">Singular Matrix: det = 0 (No unique solution). Check dependent loops or floating nodes.</span>`;
+    return;
+  }
+
+  const X = [];
+  const detN = [];
+  for (let k = 0; k < n; k++) {
+    const Mk = M.map((row, rIdx) => row.map((val, cIdx) => cIdx === k ? S[rIdx] : val));
+    const Dk = n === 2 ? det2(Mk) : det3(Mk);
+    detN.push(Dk);
+    X.push(Dk / D);
+  }
+
+  const unkSym = domain === 'mesh' ? 'I' : 'V';
+  const unkUnit = domain === 'mesh' ? 'A' : 'V';
+
+  const solStr = X.map((val, idx) => {
+    const subStr = domain === 'mesh' ? ` (${(val*1000).toFixed(1)} mA)` : '';
+    return `${unkSym}<sub>${idx+1}</sub> = <span class="dash-readout-accent">${val.toFixed(4)} ${unkUnit}</span><span style="color:#38bdf8;">${subStr}</span>`;
+  }).join(' | ');
+
+  const cramerStr = detN.map((dk, idx) => `&Delta;<sub>${idx+1}</sub>=${dk.toFixed(2)}`).join(', ');
+  const diffLabel = domain === 'mesh'
+    ? `Shared Branch Current (${unkSym}<sub>1</sub> - ${unkSym}<sub>2</sub>) = ${(X[0] - X[1]).toFixed(4)} A`
+    : `Shared Branch Voltage (${unkSym}<sub>1</sub> - ${unkSym}<sub>2</sub>) = ${(X[0] - X[1]).toFixed(4)} V`;
+
+  out.innerHTML = `${solStr}<br>Cramer's Determinant: &Delta; = <span class="dash-readout-orange">${D.toFixed(4)}</span> (${cramerStr})<br><span style="color:#a1a1aa;">${diffLabel}</span>`;
+};
+
+function syncTelemetry() {
+  try {
+    const raw = localStorage.getItem('francillon_opamp_studio_v1');
+    if (raw) {
+      const s = JSON.parse(raw);
+      const el = document.getElementById('opAmpTelemetry');
+      if (el && s.mode) {
+        el.textContent = `Last Active Bench: ${s.mode.toUpperCase()} | Rin=${s.rin || 2}kΩ, Rf=${s.rf || 10}kΩ`;
+      }
+    }
+  } catch (e) {}
+}
+
+solveOhm();
+solveTau();
+solveResistor();
+solveDb();
+solveRlcZ();
+solveEqNetwork();
+renderPotd();
+renderMatrixInputs();
+syncTelemetry();
+</script>
 
 
+</main></div>
+
+
+
+
+
+
+
+ <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -764,17 +2096,10 @@ grid-auto-rows: minmax(0, 1fr);">
     }
   });
   </script>
-</div> <!-- /content -->
-
-<script type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (_event) {
-  if (window.bslib.Card) {
-    window.bslib.Card.initializeAllCards();
-  }
-}); 
-</script>
-  
+ <!-- /content -->
 
 
 
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
