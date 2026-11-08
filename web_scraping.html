@@ -345,7 +345,7 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
 <p>If students attempt to run the original loop without updating the <code>url</code> variable at the end of the block, they will trigger an <strong>infinite loop</strong>, locking up their Python environment by downloading the same comic continuously.</p>
 <p>Additionally, downloading all 3,000+ XKCD comics on a school network could trigger bandwidth throttles. The solution below includes a <code>comics_to_download</code> safety counter.</p>
 <p><strong>The Completed Solution Code:</strong></p>
-<div id="b811f95f" class="cell" data-execution_count="1">
+<div id="fa456388" class="cell" data-execution_count="1">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests, os, bs4</span>
@@ -403,7 +403,7 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
 <section id="step-1-setting-up-our-robot" class="level3">
 <h3 class="anchored" data-anchor-id="step-1-setting-up-our-robot">Step 1: Setting up our Robot</h3>
 <p>We need three special tools for this job: <code>requests</code> (to browse the web), <code>bs4</code> / BeautifulSoup (to read the website’s code), and <code>os</code> (to create folders on your computer).</p>
-<div id="c734c94b" class="cell" data-execution_count="2">
+<div id="af33bcc8" class="cell" data-execution_count="2">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests, os, bs4</span>
@@ -417,7 +417,7 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
 <section id="step-2-fetching-the-web-page" class="level3">
 <h3 class="anchored" data-anchor-id="step-2-fetching-the-web-page">Step 2: Fetching the Web Page</h3>
 <p>We will use a <code>while</code> loop to tell our robot to keep working. For this practice run, we will limit it to downloading just 5 comics so we don’t overload our network!</p>
-<div id="c5f8785e" class="cell" data-execution_count="3">
+<div id="62efe19f" class="cell" data-execution_count="3">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>comics_to_download <span class="op">=</span> <span class="dv">5</span></span>
@@ -437,7 +437,7 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
 <section id="step-3-finding-the-image" class="level3">
 <h3 class="anchored" data-anchor-id="step-3-finding-the-image">Step 3: Finding the Image</h3>
 <p>A web page is full of code. We need to tell our robot exactly where the comic is. If you right-click and “Inspect” the XKCD website, you will see the comic is always inside an HTML ID called <code>comic</code>, inside an <code>img</code> tag.</p>
-<div id="b8488f05" class="cell" data-execution_count="4">
+<div id="bdafe99f" class="cell" data-execution_count="4">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Locate the image using a CSS Selector</span></span>
@@ -460,7 +460,7 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
 <section id="step-4-saving-the-file-binary-data" class="level3">
 <h3 class="anchored" data-anchor-id="step-4-saving-the-file-binary-data">Step 4: Saving the File (Binary Data)</h3>
 <p>Images aren’t text; they are “binary” data (1s and 0s). We need to open a file in “write binary” (<code>wb</code>) mode and save the image in small chunks so we don’t crash our computer’s memory.</p>
-<div id="04efdf0d" class="cell" data-execution_count="5">
+<div id="2cbb472d" class="cell" data-execution_count="5">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create the file on your hard drive</span></span>
@@ -477,7 +477,7 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
 <section id="step-5-traveling-back-in-time" class="level3">
 <h3 class="anchored" data-anchor-id="step-5-traveling-back-in-time">Step 5: Traveling Back in Time</h3>
 <p>If we stop here, our robot will just download today’s comic over and over forever! We need to find the “Prev” (Previous) button on the webpage, grab its link, and tell our robot to go there next.</p>
-<div id="6810fa9c" class="cell" data-execution_count="6">
+<div id="0068a2cd" class="cell" data-execution_count="6">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Find the "Previous" button link</span></span>

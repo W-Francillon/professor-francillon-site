@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>K-12 OUTREACH PROJECTS – Wesley Francillon, PhD</title>
+<title>outreach – Wesley Francillon, PhD</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -295,275 +295,357 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page…</h2>
-   
-  <ul>
-  <li><a href="#tier-1-foundations-exploratory-stem" id="toc-tier-1-foundations-exploratory-stem" class="nav-link active" data-scroll-target="#tier-1-foundations-exploratory-stem">🔬 Tier 1: Foundations &amp; Exploratory STEM</a></li>
-  <li><a href="#tier-2-applied-physics-data-science" id="toc-tier-2-applied-physics-data-science" class="nav-link" data-scroll-target="#tier-2-applied-physics-data-science">📊 Tier 2: Applied Physics &amp; Data Science</a></li>
-  <li><a href="#tier-3-advanced-materials-engineering" id="toc-tier-3-advanced-materials-engineering" class="nav-link" data-scroll-target="#tier-3-advanced-materials-engineering">🧪 Tier 3: Advanced Materials &amp; Engineering</a></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">K-12 OUTREACH PROJECTS</h1>
-<p class="subtitle lead">Interactive, Hands-On Engineering, Physics, and Data Science Modules</p>
-</div>
+<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="hub-header title display-7">
+K-12 STEM OUTREACH &amp; DISCOVERY LABS
+</h1></header>
 
 
-
-<div class="quarto-title-meta column-page-left">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
 
 
 <style>
-.tier-header {
-  border-left: 5px solid #1a0b2e;
-  padding-left: 12px;
-  margin-top: 35px;
-  margin-bottom: 20px;
+.hub-container {
+  max-width: 1220px;
+  margin: 1.5rem auto 4rem auto;
+  padding: 0 1rem;
 }
-.tier-badge {
-  font-size: 0.85rem;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 9999px;
-  background-color: #f1f5f9;
-  color: #334155;
+.hub-header {
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #000000;
+  text-transform: uppercase;
+  margin: 0 0 0.35rem 0;
+}
+.hub-subtitle {
+  font-size: 1.08rem;
+  font-weight: 400;
+  color: #475569;
+  margin: 0 0 2.25rem 0;
+}
+.tier-section {
+  margin-bottom: 3.25rem;
+}
+.tier-banner {
+  border-left: 4px solid #5b21b6;
+  padding: 0.25rem 0 0.25rem 1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 0.75rem;
+}
+.tier-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 0.35rem 0;
+  letter-spacing: -0.01em;
+}
+.tier-meta {
+  font-size: 0.92rem;
+  color: #475569;
+  margin: 0;
+  line-height: 1.5;
+}
+.tier-meta strong {
+  color: #1e293b;
+}
+.hub-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.75rem;
+}
+.hub-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+.hub-card:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.07);
+  transform: translateY(-2px);
+  border-color: #cbd5e1;
+}
+.hub-card-visual {
+  width: 100%;
+  height: 220px;
+  background: #ffffff;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 1.25rem;
+}
+.hub-card-visual svg {
+  width: 100%;
+  height: 100%;
+}
+.hub-card-body {
+  padding: 1.25rem 1.75rem 1.75rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.hub-tag {
   display: inline-block;
-  margin-bottom: 8px;
+  align-self: flex-start;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.25rem 0.6rem;
+  border-radius: 3px;
+  margin-bottom: 0.75rem;
+  background: #f3e8ff;
+  color: #5b21b6;
+}
+.hub-card-title {
+  font-size: 1.18rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0 0 0.65rem 0;
+}
+.hub-card-desc {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #334155;
+  margin: 0 0 1.5rem 0;
+  flex-grow: 1;
+}
+.hub-btn {
+  display: inline-block;
+  align-self: flex-start;
+  background-color: #191326;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  font-size: 0.92rem;
+  font-weight: 500;
+  padding: 0.6rem 1.25rem;
+  border-radius: 2px;
+  transition: background-color 0.15s ease;
+}
+.hub-btn:hover {
+  background-color: #3b1d6e;
+  color: #ffffff !important;
 }
 </style>
-<section id="tier-1-foundations-exploratory-stem" class="level2 tier-header">
-<h2 class="tier-header anchored" data-anchor-id="tier-1-foundations-exploratory-stem">🔬 Tier 1: Foundations &amp; Exploratory STEM</h2>
-<p><strong>Target Audience:</strong> Grades 6–9 (Middle School to Early High School)<br>
-<em>Core Concepts: Physical intuition, environmental signals, wave matching, and introductory electronics.</em></p>
-<div class="grid">
-<!-- CARD 1: RF FOX HUNT -->
-<div class="g-col-12 g-col-md-4">
-<div class="card h-100">
-<div style="text-align: center; background-color: #f8f9fa; padding-top: 15px; padding-bottom: 15px;">
-<p><img src="image_fb4fd7.png" alt="The Hidden Fox Beacon" style="max-width: 100%; height: auto; max-height: 200px;"></p>
+<div class="hub-container">
+
+<p class="hub-subtitle">
+Interactive, Hands-On Engineering, Physics, Materials Science &amp; Data Science Modules
+</p>
+<div class="tier-section">
+<div class="tier-banner">
+<h2 class="tier-title anchored">
+Tier 1: Foundations &amp; Exploratory STEM
+</h2>
+<p class="tier-meta">
+<strong>Target Audience:</strong> Grades 6–9 (Middle School to Early High School) &nbsp;|&nbsp; <strong>Core Concepts:</strong> Physical intuition, environmental signals, wave matching, and introductory electronics.
+</p>
 </div>
-<div class="card-body">
-<span class="tier-badge">Grades 6–9 | Physics &amp; RF</span>
-<h5 class="card-title anchored">
+<div class="hub-card-grid">
+<div class="hub-card">
+<div class="hub-card-visual">
+<svg viewbox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+<circle cx="160" cy="105" r="78" fill="none" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5,5"></circle> <circle cx="160" cy="105" r="52" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"></circle> <polygon points="120,95 132,48 152,82" fill="#e86c3a" stroke="#1e3a5f" stroke-width="2"></polygon> <polygon points="200,95 188,48 168,82" fill="#e86c3a" stroke="#1e3a5f" stroke-width="2"></polygon> <polygon points="116,92 204,92 160,152" fill="#e86c3a" stroke="#1e3a5f" stroke-width="2"></polygon> <polygon points="116,92 145,132 160,152" fill="#ffffff" opacity="0.85"></polygon> <polygon points="204,92 175,132 160,152" fill="#ffffff" opacity="0.85"></polygon> <circle cx="160" cy="150" r="5" fill="#1e3a5f"></circle> <rect x="92" y="172" width="136" height="20" rx="3" fill="#1e3a5f"></rect> <text x="160" y="185" fill="#38bdf8" font-size="9.5" font-family="monospace" text-anchor="middle">SSID: Hidden_Fox (2.4GHz)</text>
+</svg>
+</div>
+<div class="hub-card-body">
+<span class="hub-tag">Grades 6–9 • Physics &amp; RF</span>
+<h3 class="hub-card-title anchored">
 RF Fox Hunt Lab
-</h5>
-<p class="card-text">
-Direction finding and wireless physics. Track a Raspberry Pi 5 beacon using a waveguide, filter signal noise, and locate hidden transmitters.
+</h3>
+<p class="hub-card-desc">
+Locate hidden wireless transmitters using Received Signal Strength Indicator (RSSI) telemetry, inverse-square law attenuation, and directional trilateration.
 </p>
-<p><a href="rf_foxhunt.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">View Module</a></p>
+<p><a href="rf_foxhunt.html" class="hub-btn">Launch Lab</a></p>
 </div>
 </div>
+<div class="hub-card">
+<div class="hub-card-visual">
+<svg viewbox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+<path d="M 25 145 Q 70 85, 115 125 T 205 115 T 295 130 L 295 175 L 25 175 Z" fill="#dbeafe" opacity="0.65"></path> <path d="M 25 145 Q 70 85, 115 125 T 205 115 T 295 130" fill="none" stroke="#0284c7" stroke-width="2.8"></path> <circle cx="235" cy="58" r="18" fill="#fbbf24" opacity="0.85"></circle> <line x1="95" y1="72" x2="95" y2="112" stroke="#1e3a5f" stroke-width="2.5"></line> <polygon points="95,72 118,80 95,88" fill="#e86c3a"></polygon> <rect x="85" y="172" width="150" height="18" rx="3" fill="#1e3a5f"></rect> <text x="160" y="184" fill="#38bdf8" font-size="8.5" font-family="monospace" text-anchor="middle">NOAA CO-OPS API TELEMETRY</text>
+</svg>
 </div>
-<!-- CARD 2: TIDE PREDICTOR -->
-<div class="g-col-12 g-col-md-4">
-<div class="card h-100">
-<div style="text-align: center; background-color: #f8f9fa; padding-top: 15px; padding-bottom: 15px;">
-<p><img src="tides_hub.png" alt="Fishing Tide Predictor" style="max-width: 100%; height: auto; max-height: 200px; border-radius: 5px;"></p>
-</div>
-<div class="card-body">
-<span class="tier-badge">Grades 6–9 | Earth &amp; Data Science</span>
-<h5 class="card-title anchored">
+<div class="hub-card-body">
+<span class="hub-tag">Grades 6–9 • Earth &amp; Data Science</span>
+<h3 class="hub-card-title anchored">
 Fishing Tide Predictor
-</h5>
-<p class="card-text">
-Fetch live NOAA ocean level predictions via API, map local coastal fishing stations interactively, and plot sinusoidal tidal curves.
+</h3>
+<p class="hub-card-desc">
+Fetch live NOAA ocean water-level predictions via API, map local coastal stations, and model harmonic lunar/solar tidal cycles along Long Island Sound.
 </p>
-<p><a href="tide_predictor.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">View Module</a></p>
+<p><a href="tide_predictor.html" class="hub-btn">Launch Module</a></p>
 </div>
 </div>
+<div class="hub-card">
+<div class="hub-card-visual">
+<svg viewbox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+<path d="M 30 175 Q 115 170, 145 75 Q 160 28, 175 75 Q 205 170, 290 175 Z" fill="#dbeafe" opacity="0.5"></path> <path d="M 30 175 Q 115 170, 145 75 Q 160 28, 175 75 Q 205 170, 290 175" fill="none" stroke="#1e3a5f" stroke-width="2.6"></path> <circle cx="160" cy="52" r="6.5" fill="#e86c3a"></circle> <line x1="160" y1="25" x2="160" y2="185" stroke="#e86c3a" stroke-width="1.5" stroke-dasharray="4,4"></line> <circle cx="95" cy="95" r="4.5" fill="#1e3a5f"></circle> <circle cx="225" cy="95" r="4.5" fill="#1e3a5f"></circle>
+</svg>
 </div>
-<!-- CARD 3: RESONANCE DEFENDER GAME -->
-<div class="g-col-12 g-col-md-4">
-<div class="card h-100">
-<div id="e79a4ec7" class="cell" data-fig-height="2.8" data-execution_count="1">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="outreach_files/figure-html/cell-2-output-1.png" width="499" height="288" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="card-body">
-<span class="tier-badge">Grades 6–9 | Interactive Simulation</span>
-<h5 class="card-title anchored">
-Resonance Defender
-</h5>
-<p class="card-text">
-Interactive RLC circuit wave simulator. Defend the power grid by balancing inductive and capacitive reactance to neutralize incoming AC sine waves.
+<div class="hub-card-body">
+<span class="hub-tag">Grades 6–9 • Interactive Game</span>
+<h3 class="hub-card-title anchored">
+Resonance Defender Game
+</h3>
+<p class="hub-card-desc">
+Gamified RLC tuning simulation where students dynamically adjust inductance and capacitance to lock onto incoming frequencies and maximize power transfer.
 </p>
-<p><a href="resonance_game.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">Play Game</a></p>
+<p><a href="resonance_game.html" class="hub-btn">Play Game</a></p>
 </div>
 </div>
+<div class="hub-card">
+<div class="hub-card-visual">
+<svg viewbox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+<rect x="45" y="40" width="65" height="22" fill="#1e3a5f" rx="2"></rect> <rect x="125" y="40" width="65" height="22" fill="#e86c3a" rx="2"></rect> <rect x="205" y="40" width="65" height="22" fill="#1e3a5f" rx="2"></rect> <rect x="45" y="72" width="65" height="22" fill="#dbeafe" stroke="#1e3a5f" stroke-width="1.5" rx="2"></rect> <rect x="125" y="72" width="65" height="22" fill="#1e3a5f" rx="2"></rect> <rect x="205" y="72" width="65" height="22" fill="#dbeafe" stroke="#1e3a5f" stroke-width="1.5" rx="2"></rect> <polyline points="90,175 158,96 220,155" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4,4"></polyline> <circle cx="158" cy="96" r="6" fill="#e86c3a"></circle> <rect x="60" y="175" width="90" height="10" fill="#1e3a5f" rx="4"></rect>
+</svg>
 </div>
-</div>
-<hr>
-</section>
-<section id="tier-2-applied-physics-data-science" class="level2 tier-header">
-<h2 class="tier-header anchored" data-anchor-id="tier-2-applied-physics-data-science">📊 Tier 2: Applied Physics &amp; Data Science</h2>
-<p><strong>Target Audience:</strong> Grades 10–12 (High School STEM, AP Physics, AP Computer Science)<br>
-<em>Core Concepts: Python programming, data cleaning, scatter analysis, web automation, and regulatory modeling.</em></p>
-<div class="grid">
-<!-- CARD 4: CAR CO2 EMISSIONS -->
-<div class="g-col-12 g-col-md-4">
-<div class="card h-100">
-<div style="text-align: center; background-color: #f8f9fa; padding-top: 15px; padding-bottom: 15px;">
-<p><img src="car_co2_hub.jpg" alt="Car CO2 Emissions Lab" style="max-width: 100%; height: auto; max-height: 200px; border-radius: 5px;"></p>
-</div>
-<div class="card-body">
-<span class="tier-badge">Grades 10–12 | Data Science &amp; Policy</span>
-<h5 class="card-title anchored">
-Car CO2 Emissions Lab
-</h5>
-<p class="card-text">
-Step into the role of an EPA auditor. Ingest cloud vehicle specs, overlay regulatory emissions thresholds, and explore the out-of-distribution EV intercept error.
+<div class="hub-card-body">
+<span class="hub-tag">Grades 6–9 • Interactive Game</span>
+<h3 class="hub-card-title anchored">
+Impedance Breaker Game
+</h3>
+<p class="hub-card-desc">
+Arcade-style engineering challenge combining brick-breaker physics with passive component identification, circuit simplification, and impedance matching.
 </p>
-<p><a href="co2_emissions_regression.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">View Module</a></p>
+<p><a href="circuit_breakout.html" class="hub-btn">Play Game</a></p>
 </div>
 </div>
 </div>
-<!-- CARD 5: LINEAR REGRESSION MODELING -->
-<div class="g-col-12 g-col-md-4">
-<div class="card h-100">
-<div id="0df7efc8" class="cell" data-fig-height="2.8" data-execution_count="2">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="outreach_files/figure-html/cell-3-output-1.png" width="499" height="288" class="figure-img"></p>
-</figure>
 </div>
+<div class="tier-section">
+<div class="tier-banner">
+<h2 class="tier-title anchored">
+Tier 2: Applied Data Science &amp; Predictive Modeling
+</h2>
+<p class="tier-meta">
+<strong>Target Audience:</strong> Grades 9–11 (High School STEM &amp; AP Prep) &nbsp;|&nbsp; <strong>Core Concepts:</strong> Least-squares regression, API data pipelines, automated web scraping, and environmental telemetry.
+</p>
 </div>
+<div class="hub-card-grid">
+<div class="hub-card">
+<div class="hub-card-visual">
+<svg viewbox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+<line x1="45" y1="180" x2="285" y2="180" stroke="#94a3b8" stroke-width="1.5"></line> <line x1="45" y1="35" x2="45" y2="180" stroke="#94a3b8" stroke-width="1.5"></line> <line x1="55" y1="165" x2="275" y2="50" stroke="#e86c3a" stroke-width="2.6"></line> <circle cx="75" cy="150" r="4.5" fill="#1e3a5f"></circle> <circle cx="110" cy="142" r="4.5" fill="#1e3a5f"></circle> <circle cx="145" cy="112" r="4.5" fill="#1e3a5f"></circle> <circle cx="185" cy="105" r="4.5" fill="#1e3a5f"></circle> <circle cx="220" cy="72" r="4.5" fill="#1e3a5f"></circle> <circle cx="255" cy="62" r="4.5" fill="#1e3a5f"></circle>
+</svg>
 </div>
-<div class="card-body">
-<span class="tier-badge">Grades 10–12 | Applied Mathematics</span>
-<h5 class="card-title anchored">
+<div class="hub-card-body">
+<span class="hub-tag">Grades 9–11 • Machine Learning</span>
+<h3 class="hub-card-title anchored">
 Linear Regression Modeling
-</h5>
-<p class="card-text">
-Predict physical characteristics through mathematical optimization. Compute slopes, intercepts, residuals, and lines of best fit using Scikit-Learn.
+</h3>
+<p class="hub-card-desc">
+Build foundational predictive models using ordinary least squares (OLS), evaluate <span class="math inline">R^2</span> goodness-of-fit, and visualize residual error distributions in Python.
 </p>
-<p><a href="linear_regression.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">View Module</a></p>
+<p><a href="linear_regression.html" class="hub-btn">Open Module</a></p>
 </div>
 </div>
+<div class="hub-card">
+<div class="hub-card-visual">
+<svg viewbox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+<line x1="45" y1="180" x2="285" y2="180" stroke="#94a3b8" stroke-width="1.5"></line> <line x1="45" y1="35" x2="45" y2="180" stroke="#94a3b8" stroke-width="1.5"></line> <path d="M 55 155 Q 150 135, 270 45" fill="none" stroke="#6d28d9" stroke-width="2.8"></path> <circle cx="80" cy="148" r="4.5" fill="#e86c3a"></circle> <circle cx="130" cy="128" r="4.5" fill="#e86c3a"></circle> <circle cx="180" cy="108" r="4.5" fill="#e86c3a"></circle> <circle cx="225" cy="78" r="4.5" fill="#e86c3a"></circle> <circle cx="260" cy="52" r="4.5" fill="#e86c3a"></circle>
+</svg>
 </div>
-<!-- CARD 6: API DATA CHALLENGE -->
-<div class="g-col-12 g-col-md-4">
-<div class="card h-100">
-<div id="d53383c6" class="cell" data-fig-height="2.8" data-execution_count="3">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="outreach_files/figure-html/cell-4-output-1.png" width="499" height="288" class="figure-img"></p>
-</figure>
+<div class="hub-card-body">
+<span class="hub-tag">Grades 9–11 • Climate Analytics</span>
+<h3 class="hub-card-title anchored">
+Vehicle CO2 Emissions Regression
+</h3>
+<p class="hub-card-desc">
+Analyze real-world automotive telemetry datasets to model how engine displacement, cylinder count, and fuel consumption drive tailpipe <span class="math inline">\text{CO}_2</span> emissions.
+</p>
+<p><a href="co2_emissions_regression.html" class="hub-btn">Open Module</a></p>
 </div>
 </div>
+<div class="hub-card">
+<div class="hub-card-visual">
+<svg viewbox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="65" width="75" height="85" rx="6" fill="#eff6ff" stroke="#1e3a5f" stroke-width="2"></rect> <text x="77" y="112" fill="#1e3a5f" font-size="12" font-weight="bold" font-family="monospace" text-anchor="middle">REST API</text> <rect x="205" y="65" width="75" height="85" rx="6" fill="#f3e8ff" stroke="#5b21b6" stroke-width="2"></rect> <text x="242" y="112" fill="#5b21b6" font-size="12" font-weight="bold" font-family="monospace" text-anchor="middle">JSON / DF</text> <line x1="115" y1="95" x2="205" y2="95" stroke="#e86c3a" stroke-width="2.5" stroke-dasharray="5,4"></line> <line x1="115" y1="120" x2="205" y2="120" stroke="#1e3a5f" stroke-width="2.5"></line> <circle cx="160" cy="95" r="4.5" fill="#e86c3a"></circle>
+</svg>
 </div>
-<div class="card-body">
-<span class="tier-badge">Grades 10–12 | Data Engineering</span>
-<h5 class="card-title anchored">
+<div class="hub-card-body">
+<span class="hub-tag">Grades 9–11 • Data Engineering</span>
+<h3 class="hub-card-title anchored">
 API Data Challenge
-</h5>
-<p class="card-text">
-Pull live demographic data from open government databases using REST APIs. Parse JSON payloads, clean dirty data, and plot regional trends.
+</h3>
+<p class="hub-card-desc">
+Query live public REST endpoints, parse nested JSON payloads into Pandas DataFrames, and automate real-time scientific data visualizations.
 </p>
-<p><a href="outreach_data.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">View Module</a></p>
+<p><a href="outreach_data.html" class="hub-btn">Open Challenge</a></p>
 </div>
 </div>
+<div class="hub-card">
+<div class="hub-card-visual">
+<svg viewbox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+<rect x="45" y="45" width="230" height="130" rx="6" fill="#f8fafc" stroke="#1e3a5f" stroke-width="2"></rect> <line x1="45" y1="72" x2="275" y2="72" stroke="#1e3a5f" stroke-width="1.5"></line> <circle cx="62" cy="58" r="4" fill="#e86c3a"></circle> <circle cx="76" cy="58" r="4" fill="#fbbf24"></circle> <circle cx="90" cy="58" r="4" fill="#10b981"></circle> <rect x="65" y="90" width="90" height="14" fill="#dbeafe" rx="2"></rect> <rect x="65" y="114" width="140" height="12" fill="#e2e8f0" rx="2"></rect> <rect x="65" y="136" width="115" height="12" fill="#e2e8f0" rx="2"></rect> <rect x="195" y="88" width="60" height="60" fill="none" stroke="#e86c3a" stroke-width="2" stroke-dasharray="4,3"></rect>
+</svg>
 </div>
-<!-- CARD 7: WEB SCRAPING -->
-<div class="g-col-12 g-col-md-4">
-<div class="card h-100">
-<div id="d301f1c1" class="cell" data-fig-height="2.8" data-execution_count="4">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="outreach_files/figure-html/cell-5-output-1.png" width="499" height="288" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="card-body">
-<span class="tier-badge">Grades 10–12 | Web Robotics</span>
-<h5 class="card-title anchored">
-Automating the Web
-</h5>
-<p class="card-text">
-Introduction to DOM traversal and web automation. Program a Python bot to crawl online directories and bulk-extract files using BeautifulSoup.
+<div class="hub-card-body">
+<span class="hub-tag">Grades 9–11 • Python Automation</span>
+<h3 class="hub-card-title anchored">
+Scientific Web Scraping
+</h3>
+<p class="hub-card-desc">
+Extract structured tabular datasets from HTML DOM trees using BeautifulSoup, clean noisy text records, and prepare reproducible analysis pipelines.
 </p>
-<p><a href="web_scraping.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">View Module</a></p>
+<p><a href="web_scraping.html" class="hub-btn">Open Module</a></p>
 </div>
 </div>
 </div>
 </div>
-<hr>
-</section>
-<section id="tier-3-advanced-materials-engineering" class="level2 tier-header">
-<h2 class="tier-header anchored" data-anchor-id="tier-3-advanced-materials-engineering">🧪 Tier 3: Advanced Materials &amp; Engineering</h2>
-<p><strong>Target Audience:</strong> Grades 11–12, Early College &amp; STEM Competitions<br>
-<em>Core Concepts: 3D spatial geometry, crystallography, Miller indices, atomic packing factors, and X-ray diffraction.</em></p>
-<div class="grid">
-<!-- CARD 8: CRYSTAL STRUCTURES PART I -->
-<div class="g-col-12 g-col-md-6">
-<div class="card h-100">
-<div style="text-align: center; background-color: #f8f9fa; padding-top: 15px; padding-bottom: 15px;">
-<p><img src="crystal_fcc_hub.png" alt="Crystal Structures and Miller Planes" style="max-width: 100%; height: auto; max-height: 200px; border-radius: 5px;"></p>
-</div>
-<div class="card-body">
-<span class="tier-badge">Grades 11–College | Materials Science I</span>
-<h5 class="card-title anchored">
-Crystal Structures &amp; Miller Planes
-</h5>
-<p class="card-text">
-Explore unit cells, coordination numbers, and packing factor derivations across SC, BCC, FCC, HCP, and Rock Salt (<span class="math inline">NaCl</span>). Features an interactive HTML/JS crystal and Bragg’s Law simulator.
+<div class="tier-section">
+<div class="tier-banner">
+<h2 class="tier-title anchored">
+Tier 3: Advanced Materials Science &amp; Honors Engineering
+</h2>
+<p class="tier-meta">
+<strong>Target Audience:</strong> Grades 11–12 &amp; Undergraduate Bridge (Honors / AP Physics &amp; Chemistry) &nbsp;|&nbsp; <strong>Core Concepts:</strong> X-ray diffraction (Bragg’s Law), solid-state crystallography, and planetary mineralogy.
 </p>
-<p><a href="crystal_structures_part1.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">View Part I</a></p>
 </div>
+<div class="hub-card-grid">
+<div class="hub-card">
+<div class="hub-card-visual">
+<svg viewbox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+<line x1="35" y1="175" x2="290" y2="175" stroke="#94a3b8" stroke-width="1.5"></line> <line x1="35" y1="35" x2="35" y2="175" stroke="#94a3b8" stroke-width="1.5"></line> <polyline points="40,172 85,170 95,115 105,170 145,170 158,42 170,170 215,170 225,88 235,170 285,172" fill="none" stroke="#1e3a5f" stroke-width="2.5"></polyline> <circle cx="158" cy="42" r="5" fill="#e86c3a"></circle> <circle cx="225" cy="88" r="4.5" fill="#6d28d9"></circle> <circle cx="95" cy="115" r="4.5" fill="#6d28d9"></circle>
+</svg>
 </div>
-</div>
-<!-- CARD 9: MARS ROVER XRD LAB PART II -->
-<div class="g-col-12 g-col-md-6">
-<div class="card h-100">
-<div id="80bfc1cd" class="cell" data-fig-height="2.8" data-execution_count="5">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="outreach_files/figure-html/cell-6-output-1.png" width="499" height="288" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="card-body">
-<span class="tier-badge">Grades 11–College | Materials Science II</span>
-<h5 class="card-title anchored">
-Planetary Rover XRD Lab
-</h5>
-<p class="card-text">
-Put crystal theory to work in a gamified space mission. Filter signal noise, identify unknown minerals using Bragg peak fingerprints, and compute alloy phase ratios with Python.
+<div class="hub-card-body">
+<span class="hub-tag">Grades 11–12 • Planetary Materials</span>
+<h3 class="hub-card-title anchored">
+Mars Rover XRD Mineralogy Lab
+</h3>
+<p class="hub-card-desc">
+Apply Bragg’s Law (<span class="math inline">n\lambda = 2d\sin\theta</span>) to authentic Curiosity Rover CheMin X-ray diffraction spectra to identify crystalline minerals in Martian soil.
 </p>
-<p><a href="mars_xrd_lab.html" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">View Part II</a></p>
+<p><a href="mars_xrd_lab.html" class="hub-btn">Launch Lab</a></p>
+</div>
+</div>
+<div class="hub-card">
+<div class="hub-card-visual">
+<svg viewbox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+<rect x="95" y="75" width="90" height="90" fill="none" stroke="#1e3a5f" stroke-width="2.2"></rect> <rect x="135" y="45" width="90" height="90" fill="none" stroke="#6d28d9" stroke-width="2.2" stroke-dasharray="4,3"></rect> <line x1="95" y1="75" x2="135" y2="45" stroke="#1e3a5f" stroke-width="2"></line> <line x1="185" y1="75" x2="225" y2="45" stroke="#1e3a5f" stroke-width="2"></line> <line x1="95" y1="165" x2="135" y2="135" stroke="#1e3a5f" stroke-width="2"></line> <line x1="185" y1="165" x2="225" y2="135" stroke="#1e3a5f" stroke-width="2"></line> <circle cx="160" cy="105" r="9" fill="#e86c3a"></circle> <circle cx="95" cy="75" r="5.5" fill="#1e3a5f"></circle> <circle cx="185" cy="75" r="5.5" fill="#1e3a5f"></circle> <circle cx="95" cy="165" r="5.5" fill="#1e3a5f"></circle> <circle cx="185" cy="165" r="5.5" fill="#1e3a5f"></circle>
+</svg>
+</div>
+<div class="hub-card-body">
+<span class="hub-tag">Grades 11–12 • Solid-State Physics</span>
+<h3 class="hub-card-title anchored">
+3D Crystal Structures &amp; Unit Cells
+</h3>
+<p class="hub-card-desc">
+Explore Simple Cubic (SC), Body-Centered Cubic (BCC), and Face-Centered Cubic (FCC) lattices, coordination numbers, and atomic packing factors.
+</p>
+<p><a href="crystal_structures_part1.html" class="hub-btn">Open Module</a></p>
+</div>
 </div>
 </div>
 </div>
 </div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
