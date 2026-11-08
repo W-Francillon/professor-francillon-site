@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSS Engineering Telemetry Studio</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f4f6;
+            color: #111827;
+            margin: 0;
+            padding: 12px;
+            box-sizing: border-box;
+        }
+        *, *:before, *:after { box-sizing: inherit; }
+        .studio-container {
+            max-width: 1140px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .card {
+            background: #ffffff;
+            border: 1px solid #d4d4d8;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            padding: 14px;
+        }
+        .flex-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 7fr 5fr;
+            gap: 12px;
+        }
+        @media (max-width: 850px) {
+            .grid-2col { grid-template-columns: 1fr; }
+        }
+        .tab-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            border: 1px solid #d4d4d8;
+            transition: all 0.15s ease;
+        }
+        .tab-active {
+            background-color: #2e1065;
+            color: #ffffff;
+            border-color: #2e1065;
+            font-weight: 600;
+        }
+        .tab-inactive {
+            background-color: #ffffff;
+            color: #374151;
+        }
+        .tab-inactive:hover {
+            background-color: #f3e8ff;
+            color: #4c1d95;
+            border-color: #c084fc;
+        }
+        .feed-card {
+            background: #ffffff;
+            border: 1px solid #e4e4e7;
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+            cursor: pointer;
+        }
+        .feed-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -4px rgba(46, 16, 101, 0.12);
+            border-color: #a855f7;
+        }
+        .feed-card-selected {
+            border: 2px solid #5b21b6;
+            background: #faf5ff;
+        }
+        .code-box {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 11.5px;
+            line-height: 1.5;
+            background: #09090b;
+            color: #e4e4e7;
+            border-radius: 8px;
+            padding: 12px;
+            overflow-x: auto;
+        }
+        .xml-tag { color: #c084fc; font-weight: 600; }
+        .xml-attr { color: #38bdf8; }
+        .xml-val { color: #fde047; }
+        .py-kw { color: #c084fc; font-weight: 600; }
+        .py-str { color: #86efac; }
+        .py-cmt { color: #71717a; font-style: italic; }
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #16a34a;
+            display: inline-block;
+            box-shadow: 0 0 0 rgba(22, 163, 74, 0.6);
+            animation: pulse 1.8s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); }
+            70% { box-shadow: 0 0 0 7px rgba(22, 163, 74, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); }
+        }
+        input[type="text"], select {
+            width: 100%;
+            border: 1px solid #d4d4d8;
+            border-radius: 6px;
+            padding: 8px 10px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #111827;
+            background: #ffffff;
+            outline: none;
+        }
+        input[type="text"]:focus, select:focus {
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.15);
+        }
+        .btn-primary {
+            background-color: #18181b;
+            color: #ffffff;
+            border: none;
+            padding: 7px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+        .btn-primary:hover { background-color: #5b21b6; }
+        .btn-secondary {
+            background-color: #ffffff;
+            color: #5b21b6;
+            border: 1px solid #d8b4fe;
+            padding: 7px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+        .btn-secondary:hover { background-color: #f3e8ff; }
+    </style>
+</head>
+<body>
+
+<div class="studio-container">
+
+    <!-- ================= SECTION 1: LIVE RSS WIRE & XML INSPECTOR ================= -->
+    <div id="wireSection" class="studio-container">
+        
+        <!-- Top Controls Bar -->
+        <div class="card flex-row">
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;" id="catBar">
+                <button onclick="setCat('all')" data-cat="all" class="tab-btn tab-active">All Engineering</button>
+                <button onclick="setCat('electrical')" data-cat="electrical" class="tab-btn tab-inactive">Electrical &amp; Circuits</button>
+                <button onclick="setCat('mechanical')" data-cat="mechanical" class="tab-btn tab-inactive">Mechanical &amp; Aerospace</button>
+                <button onclick="setCat('stem')" data-cat="stem" class="tab-btn tab-inactive">STEM &amp; Materials</button>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 12px;">
+                <span style="padding: 5px 10px; background: #f4f4f6; border: 1px solid #d4d4d8; border-radius: 6px; display: flex; align-items: center; gap: 6px; font-weight: 600; color: #374151;">
+                    <span class="pulse-dot"></span> <span id="syncStatusText">Live XML Stream Active</span>
+                </span>
+                <span style="padding: 5px 10px; background: #f3e8ff; border: 1px solid #d8b4fe; border-radius: 6px; font-weight: 600; color: #5b21b6;" id="itemCountBadge">
+                    12 Items Indexed
+                </span>
+                <button onclick="fetchLiveFeeds()" class="btn-primary">&#x21bb; Refresh</button>
+            </div>
+        </div>
+
+        <!-- 2-Column Grid -->
+        <div class="grid-2col">
+            
+            <!-- Left: Feed Stream Grid -->
+            <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e4e4e7; padding-bottom: 8px; margin-bottom: 10px;">
+                        <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #3f3f46; letter-spacing: 0.04em;">Syndicated Engineering Feed Stream</span>
+                        <span style="font-size: 11px; font-weight: 600; color: #6d28d9;" id="activeCatLabel">Showing: All Disciplines</span>
+                    </div>
+
+                    <div id="feedGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-height: 390px; overflow-y: auto; padding-right: 4px;"></div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #71717a; border-top: 1px solid #f4f4f6; padding-top: 8px; margin-top: 10px;">
+                    <span>Sources: IEEE Spectrum, Hackaday, NASA, ASME, Phys.org, Nature</span>
+                    <span>Protocol: RSS 2.0 / Atom XML</span>
+                </div>
+            </div>
+
+            <!-- Right: XML Tree & Schema Inspector -->
+            <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e4e4e7; padding-bottom: 8px; margin-bottom: 8px;">
+                        <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #5b21b6; letter-spacing: 0.04em;">Raw RSS 2.0 XML Payload Inspector</span>
+                        <span style="font-size: 10px; padding: 2px 6px; background: #f4f4f6; border: 1px solid #d4d4d8; border-radius: 4px; font-family: monospace;">&lt;item&gt; Node</span>
+                    </div>
+                    <p style="font-size: 11.5px; color: #52525b; margin: 0 0 8px 0; line-height: 1.4;">
+                        Every article is packaged inside a standardized <code style="background: #f4f4f6; padding: 1px 4px; border-radius: 3px; color: #6d28d9; font-weight: bold;">&lt;item&gt;</code> XML node:
+                    </p>
+                    <div id="xmlInspector" class="code-box" style="min-height: 195px;"></div>
+                </div>
+
+                <div style="margin-top: 10px; border-top: 1px solid #e4e4e7; padding-top: 8px;">
+                    <div style="font-size: 11px; font-weight: 700; color: #27272a; margin-bottom: 4px;">Parsed Python Dictionary Keys (<code style="color: #6d28d9;">feedparser</code>):</div>
+                    <div id="parsedDictPreview" style="padding: 8px; background: #f9fafb; border: 1px solid #e4e4e7; border-radius: 6px; font-family: monospace; font-size: 11px; color: #1f2937; line-height: 1.4;"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ================= SECTION 2: PYTHON PIPELINE & MISSION LAB ================= -->
+    <div id="pipelineSection" class="studio-container">
+
+        <!-- Gamified Mission Bar -->
+        <div class="card" style="border-left: 4px solid #6d28d9; display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 12px;">
+            <div>
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 2px;">
+                    <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #5b21b6; letter-spacing: 0.04em;">Interactive Data Pipeline Challenge</span>
+                    <span id="missionCount" style="font-size: 11px; font-weight: 600; color: #71717a;">(Mission 1 of 5)</span>
+                    <div id="missionDots" style="display: flex; gap: 5px; margin-left: 6px;"></div>
+                </div>
+                <div id="missionText" style="font-size: 12.5px; color: #1f2937; font-weight: 500;"></div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+                <span id="missionStatus" style="padding: 6px 12px; border-radius: 6px; font-size: 11.5px; font-weight: 700; background: #f4f4f6; border: 1px solid #d4d4d8; color: #374151;">
+                    Awaiting Filter...
+                </span>
+                <button onclick="nextMission()" class="btn-primary">Next Challenge &rarr;</button>
+            </div>
+        </div>
+
+        <!-- Pipeline 2-Column Grid -->
+        <div class="grid-2col">
+
+            <!-- Left: Harvester Configuration -->
+            <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; gap: 12px;">
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e4e4e7; padding-bottom: 8px;">
+                        <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #3f3f46; letter-spacing: 0.04em;">Python Harvester Configuration</span>
+                        <button onclick="resetPipeline()" style="font-size: 11px; font-weight: 600; color: #6d28d9; background: #f3e8ff; border: 1px solid #d8b4fe; padding: 3px 8px; border-radius: 4px; cursor: pointer;">Reset Filter</button>
+                    </div>
+
+                    <div>
+                        <label style="font-size: 11.5px; font-weight: 600; color: #3f3f46; display: block; margin-bottom: 4px;">1. Select Target RSS Endpoint Stream</label>
+                        <select id="pipeCatSelect" onchange="updatePipeline()">
+                            <option value="all">All Engineering Feeds (Multi-Source Dictionary)</option>
+                            <option value="electrical">Electrical Engineering (IEEE Spectrum &amp; Hackaday)</option>
+                            <option value="mechanical">Mechanical &amp; Aerospace (NASA &amp; ASME)</option>
+                            <option value="stem">Physics &amp; Materials Science (Phys.org &amp; Nature)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label style="font-size: 11.5px; font-weight: 600; color: #3f3f46; display: block; margin-bottom: 4px;">2. Keyword Filter Query (Case-Insensitive)</label>
+                        <input type="text" id="kwInput" value="" placeholder="e.g., semiconductor, rover, battery, solar..." oninput="updatePipeline()">
+                        <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; align-items: center;">
+                            <span style="font-size: 10px; color: #71717a; margin-right: 2px;">Presets:</span>
+                            <button onclick="setKw('semiconductor')" class="tab-btn tab-inactive" style="padding: 2px 6px; font-size: 10.5px;">semiconductor</button>
+                            <button onclick="setKw('rover')" class="tab-btn tab-inactive" style="padding: 2px 6px; font-size: 10.5px;">rover</button>
+                            <button onclick="setKw('battery')" class="tab-btn tab-inactive" style="padding: 2px 6px; font-size: 10.5px;">battery</button>
+                            <button onclick="setKw('grid')" class="tab-btn tab-inactive" style="padding: 2px 6px; font-size: 10.5px;">grid</button>
+                            <button onclick="setKw('crystal')" class="tab-btn tab-inactive" style="padding: 2px 6px; font-size: 10.5px;">crystal</button>
+                        </div>
+                    </div>
+
+                    <!-- Distribution Bar Chart -->
+                    <div style="padding: 10px; background: #f9fafb; border: 1px solid #e4e4e7; border-radius: 8px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; font-weight: 700; color: #3f3f46; margin-bottom: 6px;">
+                            <span>Matched Articles by Discipline</span>
+                            <span id="matchSummaryBadge" style="color: #6d28d9;">12 / 12 Matched</span>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 6px; font-size: 11px;">
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 2px;"><span style="font-weight: 600; color: #374151;">Electrical (IEEE / Hackaday)</span><span id="cntElec" style="font-weight: 700; color: #5b21b6;">4</span></div>
+                                <div style="width: 100%; background: #e4e4e7; height: 6px; border-radius: 999px; overflow: hidden;"><div id="barElec" style="background: #6d28d9; height: 100%; width: 100%; transition: width 0.2s;"></div></div>
+                            </div>
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 2px;"><span style="font-weight: 600; color: #374151;">Mechanical &amp; Aero (NASA / ASME)</span><span id="cntMech" style="font-weight: 700; color: #18181b;">4</span></div>
+                                <div style="width: 100%; background: #e4e4e7; height: 6px; border-radius: 999px; overflow: hidden;"><div id="barMech" style="background: #18181b; height: 100%; width: 100%; transition: width 0.2s;"></div></div>
+                            </div>
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 2px;"><span style="font-weight: 600; color: #374151;">STEM &amp; Materials (Phys.org / Nature)</span><span id="cntStem" style="font-weight: 700; color: #7c3aed;">4</span></div>
+                                <div style="width: 100%; background: #e4e4e7; height: 6px; border-radius: 999px; overflow: hidden;"><div id="barStem" style="background: #a855f7; height: 100%; width: 100%; transition: width 0.2s;"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="border-top: 1px solid #e4e4e7; padding-top: 10px;">
+                    <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #71717a; margin-bottom: 6px;">Export Dataset &amp; Script</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <button onclick="exportCSV()" class="btn-primary" style="text-align: center;">Download CSV</button>
+                        <button onclick="downloadPyScript()" class="btn-secondary" style="text-align: center;" id="pyBtn">Download .py</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Auto-Generated Python Code & DataFrame Table -->
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e4e4e7; padding-bottom: 8px; margin-bottom: 8px;">
+                        <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #5b21b6; letter-spacing: 0.04em;">Auto-Generated Python <code style="font-family: monospace;">feedparser</code> Script</span>
+                        <button onclick="copyPyCode()" id="copyCodeBtn" style="font-size: 11px; font-weight: 600; color: #5b21b6; background: #f3e8ff; border: 1px solid #d8b4fe; padding: 3px 8px; border-radius: 4px; cursor: pointer;">Copy Python Code</button>
+                    </div>
+                    <div id="livePyCode" class="code-box" style="max-height: 165px; overflow-y: auto;"></div>
+                </div>
+
+                <div class="card" style="flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e4e4e7; padding-bottom: 8px; margin-bottom: 8px;">
+                            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #3f3f46; letter-spacing: 0.04em;">Filtered Pandas DataFrame Preview (<code style="color: #6d28d9;">df.head()</code>)</span>
+                            <span id="dfShapeBadge" style="font-size: 11px; font-family: monospace; font-weight: 600; color: #71717a;">Shape: (12, 4)</span>
+                        </div>
+                        <div style="overflow-x: auto; max-height: 160px; overflow-y: auto; border: 1px solid #e4e4e7; border-radius: 6px;">
+                            <table style="width: 100%; text-align: left; border-collapse: collapse; font-size: 11.5px;">
+                                <thead style="background: #f4f4f6; color: #3f3f46; position: sticky; top: 0; border-bottom: 1px solid #d4d4d8;">
+                                    <tr>
+                                        <th style="padding: 6px 10px; font-weight: 700;">Source</th>
+                                        <th style="padding: 6px 10px; font-weight: 700;">Discipline</th>
+                                        <th style="padding: 6px 10px; font-weight: 700;">Headline (<code style="font-family: monospace;">entry.title</code>)</th>
+                                        <th style="padding: 6px 10px; font-weight: 700;">Published</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dfTableBody" style="divide-y: 1px solid #e4e4e7;"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const viewMode = params.get('mode') || 'all';
+    if (viewMode === 'wire') document.getElementById('pipelineSection').style.display = 'none';
+    if (viewMode === 'pipeline') document.getElementById('wireSection').style.display = 'none';
+
+    const defaultArticles = [
+        {
+            id: 1,
+            cat: 'electrical',
+            source: 'IEEE Spectrum',
+            title: 'Gallium Nitride Power ICs Push Inverter Efficiency Past 99%',
+            link: 'https://spectrum.ieee.org/topic/semiconductors/',
+            pubDate: 'Fri, 06 Nov 2026 14:20:00 GMT',
+            summary: 'Wide-bandgap GaN semiconductor switches reduce switching losses in high-voltage microgrid and EV traction inverters.'
+        },
+        {
+            id: 2,
+            cat: 'electrical',
+            source: 'Hackaday',
+            title: 'Designing a Low-Noise Dual-Rail Op-Amp Instrumentation Front-End',
+            link: 'https://hackaday.com/blog/',
+            pubDate: 'Fri, 06 Nov 2026 11:05:00 GMT',
+            summary: 'Practical PCB layout techniques, bypass capacitor placement, and virtual ground guarding for precision analog sensor amplifiers.'
+        },
+        {
+            id: 3,
+            cat: 'electrical',
+            source: 'IEEE Spectrum',
+            title: 'Grid-Forming Battery Inverters Stabilize Islanded Microgrids',
+            link: 'https://spectrum.ieee.org/topic/energy/',
+            pubDate: 'Thu, 05 Nov 2026 16:40:00 GMT',
+            summary: 'Autonomous frequency droop control allows LiFePO4 battery storage banks to synchronize seamlessly with solar arrays.'
+        },
+        {
+            id: 4,
+            cat: 'electrical',
+            source: 'All About Circuits',
+            title: 'Understanding RLC Resonance and Impedance Matching in RF Front-Ends',
+            link: 'https://www.allaboutcircuits.com/technical-articles/',
+            pubDate: 'Wed, 04 Nov 2026 09:15:00 GMT',
+            summary: 'How quality factor (Q) and complex conjugate reactance matching maximize power transfer in 2.4 GHz wireless receivers.'
+        },
+        {
+            id: 5,
+            cat: 'mechanical',
+            source: 'NASA Breaking News',
+            title: 'Lunar Rover Suspension Completes Autonomous Crater Traversal Trials',
+            link: 'https://www.nasa.gov/news/',
+            pubDate: 'Fri, 06 Nov 2026 15:10:00 GMT',
+            summary: 'Rocker-bogie kinematics and LiDAR hazard avoidance enable student-built autonomous rovers to navigate loose regolith simulant.'
+        },
+        {
+            id: 6,
+            cat: 'mechanical',
+            source: 'ASME News',
+            title: 'Additive Manufacturing of High-Temperature Turbine Blades Cuts Mass by 22%',
+            link: 'https://www.asme.org/',
+            pubDate: 'Thu, 05 Nov 2026 13:30:00 GMT',
+            summary: 'Laser powder bed fusion creates internal lattice cooling channels in nickel-superalloy aerospace propulsion components.'
+        },
+        {
+            id: 7,
+            cat: 'mechanical',
+            source: 'MIT MechE',
+            title: 'Sustainable Aviation Fuel Synthesis Reaches 85% Carbon Conversion Efficiency',
+            link: 'https://meche.mit.edu/news-events/news',
+            pubDate: 'Wed, 04 Nov 2026 17:00:00 GMT',
+            summary: 'Catalytic Fischer-Tropsch reactors convert captured CO2 and green hydrogen into drop-in synthetic jet fuel.'
+        },
+        {
+            id: 8,
+            cat: 'mechanical',
+            source: 'NASA Breaking News',
+            title: 'Curiosity Rover CheMin Instrument Maps Sulfate-Rich Crystalline Strata',
+            link: 'https://www.nasa.gov/mission/msl-curiosity/',
+            pubDate: 'Tue, 03 Nov 2026 10:45:00 GMT',
+            summary: 'X-ray diffraction telemetry reveals ancient evaporative mineral transitions across Gale Crater sedimentary formations.'
+        },
+        {
+            id: 9,
+            cat: 'stem',
+            source: 'Phys.org',
+            title: 'Copper-Delafossite Oxide Catalysts Accelerate Clean Hydrogen Production',
+            link: 'https://phys.org/nanotech-news/',
+            pubDate: 'Fri, 06 Nov 2026 12:00:00 GMT',
+            summary: 'Surface crystal facet engineering lowers activation energy barriers during photoelectrochemical water splitting.'
+        },
+        {
+            id: 10,
+            cat: 'stem',
+            source: 'Nature Research',
+            title: 'Solid-State Lithium-Metal Battery Survives 5,000 Fast-Charge Cycles',
+            link: 'https://www.nature.com/',
+            pubDate: 'Thu, 05 Nov 2026 18:00:00 GMT',
+            summary: 'Ceramic-polymer composite electrolytes suppress dendrite growth under high current density operation.'
+        },
+        {
+            id: 11,
+            cat: 'stem',
+            source: 'Phys.org',
+            title: 'Sub-Diffraction Optical Metrology Resolves Nanoscale Surface Defects',
+            link: 'https://phys.org/physics-news/',
+            pubDate: 'Wed, 04 Nov 2026 14:15:00 GMT',
+            summary: 'Computational Modulation Transfer Function (MTF) deconvolution sharpens automated optical inspection imaging.'
+        },
+        {
+            id: 12,
+            cat: 'stem',
+            source: 'ArXiv Physics',
+            title: 'Machine Learning Surrogate Models for Real-Time Coastal Tide Prediction',
+            link: 'https://arxiv.org/',
+            pubDate: 'Tue, 03 Nov 2026 08:30:00 GMT',
+            summary: 'Combining harmonic astronomical constituents with barometric pressure telemetry improves estuarine water-level forecasts.'
+        }
+    ];
+
+    const STORAGE_KEY = 'francillon_rss_studio_v2';
+    let state = {
+        activeCat: 'all',
+        selectedId: 1,
+        pipeCat: 'all',
+        keyword: '',
+        missionIdx: 0,
+        completed: [false, false, false, false, false],
+        articles: defaultArticles
+    };
+
+    function saveState() {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                activeCat: state.activeCat,
+                selectedId: state.selectedId,
+                pipeCat: state.pipeCat,
+                keyword: state.keyword,
+                missionIdx: state.missionIdx,
+                completed: state.completed
+            }));
+        } catch(e) {}
+    }
+
+    function loadState() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (raw) {
+                const parsed = JSON.parse(raw);
+                state = { ...state, ...parsed, articles: defaultArticles };
+            }
+        } catch(e) {}
+    }
+
+    const missions = [
+        {
+            title: "Challenge 1: Isolate Electrical Engineering Feeds",
+            desc: "In the Harvester Configuration below (or top bar), filter the target stream to <b>Electrical Engineering</b> with an empty keyword box to index all 4 circuit articles.",
+            check: (s, matched) => s.pipeCat === 'electrical' && s.keyword.trim() === '' && matched.length === 4
+        },
+        {
+            title: "Challenge 2: Autonomous Rover Telemetry Search",
+            desc: "Set Target Stream to <b>All Engineering Feeds</b> and type <code>rover</code> in the Keyword Filter to isolate NASA's 2 planetary rover dispatches.",
+            check: (s, matched) => s.keyword.trim().toLowerCase() === 'rover' && matched.length >= 2
+        },
+        {
+            title: "Challenge 3: Energy Storage & Battery Scan",
+            desc: "Search across <b>All Engineering Feeds</b> using the keyword <code>battery</code> to capture cross-disciplinary stories in both Electrical and Materials Science.",
+            check: (s, matched) => s.keyword.trim().toLowerCase() === 'battery' && matched.length >= 2
+        },
+        {
+            title: "Challenge 4: Semiconductor Device Alert",
+            desc: "Filter by keyword <code>semiconductor</code> (or click the preset button) to locate wide-bandgap GaN power electronics research.",
+            check: (s, matched) => s.keyword.trim().toLowerCase() === 'semiconductor' && matched.length >= 1
+        },
+        {
+            title: "Challenge 5: Inspect an Aerospace XML Node",
+            desc: "In Part 1, switch to <b>Mechanical & Aerospace</b> and click any NASA or ASME article card to inspect its raw <code>&lt;item&gt;</code> XML tags.",
+            check: (s, matched) => {
+                const sel = state.articles.find(a => a.id === state.selectedId);
+                return sel && sel.cat === 'mechanical';
+            }
+        }
+    ];
+
+    const catLabels = {
+        all: 'All Disciplines',
+        electrical: 'Electrical & Circuits',
+        mechanical: 'Mechanical & Aerospace',
+        stem: 'STEM & Materials'
+    };
+
+    function escapeHtml(str) {
+        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function renderWire() {
+        const grid = document.getElementById('feedGrid');
+        if (!grid) return;
+
+        const filtered = state.activeCat === 'all'
+            ? state.articles
+            : state.articles.filter(a => a.cat === state.activeCat);
+
+        document.getElementById('itemCountBadge').textContent = `${filtered.length} Items Indexed`;
+        document.getElementById('activeCatLabel').textContent = `Showing: ${catLabels[state.activeCat]}`;
+
+        grid.innerHTML = filtered.map(a => {
+            const isSel = a.id === state.selectedId;
+            return `
+                <div onclick="selectArticle(${a.id})" class="feed-card ${isSel ? 'feed-card-selected' : ''}">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <span style="font-size: 9.5px; font-weight: 700; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; background: #f3e8ff; color: #5b21b6;">${escapeHtml(a.source)}</span>
+                            <span style="font-size: 9.5px; color: #71717a; font-family: monospace;">${escapeHtml(a.pubDate.slice(5, 16))}</span>
+                        </div>
+                        <h4 style="font-size: 11.5px; font-weight: 700; color: #111827; line-height: 1.35; margin: 0 0 4px 0;">${escapeHtml(a.title)}</h4>
+                        <p style="font-size: 10.5px; color: #4b5563; line-height: 1.4; margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${escapeHtml(a.summary)}</p>
+                    </div>
+                    <div style="margin-top: 8px; border-top: 1px solid #f4f4f6; padding-top: 6px; display: flex; justify-content: space-between; font-size: 10.5px;">
+                        <span style="font-weight: 600; color: #6d28d9;">${isSel ? '● Inspecting XML' : 'Inspect XML &rarr;'}</span>
+                        <a href="${escapeHtml(a.link)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color: #71717a; text-decoration: underline;">Source &#x2197;</a>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        renderXmlInspector();
+    }
+
+    function renderXmlInspector() {
+        const xmlBox = document.getElementById('xmlInspector');
+        const dictBox = document.getElementById('parsedDictPreview');
+        if (!xmlBox || !dictBox) return;
+
+        const art = state.articles.find(a => a.id === state.selectedId) || state.articles[0];
+
+        xmlBox.innerHTML = `<span class="xml-tag">&lt;rss</span> <span class="xml-attr">version=</span><span class="xml-val">"2.0"</span><span class="xml-tag">&gt;</span>
+  <span class="xml-tag">&lt;channel&gt;</span>
+    <span class="xml-tag">&lt;title&gt;</span>${escapeHtml(art.source)}<span class="xml-tag">&lt;/title&gt;</span>
+    <span class="xml-tag">&lt;item&gt;</span>
+      <span class="xml-tag">&lt;title&gt;</span>${escapeHtml(art.title)}<span class="xml-tag">&lt;/title&gt;</span>
+      <span class="xml-tag">&lt;link&gt;</span><span class="xml-val">${escapeHtml(art.link)}</span><span class="xml-tag">&lt;/link&gt;</span>
+      <span class="xml-tag">&lt;pubDate&gt;</span>${escapeHtml(art.pubDate)}<span class="xml-tag">&lt;/pubDate&gt;</span>
+      <span class="xml-tag">&lt;description&gt;</span>${escapeHtml(art.summary)}<span class="xml-tag">&lt;/description&gt;</span>
+    <span class="xml-tag">&lt;/item&gt;</span>
+  <span class="xml-tag">&lt;/channel&gt;</span>
+<span class="xml-tag">&lt;/rss&gt;</span>`;
+
+        dictBox.innerHTML = `
+            <div><span style="color: #6d28d9; font-weight: bold;">entry.title</span> = "${escapeHtml(art.title.slice(0, 42))}..."</div>
+            <div><span style="color: #6d28d9; font-weight: bold;">entry.published</span> = "${escapeHtml(art.pubDate)}"</div>
+            <div><span style="color: #6d28d9; font-weight: bold;">entry.link</span> = "${escapeHtml(art.link)}"</div>
+        `;
+    }
+
+    window.setCat = function(cat) {
+        state.activeCat = cat;
+        state.pipeCat = cat;
+        syncControls();
+        renderWire();
+        updatePipeline(true);
+    };
+
+    window.selectArticle = function(id) {
+        state.selectedId = id;
+        renderWire();
+        updatePipeline(true);
+    };
+
+    window.fetchLiveFeeds = async function() {
+        const statusEl = document.getElementById('syncStatusText');
+        if (statusEl) statusEl.textContent = "Syncing Live XML Endpoints...";
+        try {
+            const resp = await fetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent('https://spectrum.ieee.org/feeds/feed.rss'));
+            if (resp.ok) {
+                const data = await resp.json();
+                if (data && data.items && data.items.length > 0) {
+                    const liveItem = data.items[0];
+                    state.articles[0].title = liveItem.title || state.articles[0].title;
+                    state.articles[0].link = liveItem.link || state.articles[0].link;
+                    state.articles[0].pubDate = liveItem.pubDate || state.articles[0].pubDate;
+                }
+            }
+            if (statusEl) statusEl.textContent = "Live XML Stream Verified";
+        } catch (err) {
+            if (statusEl) statusEl.textContent = "Cached XML Telemetry Active";
+        }
+        renderWire();
+        updatePipeline(false);
+    };
+
+    function getFilteredArticles() {
+        const kw = state.keyword.trim().toLowerCase();
+        return state.articles.filter(a => {
+            const catMatch = state.pipeCat === 'all' || a.cat === state.pipeCat;
+            const kwMatch = !kw || a.title.toLowerCase().includes(kw) || a.summary.toLowerCase().includes(kw) || a.source.toLowerCase().includes(kw);
+            return catMatch && kwMatch;
+        });
+    }
+
+    window.updatePipeline = function(persist = true) {
+        const selEl = document.getElementById('pipeCatSelect');
+        const kwEl = document.getElementById('kwInput');
+        if (selEl && persist) state.pipeCat = selEl.value;
+        if (kwEl && persist) state.keyword = kwEl.value;
+
+        const matched = getFilteredArticles();
+
+        const cElec = matched.filter(a => a.cat === 'electrical').length;
+        const cMech = matched.filter(a => a.cat === 'mechanical').length;
+        const cStem = matched.filter(a => a.cat === 'stem').length;
+
+        const elBadge = document.getElementById('matchSummaryBadge');
+        if (elBadge) elBadge.textContent = `${matched.length} / ${state.articles.length} Matched`;
+
+        if (document.getElementById('cntElec')) {
+            document.getElementById('cntElec').textContent = cElec;
+            document.getElementById('barElec').style.width = `${(cElec / 4) * 100}%`;
+            document.getElementById('cntMech').textContent = cMech;
+            document.getElementById('barMech').style.width = `${(cMech / 4) * 100}%`;
+            document.getElementById('cntStem').textContent = cStem;
+            document.getElementById('barStem').style.width = `${(cStem / 4) * 100}%`;
+        }
+
+        const codeEl = document.getElementById('livePyCode');
+        if (codeEl) {
+            const feedMap = {
+                all: `{\n    "IEEE Spectrum": "https://spectrum.ieee.org/feeds/feed.rss",\n    "NASA Breaking": "https://www.nasa.gov/news-release/feed/",\n    "Phys.org STEM": "https://phys.org/rss-feed/"\n}`,
+                electrical: `{"IEEE Spectrum": "https://spectrum.ieee.org/feeds/feed.rss", "Hackaday": "https://hackaday.com/feed/"}`,
+                mechanical: `{"NASA News": "https://www.nasa.gov/news-release/feed/", "ASME": "https://www.asme.org/rss/news"}`,
+                stem: `{"Phys.org": "https://phys.org/rss-feed/", "Nature": "https://www.nature.com/nature.rss"}`
+            };
+            const kwStr = state.keyword.trim().toLowerCase();
+            codeEl.innerHTML = `<span class="py-kw">import</span> feedparser\n<span class="py-kw">import</span> pandas <span class="py-kw">as</span> pd\n\nfeeds = ${feedMap[state.pipeCat]}\nkeyword = <span class="py-str">"${escapeHtml(kwStr)}"</span>\n\nrows = []\n<span class="py-kw">for</span> src, url <span class="py-kw">in</span> feeds.items():\n    stream = feedparser.parse(url)\n    <span class="py-kw">for</span> entry <span class="py-kw">in</span> stream.entries:\n        text = (entry.title + <span class="py-str">" "</span> + entry.get(<span class="py-str">"summary"</span>, <span class="py-str">""</span>)).lower()\n        <span class="py-kw">if</span> keyword == <span class="py-str">""</span> <span class="py-kw">or</span> keyword <span class="py-kw">in</span> text:\n            rows.append({<span class="py-str">"source"</span>: src, <span class="py-str">"title"</span>: entry.title})\n\ndf = pd.DataFrame(rows)\ndf.to_csv(<span class="py-str">"telemetry.csv"</span>, index=<span class="py-kw">False</span>)`;
+        }
+
+        const tbody = document.getElementById('dfTableBody');
+        const shapeBadge = document.getElementById('dfShapeBadge');
+        if (shapeBadge) shapeBadge.textContent = `Shape: (${matched.length}, 4)`;
+        if (tbody) {
+            if (matched.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="padding: 12px; text-align: center; color: #71717a;">No articles matched keyword "${escapeHtml(state.keyword)}".</td></tr>`;
+            } else {
+                tbody.innerHTML = matched.map(a => `
+                    <tr style="border-bottom: 1px solid #f4f4f6;">
+                        <td style="padding: 6px 10px; font-weight: 600; color: #111827; white-space: nowrap;">${escapeHtml(a.source)}</td>
+                        <td style="padding: 6px 10px; text-transform: uppercase; font-size: 10px; font-weight: 700; color: #6d28d9;">${escapeHtml(a.cat)}</td>
+                        <td style="padding: 6px 10px; color: #374151;">${escapeHtml(a.title)}</td>
+                        <td style="padding: 6px 10px; font-family: monospace; font-size: 10px; color: #71717a; white-space: nowrap;">${escapeHtml(a.pubDate.slice(5, 16))}</td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        const m = missions[state.missionIdx];
+        const mCount = document.getElementById('missionCount');
+        const mText = document.getElementById('missionText');
+        const stBadge = document.getElementById('missionStatus');
+        const mDots = document.getElementById('missionDots');
+
+        if (mCount) mCount.textContent = `(Mission ${state.missionIdx + 1} of ${missions.length})`;
+        if (mText) mText.innerHTML = `<b>${m.title}:</b> ${m.desc}`;
+
+        const passed = m.check(state, matched);
+        if (stBadge) {
+            if (passed) {
+                state.completed[state.missionIdx] = true;
+                stBadge.style.background = "#f3e8ff";
+                stBadge.style.borderColor = "#d8b4fe";
+                stBadge.style.color = "#5b21b6";
+                stBadge.textContent = "✓ Pipeline Verified!";
+            } else {
+                stBadge.style.background = "#f4f4f6";
+                stBadge.style.borderColor = "#d4d4d8";
+                stBadge.style.color = "#374151";
+                stBadge.textContent = "Tuning Filter...";
+            }
+        }
+
+        if (mDots) {
+            mDots.innerHTML = state.completed.map((done, i) =>
+                `<span onclick="state.missionIdx=${i};updatePipeline(true)" style="cursor: pointer; width: 8px; height: 8px; border-radius: 50%; display: inline-block; background: ${done ? '#6d28d9' : (i === state.missionIdx ? '#18181b' : '#d4d4d8')}"></span>`
+            ).join('');
+        }
+
+        if (persist) saveState();
+    };
+
+    function syncControls() {
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            const active = btn.dataset.cat === state.activeCat;
+            btn.className = active ? "tab-btn tab-active" : "tab-btn tab-inactive";
+        });
+        const selEl = document.getElementById('pipeCatSelect');
+        const kwEl = document.getElementById('kwInput');
+        if (selEl) selEl.value = state.pipeCat;
+        if (kwEl) kwEl.value = state.keyword;
+    }
+
+    window.setKw = function(kw) {
+        state.keyword = kw;
+        syncControls();
+        updatePipeline(true);
+    };
+
+    window.resetPipeline = function() {
+        state.pipeCat = 'all';
+        state.activeCat = 'all';
+        state.keyword = '';
+        syncControls();
+        renderWire();
+        updatePipeline(true);
+    };
+
+    window.nextMission = function() {
+        state.missionIdx = (state.missionIdx + 1) % missions.length;
+        updatePipeline(true);
+    };
+
+    window.exportCSV = function() {
+        const matched = getFilteredArticles();
+        const header = "discipline,source,title,pubDate,link\n";
+        const body = matched.map(a => `"${a.cat}","${a.source}","${a.title.replace(/"/g, '""')}","${a.pubDate}","${a.link}"`).join('\n');
+        const blob = new Blob([header + body], { type: 'text/csv' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `rss_telemetry_${state.pipeCat}.csv`;
+        a.click();
+    };
+
+    window.downloadPyScript = function() {
+        const codeEl = document.getElementById('livePyCode');
+        const rawText = codeEl ? codeEl.innerText : '';
+        const blob = new Blob([rawText], { type: 'text/x-python' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `rss_harvester_${state.pipeCat}.py`;
+        a.click();
+    };
+
+    window.copyPyCode = function() {
+        const codeEl = document.getElementById('livePyCode');
+        if (!codeEl) return;
+        navigator.clipboard.writeText(codeEl.innerText);
+        const btn = document.getElementById('copyCodeBtn');
+        if (btn) {
+            btn.textContent = "✓ Copied!";
+            setTimeout(() => { btn.textContent = "Copy Python Code"; }, 2000);
+        }
+    };
+
+    loadState();
+    syncControls();
+    renderWire();
+    updatePipeline(false);
+</script>
+</body>
+</html>
