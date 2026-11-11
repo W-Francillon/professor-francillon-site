@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="Free interactive electrical engineering circuit problem generator with step-by-step LaTeX derivations, Beginner/Intermediate/Advanced tiers, first-order RC/RL switching transients, second-order series and parallel RLC responses, LTspice/TINA-TI netlists, and Overleaf CircuiTikZ code.">
 
 <title>Interactive Circuit Generator – Wesley Francillon, PhD</title>
 <style>
@@ -83,7 +84,80 @@ gtag('js', new Date());
 gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
 </script>
 <style>html{ scroll-behavior: smooth; }</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "LearningResource"],
+  "name": "Interactive Electrical Circuit Problem Generator",
+  "url": "https://professorfrancillon.com/circuit_generator.html",
+  "applicationCategory": "EducationalApplication",
+  "educationalLevel": "Undergraduate Engineering",
+  "learningResourceType": ["Interactive Simulation", "Practice Problem Generator", "Assessment Tool"],
+  "about": [
+    "Electrical Engineering",
+    "Circuit Analysis",
+    "Thevenin and Norton Equivalents",
+    "First-Order RC and RL Transients",
+    "Second-Order Series and Parallel RLC Circuits",
+    "AC Sinusoidal Steady-State Phasors",
+    "Operational Amplifiers"
+  ],
+  "author": {
+    "@type": "Person",
+    "name": "Wesley Francillon, PhD",
+    "url": "https://professorfrancillon.com"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -266,6 +340,11 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
 <p class="subtitle lead">Procedural DC, AC Phasor, Transient, Thévenin &amp; Op-Amp Problem Engine</p>
 </div>
 
+<div>
+  <div class="description">
+    Free interactive electrical engineering circuit problem generator with step-by-step LaTeX derivations, Beginner/Intermediate/Advanced tiers, first-order RC/RL switching transients, second-order series and parallel RLC responses, LTspice/TINA-TI netlists, and Overleaf CircuiTikZ code.
+  </div>
+</div>
 
 
 <div class="quarto-title-meta column-page">
@@ -280,8 +359,9 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
 </header>
 
 
-<p>Use this interactive problem engine to practice circuit analysis across <strong>DC Networks (Mesh, Nodal &amp; Dependent Sources)</strong>, <strong>Thévenin &amp; Norton Equivalents</strong>, <strong>AC Sinusoidal Steady-State (Phasors)</strong>, <strong>First-Order RC &amp; RL Transients</strong>, <strong>Second-Order RLC Transients</strong>, and <strong>Operational Amplifiers</strong>. Click <strong>New Circuit Topology</strong> within any category to cycle through different circuit schematics, complete with step-by-step mathematical derivations, <strong>LTspice netlists</strong>, and <strong>Overleaf LaTeX (<code>circuitikz</code>)</strong> code.</p>
-<iframe src="circuit_app.html" style="width: 100%; height: 860px; border: none; display: block; background: transparent;" scrolling="yes">
+<p>Use this interactive problem engine to practice and master circuit analysis across <strong>Thévenin &amp; Norton Equivalents</strong>, <strong>First-Order <span class="math inline">RC</span> &amp; <span class="math inline">RL</span> Switching Transients (Charging &amp; Discharging)</strong>, <strong>Second-Order Series &amp; Parallel <span class="math inline">RLC</span> Transients</strong>, <strong>DC Networks (Mesh, Nodal &amp; Dependent Sources)</strong>, <strong>AC Sinusoidal Steady-State (Phasors)</strong>, and <strong>Operational Amplifiers</strong>.</p>
+<p>Select your <strong>Difficulty Tier (Beginner, Intermediate, or Advanced)</strong>, verify your numerical calculation using the built-in self-checker, and export ready-to-run <strong>LTspice / TINA-TI netlists</strong> or <strong>Overleaf LaTeX (<code>circuitikz</code>)</strong> schematics.</p>
+<iframe src="circuit_app.html" style="width: 100%; height: 920px; border: none; display: block; background: transparent;" scrolling="yes" title="Interactive Electrical Engineering Circuit Problem Generator">
 </iframe>
 
 
