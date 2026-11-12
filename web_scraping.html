@@ -8,7 +8,7 @@
 
 <meta name="author" content="Dr.&nbsp;Wesley Francillon">
 
-<title>Project 2: Automating the Web – Wesley Francillon, PhD</title>
+<title>Automating the Web: Web Scraping Projects – Wesley Francillon, PhD</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -292,16 +292,23 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Module Contents</h2>
+   
+  <ul>
+  <li><a href="#project-1-the-automated-webcomic-downloader" id="toc-project-1-the-automated-webcomic-downloader" class="nav-link active" data-scroll-target="#project-1-the-automated-webcomic-downloader">Project 1: The Automated Webcomic Downloader</a></li>
+  <li><a href="#project-2-automated-hardware-price-tracker" id="toc-project-2-automated-hardware-price-tracker" class="nav-link" data-scroll-target="#project-2-automated-hardware-price-tracker">Project 2: Automated Hardware Price Tracker</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Project 2: Automating the Web</h1>
-<p class="subtitle lead">Introduction to Web Scraping with Python</p>
+<h1 class="title">Automating the Web: Web Scraping Projects</h1>
+<p class="subtitle lead">HTML Parsing, Binary Downloads, and Data Extraction with Python</p>
 </div>
 
 
@@ -324,16 +331,125 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
 </header>
 
 
-<p>Welcome to the <strong>Papillon Engineering K-12 Outreach Hub</strong>. This project introduces students to the fundamentals of web scraping and automation. By automating the process of navigating web pages, locating specific HTML elements, and downloading binary files, students learn how Python scripts interact with the modern web.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🚀 Welcome to the Papillon Engineering K-12 Outreach Hub
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This module introduces students to the fundamentals of web scraping and automation. By automating the process of navigating web pages, locating specific HTML elements, downloading binary files, and parsing text into logic, you will learn how Python scripts interact with the modern web.</p>
+</div>
+</div>
+<hr>
+<section id="project-1-the-automated-webcomic-downloader" class="level1">
+<h1>Project 1: The Automated Webcomic Downloader</h1>
+<p>This project challenges you to build a functional web scraper that navigates the popular webcomic XKCD, extracts the daily comic, downloads the image file, and repeats the process automatically.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">👨‍🏫 Instructor Facilitation Guide</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">💻 Student Interactive Workbook</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">💻 Student Interactive Workbook</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">👨‍🏫 Instructor Facilitation Guide</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<section id="introduction-your-python-superpower" class="level3">
+<h3 class="anchored" data-anchor-id="introduction-your-python-superpower">Introduction: Your Python Superpower</h3>
+<p>Imagine you want to download a picture from a website. You right-click, select “Save As”, and pick a folder. Easy, right? But what if you want to download <em>every single picture</em> from a website that has thousands of pages? Doing that by hand would take days.</p>
+<p>Today, you are going to write a Python script that acts like an automated robot. It will visit the popular webcomic <strong>XKCD</strong>, find the daily comic, download it, click the “Previous” button, and do it all over again automatically.</p>
+<div style="text-align: center; margin: 2rem 0;">
+  <img src="https://imgs.xkcd.com/comics/python.png" alt="XKCD Python Comic" style="border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 100%; border: 1px solid #e2e8f0;">
+</div>
+</section>
+<section id="step-1-setting-up-our-robot" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-setting-up-our-robot">Step 1: Setting up our Robot</h3>
+<p>We need three special tools for this job: <code>requests</code> (to browse the web), <code>bs4</code> / BeautifulSoup (to read the website’s code), and <code>os</code> (to create folders on your computer).</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests, os, bs4</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'https://xkcd.com'</span>               <span class="co"># The starting URL</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>os.makedirs(<span class="st">'xkcd'</span>, exist_ok<span class="op">=</span><span class="va">True</span>)     <span class="co"># Create a folder called 'xkcd' to store our images</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="step-2-fetching-the-web-page" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-fetching-the-web-page">Step 2: Fetching the Web Page</h3>
+<p>We will use a <code>while</code> loop to tell our robot to keep working. For this practice run, we will limit it to downloading just 5 comics so we don’t overload our network!</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>comics_to_download <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>count <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="kw">not</span> url.endswith(<span class="st">'#'</span>) <span class="kw">and</span> count <span class="op">&lt;</span> comics_to_download:</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'Downloading page </span><span class="sc">{</span>url<span class="sc">}</span><span class="ss">...'</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> requests.get(url)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    res.raise_for_status() <span class="co"># This checks if the webpage actually loaded successfully</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Translate the webpage text into readable HTML</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    soup <span class="op">=</span> bs4.BeautifulSoup(res.text, <span class="st">'html.parser'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="step-3-finding-the-image" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-finding-the-image">Step 3: Finding the Image</h3>
+<p>A web page is full of code. We need to tell our robot exactly where the comic is. If you right-click and “Inspect” the XKCD website, you will see the comic is always inside an HTML ID called <code>comic</code>, inside an <code>img</code> tag.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Locate the image using a CSS Selector</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    comicElem <span class="op">=</span> soup.select(<span class="st">'#comic img'</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> comicElem <span class="op">==</span> []:</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">'Could not find comic image.'</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Extract the image source URL</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        comicUrl <span class="op">=</span> <span class="st">'https:'</span> <span class="op">+</span> comicElem[<span class="dv">0</span>].get(<span class="st">'src'</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'Found image at </span><span class="sc">{</span>comicUrl<span class="sc">}</span><span class="ss">... Downloading!'</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Download the actual image file</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        res <span class="op">=</span> requests.get(comicUrl)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        res.raise_for_status()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="step-4-saving-the-file-binary-data" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-saving-the-file-binary-data">Step 4: Saving the File (Binary Data)</h3>
+<p>Images aren’t text; they are “binary” data (1s and 0s). We need to open a file in “write binary” (<code>wb</code>) mode and save the image in small chunks so we don’t crash our computer’s memory.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create the file on your hard drive</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        imageFile <span class="op">=</span> <span class="bu">open</span>(os.path.join(<span class="st">'xkcd'</span>, os.path.basename(comicUrl)), <span class="st">'wb'</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Save it in 100,000-byte chunks</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> chunk <span class="kw">in</span> res.iter_content(<span class="dv">100000</span>):</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>            imageFile.write(chunk)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        imageFile.close()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="step-5-traveling-back-in-time" class="level3">
+<h3 class="anchored" data-anchor-id="step-5-traveling-back-in-time">Step 5: Traveling Back in Time</h3>
+<p>If we stop here, our robot will just download today’s comic over and over forever! We need to find the “Prev” (Previous) button on the webpage, grab its link, and tell our robot to go there next.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Find the "Previous" button link</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    prevLink <span class="op">=</span> soup.select(<span class="st">'a[rel="prev"]'</span>)[<span class="dv">0</span>]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Update our main URL variable to the new page!</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    url <span class="op">=</span> <span class="st">'https://xkcd.com'</span> <span class="op">+</span> prevLink.get(<span class="st">'href'</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    count <span class="op">+=</span> <span class="dv">1</span> <span class="co"># Increase our counter</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Done! Check the new /xkcd folder on your computer.'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>🚀 Project Challenge: Make it Your Own!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You just built a fully functional web scraper. But XKCD is just the beginning. How can you turn this script into your own unique project?</p>
+<ul>
+<li><strong>The Wallpaper Bot:</strong> Change the URL and CSS selectors to point to a high-res photography site and automatically download new desktop wallpapers.</li>
+<li><strong>The Weather Watcher:</strong> Set up a scraper to download the daily radar map image from a weather website to create a time-lapse of a storm.</li>
+</ul>
+</div>
+</div>
+</section>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <section id="module-overview-learning-objectives" class="level3">
 <h3 class="anchored" data-anchor-id="module-overview-learning-objectives">1. Module Overview &amp; Learning Objectives</h3>
-<p>This project challenges students to build a functional web scraper that navigates the popular webcomic XKCD, extracts the daily comic, downloads the image file, and repeats the process automatically.</p>
-<p><strong>Core Learning Objectives:</strong> * <strong>Network Requests:</strong> Use the <code>requests</code> library to fetch HTML from a live URL. * <strong>HTML Parsing:</strong> Use <code>BeautifulSoup</code> (<code>bs4</code>) to navigate the Document Object Model (DOM) and extract specific elements using CSS selectors. * <strong>File I/O:</strong> Learn how to create directories and write binary data in chunks to save images locally. * <strong>Algorithmic Loops:</strong> Implement a <code>while</code> loop that dynamically updates its target URL to navigate backward through web pages.</p>
-<hr>
+<p><strong>Core Learning Objectives:</strong> - <strong>Network Requests:</strong> Use the <code>requests</code> library to fetch HTML from a live URL. - <strong>HTML Parsing:</strong> Use <code>BeautifulSoup</code> (<code>bs4</code>) to navigate the Document Object Model (DOM) and extract specific elements using CSS selectors. - <strong>File I/O:</strong> Learn how to create directories and write binary data in chunks to save images locally. - <strong>Algorithmic Loops:</strong> Implement a <code>while</code> loop that dynamically updates its target URL to navigate backward through web pages.</p>
 </section>
 <section id="materials-prerequisites" class="level3">
 <h3 class="anchored" data-anchor-id="materials-prerequisites">2. Materials &amp; Prerequisites</h3>
@@ -342,172 +458,188 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
 <li><strong>Platform:</strong> Quarto-rendered web pages hosted via Papillon Engineering or local Jupyter Notebooks.</li>
 <li><strong>Prior Knowledge:</strong> Basic understanding of HTML tags (<code>&lt;img&gt;</code>, <code>&lt;a&gt;</code>, <code>id</code>, <code>href</code>), Python <code>while</code> loops, and file paths.</li>
 </ul>
-<hr>
 </section>
 <section id="common-pitfalls-instructor-key" class="level3">
 <h3 class="anchored" data-anchor-id="common-pitfalls-instructor-key">3. Common Pitfalls &amp; Instructor Key</h3>
 <p>If students attempt to run the original loop without updating the <code>url</code> variable at the end of the block, they will trigger an <strong>infinite loop</strong>, locking up their Python environment by downloading the same comic continuously.</p>
 <p>Additionally, downloading all 3,000+ XKCD comics on a school network could trigger bandwidth throttles. The solution below includes a <code>comics_to_download</code> safety counter.</p>
 <p><strong>The Completed Solution Code:</strong></p>
-<div id="a928e3b2" class="cell" data-execution_count="1">
-<details open="" class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests, os, bs4</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'https://xkcd.com'</span>               </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>os.makedirs(<span class="st">'xkcd'</span>, exist_ok<span class="op">=</span><span class="va">True</span>)    </span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>comics_to_download <span class="op">=</span> <span class="dv">5</span> <span class="co"># Safety limit for the classroom</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>count <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="kw">not</span> url.endswith(<span class="st">'#'</span>) <span class="kw">and</span> count <span class="op">&lt;</span> comics_to_download:</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Download the page</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'Downloading page </span><span class="sc">{</span>url<span class="sc">}</span><span class="ss">...'</span>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> requests.get(url)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    res.raise_for_status()</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    soup <span class="op">=</span> bs4.BeautifulSoup(res.text, <span class="st">'html.parser'</span>)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Find the URL of the comic image</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    comicElem <span class="op">=</span> soup.select(<span class="st">'#comic img'</span>)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> comicElem <span class="op">==</span> []:</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">'Could not find comic image.'</span>)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>        comicUrl <span class="op">=</span> <span class="st">'https:'</span> <span class="op">+</span> comicElem[<span class="dv">0</span>].get(<span class="st">'src'</span>)</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 3. Download the image</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'Downloading image </span><span class="sc">{</span>comicUrl<span class="sc">}</span><span class="ss">...'</span>)</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>        res <span class="op">=</span> requests.get(comicUrl)</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>        res.raise_for_status()</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 4. Save the image to ./xkcd</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>        imageFile <span class="op">=</span> <span class="bu">open</span>(os.path.join(<span class="st">'xkcd'</span>, os.path.basename(comicUrl)), <span class="st">'wb'</span>)</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> chunk <span class="kw">in</span> res.iter_content(<span class="dv">100000</span>):</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>            imageFile.write(chunk)</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>        imageFile.close()</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5. Get the Prev button's url to update the loop</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    prevLink <span class="op">=</span> soup.select(<span class="st">'a[rel="prev"]'</span>)[<span class="dv">0</span>]</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    url <span class="op">=</span> <span class="st">'https://xkcd.com'</span> <span class="op">+</span> prevLink.get(<span class="st">'href'</span>)</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    count <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Done! Check your /xkcd folder.'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests, os, bs4</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'https://xkcd.com'</span>               </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>os.makedirs(<span class="st">'xkcd'</span>, exist_ok<span class="op">=</span><span class="va">True</span>)    </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>comics_to_download <span class="op">=</span> <span class="dv">5</span> <span class="co"># Safety limit for the classroom</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>count <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="kw">not</span> url.endswith(<span class="st">'#'</span>) <span class="kw">and</span> count <span class="op">&lt;</span> comics_to_download:</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'Downloading page </span><span class="sc">{</span>url<span class="sc">}</span><span class="ss">...'</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> requests.get(url)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    res.raise_for_status()</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    soup <span class="op">=</span> bs4.BeautifulSoup(res.text, <span class="st">'html.parser'</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    comicElem <span class="op">=</span> soup.select(<span class="st">'#comic img'</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> comicElem <span class="op">==</span> []:</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">'Could not find comic image.'</span>)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>        comicUrl <span class="op">=</span> <span class="st">'https:'</span> <span class="op">+</span> comicElem[<span class="dv">0</span>].get(<span class="st">'src'</span>)</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'Downloading image </span><span class="sc">{</span>comicUrl<span class="sc">}</span><span class="ss">...'</span>)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>        res <span class="op">=</span> requests.get(comicUrl)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>        res.raise_for_status()</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>        imageFile <span class="op">=</span> <span class="bu">open</span>(os.path.join(<span class="st">'xkcd'</span>, os.path.basename(comicUrl)), <span class="st">'wb'</span>)</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> chunk <span class="kw">in</span> res.iter_content(<span class="dv">100000</span>):</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>            imageFile.write(chunk)</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>        imageFile.close()</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    prevLink <span class="op">=</span> soup.select(<span class="st">'a[rel="prev"]'</span>)[<span class="dv">0</span>]</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    url <span class="op">=</span> <span class="st">'https://xkcd.com'</span> <span class="op">+</span> prevLink.get(<span class="st">'href'</span>)</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    count <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Done! Check your /xkcd folder.'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<section id="introduction-your-python-superpower" class="level3">
-<h3 class="anchored" data-anchor-id="introduction-your-python-superpower">Introduction: Your Python Superpower</h3>
-<p>Imagine you want to download a picture from a website. You right-click, select “Save As”, and pick a folder. Easy, right? But what if you want to download <em>every single picture</em> from a website that has thousands of pages? Doing that by hand would take days.</p>
-<p>Today, you are going to write a Python script that acts like an automated robot. It will visit the popular webcomic <strong>XKCD</strong>, find the daily comic, download it, click the “Previous” button, and do it all over again automatically.</p>
-<p>Here is a classic XKCD comic about Python to show what we are grabbing:<br>
-<img src="https://imgs.xkcd.com/comics/python.png" class="img-fluid" alt="XKCD Python Comic"></p>
+</div>
+</div>
+<br>
 <hr>
+<p><br></p>
 </section>
-<section id="step-1-setting-up-our-robot" class="level3">
-<h3 class="anchored" data-anchor-id="step-1-setting-up-our-robot">Step 1: Setting up our Robot</h3>
-<p>We need three special tools for this job: <code>requests</code> (to browse the web), <code>bs4</code> / BeautifulSoup (to read the website’s code), and <code>os</code> (to create folders on your computer).</p>
-<div id="b0111a60" class="cell" data-execution_count="2">
-<details open="" class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests, os, bs4</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'https://xkcd.com'</span>               <span class="co"># The starting URL</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>os.makedirs(<span class="st">'xkcd'</span>, exist_ok<span class="op">=</span><span class="va">True</span>)     <span class="co"># Create a folder called 'xkcd' to store our images</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
+<section id="project-2-automated-hardware-price-tracker" class="level1">
+<h1>Project 2: Automated Hardware Price Tracker</h1>
+<p>While the XKCD bot downloads files, many engineers use web scraping to monitor data that changes constantly—like the price of a graphics card, micro-controller, or 3D printer.</p>
+<p>In this project, we use <code>BeautifulSoup</code> to scrape a product page, locate the exact HTML <code>&lt;span&gt;</code> containing the price, convert that text into a math-ready number, and write logic to alert us if the price drops below our budget!</p>
+<div style="text-align: center; margin: 2rem 0;">
+  <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 800 280" width="100%" height="250" style="background:#f8fafc; border-radius:12px; border:1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.05); max-width: 800px;">
+    <!-- Grid Lines -->
+    <path d="M 60 230 L 760 230" stroke="#cbd5e1" stroke-width="2"></path>
+    <path d="M 60 230 L 60 40" stroke="#cbd5e1" stroke-width="2"></path>
+    <!-- Target Budget Line -->
+    <path d="M 60 160 L 760 160" stroke="#10b981" stroke-width="3" stroke-dasharray="8 8"></path>
+    <rect x="580" y="130" width="170" height="26" fill="#d1fae5" rx="4"></rect>
+    <text x="665" y="148" font-family="sans-serif" font-size="14" font-weight="bold" fill="#047857" text-anchor="middle">Target Budget ($65)</text>
+    <!-- Price Trend Line -->
+    <path d="M 60 60 L 220 85 L 380 135 L 540 120 L 700 200 L 760 195" stroke="#4338ca" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+    <!-- Data Nodes -->
+    <circle cx="220" cy="85" r="6" fill="#4338ca"></circle>
+    <circle cx="380" cy="135" r="6" fill="#4338ca"></circle>
+    <circle cx="540" cy="120" r="6" fill="#4338ca"></circle>
+    <!-- Drop Point Alert -->
+    <circle cx="700" cy="200" r="10" fill="#ef4444"></circle>
+    <circle cx="700" cy="200" r="16" fill="none" stroke="#ef4444" stroke-width="3" opacity="0.4"></circle>
+    <rect x="625" y="215" width="150" height="30" fill="#fee2e2" rx="6" stroke="#fca5a5" stroke-width="1"></rect>
+    <text x="700" y="235" font-family="sans-serif" font-size="14" font-weight="bold" fill="#b91c1c" text-anchor="middle">🚨 DEAL ALERT!</text>
+    <!-- Floating Price Tag Graphic -->
+    <g transform="translate(100, 30)">
+       <path d="M0 10 L30 10 L45 25 L30 40 L0 40 Z" fill="#f59e0b"></path>
+       <circle cx="8" cy="25" r="3" fill="#fff"></circle>
+       <text x="22" y="30" font-family="sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">$</text>
+    </g>
+  </svg>
 </div>
-<hr>
-</section>
-<section id="step-2-fetching-the-web-page" class="level3">
-<h3 class="anchored" data-anchor-id="step-2-fetching-the-web-page">Step 2: Fetching the Web Page</h3>
-<p>We will use a <code>while</code> loop to tell our robot to keep working. For this practice run, we will limit it to downloading just 5 comics so we don’t overload our network!</p>
-<div id="c10936a7" class="cell" data-execution_count="3">
-<details open="" class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>comics_to_download <span class="op">=</span> <span class="dv">5</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>count <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="kw">not</span> url.endswith(<span class="st">'#'</span>) <span class="kw">and</span> count <span class="op">&lt;</span> comics_to_download:</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'Downloading page </span><span class="sc">{</span>url<span class="sc">}</span><span class="ss">...'</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> requests.get(url)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    res.raise_for_status() <span class="co"># This checks if the webpage actually loaded successfully</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Translate the webpage text into readable HTML</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    soup <span class="op">=</span> bs4.BeautifulSoup(res.text, <span class="st">'html.parser'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">⚙️ How to Take it Further</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">💻 The Price Tracker Script</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<p>Right now, the script (see next tab) runs once and stops. How can you make it a true automated tracker?</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<hr>
-</section>
-<section id="step-3-finding-the-image" class="level3">
-<h3 class="anchored" data-anchor-id="step-3-finding-the-image">Step 3: Finding the Image</h3>
-<p>A web page is full of code. We need to tell our robot exactly where the comic is. If you right-click and “Inspect” the XKCD website, you will see the comic is always inside an HTML ID called <code>comic</code>, inside an <code>img</code> tag.</p>
-<div id="3bf68c56" class="cell" data-execution_count="4">
-<details open="" class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Locate the image using a CSS Selector</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    comicElem <span class="op">=</span> soup.select(<span class="st">'#comic img'</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> comicElem <span class="op">==</span> []:</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">'Could not find comic image.'</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Extract the image source URL</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        comicUrl <span class="op">=</span> <span class="st">'https:'</span> <span class="op">+</span> comicElem[<span class="dv">0</span>].get(<span class="st">'src'</span>)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'Found image at </span><span class="sc">{</span>comicUrl<span class="sc">}</span><span class="ss">... Downloading!'</span>)</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Download the actual image file</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        res <span class="op">=</span> requests.get(comicUrl)</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        res.raise_for_status()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>1. The Infinite Loop (with a pause)
 </div>
-<hr>
-</section>
-<section id="step-4-saving-the-file-binary-data" class="level3">
-<h3 class="anchored" data-anchor-id="step-4-saving-the-file-binary-data">Step 4: Saving the File (Binary Data)</h3>
-<p>Images aren’t text; they are “binary” data (1s and 0s). We need to open a file in “write binary” (<code>wb</code>) mode and save the image in small chunks so we don’t crash our computer’s memory.</p>
-<div id="a69121bd" class="cell" data-execution_count="5">
-<details open="" class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create the file on your hard drive</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>        imageFile <span class="op">=</span> <span class="bu">open</span>(os.path.join(<span class="st">'xkcd'</span>, os.path.basename(comicUrl)), <span class="st">'wb'</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Save it in 100,000-byte chunks</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> chunk <span class="kw">in</span> res.iter_content(<span class="dv">100000</span>):</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>            imageFile.write(chunk)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        imageFile.close()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 </div>
-<hr>
-</section>
-<section id="step-5-traveling-back-in-time" class="level3">
-<h3 class="anchored" data-anchor-id="step-5-traveling-back-in-time">Step 5: Traveling Back in Time</h3>
-<p>If we stop here, our robot will just download today’s comic over and over forever! We need to find the “Prev” (Previous) button on the webpage, grab its link, and tell our robot to go there next.</p>
-<div id="9da280bf" class="cell" data-execution_count="6">
-<details open="" class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Find the "Previous" button link</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    prevLink <span class="op">=</span> soup.select(<span class="st">'a[rel="prev"]'</span>)[<span class="dv">0</span>]</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Update our main URL variable to the new page!</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    url <span class="op">=</span> <span class="st">'https://xkcd.com'</span> <span class="op">+</span> prevLink.get(<span class="st">'href'</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    count <span class="op">+=</span> <span class="dv">1</span> <span class="co"># Increase our counter</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Done! Check the new /xkcd folder on your computer.'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
+<div class="callout-body-container callout-body">
+<p>Wrap the <code>check_price</code> function in a <code>while True:</code> loop, but add <code>time.sleep(86400)</code> so the script waits 24 hours between checks instead of spamming the server.</p>
 </div>
-<hr>
-</section>
-<section id="project-challenge-make-it-your-own" class="level3">
-<h3 class="anchored" data-anchor-id="project-challenge-make-it-your-own">🚀 Project Challenge: Make it Your Own!</h3>
-<p>You just built a fully functional web scraper. But XKCD is just the beginning. How can you turn this script into your own unique project?</p>
-<p><strong>Brainstorming Ideas:</strong> 1. <strong>The Wallpaper Bot:</strong> Change the URL and CSS selectors to point to a high-res photography site (like Unsplash) and automatically download new desktop wallpapers. 2. <strong>The Weather Watcher:</strong> Set up a scraper to download the daily radar map image from a weather website to create a time-lapse of a storm. 3. <strong>The Sports Stat Tracker:</strong> Instead of finding an <code>img</code> tag, search for a <code>&lt;table&gt;</code> tag on a sports website to download your favorite player’s statistics into a text file.</p>
-<p><strong>Your Turn:</strong> Pick a website you visit often. Right-click, select “Inspect”, and see if you can figure out the CSS selectors for the data you care about. Then, adapt the code above to grab it!</p>
-</section>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>2. Email Alerts
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Research the Python <code>smtplib</code> library. You can program your script to automatically send an email to your phone the second the price drops below your budget!</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>3. Transitioning to RSS Feeds
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>HTML scraping breaks easily if the store updates its website design or changes its CSS classes. For a more robust, professional way to gather data, proceed to the <strong><a href="rss_feeds.html">Automated Engineering Wire Lab</a></strong> to learn how data engineers use XML Syndication (RSS) instead of HTML scraping!</p>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<p>For this example, we will simulate scraping an electronics storefront for a Raspberry Pi 5. Websites often hide prices inside specific CSS classes, like <code>&lt;span class="price-display"&gt;$79.99&lt;/span&gt;</code>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> bs4</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> check_price(url, target_price):</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Scanning </span><span class="sc">{</span>url<span class="sc">}</span><span class="ss">..."</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Fetch the webpage</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Note: Many stores block Python scripts. Adding 'headers' makes us look like a real browser!</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    headers <span class="op">=</span> {</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"User-Agent"</span>: <span class="st">"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> requests.get(url, headers<span class="op">=</span>headers)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    res.raise_for_status()</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Parse the HTML</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    soup <span class="op">=</span> bs4.BeautifulSoup(res.text, <span class="st">'html.parser'</span>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Locate the price element</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># (You would find this exact CSS selector by right-clicking and Inspecting the store page)</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    price_element <span class="op">=</span> soup.select(<span class="st">'.price-display, .a-price-whole'</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> price_element:</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Error: Could not locate the price on the page."</span>)</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4. Clean the data (Convert "$79.99" to 79.99)</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    raw_price_text <span class="op">=</span> price_element[<span class="dv">0</span>].get_text()</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Strip out the dollar sign and any commas</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    clean_text <span class="op">=</span> raw_price_text.replace(<span class="st">'$'</span>, <span class="st">''</span>).replace(<span class="st">','</span>, <span class="st">''</span>).strip()</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    current_price <span class="op">=</span> <span class="bu">float</span>(clean_text)</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Current Price: $</span><span class="sc">{</span>current_price<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5. Logic Check</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> current_price <span class="op">&lt;=</span> target_price:</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"🚨 DEAL ALERT! The price has dropped below your budget! Buy it now!"</span>)</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>        <span class="co"># In a real app, you could add code here to send yourself an email or SMS</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Still too expensive. It needs to drop by $</span><span class="sc">{</span>current_price <span class="op">-</span> target_price<span class="sc">:.2f}</span><span class="ss">."</span>)</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>    PRODUCT_URL <span class="op">=</span> <span class="st">"https://example-electronics-store.com/raspberry-pi-5"</span></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>    MY_BUDGET <span class="op">=</span> <span class="fl">65.00</span></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Run the scanner</span></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>    check_price(PRODUCT_URL, MY_BUDGET)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
