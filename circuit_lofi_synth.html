@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Interactive Web Audio API synthesizer, live oscilloscope, and breadboardable LM386 hardware schematics demonstrating 1st-order RC low-pass warmth filters and 2nd-order RLC resonant bandpass filters.">
+<meta name="description" content="Interactive Web Audio API synthesizer, live oscilloscope, 808 bass/drum pads, and breadboardable LM386 hardware schematics demonstrating 1st-order RC low-pass warmth filters and 2nd-order RLC resonant bandpass filters.">
 
 <title>Neon Lo-Fi Circuit Café: Interactive RC &amp; RLC Audio Synthesizer | Dr.&nbsp;Wesley Francillon – Wesley Francillon, PhD</title>
 <style>
@@ -372,7 +372,7 @@ window.Quarto = {
 
   .transport-row {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     flex-wrap: wrap;
     align-items: center;
   }
@@ -380,20 +380,20 @@ window.Quarto = {
   .neon-btn {
     background: rgba(15, 23, 42, 0.85);
     color: #e2e8f0;
-    border: 1px solid rgba(56, 189, 248, 0.5);
-    padding: 10px 18px;
+    border: 1px solid rgba(56, 189, 248, 0.45);
+    padding: 9px 14px;
     border-radius: 9px;
     font-weight: 800;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     cursor: pointer;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.03em;
     transition: all 0.18s ease;
-    box-shadow: 0 0 14px rgba(56, 189, 248, 0.15);
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.12);
   }
 
   .neon-btn:hover {
     border-color: #38bdf8;
-    box-shadow: 0 0 22px rgba(56, 189, 248, 0.45);
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
     transform: translateY(-1px);
   }
 
@@ -401,21 +401,36 @@ window.Quarto = {
     background: linear-gradient(135deg, #06b6d4 0%, #8b5cf6 100%);
     border-color: #67e8f9;
     color: #ffffff;
-    box-shadow: 0 0 24px rgba(139, 92, 246, 0.65);
+    box-shadow: 0 0 22px rgba(139, 92, 246, 0.65);
   }
 
   .neon-btn.rain-on {
     background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
     border-color: #f9a8d4;
     color: #ffffff;
-    box-shadow: 0 0 20px rgba(236, 72, 153, 0.55);
+    box-shadow: 0 0 18px rgba(236, 72, 153, 0.55);
   }
 
+  .neon-btn.beat-on {
+    background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+    border-color: #fde68a;
+    color: #ffffff;
+    box-shadow: 0 0 18px rgba(245, 158, 11, 0.55);
+  }
+
+  .neon-btn.fx-on {
+    background: linear-gradient(135deg, #10b981 0%, #0ea5e9 100%);
+    border-color: #6ee7b7;
+    color: #ffffff;
+    box-shadow: 0 0 16px rgba(16, 185, 129, 0.5);
+  }
+
+  /* Scopes */
   .scope-grid {
     display: grid;
     grid-template-columns: 1.2fr 1fr;
     gap: 16px;
-    margin-bottom: 22px;
+    margin-bottom: 20px;
   }
   @media (max-width: 860px) {
     .scope-grid { grid-template-columns: 1fr; }
@@ -448,11 +463,12 @@ window.Quarto = {
     background: #03050a;
   }
 
+  /* Chord Pads */
   .pad-bar {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 12px;
-    margin-bottom: 24px;
+    margin-bottom: 14px;
   }
   @media (max-width: 640px) {
     .pad-bar { grid-template-columns: repeat(2, 1fr); }
@@ -462,11 +478,12 @@ window.Quarto = {
     background: rgba(30, 27, 75, 0.55);
     border: 1px solid rgba(192, 132, 252, 0.35);
     border-radius: 10px;
-    padding: 12px;
+    padding: 11px;
     text-align: center;
     cursor: pointer;
     transition: all 0.14s ease;
     color: #f8fafc;
+    user-select: none;
   }
 
   .chord-pad:hover {
@@ -482,18 +499,66 @@ window.Quarto = {
   }
 
   .pad-name {
-    font-size: 1.05rem;
+    font-size: 1.02rem;
     font-weight: 900;
     color: #ffffff;
   }
 
   .pad-notes {
-    font-size: 0.74rem;
+    font-size: 0.72rem;
     color: #94a3b8;
     margin-top: 2px;
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   }
 
+  /* 3 Deep Bass & Analog Drum Pads */
+  .drum-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+  @media (max-width: 640px) {
+    .drum-bar { grid-template-columns: 1fr; }
+  }
+
+  .drum-pad {
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    border-radius: 10px;
+    padding: 12px 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.1s ease;
+    user-select: none;
+  }
+
+  .drum-pad:hover {
+    border-color: #fbbf24;
+    box-shadow: 0 0 18px rgba(245, 158, 11, 0.3);
+  }
+
+  .drum-pad.hit {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.35), rgba(239, 68, 68, 0.35));
+    border-color: #fde68a;
+    box-shadow: 0 0 24px rgba(245, 158, 11, 0.65);
+    transform: scale(0.97);
+  }
+
+  .drum-key {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(251, 191, 36, 0.5);
+    color: #fde68a;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-weight: 900;
+    font-size: 0.82rem;
+    padding: 4px 9px;
+    border-radius: 6px;
+  }
+
+  /* Circuit Control Modules */
   .rack-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -518,6 +583,8 @@ window.Quarto = {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
     margin-bottom: 14px;
   }
 
@@ -534,6 +601,39 @@ window.Quarto = {
     padding: 3px 8px;
     border-radius: 5px;
     background: rgba(255, 255, 255, 0.06);
+  }
+
+  /* Waveform Selector Pill */
+  .wave-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    padding: 8px 10px;
+    background: rgba(2, 6, 23, 0.55);
+    border-radius: 8px;
+    border: 1px solid rgba(56, 189, 248, 0.2);
+  }
+  .wave-btn-group {
+    display: flex;
+    gap: 6px;
+  }
+  .wave-btn {
+    background: rgba(30, 41, 59, 0.8);
+    color: #94a3b8;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    padding: 4px 10px;
+    border-radius: 5px;
+    font-size: 0.74rem;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  .wave-btn.active-wave {
+    background: #38bdf8;
+    color: #020617;
+    border-color: #7dd3fc;
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
   }
 
   .neon-slider-group {
@@ -613,11 +713,14 @@ window.Quarto = {
       <div>
         <div class="neon-badge">Papillon Engineering • Analog Audio Lab</div>
         <h1 class="neon-title">NEON LO-FI CIRCUIT CAFÉ</h1>
-        <p class="neon-sub">Synthesize relaxing coffee-shop soundscapes in real time using 1st-order RC warmth filters &amp; 2nd-order RLC rain tanks.</p>
+        <p class="neon-sub">Synthesize relaxing coffee-shop soundscapes using 1st-order RC warmth filters, 2nd-order RLC rain tanks &amp; 808 sub-bass pads.</p>
       </div>
       <div class="transport-row">
-        <button type="button" id="btnPower" class="neon-btn" onclick="toggleAudioEngine()">▶ Play Lo-Fi Loop</button>
-        <button type="button" id="btnRain" class="neon-btn" onclick="toggleRain()">🌧️ Café Rain: OFF</button>
+        <button type="button" id="btnPower" class="neon-btn" onclick="toggleAudioEngine()">▶ Play Chords</button>
+        <button type="button" id="btnBeat" class="neon-btn" onclick="toggleBeat()">🥁 Chill Beat: OFF</button>
+        <button type="button" id="btnRain" class="neon-btn" onclick="toggleRain()">🌧️ Rain: OFF</button>
+        <button type="button" id="btnVinyl" class="neon-btn" onclick="toggleVinyl()">📻 Vinyl: OFF</button>
+        <button type="button" id="btnWobble" class="neon-btn" onclick="toggleWobble()">📼 Wobble: OFF</button>
       </div>
     </div>
 
@@ -659,6 +762,31 @@ window.Quarto = {
       </div>
     </div>
 
+    <!-- 3 Deep Bass & Analog Drum Pads (Keyboard: Z, X, C) -->
+    <div class="drum-bar">
+      <div class="drum-pad" id="drumKick" onclick="triggerKick()">
+        <div>
+          <div style="font-weight:900; font-size:0.94rem; color:#fde68a;">808 Deep Sub-Kick</div>
+          <div style="font-size:0.72rem; color:#94a3b8;">Bridged-T RC Resonator (130→42 Hz)</div>
+        </div>
+        <span class="drum-key">Key Z</span>
+      </div>
+      <div class="drum-pad" id="drumSub" onclick="triggerSubBass()">
+        <div>
+          <div style="font-weight:900; font-size:0.94rem; color:#38bdf8;">Sub-Bass Drop</div>
+          <div style="font-size:0.72rem; color:#94a3b8;">Tracks Active Chord Root (43–65 Hz)</div>
+        </div>
+        <span class="drum-key" style="border-color:#38bdf8; color:#38bdf8;">Key X</span>
+      </div>
+      <div class="drum-pad" id="drumSnare" onclick="triggerSnare()">
+        <div>
+          <div style="font-weight:900; font-size:0.94rem; color:#f472b6;">Lo-Fi Brush Snare</div>
+          <div style="font-size:0.72rem; color:#94a3b8;">Bandpass Noise + 190 Hz Body</div>
+        </div>
+        <span class="drum-key" style="border-color:#f472b6; color:#f472b6;">Key C</span>
+      </div>
+    </div>
+
     <!-- Dual Circuit Rack: RC Warmth + RLC Rain -->
     <div class="rack-grid">
 
@@ -667,6 +795,16 @@ window.Quarto = {
         <div class="mod-header">
           <h3 class="mod-title anchored">Stage 1: 1st-Order RC "Warmth" Filter</h3>
           <span class="mod-eq" style="color:#38bdf8;">f_c = 1 / (2πRC)</span>
+        </div>
+
+        <!-- 3-Way Oscillator Waveform Switch -->
+        <div class="wave-row">
+          <span style="font-size:0.78rem; font-weight:700; color:#cbd5e1;">Oscillator Waveform:</span>
+          <div class="wave-btn-group">
+            <button type="button" class="wave-btn active-wave" id="wSaw" onclick="setWave('sawtooth')">SAW</button>
+            <button type="button" class="wave-btn" id="wSqr" onclick="setWave('square')">SQR</button>
+            <button type="button" class="wave-btn" id="wTri" onclick="setWave('triangle')">TRI</button>
+          </div>
         </div>
 
         <div class="neon-slider-group">
@@ -736,23 +874,34 @@ window.Quarto = {
 let audioCtx = null;
 let isPlaying = false;
 let rainEnabled = false;
+let beatEnabled = false;
+let vinylEnabled = false;
+let wobbleEnabled = false;
+
 let loopTimer = null;
+let beatTimer = null;
 let chordIdx = 0;
+let activeChordIndex = 0;
+let beatStep = 0;
+let currentWave = 'sawtooth';
 
 let masterGain = null;
 let rcFilter = null;
 let rlcRainFilter = null;
 let rainGain = null;
+let vinylGain = null;
 let analyser = null;
 let rainNode = null;
+let vinylNode = null;
 
-// Relaxing Coffee-Shop Jazz Chords (Hz)
+// Relaxing Coffee-Shop Jazz Chords (Hz) & Matching Sub-Bass Roots
 const CHORDS = [
   [174.61, 220.00, 261.63, 329.63], // Fmaj7
   [164.81, 196.00, 246.94, 293.66], // Em7
   [146.83, 174.61, 220.00, 261.63], // Dm7
   [130.81, 164.81, 196.00, 246.94]  // Cmaj7
 ];
+const SUB_ROOTS = [43.65, 41.20, 73.42, 65.41]; // F1, E1, D2, C2
 
 function initAudio() {
   if (audioCtx) return;
@@ -760,7 +909,7 @@ function initAudio() {
   audioCtx = new AudioContextClass();
 
   masterGain = audioCtx.createGain();
-  masterGain.gain.value = 0.45;
+  masterGain.gain.value = 0.48;
 
   // Stage 1: 1st-Order RC Low-Pass Filter
   rcFilter = audioCtx.createBiquadFilter();
@@ -774,7 +923,7 @@ function initAudio() {
   rainGain = audioCtx.createGain();
   rainGain.gain.value = 0.0;
 
-  // Boosted Pink-ish Noise Buffer for Audible RLC Rain Sculpting
+  // Pink-ish Noise Buffer for Rain
   const bufferSize = 2 * audioCtx.sampleRate;
   const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
   const output = noiseBuffer.getChannelData(0);
@@ -794,6 +943,29 @@ function initAudio() {
   rlcRainFilter.connect(rainGain);
   rainGain.connect(masterGain);
 
+  // Sparse-Impulse Vinyl Crackle Buffer
+  const vinylBuf = audioCtx.createBuffer(1, 3 * audioCtx.sampleRate, audioCtx.sampleRate);
+  const vOut = vinylBuf.getChannelData(0);
+  for (let i = 0; i < vOut.length; i++) {
+    const r = Math.random();
+    if (r > 0.9994) vOut[i] = (Math.random() * 2 - 1) * 0.75;
+    else if (r > 0.996) vOut[i] = (Math.random() * 2 - 1) * 0.14;
+    else vOut[i] = (Math.random() * 2 - 1) * 0.008;
+  }
+  const vinylHp = audioCtx.createBiquadFilter();
+  vinylHp.type = 'highpass';
+  vinylHp.frequency.value = 1800;
+
+  vinylGain = audioCtx.createGain();
+  vinylGain.gain.value = 0.0;
+
+  vinylNode = audioCtx.createBufferSource();
+  vinylNode.buffer = vinylBuf;
+  vinylNode.loop = true;
+  vinylNode.connect(vinylHp);
+  vinylHp.connect(vinylGain);
+  vinylGain.connect(masterGain);
+
   // Analyser for Neon Scopes
   analyser = audioCtx.createAnalyser();
   analyser.fftSize = 1024;
@@ -803,14 +975,23 @@ function initAudio() {
   analyser.connect(audioCtx.destination);
 
   rainNode.start();
+  vinylNode.start();
   updateCircuitParams();
   drawScopes();
+}
+
+function setWave(w) {
+  currentWave = w;
+  document.getElementById('wSaw').classList.toggle('active-wave', w === 'sawtooth');
+  document.getElementById('wSqr').classList.toggle('active-wave', w === 'square');
+  document.getElementById('wTri').classList.toggle('active-wave', w === 'triangle');
 }
 
 function playChord(index, durationSec = 3.2) {
   if (!audioCtx) initAudio();
   if (audioCtx.state === 'suspended') audioCtx.resume();
 
+  activeChordIndex = index;
   for (let i = 0; i < 4; i++) {
     document.getElementById('pad' + i).classList.toggle('active-chord', i === index);
   }
@@ -823,14 +1004,26 @@ function playChord(index, durationSec = 3.2) {
     const osc2 = audioCtx.createOscillator();
     const noteGain = audioCtx.createGain();
 
-    // Rich harmonic blend (sawtooth + triangle) so RC filter sweeps are immediately audible
-    osc1.type = 'sawtooth';
+    osc1.type = currentWave;
     osc2.type = 'triangle';
     osc1.frequency.setValueAtTime(freq, now);
     osc2.frequency.setValueAtTime(freq * 1.003, now);
 
+    // Optional Tape Wobble (0.45 Hz LFO pitch drift)
+    if (wobbleEnabled) {
+      const lfo = audioCtx.createOscillator();
+      const lfoGain = audioCtx.createGain();
+      lfo.frequency.value = 0.45;
+      lfoGain.gain.value = 14;
+      lfo.connect(lfoGain);
+      lfoGain.connect(osc1.detune);
+      lfoGain.connect(osc2.detune);
+      lfo.start(now);
+      lfo.stop(now + durationSec + 0.05);
+    }
+
     noteGain.gain.setValueAtTime(0.0001, now);
-    noteGain.gain.linearRampToValueAtTime(0.12 / notes.length * 2.0, now + 0.08 + idx * 0.03);
+    noteGain.gain.linearRampToValueAtTime(0.11 / notes.length * 2.0, now + 0.08 + idx * 0.03);
     noteGain.gain.exponentialRampToValueAtTime(0.0008, now + durationSec);
 
     osc1.connect(noteGain);
@@ -848,29 +1041,144 @@ function triggerChordPad(index) {
   playChord(index, 2.8);
 }
 
+// --- 3 Deep Bass & Analog Drum Pads ---
+function flashPad(id) {
+  const el = document.getElementById(id);
+  el.classList.add('hit');
+  setTimeout(() => el.classList.remove('hit'), 130);
+}
+
+function triggerKick() {
+  initAudio();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  flashPad('drumKick');
+
+  const now = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(135, now);
+  osc.frequency.exponentialRampToValueAtTime(42, now + 0.12);
+
+  gain.gain.setValueAtTime(0.85, now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+
+  osc.connect(gain);
+  gain.connect(masterGain);
+  osc.start(now);
+  osc.stop(now + 0.48);
+}
+
+function triggerSubBass() {
+  initAudio();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  flashPad('drumSub');
+
+  const now = audioCtx.currentTime;
+  const rootFreq = SUB_ROOTS[activeChordIndex];
+  const osc = audioCtx.createOscillator();
+  const subLp = audioCtx.createBiquadFilter();
+  const gain = audioCtx.createGain();
+
+  osc.type = 'triangle';
+  osc.frequency.setValueAtTime(rootFreq, now);
+  subLp.type = 'lowpass';
+  subLp.frequency.value = 160;
+
+  gain.gain.setValueAtTime(0.001, now);
+  gain.gain.linearRampToValueAtTime(0.75, now + 0.04);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 1.15);
+
+  osc.connect(subLp);
+  subLp.connect(gain);
+  gain.connect(masterGain);
+  osc.start(now);
+  osc.stop(now + 1.2);
+}
+
+function triggerSnare() {
+  initAudio();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  flashPad('drumSnare');
+
+  const now = audioCtx.currentTime;
+
+  const len = Math.floor(audioCtx.sampleRate * 0.12);
+  const buf = audioCtx.createBuffer(1, len, audioCtx.sampleRate);
+  const data = buf.getChannelData(0);
+  for (let i = 0; i < len; i++) data[i] = Math.random() * 2 - 1;
+
+  const noise = audioCtx.createBufferSource();
+  noise.buffer = buf;
+
+  const bp = audioCtx.createBiquadFilter();
+  bp.type = 'bandpass';
+  bp.frequency.value = 1800;
+  bp.Q.value = 1.2;
+
+  const nGain = audioCtx.createGain();
+  nGain.gain.setValueAtTime(0.32, now);
+  nGain.gain.exponentialRampToValueAtTime(0.001, now + 0.11);
+
+  noise.connect(bp);
+  bp.connect(nGain);
+  nGain.connect(masterGain);
+  noise.start(now);
+
+  const body = audioCtx.createOscillator();
+  const bGain = audioCtx.createGain();
+  body.type = 'triangle';
+  body.frequency.setValueAtTime(195, now);
+  body.frequency.exponentialRampToValueAtTime(110, now + 0.08);
+  bGain.gain.setValueAtTime(0.28, now);
+  bGain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+
+  body.connect(bGain);
+  bGain.connect(masterGain);
+  body.start(now);
+  body.stop(now + 0.1);
+}
+
+// Keyboard Shortcuts (Z = Kick, X = Sub-Bass, C = Snare — avoids Quarto's 's' search key)
+document.addEventListener('keydown', (e) => {
+  if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+  const k = e.key.toLowerCase();
+  if (k === 'z') triggerKick();
+  else if (k === 'x') triggerSubBass();
+  else if (k === 'c') triggerSnare();
+});
+
+// --- Transport & FX Toggles ---
+function updateScopeStatus() {
+  const status = document.getElementById('scopeStatus');
+  if (isPlaying || beatEnabled || rainEnabled) {
+    status.textContent = 'LIVE AUDIO';
+    status.style.color = '#34d399';
+  } else {
+    status.textContent = 'STANDBY';
+    status.style.color = '#64748b';
+  }
+}
+
 function toggleAudioEngine() {
   initAudio();
   if (audioCtx.state === 'suspended') audioCtx.resume();
-
   const btn = document.getElementById('btnPower');
-  const status = document.getElementById('scopeStatus');
 
   if (!isPlaying) {
     isPlaying = true;
     btn.classList.add('power-on');
-    btn.textContent = '⏹ Stop Lo-Fi Loop';
-    status.textContent = 'LIVE AUDIO';
-    status.style.color = '#34d399';
+    btn.textContent = '⏹ Stop Chords';
     scheduleLoop();
   } else {
     isPlaying = false;
     clearTimeout(loopTimer);
     btn.classList.remove('power-on');
-    btn.textContent = '▶ Play Lo-Fi Loop';
-    status.textContent = 'STANDBY';
-    status.style.color = '#64748b';
+    btn.textContent = '▶ Play Chords';
     for (let i = 0; i < 4; i++) document.getElementById('pad' + i).classList.remove('active-chord');
   }
+  updateScopeStatus();
 }
 
 function scheduleLoop() {
@@ -880,6 +1188,38 @@ function scheduleLoop() {
   playChord(chordIdx, barSec * 1.05);
   chordIdx = (chordIdx + 1) % CHORDS.length;
   loopTimer = setTimeout(scheduleLoop, barSec * 1000);
+}
+
+function toggleBeat() {
+  initAudio();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  const btn = document.getElementById('btnBeat');
+  beatEnabled = !beatEnabled;
+
+  if (beatEnabled) {
+    beatStep = 0;
+    btn.classList.add('beat-on');
+    btn.textContent = '🥁 Chill Beat: ON';
+    scheduleBeat();
+  } else {
+    clearTimeout(beatTimer);
+    btn.classList.remove('beat-on');
+    btn.textContent = '🥁 Chill Beat: OFF';
+  }
+  updateScopeStatus();
+}
+
+function scheduleBeat() {
+  if (!beatEnabled) return;
+  const bpm = parseFloat(document.getElementById('slBpm').value);
+  const eighthMs = (60 / bpm) * 500;
+
+  if (beatStep === 0 || beatStep === 5) triggerKick();
+  if (beatStep === 0) triggerSubBass();
+  if (beatStep === 2 || beatStep === 6) triggerSnare();
+
+  beatStep = (beatStep + 1) % 8;
+  beatTimer = setTimeout(scheduleBeat, eighthMs);
 }
 
 function toggleRain() {
@@ -892,13 +1232,40 @@ function toggleRain() {
     rainGain.gain.cancelScheduledValues(now);
     rainGain.gain.linearRampToValueAtTime(0.35, now + 0.4);
     btn.classList.add('rain-on');
-    btn.textContent = '🌧️ Café Rain: ON';
+    btn.textContent = '🌧️ Rain: ON';
   } else {
     rainGain.gain.cancelScheduledValues(now);
     rainGain.gain.linearRampToValueAtTime(0.0, now + 0.4);
     btn.classList.remove('rain-on');
-    btn.textContent = '🌧️ Café Rain: OFF';
+    btn.textContent = '🌧️ Rain: OFF';
   }
+  updateScopeStatus();
+}
+
+function toggleVinyl() {
+  initAudio();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  vinylEnabled = !vinylEnabled;
+  const btn = document.getElementById('btnVinyl');
+  const now = audioCtx.currentTime;
+  if (vinylEnabled) {
+    vinylGain.gain.cancelScheduledValues(now);
+    vinylGain.gain.linearRampToValueAtTime(0.24, now + 0.3);
+    btn.classList.add('fx-on');
+    btn.textContent = '📻 Vinyl: ON';
+  } else {
+    vinylGain.gain.cancelScheduledValues(now);
+    vinylGain.gain.linearRampToValueAtTime(0.0, now + 0.3);
+    btn.classList.remove('fx-on');
+    btn.textContent = '📻 Vinyl: OFF';
+  }
+}
+
+function toggleWobble() {
+  wobbleEnabled = !wobbleEnabled;
+  const btn = document.getElementById('btnWobble');
+  btn.classList.toggle('fx-on', wobbleEnabled);
+  btn.textContent = wobbleEnabled ? '📼 Wobble: ON' : '📼 Wobble: OFF';
 }
 
 function fmtHz(f) {
@@ -1074,7 +1441,7 @@ document.addEventListener('DOMContentLoaded', updateCircuitParams);
     color: #1e1b4b;
     border-bottom: 2px solid #e2e8f0;
     padding-bottom: 6px;
-    margin-top: 2rem;
+    margin-top: 2.2rem;
   }
   .latex-theory-grid {
     display: grid;
@@ -1100,7 +1467,7 @@ document.addEventListener('DOMContentLoaded', updateCircuitParams);
   }
   .hw-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
     gap: 24px;
     margin-top: 18px;
   }
@@ -1130,7 +1497,7 @@ document.addEventListener('DOMContentLoaded', updateCircuitParams);
     background: #ffffff;
     background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
     background-size: 14px 14px;
-    padding: 16px;
+    padding: 16px 12px;
     border-bottom: 1px solid #cbd5e1;
     text-align: center;
   }
@@ -1148,6 +1515,47 @@ document.addEventListener('DOMContentLoaded', updateCircuitParams);
   .hw-body li {
     margin-bottom: 6px;
   }
+  /* LM386 Pinout & Datasheet Card */
+  .pinout-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 24px;
+    align-items: center;
+    background: #ffffff;
+    border: 2px solid #1e1b4b;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-top: 20px;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  }
+  @media (max-width: 780px) {
+    .pinout-grid { grid-template-columns: 1fr; }
+  }
+  .datasheet-btn {
+    display: inline-block;
+    margin-top: 10px;
+    background: #dc2626;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 7px 14px;
+    border-radius: 6px;
+    transition: background 0.15s ease;
+  }
+  .datasheet-btn:hover {
+    background: #b91c1c;
+  }
+  .pro-tip-box {
+    margin-top: 22px;
+    background: #eef2ff;
+    border-left: 5px solid #4338ca;
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-size: 0.98rem;
+    line-height: 1.6;
+  }
   .tikz-svg text {
     font-family: "Computer Modern Serif", "Latin Modern Roman", "Times New Roman", serif;
   }
@@ -1157,7 +1565,7 @@ document.addEventListener('DOMContentLoaded', updateCircuitParams);
     margin-top: 14px;
     background: #ffffff;
     border: 1px solid #cbd5e1;
-    font-size: 0.96rem;
+    font-size: 0.95rem;
   }
   .bom-table-wrap th {
     background: #1e1b4b;
@@ -1174,12 +1582,28 @@ document.addEventListener('DOMContentLoaded', updateCircuitParams);
   .bom-table-wrap tr:nth-child(even) td {
     background: #f8fafc;
   }
+  .amz-btn {
+    display: inline-block;
+    background: #1e1b4b;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 5px 11px;
+    border-radius: 5px;
+    white-space: nowrap;
+    transition: background 0.15s ease;
+  }
+  .amz-btn:hover {
+    background: #4338ca;
+  }
 </style>
 <div class="latex-section">
 <div class="latex-theory-grid">
 <section id="why-lo-fi-sounds-warm-1st-order-rc" class="level4 latex-card">
 <h4 class="anchored" data-anchor-id="why-lo-fi-sounds-warm-1st-order-rc">1. Why Lo-Fi Sounds “Warm” (1st-Order <span class="math inline">RC</span>)</h4>
-<p>Raw sawtooth and triangle waves contain sharp high-frequency harmonics. Increasing <span class="math inline">R</span> or <span class="math inline">C</span> lowers the cutoff frequency <span class="math inline">f_c = \dfrac{1}{2\pi RC}</span>, attenuating those upper harmonics at <span class="math inline">-20\text{ dB/decade}</span> and rounding the oscilloscope waveform into mellow café warmth.</p>
+<p>Raw <strong>sawtooth</strong> and <strong>square</strong> waves contain rich high-frequency Fourier harmonics. Increasing <span class="math inline">R</span> or <span class="math inline">C</span> lowers the cutoff frequency <span class="math inline">f_c = \dfrac{1}{2\pi RC}</span>, attenuating those upper harmonics at <span class="math inline">-20\text{ dB/decade}</span> and rounding the oscilloscope waveform into mellow café warmth.</p>
 </section>
 <section id="sculpting-rain-with-a-2nd-order-rlc-tank" class="level4 latex-card">
 <h4 class="anchored" data-anchor-id="sculpting-rain-with-a-2nd-order-rlc-tank">2. Sculpting Rain with a 2nd-Order <span class="math inline">RLC</span> Tank</h4>
@@ -1187,12 +1611,12 @@ document.addEventListener('DOMContentLoaded', updateCircuitParams);
 </section>
 <section id="try-this-experiment" class="level4 latex-card">
 <h4 class="anchored" data-anchor-id="try-this-experiment">3. Try This Experiment</h4>
-<p>Hit <strong>Play Lo-Fi Loop</strong>, turn on <strong>Café Rain</strong>, and slowly drag the Stage 1 resistor <span class="math inline">R</span> from <span class="math inline">1\text{ k}\Omega</span> up to <span class="math inline">80\text{ k}\Omega</span>. Watch the cyan cutoff line sweep left across the pink FFT spectrum as the bright sawtooth harmonics melt into lo-fi warmth.</p>
+<p>Hit <strong>Play Chords</strong> + <strong>Chill Beat</strong>, switch the oscillator between <strong>SAW</strong>, <strong>SQR</strong>, and <strong>TRI</strong>, and slowly drag Stage 1 <span class="math inline">R</span> from <span class="math inline">1\text{ k}\Omega</span> up to <span class="math inline">80\text{ k}\Omega</span>. Watch the cyan <span class="math inline">f_c</span> line sweep left across the pink FFT spectrum while tapping keys <strong>Z</strong>, <strong>X</strong>, and <strong>C</strong> for deep 808 bass.</p>
 </section>
 </div>
 <section id="breadboard-ready-hardware-schematics-3.5mm-aux-input-to-filter-to-lm386-speaker-amp" class="level3">
 <h3 class="anchored" data-anchor-id="breadboard-ready-hardware-schematics-3.5mm-aux-input-to-filter-to-lm386-speaker-amp">Breadboard-Ready Hardware Schematics (3.5mm Aux Input <span class="math inline">\to</span> Filter <span class="math inline">\to</span> <code>LM386</code> Speaker Amp)</h3>
-<p>To build these exact filters on a physical breadboard, each passive stage feeds into an <strong><code>LM386N-1</code></strong> low-voltage audio power amplifier (powered by a single <span class="math inline">9\text{ V}</span> battery). The <code>LM386</code> provides a high input impedance (<span class="math inline">50\text{ k}\Omega</span> at Pin 3) so it does not load down the filter, while delivering enough current through a <span class="math inline">220\text{ }\mu\text{F}</span> DC-blocking capacitor to drive an <span class="math inline">8\text{ }\Omega</span> speaker cleanly.</p>
+<p>To build these exact filters on a physical breadboard, each passive stage feeds into an <strong><code>LM386N-1</code></strong> single-supply audio power amplifier (powered by a single <span class="math inline">+9\text{ V}</span> battery—<strong>no <span class="math inline">-9\text{ V}</span> rail is needed</strong>). The <code>LM386</code> provides a high input impedance (<span class="math inline">50\text{ k}\Omega</span> at Pin 3) so it does not load down the filter, while internally biasing Pin 5 to <span class="math inline">+4.5\text{ V}</span> DC and driving an <span class="math inline">8\text{ }\Omega</span> speaker through a <span class="math inline">220\text{ }\mu\text{F}</span> DC-blocking capacitor.</p>
 <div class="hw-grid">
 <div class="hw-card">
 <div class="hw-hdr">
@@ -1200,75 +1624,78 @@ document.addEventListener('DOMContentLoaded', updateCircuitParams);
   <span style="color:#93c5fd; font-size:0.82rem;">Chord Warmth Build</span>
 </div>
 <div class="hw-svg-box">
-  <svg class="tikz-svg" viewbox="0 0 500 215" width="100%" height="200" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+  <svg class="tikz-svg" viewbox="0 0 550 220" width="100%" height="205" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
     <!-- 3.5mm Audio Input Jack -->
-    <rect x="14" y="42" width="38" height="32" rx="4" fill="#f1f5f9" stroke="#0f172a" stroke-width="1.8"></rect>
-    <text x="33" y="62" font-size="10.5" font-weight="bold" text-anchor="middle">3.5mm</text>
-    <text x="33" y="34" font-size="10.5" font-style="italic" text-anchor="middle">Aux In</text>
-    <line x1="33" y1="74" x2="33" y2="170" stroke="#0f172a" stroke-width="1.8"></line>
+    <rect x="14" y="46" width="42" height="32" rx="4" fill="#f1f5f9" stroke="#0f172a" stroke-width="1.8"></rect>
+    <text x="35" y="66" font-size="10.5" font-weight="bold" text-anchor="middle">3.5mm</text>
+    <text x="35" y="38" font-size="10.5" font-style="italic" text-anchor="middle">Aux In</text>
+    <line x1="35" y1="78" x2="35" y2="176" stroke="#0f172a" stroke-width="1.8"></line>
 
     <!-- Top Wire & 50k Potentiometer R -->
-    <line x1="52" y1="58" x2="78" y2="58" stroke="#0f172a" stroke-width="2"></line>
-    <path d="M 78 58 L 84 47 L 94 69 L 104 47 L 114 69 L 124 47 L 134 69 L 140 58" stroke="#0f172a" stroke-width="2" fill="none"></path>
-    <!-- Potentiometer Wiper Arrow -->
-    <line x1="109" y1="30" x2="109" y2="44" stroke="#0284c7" stroke-width="1.8"></line>
-    <polygon points="105,42 113,42 109,49" fill="#0284c7"></polygon>
-    <text x="109" y="22" font-size="12" font-weight="bold" fill="#0284c7" text-anchor="middle">R (50 kΩ Pot)</text>
-    <line x1="140" y1="58" x2="232" y2="58" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="56" y1="62" x2="84" y2="62" stroke="#0f172a" stroke-width="2"></line>
+    <path d="M 84 62 L 90 51 L 100 73 L 110 51 L 120 73 L 130 51 L 140 73 L 146 62" stroke="#0f172a" stroke-width="2" fill="none"></path>
+    <line x1="115" y1="32" x2="115" y2="47" stroke="#0284c7" stroke-width="1.8"></line>
+    <polygon points="111,45 119,45 115,52" fill="#0284c7"></polygon>
+    <text x="115" y="23" font-size="12" font-weight="bold" fill="#0284c7" text-anchor="middle">R (50 kΩ Pot)</text>
+    <line x1="146" y1="62" x2="262" y2="62" stroke="#0f172a" stroke-width="2"></line>
+    <text x="244" y="54" font-size="9.5" fill="#475569" text-anchor="middle">Pin 3</text>
 
     <!-- Shunt Capacitor C (10 nF) -->
-    <circle cx="176" cy="58" r="3.2" fill="#0f172a"></circle>
-    <line x1="176" y1="58" x2="176" y2="102" stroke="#0f172a" stroke-width="2"></line>
-    <line x1="158" y1="102" x2="194" y2="102" stroke="#2563eb" stroke-width="2.6"></line>
-    <line x1="158" y1="115" x2="194" y2="115" stroke="#2563eb" stroke-width="2.6"></line>
-    <text x="199" y="112" font-size="11.5" font-weight="bold" fill="#2563eb">10 nF</text>
-    <line x1="176" y1="115" x2="176" y2="170" stroke="#0f172a" stroke-width="2"></line>
+    <circle cx="192" cy="62" r="3.2" fill="#0f172a"></circle>
+    <line x1="192" y1="62" x2="192" y2="106" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="175" y1="106" x2="209" y2="106" stroke="#2563eb" stroke-width="2.6"></line>
+    <line x1="175" y1="119" x2="209" y2="119" stroke="#2563eb" stroke-width="2.6"></line>
+    <text x="169" y="116" font-size="11.5" font-weight="bold" fill="#2563eb" text-anchor="end">10 nF</text>
+    <line x1="192" y1="119" x2="192" y2="176" stroke="#0f172a" stroke-width="2"></line>
 
     <!-- LM386 Audio Power Amp IC -->
-    <polygon points="232,42 232,126 312,84" fill="#eef2ff" stroke="#1e1b4b" stroke-width="2.2"></polygon>
-    <text x="240" y="63" font-size="11.5" font-weight="bold">+ (3)</text>
-    <text x="240" y="111" font-size="11.5" font-weight="bold">− (2)</text>
-    <text x="272" y="88" font-size="10.5" font-weight="bold" fill="#1e1b4b" text-anchor="middle">LM386</text>
-    <!-- Pin 6 (+9V Supply) -->
-    <line x1="272" y1="63" x2="272" y2="28" stroke="#dc2626" stroke-width="1.8"></line>
-    <text x="272" y="21" font-size="11" font-weight="bold" fill="#dc2626" text-anchor="middle">+9V (Pin 6)</text>
+    <polygon points="262,38 262,138 358,88" fill="#eef2ff" stroke="#1e1b4b" stroke-width="2.2"></polygon>
+    <text x="271" y="67" font-size="13" font-weight="bold">+</text>
+    <text x="271" y="119" font-size="13" font-weight="bold">−</text>
+    <text x="307" y="92" font-size="10.5" font-weight="bold" fill="#1e1b4b" text-anchor="middle">LM386</text>
+
+    <!-- Pin 6 (+9V Single Supply) -->
+    <line x1="308" y1="62" x2="308" y2="28" stroke="#dc2626" stroke-width="1.8"></line>
+    <text x="308" y="20" font-size="11" font-weight="bold" fill="#dc2626" text-anchor="middle">+9V (Pin 6)</text>
+
     <!-- Pin 2 & Pin 4 to Ground -->
-    <line x1="232" y1="107" x2="218" y2="107" stroke="#0f172a" stroke-width="1.6"></line>
-    <line x1="218" y1="107" x2="218" y2="170" stroke="#0f172a" stroke-width="1.6"></line>
-    <line x1="272" y1="105" x2="272" y2="170" stroke="#0f172a" stroke-width="1.6"></line>
-    <text x="276" y="142" font-size="9.5" fill="#475569">Pin 4</text>
+    <line x1="262" y1="114" x2="232" y2="114" stroke="#0f172a" stroke-width="1.6"></line>
+    <text x="247" y="107" font-size="9.5" fill="#475569" text-anchor="middle">Pin 2</text>
+    <line x1="232" y1="114" x2="232" y2="176" stroke="#0f172a" stroke-width="1.6"></line>
+    <line x1="308" y1="114" x2="308" y2="176" stroke="#0f172a" stroke-width="1.6"></line>
+    <text x="315" y="150" font-size="9.5" fill="#475569">Pin 4 (GND)</text>
 
     <!-- Pin 5 Output -> 220 uF DC Blocking Cap -> Speaker -->
-    <line x1="312" y1="84" x2="352" y2="84" stroke="#0f172a" stroke-width="2"></line>
-    <text x="328" y="76" font-size="9.5" fill="#475569">Pin 5</text>
-    <line x1="352" y1="69" x2="352" y2="99" stroke="#0f172a" stroke-width="2.4"></line>
-    <path d="M 364 69 Q 357 84 364 99" stroke="#0f172a" stroke-width="2.2" fill="none"></path>
-    <text x="358" y="61" font-size="11" font-weight="bold" text-anchor="middle">220 µF</text>
-    <line x1="361" y1="84" x2="412" y2="84" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="358" y1="88" x2="398" y2="88" stroke="#0f172a" stroke-width="2"></line>
+    <text x="377" y="79" font-size="9.5" fill="#475569" text-anchor="middle">Pin 5</text>
+    <line x1="398" y1="73" x2="398" y2="103" stroke="#0f172a" stroke-width="2.4"></line>
+    <path d="M 410 73 Q 403 88 410 103" stroke="#0f172a" stroke-width="2.2" fill="none"></path>
+    <text x="404" y="64" font-size="11" font-weight="bold" text-anchor="middle">220 µF</text>
+    <line x1="407" y1="88" x2="454" y2="88" stroke="#0f172a" stroke-width="2"></line>
 
     <!-- Speaker Symbol -->
-    <line x1="412" y1="84" x2="412" y2="104" stroke="#0f172a" stroke-width="2"></line>
-    <rect x="400" y="104" width="12" height="24" fill="#ffffff" stroke="#0f172a" stroke-width="2"></rect>
-    <polygon points="412,104 435,90 435,142 412,128" fill="#f1f5f9" stroke="#0f172a" stroke-width="2"></polygon>
-    <path d="M 443 106 Q 451 116 443 126" stroke="#0284c7" stroke-width="1.8" fill="none"></path>
-    <path d="M 450 100 Q 461 116 450 132" stroke="#0284c7" stroke-width="1.8" fill="none"></path>
-    <text x="442" y="156" font-size="11" font-weight="bold" fill="#0f172a" text-anchor="middle">8 Ω Speaker</text>
-    <line x1="412" y1="128" x2="412" y2="170" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="454" y1="88" x2="454" y2="108" stroke="#0f172a" stroke-width="2"></line>
+    <rect x="442" y="108" width="12" height="24" fill="#ffffff" stroke="#0f172a" stroke-width="2"></rect>
+    <polygon points="454,108 477,94 477,146 454,132" fill="#f1f5f9" stroke="#0f172a" stroke-width="2"></polygon>
+    <path d="M 485 110 Q 493 120 485 130" stroke="#0284c7" stroke-width="1.8" fill="none"></path>
+    <path d="M 492 104 Q 503 120 492 136" stroke="#0284c7" stroke-width="1.8" fill="none"></path>
+    <text x="462" y="164" font-size="11" font-weight="bold" fill="#0f172a" text-anchor="start">8 Ω Speaker</text>
+    <line x1="454" y1="132" x2="454" y2="176" stroke="#0f172a" stroke-width="2"></line>
 
     <!-- Shared Ground Rail & Ground Symbol -->
-    <line x1="33" y1="170" x2="412" y2="170" stroke="#0f172a" stroke-width="2"></line>
-    <circle cx="176" cy="170" r="3.2" fill="#0f172a"></circle>
-    <line x1="176" y1="170" x2="176" y2="184" stroke="#0f172a" stroke-width="2"></line>
-    <line x1="162" y1="184" x2="190" y2="184" stroke="#0f172a" stroke-width="2"></line>
-    <line x1="167" y1="190" x2="185" y2="190" stroke="#0f172a" stroke-width="2"></line>
-    <line x1="172" y1="196" x2="180" y2="196" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="35" y1="176" x2="454" y2="176" stroke="#0f172a" stroke-width="2"></line>
+    <circle cx="192" cy="176" r="3.2" fill="#0f172a"></circle>
+    <line x1="192" y1="176" x2="192" y2="190" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="178" y1="190" x2="206" y2="190" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="183" y1="196" x2="201" y2="196" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="188" y1="202" x2="196" y2="202" stroke="#0f172a" stroke-width="2"></line>
   </svg>
 </div>
 <div class="hw-body">
 <ul>
 <li><strong>Required Input:</strong> Connect a phone or laptop via a <strong>3.5mm TRS breakout</strong> playing a synth track or raw square/sawtooth tone.</li>
 <li><strong>How It Behaves:</strong> Turning the <span class="math inline">50\text{ k}\Omega</span> potentiometer sweeps <span class="math inline">f_c = \frac{1}{2\pi RC}</span> down into the hundreds of Hertz, shunting upper harmonics through the <span class="math inline">10\text{ nF}</span> capacitor to ground.</li>
-<li><strong>Why the <span class="math inline">220\text{ }\mu\text{F}</span> Cap Matters:</strong> Because the <code>LM386</code> runs on a single <span class="math inline">+9\text{ V}</span> supply, Pin 5 sits at <span class="math inline">+4.5\text{ V}</span> DC. The <span class="math inline">220\text{ }\mu\text{F}</span> electrolytic capacitor blocks DC while passing the AC audio signal to the <span class="math inline">8\text{ }\Omega</span> speaker.</li>
+<li><strong>Why the <span class="math inline">220\text{ }\mu\text{F}</span> Cap Matters:</strong> Pin 5 sits at <span class="math inline">+4.5\text{ V}</span> DC. The <span class="math inline">220\text{ }\mu\text{F}</span> electrolytic capacitor (<code>+</code> lead toward Pin 5) blocks DC while passing the AC audio signal to the <span class="math inline">8\text{ }\Omega</span> speaker.</li>
 </ul>
 </div>
 </div>
@@ -1278,73 +1705,79 @@ document.addEventListener('DOMContentLoaded', updateCircuitParams);
   <span style="color:#f9a8d4; font-size:0.82rem;">Café Rain Build</span>
 </div>
 <div class="hw-svg-box">
-  <svg class="tikz-svg" viewbox="0 0 500 215" width="100%" height="200" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
-    <!-- 3.5mm Noise Input Jack -->
-    <rect x="14" y="42" width="38" height="32" rx="4" fill="#fdf2f8" stroke="#0f172a" stroke-width="1.8"></rect>
-    <text x="33" y="62" font-size="10.5" font-weight="bold" text-anchor="middle">3.5mm</text>
-    <text x="33" y="34" font-size="10.5" font-style="italic" text-anchor="middle">Noise In</text>
-    <line x1="33" y1="74" x2="33" y2="170" stroke="#0f172a" stroke-width="1.8"></line>
+  <svg class="tikz-svg" viewbox="0 0 550 220" width="100%" height="205" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+    <!-- 3.5mm White/Pink Noise Input Jack -->
+    <rect x="14" y="46" width="42" height="32" rx="4" fill="#fdf2f8" stroke="#0f172a" stroke-width="1.8"></rect>
+    <text x="35" y="66" font-size="10.5" font-weight="bold" text-anchor="middle">3.5mm</text>
+    <text x="35" y="38" font-size="10" font-style="italic" text-anchor="middle">White/Pink</text>
+    <line x1="35" y1="78" x2="35" y2="176" stroke="#0f172a" stroke-width="1.8"></line>
 
     <!-- Series Inductor L (100 mH) -->
-    <line x1="52" y1="58" x2="70" y2="58" stroke="#0f172a" stroke-width="2"></line>
-    <path d="M 70 58 A 7.5 8.5 0 0 1 85 58 A 7.5 8.5 0 0 1 100 58 A 7.5 8.5 0 0 1 115 58 A 7.5 8.5 0 0 1 130 58" stroke="#db2777" stroke-width="2.2" fill="none"></path>
-    <text x="100" y="38" font-size="11.5" font-weight="bold" fill="#db2777" text-anchor="middle">100 mH</text>
+    <line x1="56" y1="62" x2="74" y2="62" stroke="#0f172a" stroke-width="2"></line>
+    <path d="M 74 62 A 7.5 8.5 0 0 1 89 62 A 7.5 8.5 0 0 1 104 62 A 7.5 8.5 0 0 1 119 62 A 7.5 8.5 0 0 1 134 62" stroke="#db2777" stroke-width="2.2" fill="none"></path>
+    <text x="104" y="40" font-size="11.5" font-weight="bold" fill="#db2777" text-anchor="middle">100 mH</text>
 
     <!-- Series Capacitor C (220 nF) -->
-    <line x1="130" y1="58" x2="152" y2="58" stroke="#0f172a" stroke-width="2"></line>
-    <line x1="152" y1="43" x2="152" y2="73" stroke="#2563eb" stroke-width="2.6"></line>
-    <line x1="163" y1="43" x2="163" y2="73" stroke="#2563eb" stroke-width="2.6"></line>
-    <text x="158" y="35" font-size="11.5" font-weight="bold" fill="#2563eb" text-anchor="middle">220 nF</text>
-    <line x1="163" y1="58" x2="232" y2="58" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="134" y1="62" x2="156" y2="62" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="156" y1="47" x2="156" y2="77" stroke="#2563eb" stroke-width="2.6"></line>
+    <line x1="167" y1="47" x2="167" y2="77" stroke="#2563eb" stroke-width="2.6"></line>
+    <text x="162" y="38" font-size="11.5" font-weight="bold" fill="#2563eb" text-anchor="middle">220 nF</text>
+    <line x1="167" y1="62" x2="262" y2="62" stroke="#0f172a" stroke-width="2"></line>
+    <text x="244" y="54" font-size="9.5" fill="#475569" text-anchor="middle">Pin 3</text>
 
     <!-- Shunt 1 kOhm Damping Potentiometer R -->
-    <circle cx="196" cy="58" r="3.2" fill="#0f172a"></circle>
-    <line x1="196" y1="58" x2="196" y2="82" stroke="#0f172a" stroke-width="2"></line>
-    <path d="M 196 82 L 185 88 L 207 97 L 185 106 L 207 115 L 185 124 L 207 133 L 196 139" stroke="#0f172a" stroke-width="2" fill="none"></path>
-    <text x="180" y="114" font-size="11" font-weight="bold" text-anchor="end">1 kΩ Pot</text>
-    <line x1="196" y1="139" x2="196" y2="170" stroke="#0f172a" stroke-width="2"></line>
+    <circle cx="204" cy="62" r="3.2" fill="#0f172a"></circle>
+    <line x1="204" y1="62" x2="204" y2="86" stroke="#0f172a" stroke-width="2"></line>
+    <path d="M 204 86 L 193 92 L 215 101 L 193 110 L 215 119 L 193 128 L 215 137 L 204 143" stroke="#0f172a" stroke-width="2" fill="none"></path>
+    <text x="188" y="118" font-size="11" font-weight="bold" text-anchor="end">1 kΩ Pot</text>
+    <line x1="204" y1="143" x2="204" y2="176" stroke="#0f172a" stroke-width="2"></line>
 
     <!-- LM386 Audio Power Amp IC -->
-    <polygon points="232,42 232,126 312,84" fill="#fdf2f8" stroke="#1e1b4b" stroke-width="2.2"></polygon>
-    <text x="240" y="63" font-size="11.5" font-weight="bold">+ (3)</text>
-    <text x="240" y="111" font-size="11.5" font-weight="bold">− (2)</text>
-    <text x="272" y="88" font-size="10.5" font-weight="bold" fill="#1e1b4b" text-anchor="middle">LM386</text>
-    <line x1="272" y1="63" x2="272" y2="28" stroke="#dc2626" stroke-width="1.8"></line>
-    <text x="272" y="21" font-size="11" font-weight="bold" fill="#dc2626" text-anchor="middle">+9V (Pin 6)</text>
-    <line x1="232" y1="107" x2="218" y2="107" stroke="#0f172a" stroke-width="1.6"></line>
-    <line x1="218" y1="107" x2="218" y2="170" stroke="#0f172a" stroke-width="1.6"></line>
-    <line x1="272" y1="105" x2="272" y2="170" stroke="#0f172a" stroke-width="1.6"></line>
-    <text x="276" y="142" font-size="9.5" fill="#475569">Pin 4</text>
+    <polygon points="262,38 262,138 358,88" fill="#fdf2f8" stroke="#1e1b4b" stroke-width="2.2"></polygon>
+    <text x="271" y="67" font-size="13" font-weight="bold">+</text>
+    <text x="271" y="119" font-size="13" font-weight="bold">−</text>
+    <text x="307" y="92" font-size="10.5" font-weight="bold" fill="#1e1b4b" text-anchor="middle">LM386</text>
+
+    <!-- Pin 6 (+9V Single Supply) -->
+    <line x1="308" y1="62" x2="308" y2="28" stroke="#dc2626" stroke-width="1.8"></line>
+    <text x="308" y="20" font-size="11" font-weight="bold" fill="#dc2626" text-anchor="middle">+9V (Pin 6)</text>
+
+    <!-- Pin 2 & Pin 4 to Ground -->
+    <line x1="262" y1="114" x2="232" y2="114" stroke="#0f172a" stroke-width="1.6"></line>
+    <text x="247" y="107" font-size="9.5" fill="#475569" text-anchor="middle">Pin 2</text>
+    <line x1="232" y1="114" x2="232" y2="176" stroke="#0f172a" stroke-width="1.6"></line>
+    <line x1="308" y1="114" x2="308" y2="176" stroke="#0f172a" stroke-width="1.6"></line>
+    <text x="315" y="150" font-size="9.5" fill="#475569">Pin 4 (GND)</text>
 
     <!-- Pin 5 Output -> 220 uF DC Blocking Cap -> Speaker -->
-    <line x1="312" y1="84" x2="352" y2="84" stroke="#0f172a" stroke-width="2"></line>
-    <text x="328" y="76" font-size="9.5" fill="#475569">Pin 5</text>
-    <line x1="352" y1="69" x2="352" y2="99" stroke="#0f172a" stroke-width="2.4"></line>
-    <path d="M 364 69 Q 357 84 364 99" stroke="#0f172a" stroke-width="2.2" fill="none"></path>
-    <text x="358" y="61" font-size="11" font-weight="bold" text-anchor="middle">220 µF</text>
-    <line x1="361" y1="84" x2="412" y2="84" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="358" y1="88" x2="398" y2="88" stroke="#0f172a" stroke-width="2"></line>
+    <text x="377" y="79" font-size="9.5" fill="#475569" text-anchor="middle">Pin 5</text>
+    <line x1="398" y1="73" x2="398" y2="103" stroke="#0f172a" stroke-width="2.4"></line>
+    <path d="M 410 73 Q 403 88 410 103" stroke="#0f172a" stroke-width="2.2" fill="none"></path>
+    <text x="404" y="64" font-size="11" font-weight="bold" text-anchor="middle">220 µF</text>
+    <line x1="407" y1="88" x2="454" y2="88" stroke="#0f172a" stroke-width="2"></line>
 
     <!-- Speaker Symbol -->
-    <line x1="412" y1="84" x2="412" y2="104" stroke="#0f172a" stroke-width="2"></line>
-    <rect x="400" y="104" width="12" height="24" fill="#ffffff" stroke="#0f172a" stroke-width="2"></rect>
-    <polygon points="412,104 435,90 435,142 412,128" fill="#f1f5f9" stroke="#0f172a" stroke-width="2"></polygon>
-    <path d="M 443 106 Q 451 116 443 126" stroke="#db2777" stroke-width="1.8" fill="none"></path>
-    <path d="M 450 100 Q 461 116 450 132" stroke="#db2777" stroke-width="1.8" fill="none"></path>
-    <text x="442" y="156" font-size="11" font-weight="bold" fill="#0f172a" text-anchor="middle">8 Ω Speaker</text>
-    <line x1="412" y1="128" x2="412" y2="170" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="454" y1="88" x2="454" y2="108" stroke="#0f172a" stroke-width="2"></line>
+    <rect x="442" y="108" width="12" height="24" fill="#ffffff" stroke="#0f172a" stroke-width="2"></rect>
+    <polygon points="454,108 477,94 477,146 454,132" fill="#f1f5f9" stroke="#0f172a" stroke-width="2"></polygon>
+    <path d="M 485 110 Q 493 120 485 130" stroke="#db2777" stroke-width="1.8" fill="none"></path>
+    <path d="M 492 104 Q 503 120 492 136" stroke="#db2777" stroke-width="1.8" fill="none"></path>
+    <text x="462" y="164" font-size="11" font-weight="bold" fill="#0f172a" text-anchor="start">8 Ω Speaker</text>
+    <line x1="454" y1="132" x2="454" y2="176" stroke="#0f172a" stroke-width="2"></line>
 
     <!-- Shared Ground Rail & Ground Symbol -->
-    <line x1="33" y1="170" x2="412" y2="170" stroke="#0f172a" stroke-width="2"></line>
-    <circle cx="196" cy="170" r="3.2" fill="#0f172a"></circle>
-    <line x1="196" y1="170" x2="196" y2="184" stroke="#0f172a" stroke-width="2"></line>
-    <line x1="182" y1="184" x2="210" y2="184" stroke="#0f172a" stroke-width="2"></line>
-    <line x1="187" y1="190" x2="205" y2="190" stroke="#0f172a" stroke-width="2"></line>
-    <line x1="192" y1="196" x2="200" y2="196" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="35" y1="176" x2="454" y2="176" stroke="#0f172a" stroke-width="2"></line>
+    <circle cx="204" cy="176" r="3.2" fill="#0f172a"></circle>
+    <line x1="204" y1="176" x2="204" y2="190" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="190" y1="190" x2="218" y2="190" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="195" y1="196" x2="213" y2="196" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="200" y1="202" x2="208" y2="202" stroke="#0f172a" stroke-width="2"></line>
   </svg>
 </div>
 <div class="hw-body">
 <ul>
-<li><strong>Required Input:</strong> Feed broadband white or pink noise from a phone/laptop into the 3.5mm jack.</li>
+<li><strong>Required Input:</strong> Feed broadband <strong>white or pink noise</strong> from a phone/laptop (or benchtop function generator) into the 3.5mm jack.</li>
 <li><strong>How It Behaves:</strong> At <span class="math inline">f_0 = \frac{1}{2\pi\sqrt{(100\text{ mH})(220\text{ nF})}} \approx 1.07\text{ kHz}</span>, the reactances <span class="math inline">+jX_L</span> and <span class="math inline">-jX_C</span> cancel out, letting the rain band pass across the <span class="math inline">1\text{ k}\Omega</span> potentiometer into Pin 3 of the <code>LM386</code>.</li>
 <li><strong>Tuning the Rain:</strong> Sweeping the <span class="math inline">1\text{ k}\Omega</span> pot adjusts <span class="math inline">Q = \frac{1}{R}\sqrt{\frac{L}{C}}</span> live—turning wide café rain into a narrow resonant whistle.</li>
 </ul>
@@ -1352,15 +1785,79 @@ document.addEventListener('DOMContentLoaded', updateCircuitParams);
 </div>
 </div>
 </section>
+<section id="lm386n-1-physical-pinout-8-pin-dip-datasheet-reference" class="level3">
+<h3 class="anchored" data-anchor-id="lm386n-1-physical-pinout-8-pin-dip-datasheet-reference"><code>LM386N-1</code> Physical Pinout (8-Pin DIP) &amp; Datasheet Reference</h3>
+<div class="pinout-grid">
+<div style="text-align:center;">
+  <svg class="tikz-svg" viewbox="0 0 300 215" width="100%" height="205" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+    <text x="150" y="16" font-size="11.5" font-weight="bold" fill="#1e1b4b" text-anchor="middle">LM386N-1 (Top View)</text>
+
+    <!-- IC Body -->
+    <rect x="95" y="28" width="110" height="164" rx="6" fill="#1e293b" stroke="#0f172a" stroke-width="2"></rect>
+    <!-- Orientation Notch -->
+    <path d="M 136 28 A 14 14 0 0 0 164 28" fill="#ffffff" stroke="#0f172a" stroke-width="1.5"></path>
+    <!-- Pin 1 Dot -->
+    <circle cx="112" cy="48" r="4" fill="#94a3b8"></circle>
+    <text x="150" y="114" font-size="13" font-weight="bold" fill="#f8fafc" text-anchor="middle">LM386</text>
+
+    <!-- Left Pins (1 - 4) -->
+    <rect x="75" y="45" width="20" height="12" fill="#cbd5e1" stroke="#475569"></rect>
+    <text x="106" y="55" font-size="10.5" fill="#e2e8f0" font-weight="bold">1</text>
+    <text x="70" y="55" font-size="10.5" font-weight="bold" fill="#475569" text-anchor="end">GAIN</text>
+
+    <rect x="75" y="83" width="20" height="12" fill="#cbd5e1" stroke="#475569"></rect>
+    <text x="106" y="93" font-size="10.5" fill="#e2e8f0" font-weight="bold">2</text>
+    <text x="70" y="93" font-size="10.5" font-weight="bold" fill="#0f172a" text-anchor="end">− IN (GND)</text>
+
+    <rect x="75" y="121" width="20" height="12" fill="#cbd5e1" stroke="#475569"></rect>
+    <text x="106" y="131" font-size="10.5" fill="#e2e8f0" font-weight="bold">3</text>
+    <text x="70" y="131" font-size="10.5" font-weight="bold" fill="#0284c7" text-anchor="end">+ IN (Filter)</text>
+
+    <rect x="75" y="159" width="20" height="12" fill="#cbd5e1" stroke="#475569"></rect>
+    <text x="106" y="169" font-size="10.5" fill="#e2e8f0" font-weight="bold">4</text>
+    <text x="70" y="169" font-size="10.5" font-weight="bold" fill="#0f172a" text-anchor="end">GND (0V)</text>
+
+    <!-- Right Pins (8 - 5) -->
+    <rect x="205" y="45" width="20" height="12" fill="#cbd5e1" stroke="#475569"></rect>
+    <text x="194" y="55" font-size="10.5" fill="#e2e8f0" font-weight="bold" text-anchor="end">8</text>
+    <text x="230" y="55" font-size="10.5" font-weight="bold" fill="#475569" text-anchor="start">GAIN</text>
+
+    <rect x="205" y="83" width="20" height="12" fill="#cbd5e1" stroke="#475569"></rect>
+    <text x="194" y="93" font-size="10.5" fill="#e2e8f0" font-weight="bold" text-anchor="end">7</text>
+    <text x="230" y="93" font-size="10.5" font-weight="bold" fill="#64748b" text-anchor="start">BYPASS</text>
+
+    <rect x="205" y="121" width="20" height="12" fill="#cbd5e1" stroke="#475569"></rect>
+    <text x="194" y="131" font-size="10.5" fill="#e2e8f0" font-weight="bold" text-anchor="end">6</text>
+    <text x="230" y="131" font-size="10.5" font-weight="bold" fill="#dc2626" text-anchor="start">Vs (+9V)</text>
+
+    <rect x="205" y="159" width="20" height="12" fill="#cbd5e1" stroke="#475569"></rect>
+    <text x="194" y="169" font-size="10.5" fill="#e2e8f0" font-weight="bold" text-anchor="end">5</text>
+    <text x="230" y="169" font-size="10.5" font-weight="bold" fill="#16a34a" text-anchor="start">Vout (Cap)</text>
+  </svg>
+</div>
+<div>
+<p><strong>Breadboard Wiring &amp; Sanity Check:</strong></p>
+<ul>
+<li><strong>Chip Orientation:</strong> Place the <code>LM386</code> straddling the center trench of your breadboard with the <strong>half-circle notch facing up</strong> (Pin 1 is top-left, Pin 8 is top-right).</li>
+<li><strong>Common Ground:</strong> Connect the <span class="math inline">9\text{ V}</span> battery negative (<code>-</code>), the 3.5mm jack ground (<code>GND</code>), <strong>Pin 2</strong>, <strong>Pin 4</strong>, and the speaker’s negative terminal all to the <strong>same blue ground rail</strong>.</li>
+<li><strong>Power Decoupling:</strong> Place the <strong><span class="math inline">100\text{ }\mu\text{F}</span> electrolytic capacitor</strong> directly across <strong>Pin 6 (<span class="math inline">+9\text{ V}</span>)</strong> and <strong>Pin 4 (GND)</strong> (<code>+</code> lead to Pin 6) to stop battery “motorboating” hum.</li>
+<li><strong>Optional 200<span class="math inline">\times</span> Gain Mod:</strong> Leave Pins 1 and 8 open for <span class="math inline">20\text{ V/V}</span> (<span class="math inline">26\text{ dB}</span>) gain, or bridge them with a <span class="math inline">10\text{ }\mu\text{F}</span> capacitor for <span class="math inline">200\text{ V/V}</span> (<span class="math inline">46\text{ dB}</span>) punchy bass.</li>
+</ul>
+<p><a href="https://www.ti.com/lit/ds/symlink/lm386.pdf" target="_blank" rel="noopener" class="datasheet-btn">📄 Official Texas Instruments LM386 Datasheet (PDF) →</a></p>
+</div>
+</div>
+</section>
 <section id="breadboard-parts-list-bill-of-materials" class="level3">
 <h3 class="anchored" data-anchor-id="breadboard-parts-list-bill-of-materials">Breadboard Parts List (Bill of Materials)</h3>
+<p><em>Disclosure: As an Amazon Associate, I earn from qualifying purchases at no extra cost to you.</em></p>
 <div class="bom-table-wrap">
 <table class="caption-top table">
 <colgroup>
-<col style="width: 29%">
-<col style="width: 23%">
-<col style="width: 23%">
-<col style="width: 23%">
+<col style="width: 22%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 22%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1368,74 +1865,100 @@ document.addEventListener('DOMContentLoaded', updateCircuitParams);
 <th style="text-align: left;">Component</th>
 <th style="text-align: left;">Value / Part Number</th>
 <th style="text-align: left;">Role in the Circuit</th>
+<th style="text-align: center;">Source</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: center;">1</td>
+<td style="text-align: left;"><strong>Solderless Breadboard</strong></td>
+<td style="text-align: left;">830-tie-point half/full-size</td>
+<td style="text-align: left;">Solderless prototyping base with <span class="math inline">+9\text{ V}</span> and GND power rails</td>
+<td style="text-align: center;"><a href="https://www.amazon.com/s?k=830+point+solderless+breadboard&amp;tag=professorfran-20" target="_blank" rel="nofollow sponsored noopener" class="amz-btn">Amazon →</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td style="text-align: left;"><strong>Jumper Wire Kit</strong></td>
+<td style="text-align: left;">Male-to-Male (<code>22 AWG</code> / Dupont)</td>
+<td style="text-align: left;">Connects the filter nodes, <code>LM386</code> pins, and power rails</td>
+<td style="text-align: center;"><a href="https://www.amazon.com/s?k=breadboard+jumper+wires+male+to+male&amp;tag=professorfran-20" target="_blank" rel="nofollow sponsored noopener" class="amz-btn">Amazon →</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1</td>
 <td style="text-align: left;"><strong>Audio Power Amp IC</strong></td>
 <td style="text-align: left;"><code>LM386N-1</code> (8-pin DIP)</td>
 <td style="text-align: left;">Drives the <span class="math inline">8\text{ }\Omega</span> speaker cleanly without loading the filter</td>
+<td style="text-align: center;"><a href="https://www.amazon.com/s?k=LM386N-1+amplifier+IC&amp;tag=professorfran-20" target="_blank" rel="nofollow sponsored noopener" class="amz-btn">Amazon →</a></td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">1</td>
 <td style="text-align: left;"><strong>Potentiometer (Stage 1)</strong></td>
 <td style="text-align: left;"><span class="math inline">50\text{ k}\Omega</span> linear (<code>B50K</code>)</td>
 <td style="text-align: left;">Variable <span class="math inline">R</span> to sweep the <span class="math inline">RC</span> cutoff frequency <span class="math inline">f_c</span></td>
+<td style="text-align: center;"><a href="https://www.amazon.com/s?k=50k+linear+potentiometer+B50K&amp;tag=professorfran-20" target="_blank" rel="nofollow sponsored noopener" class="amz-btn">Amazon →</a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;">1</td>
 <td style="text-align: left;"><strong>Potentiometer (Stage 2)</strong></td>
 <td style="text-align: left;"><span class="math inline">1\text{ k}\Omega</span> linear (<code>B1K</code>)</td>
 <td style="text-align: left;">Variable damping <span class="math inline">R</span> to control the <span class="math inline">RLC</span> Quality Factor <span class="math inline">Q</span></td>
+<td style="text-align: center;"><a href="https://www.amazon.com/s?k=1k+linear+potentiometer+B1K&amp;tag=professorfran-20" target="_blank" rel="nofollow sponsored noopener" class="amz-btn">Amazon →</a></td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">1</td>
 <td style="text-align: left;"><strong>Film / Ceramic Capacitor</strong></td>
 <td style="text-align: left;"><span class="math inline">10\text{ nF}</span> (<code>103</code>)</td>
 <td style="text-align: left;">Stage 1 <span class="math inline">RC</span> warmth low-pass filter capacitor</td>
+<td style="text-align: center;"><a href="https://www.amazon.com/s?k=10nF+103+ceramic+capacitor+assortment&amp;tag=professorfran-20" target="_blank" rel="nofollow sponsored noopener" class="amz-btn">Amazon →</a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;">1</td>
 <td style="text-align: left;"><strong>Radial Inductor</strong></td>
 <td style="text-align: left;"><span class="math inline">100\text{ mH}</span> choke</td>
 <td style="text-align: left;">Stage 2 <span class="math inline">RLC</span> resonant bandpass tank inductor</td>
+<td style="text-align: center;"><a href="https://www.amazon.com/s?k=100mH+radial+inductor&amp;tag=professorfran-20" target="_blank" rel="nofollow sponsored noopener" class="amz-btn">Amazon →</a></td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">1</td>
 <td style="text-align: left;"><strong>Film / Ceramic Capacitor</strong></td>
 <td style="text-align: left;"><span class="math inline">220\text{ nF}</span> (<code>224</code>)</td>
 <td style="text-align: left;">Stage 2 <span class="math inline">RLC</span> resonant bandpass tank capacitor</td>
+<td style="text-align: center;"><a href="https://www.amazon.com/s?k=220nF+224+film+capacitor&amp;tag=professorfran-20" target="_blank" rel="nofollow sponsored noopener" class="amz-btn">Amazon →</a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;">1</td>
 <td style="text-align: left;"><strong>Electrolytic Capacitor</strong></td>
 <td style="text-align: left;"><span class="math inline">220\text{ }\mu\text{F}</span> (<span class="math inline">16\text{ V+}</span>)</td>
 <td style="text-align: left;">Output DC-blocking capacitor between <code>LM386</code> Pin 5 and speaker</td>
+<td style="text-align: center;"><a href="https://www.amazon.com/s?k=220uF+16V+electrolytic+capacitor&amp;tag=professorfran-20" target="_blank" rel="nofollow sponsored noopener" class="amz-btn">Amazon →</a></td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">1</td>
 <td style="text-align: left;"><strong>Electrolytic Capacitor</strong></td>
 <td style="text-align: left;"><span class="math inline">100\text{ }\mu\text{F}</span> (<span class="math inline">16\text{ V+}</span>)</td>
 <td style="text-align: left;">Power-rail decoupling capacitor across <span class="math inline">+9\text{ V}</span> (Pin 6) and GND</td>
+<td style="text-align: center;"><a href="https://www.amazon.com/s?k=100uF+16V+electrolytic+capacitor&amp;tag=professorfran-20" target="_blank" rel="nofollow sponsored noopener" class="amz-btn">Amazon →</a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;">1</td>
 <td style="text-align: left;"><strong>3.5mm Audio Jack</strong></td>
 <td style="text-align: left;">Breadboard TRS breakout</td>
-<td style="text-align: left;">Feeds audio or pink noise from a phone/laptop into the filter</td>
+<td style="text-align: left;">Feeds audio or white/pink noise from a phone/laptop into the filter</td>
+<td style="text-align: center;"><a href="https://www.amazon.com/s?k=3.5mm+TRS+stereo+jack+breakout+board&amp;tag=professorfran-20" target="_blank" rel="nofollow sponsored noopener" class="amz-btn">Amazon →</a></td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">1</td>
 <td style="text-align: left;"><strong>Speaker</strong></td>
 <td style="text-align: left;"><span class="math inline">8\text{ }\Omega</span>, <span class="math inline">0.5\text{ W}</span>–<span class="math inline">1\text{ W}</span></td>
 <td style="text-align: left;">Physical audio transducer output</td>
+<td style="text-align: center;"><a href="https://www.amazon.com/s?k=8+ohm+1W+mini+speaker&amp;tag=professorfran-20" target="_blank" rel="nofollow sponsored noopener" class="amz-btn">Amazon →</a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;">1</td>
 <td style="text-align: left;"><strong>Power Supply</strong></td>
 <td style="text-align: left;"><span class="math inline">9\text{ V}</span> battery + snap clip</td>
 <td style="text-align: left;">Single-supply power rail for the <code>LM386</code></td>
+<td style="text-align: center;"><a href="https://www.amazon.com/s?k=9V+battery+snap+connector+breadboard&amp;tag=professorfran-20" target="_blank" rel="nofollow sponsored noopener" class="amz-btn">Amazon →</a></td>
 </tr>
 </tbody>
 </table>
