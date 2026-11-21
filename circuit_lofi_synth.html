@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="Interactive Web Audio API synthesizer and live oscilloscope demonstrating 1st-order RC low-pass warmth filters and 2nd-order RLC resonant bandpass filters.">
 
-<title>Neon Lo-Fi Circuit Café | Papillon Engineering – Wesley Francillon, PhD</title>
+<title>Neon Lo-Fi Circuit Café: Interactive RC &amp; RLC Audio Synthesizer | Dr.&nbsp;Wesley Francillon – Wesley Francillon, PhD</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -84,6 +85,49 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
 </script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -267,11 +311,13 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
 
 
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css">
+
 <style>
   /* --- Neon Lo-Fi Studio Theme --- */
   .neon-studio-wrap {
     max-width: 1240px;
-    margin: 1rem auto 3.5rem auto;
+    margin: 1rem auto 2.5rem auto;
     padding: 0 1rem;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
@@ -562,31 +608,88 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
     border-color: #818cf8;
   }
 
-  /* Light Theory Footer Below Neon Deck */
-  .theory-strip {
-    margin-top: 28px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 18px;
+  /* --- LaTeX / Computer Modern Theory & Hardware Schematics --- */
+  .latex-section {
+    max-width: 1240px;
+    margin: 0 auto 3.5rem auto;
+    padding: 0 1rem;
+    font-family: "Computer Modern Serif", "Latin Modern Roman", Georgia, serif;
+    color: #0f172a;
   }
-  .theory-card {
+  .latex-theory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 18px;
+    margin-bottom: 32px;
+  }
+  .latex-card {
     background: #ffffff;
     border: 1px solid #cbd5e1;
     border-radius: 12px;
-    padding: 18px 20px;
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
-  }
-  .theory-card h4 {
-    margin: 0 0 8px 0;
+    padding: 20px 22px;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
     font-size: 1.02rem;
-    font-weight: 800;
-    color: #1e1b4b;
+    line-height: 1.65;
   }
-  .theory-card p {
-    margin: 0;
-    font-size: 0.92rem;
-    line-height: 1.6;
-    color: #334155;
+  .latex-card h4 {
+    margin: 0 0 10px 0;
+    font-size: 1.12rem;
+    font-weight: 700;
+    color: #1e1b4b;
+    font-family: "Computer Modern Serif", "Latin Modern Roman", Georgia, serif;
+  }
+  .hw-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+    gap: 24px;
+    margin-top: 18px;
+  }
+  @media (max-width: 600px) {
+    .hw-grid { grid-template-columns: 1fr; }
+  }
+  .hw-card {
+    background: #ffffff;
+    border: 2px solid #1e1b4b;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.07);
+    display: flex;
+    flex-direction: column;
+  }
+  .hw-hdr {
+    background: #1e1b4b;
+    color: #ffffff;
+    padding: 12px 18px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .hw-svg-box {
+    background: #ffffff;
+    background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+    background-size: 14px 14px;
+    padding: 16px;
+    border-bottom: 1px solid #cbd5e1;
+    text-align: center;
+  }
+  .hw-body {
+    padding: 18px 20px;
+    background: #f8fafc;
+    font-size: 0.98rem;
+    line-height: 1.65;
+    flex-grow: 1;
+  }
+  .hw-body ul {
+    margin: 8px 0 0 0;
+    padding-left: 18px;
+  }
+  .hw-body li {
+    margin-bottom: 6px;
+  }
+  .tikz-svg text {
+    font-family: "Computer Modern Serif", "Latin Modern Roman", "Times New Roman", serif;
   }
 </style>
 
@@ -714,22 +817,6 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
     </div>
 
   </div>
-
-  <!-- Engineering Physics Breakdown -->
-  <div class="theory-strip">
-    <div class="theory-card">
-      <h4 class="anchored">1. Why Lo-Fi Sounds "Warm" (1st-Order RC)</h4>
-      <p>Raw triangle and square waves contain sharp high-frequency harmonics. Increasing <i>R</i> or <i>C</i> lowers the cutoff frequency <i>f<sub>c</sub></i> = 1 / (2π<i>RC</i>), attenuating those upper harmonics at −20 dB/decade and rounding the oscilloscope waveform into mellow café warmth.</p>
-    </div>
-    <div class="theory-card">
-      <h4 class="anchored">2. Sculpting Rain with a 2nd-Order RLC Tank</h4>
-      <p>White noise contains equal energy at all frequencies. Passing it through a series <i>RLC</i> bandpass filter centers the rain texture at <i>f</i><sub>0</sub> = 1 / (2π√(<i>LC</i>)). Lowering <i>R</i> raises the Quality Factor <i>Q</i> = (1/<i>R</i>)√(<i>L</i>/<i>C</i>), turning soft rain into a resonant wind-tunnel whistle.</p>
-    </div>
-    <div class="theory-card">
-      <h4 class="anchored">3. Try This Experiment</h4>
-      <p>Hit <strong>Play Lo-Fi Loop</strong>, turn on <strong>Café Rain</strong>, and slowly drag the Stage 1 capacitor <i>C</i> from 5 nF up to 80 nF. Watch the cyan cutoff line sweep left across the pink FFT spectrum as the high-frequency sparkle vanishes.</p>
-    </div>
-  </div>
 </div>
 
 <script>
@@ -812,7 +899,6 @@ function playChord(index, durationSec = 3.2) {
   if (!audioCtx) initAudio();
   if (audioCtx.state === 'suspended') audioCtx.resume();
 
-  // Highlight active pad
   for (let i = 0; i < 4; i++) {
     document.getElementById('pad' + i).classList.toggle('active-chord', i === index);
   }
@@ -825,13 +911,11 @@ function playChord(index, durationSec = 3.2) {
     const osc2 = audioCtx.createOscillator();
     const noteGain = audioCtx.createGain();
 
-    // Warm Rhodes-like blend: triangle + slightly detuned sine
     osc1.type = 'triangle';
     osc2.type = 'sine';
     osc1.frequency.setValueAtTime(freq, now);
     osc2.frequency.setValueAtTime(freq * 1.003, now);
 
-    // Soft attack, long warm decay
     noteGain.gain.setValueAtTime(0.0001, now);
     noteGain.gain.linearRampToValueAtTime(0.14 / notes.length * 2.2, now + 0.08 + idx * 0.03);
     noteGain.gain.exponentialRampToValueAtTime(0.0008, now + durationSec);
@@ -911,7 +995,6 @@ function fmtHz(f) {
 let currentFc = 1591;
 
 function updateCircuitParams() {
-  // Stage 1: RC
   const R_k = parseFloat(document.getElementById('slRcR').value);
   const C_nF = parseFloat(document.getElementById('slRcC').value);
   const bpm = parseFloat(document.getElementById('slBpm').value);
@@ -929,7 +1012,6 @@ function updateCircuitParams() {
   document.getElementById('outTau').textContent = (tau * 1e3).toFixed(2) + ' ms';
   document.getElementById('fcBadge').textContent = 'f_c = ' + fmtHz(fc);
 
-  // Stage 2: RLC
   const R_rlc = parseFloat(document.getElementById('slRlcR').value);
   const L_mH = parseFloat(document.getElementById('slRlcL').value);
   const C_rlc_nF = parseFloat(document.getElementById('slRlcC').value);
@@ -983,7 +1065,6 @@ function drawScopes() {
   requestAnimationFrame(drawScopes);
   if (!analyser) return;
 
-  // 1. Time-Domain Oscilloscope
   const cvS = document.getElementById('cvScope');
   const ctxS = cvS.getContext('2d');
   const bufLen = analyser.fftSize;
@@ -993,7 +1074,6 @@ function drawScopes() {
   ctxS.fillStyle = '#03050a';
   ctxS.fillRect(0, 0, cvS.width, cvS.height);
 
-  // Subtle Grid
   ctxS.strokeStyle = 'rgba(56, 189, 248, 0.12)';
   ctxS.lineWidth = 1;
   ctxS.beginPath();
@@ -1019,7 +1099,6 @@ function drawScopes() {
   ctxS.stroke();
   ctxS.shadowBlur = 0;
 
-  // 2. Frequency-Domain FFT Spectrum
   const cvF = document.getElementById('cvFFT');
   const ctxF = cvF.getContext('2d');
   const freqLen = analyser.frequencyBinCount;
@@ -1042,7 +1121,6 @@ function drawScopes() {
     ctxF.fillRect(i * barW, cvF.height - h, barW - 1.2, h);
   }
 
-  // Glowing Vertical Cutoff f_c Line
   const nyquist = audioCtx.sampleRate / 2;
   const maxDispFreq = (visibleBins / freqLen) * nyquist;
   const fcX = Math.min(cvF.width - 4, Math.max(4, (currentFc / maxDispFreq) * cvF.width));
@@ -1062,6 +1140,169 @@ function drawScopes() {
 
 document.addEventListener('DOMContentLoaded', updateCircuitParams);
 </script>
+<div class="latex-section">
+<div class="latex-theory-grid">
+<section id="why-lo-fi-sounds-warm-1st-order-rc" class="level4 latex-card">
+<h4 class="anchored" data-anchor-id="why-lo-fi-sounds-warm-1st-order-rc">1. Why Lo-Fi Sounds “Warm” (1st-Order <span class="math inline">RC</span>)</h4>
+<p>Raw triangle and square waves contain sharp high-frequency harmonics. Increasing <span class="math inline">R</span> or <span class="math inline">C</span> lowers the cutoff frequency <span class="math inline">f_c = \dfrac{1}{2\pi RC}</span>, attenuating those upper harmonics at <span class="math inline">-20\text{ dB/decade}</span> and rounding the oscilloscope waveform into mellow café warmth.</p>
+</section>
+<section id="sculpting-rain-with-a-2nd-order-rlc-tank" class="level4 latex-card">
+<h4 class="anchored" data-anchor-id="sculpting-rain-with-a-2nd-order-rlc-tank">2. Sculpting Rain with a 2nd-Order <span class="math inline">RLC</span> Tank</h4>
+<p>White noise contains equal energy at all frequencies. Passing it through a series <span class="math inline">RLC</span> bandpass filter centers the rain texture at <span class="math inline">f_0 = \dfrac{1}{2\pi\sqrt{LC}}</span>. Lowering <span class="math inline">R</span> raises the Quality Factor <span class="math inline">Q = \dfrac{1}{R}\sqrt{\dfrac{L}{C}}</span>, turning soft rain into a resonant wind-tunnel whistle.</p>
+</section>
+<section id="try-this-experiment" class="level4 latex-card">
+<h4 class="anchored" data-anchor-id="try-this-experiment">3. Try This Experiment</h4>
+<p>Hit <strong>Play Lo-Fi Loop</strong>, turn on <strong>Café Rain</strong>, and slowly drag the Stage 1 capacitor <span class="math inline">C</span> from <span class="math inline">5\text{ nF}</span> up to <span class="math inline">80\text{ nF}</span>. Watch the cyan cutoff line sweep left across the pink FFT spectrum as the high-frequency sparkle vanishes.</p>
+</section>
+</div>
+<section id="real-world-analog-hardware-schematics-input-to-filter-to-speaker" class="level3">
+<h3 class="anchored" data-anchor-id="real-world-analog-hardware-schematics-input-to-filter-to-speaker">Real-World Analog Hardware Schematics (Input <span class="math inline">\to</span> Filter <span class="math inline">\to</span> Speaker)</h3>
+<p>To build these exact audio stages on a physical breadboard, each passive filter must be isolated from the low-impedance speaker (<span class="math inline">8\text{ }\Omega</span>) using a <strong>unity-gain op-amp buffer</strong> so the speaker does not load down the filter and shift <span class="math inline">f_c</span> or <span class="math inline">f_0</span>.</p>
+<div class="hw-grid">
+<div class="hw-card">
+<div class="hw-hdr">
+  <span>STAGE 1: 1ST-ORDER RC LOW-PASS FILTER</span>
+  <span style="color:#93c5fd; font-size:0.82rem;">Chord Warmth Stage</span>
+</div>
+<div class="hw-svg-box">
+  <svg class="tikz-svg" viewbox="0 0 460 195" width="100%" height="185" xmlns="http://www.w3.org/2000/svg">
+    <!-- Vertical AC Audio Input Source (+ on top) -->
+    <line x1="48" y1="150" x2="48" y2="112" stroke="#0f172a" stroke-width="2"></line>
+    <circle cx="48" cy="92" r="20" fill="#ffffff" stroke="#0f172a" stroke-width="2"></circle>
+    <text x="48" y="83" font-size="12" font-weight="bold" text-anchor="middle">+</text>
+    <path d="M 36 95 C 40 87, 44 87, 48 95 C 52 103, 56 103, 60 95" stroke="#0f172a" stroke-width="1.8" fill="none"></path>
+    <line x1="48" y1="72" x2="48" y2="45" stroke="#0f172a" stroke-width="2"></line>
+    <text x="22" y="90" font-size="13" font-style="italic" text-anchor="end">v<tspan dy="3" font-size="9">in</tspan><tspan dy="-3">(t)</tspan></text>
+    <text x="48" y="168" font-size="11" fill="#475569" text-anchor="middle">Chords</text>
+
+    <!-- Top Wire & IEEE Resistor R -->
+    <line x1="48" y1="45" x2="92" y2="45" stroke="#0f172a" stroke-width="2"></line>
+    <path d="M 92 45 L 98 34 L 108 56 L 118 34 L 128 56 L 138 34 L 148 56 L 154 45" stroke="#0f172a" stroke-width="2" fill="none"></path>
+    <text x="123" y="24" font-size="13" font-style="italic" font-weight="bold" text-anchor="middle">R (1–50 kΩ)</text>
+    <line x1="154" y1="45" x2="262" y2="45" stroke="#0f172a" stroke-width="2"></line>
+
+    <!-- Shunt Capacitor C -->
+    <circle cx="195" cy="45" r="3.2" fill="#0f172a"></circle>
+    <line x1="195" y1="45" x2="195" y2="88" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="176" y1="88" x2="214" y2="88" stroke="#2563eb" stroke-width="2.6"></line>
+    <line x1="176" y1="102" x2="214" y2="102" stroke="#2563eb" stroke-width="2.6"></line>
+    <text x="219" y="99" font-size="12.5" font-style="italic" font-weight="bold" fill="#2563eb">C</text>
+    <line x1="195" y1="102" x2="195" y2="150" stroke="#0f172a" stroke-width="2"></line>
+
+    <!-- Unity-Gain Op-Amp Buffer -->
+    <polygon points="262,32 262,92 322,62" fill="#eef2ff" stroke="#1e1b4b" stroke-width="2"></polygon>
+    <text x="270" y="51" font-size="12" font-weight="bold">+</text>
+    <text x="270" y="81" font-size="12" font-weight="bold">−</text>
+    <line x1="262" y1="76" x2="246" y2="76" stroke="#0f172a" stroke-width="1.6"></line>
+    <line x1="246" y1="76" x2="246" y2="112" stroke="#0f172a" stroke-width="1.6"></line>
+    <line x1="246" y1="112" x2="342" y2="112" stroke="#0f172a" stroke-width="1.6"></line>
+    <line x1="342" y1="112" x2="342" y2="62" stroke="#0f172a" stroke-width="1.6"></line>
+    <circle cx="342" cy="62" r="3" fill="#0f172a"></circle>
+    <text x="292" y="23" font-size="11" font-weight="bold" fill="#4338ca" text-anchor="middle">Buffer</text>
+
+    <!-- Output Wire to Speaker -->
+    <line x1="322" y1="62" x2="385" y2="62" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="385" y1="62" x2="385" y2="84" stroke="#0f172a" stroke-width="2"></line>
+    <rect x="373" y="84" width="12" height="24" fill="#ffffff" stroke="#0f172a" stroke-width="2"></rect>
+    <polygon points="385,84 408,70 408,122 385,108" fill="#f1f5f9" stroke="#0f172a" stroke-width="2"></polygon>
+    <path d="M 416 86 Q 424 96 416 106" stroke="#0284c7" stroke-width="1.8" fill="none"></path>
+    <path d="M 423 80 Q 434 96 423 112" stroke="#0284c7" stroke-width="1.8" fill="none"></path>
+    <text x="415" y="136" font-size="11.5" font-weight="bold" fill="#0f172a" text-anchor="middle">8 Ω Speaker</text>
+    <line x1="385" y1="108" x2="385" y2="150" stroke="#0f172a" stroke-width="2"></line>
+
+    <!-- Shared Ground Rail & Ground Symbol -->
+    <line x1="48" y1="150" x2="385" y2="150" stroke="#0f172a" stroke-width="2"></line>
+    <circle cx="195" cy="150" r="3.2" fill="#0f172a"></circle>
+    <line x1="195" y1="150" x2="195" y2="164" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="181" y1="164" x2="209" y2="164" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="186" y1="170" x2="204" y2="170" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="191" y1="176" x2="199" y2="176" stroke="#0f172a" stroke-width="2"></line>
+  </svg>
+</div>
+<div class="hw-body">
+<ul>
+<li><strong>Required Input:</strong> Polyphonic audio waveform <span class="math inline">v_{\text{in}}(t)</span> (triangle + sine chord oscillator, <span class="math inline">\approx 130\text{–}330\text{ Hz}</span> fundamentals plus upper harmonics).</li>
+<li><strong>How It Behaves:</strong> At low frequencies, <span class="math inline">X_C = \frac{1}{2\pi f C}</span> is very large (open circuit), so the fundamental chord notes pass cleanly to the speaker. Above <span class="math inline">f_c = \frac{1}{2\pi RC}</span>, <span class="math inline">X_C</span> drops and shunts harsh high-frequency harmonics directly to ground.</li>
+<li><strong>Speaker Interface:</strong> The unity-gain op-amp buffer provides high input impedance (<span class="math inline">Z_{\text{in}} \to \infty</span>) so the <span class="math inline">8\text{ }\Omega</span> speaker voice coil does not draw current from the <span class="math inline">RC</span> node.</li>
+</ul>
+</div>
+</div>
+<div class="hw-card">
+<div class="hw-hdr">
+  <span>STAGE 2: 2ND-ORDER SERIES RLC BANDPASS</span>
+  <span style="color:#f9a8d4; font-size:0.82rem;">Café Rain Stage</span>
+</div>
+<div class="hw-svg-box">
+  <svg class="tikz-svg" viewbox="0 0 460 195" width="100%" height="185" xmlns="http://www.w3.org/2000/svg">
+    <!-- Vertical Noise Source (+ on top) -->
+    <line x1="44" y1="150" x2="44" y2="112" stroke="#0f172a" stroke-width="2"></line>
+    <circle cx="44" cy="92" r="20" fill="#ffffff" stroke="#0f172a" stroke-width="2"></circle>
+    <text x="44" y="83" font-size="12" font-weight="bold" text-anchor="middle">+</text>
+    <polyline points="32,96 36,89 40,101 44,87 48,100 52,90 56,96" stroke="#dc2626" stroke-width="1.6" fill="none"></polyline>
+    <line x1="44" y1="72" x2="44" y2="45" stroke="#0f172a" stroke-width="2"></line>
+    <text x="19" y="90" font-size="12.5" font-style="italic" text-anchor="end">v<tspan dy="3" font-size="9">noise</tspan></text>
+    <text x="44" y="168" font-size="11" fill="#475569" text-anchor="middle">Pink Noise</text>
+
+    <!-- Top Wire: Series Inductor L -->
+    <line x1="44" y1="45" x2="72" y2="45" stroke="#0f172a" stroke-width="2"></line>
+    <path d="M 72 45 A 8 9 0 0 1 88 45 A 8 9 0 0 1 104 45 A 8 9 0 0 1 120 45 A 8 9 0 0 1 136 45" stroke="#db2777" stroke-width="2.2" fill="none"></path>
+    <text x="104" y="25" font-size="13" font-style="italic" font-weight="bold" fill="#db2777" text-anchor="middle">L</text>
+
+    <!-- Series Capacitor C -->
+    <line x1="136" y1="45" x2="162" y2="45" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="162" y1="29" x2="162" y2="61" stroke="#2563eb" stroke-width="2.6"></line>
+    <line x1="174" y1="29" x2="174" y2="61" stroke="#2563eb" stroke-width="2.6"></line>
+    <text x="168" y="20" font-size="13" font-style="italic" font-weight="bold" fill="#2563eb" text-anchor="middle">C</text>
+    <line x1="174" y1="45" x2="262" y2="45" stroke="#0f172a" stroke-width="2"></line>
+
+    <!-- Shunt Damping Resistor R -->
+    <circle cx="212" cy="45" r="3.2" fill="#0f172a"></circle>
+    <line x1="212" y1="45" x2="212" y2="68" stroke="#0f172a" stroke-width="2"></line>
+    <path d="M 212 68 L 201 74 L 223 83 L 201 92 L 223 101 L 201 110 L 223 119 L 212 125" stroke="#0f172a" stroke-width="2" fill="none"></path>
+    <text x="196" y="101" font-size="13" font-style="italic" font-weight="bold" text-anchor="end">R</text>
+    <line x1="212" y1="125" x2="212" y2="150" stroke="#0f172a" stroke-width="2"></line>
+
+    <!-- Unity-Gain Op-Amp Buffer -->
+    <polygon points="262,32 262,92 322,62" fill="#fdf2f8" stroke="#1e1b4b" stroke-width="2"></polygon>
+    <text x="270" y="51" font-size="12" font-weight="bold">+</text>
+    <text x="270" y="81" font-size="12" font-weight="bold">−</text>
+    <line x1="262" y1="76" x2="246" y2="76" stroke="#0f172a" stroke-width="1.6"></line>
+    <line x1="246" y1="76" x2="246" y2="112" stroke="#0f172a" stroke-width="1.6"></line>
+    <line x1="246" y1="112" x2="342" y2="112" stroke="#0f172a" stroke-width="1.6"></line>
+    <line x1="342" y1="112" x2="342" y2="62" stroke="#0f172a" stroke-width="1.6"></line>
+    <circle cx="342" cy="62" r="3" fill="#0f172a"></circle>
+    <text x="292" y="23" font-size="11" font-weight="bold" fill="#be185d" text-anchor="middle">Buffer</text>
+
+    <!-- Output Wire to Speaker -->
+    <line x1="322" y1="62" x2="385" y2="62" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="385" y1="62" x2="385" y2="84" stroke="#0f172a" stroke-width="2"></line>
+    <rect x="373" y="84" width="12" height="24" fill="#ffffff" stroke="#0f172a" stroke-width="2"></rect>
+    <polygon points="385,84 408,70 408,122 385,108" fill="#f1f5f9" stroke="#0f172a" stroke-width="2"></polygon>
+    <path d="M 416 86 Q 424 96 416 106" stroke="#db2777" stroke-width="1.8" fill="none"></path>
+    <path d="M 423 80 Q 434 96 423 112" stroke="#db2777" stroke-width="1.8" fill="none"></path>
+    <text x="415" y="136" font-size="11.5" font-weight="bold" fill="#0f172a" text-anchor="middle">8 Ω Speaker</text>
+    <line x1="385" y1="108" x2="385" y2="150" stroke="#0f172a" stroke-width="2"></line>
+
+    <!-- Shared Ground Rail & Ground Symbol -->
+    <line x1="44" y1="150" x2="385" y2="150" stroke="#0f172a" stroke-width="2"></line>
+    <circle cx="212" cy="150" r="3.2" fill="#0f172a"></circle>
+    <line x1="212" y1="150" x2="212" y2="164" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="198" y1="164" x2="226" y2="164" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="203" y1="170" x2="221" y2="170" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="208" y1="176" x2="216" y2="176" stroke="#0f172a" stroke-width="2"></line>
+  </svg>
+</div>
+<div class="hw-body">
+<ul>
+<li><strong>Required Input:</strong> Broadband pink/white noise source <span class="math inline">v_{\text{noise}}(t)</span> containing continuous energy across the entire audible spectrum (<span class="math inline">20\text{ Hz} \to 20\text{ kHz}</span>).</li>
+<li><strong>How It Behaves:</strong> At resonance (<span class="math inline">f_0 = \frac{1}{2\pi\sqrt{LC}}</span>), inductive reactance <span class="math inline">+jX_L</span> and capacitive reactance <span class="math inline">-jX_C</span> cancel out (<span class="math inline">Z_{LC} = 0</span>), allowing maximum voltage across <span class="math inline">R</span> to reach the speaker. Frequencies far above or below <span class="math inline">f_0</span> are blocked by <span class="math inline">L</span> or <span class="math inline">C</span>.</li>
+<li><strong>Tuning the Rain:</strong> Lowering <span class="math inline">R</span> narrows the passband bandwidth (<span class="math inline">BW = f_0 / Q</span>), shifting the audio from wide, soft rain into a sharp resonant whistle.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+</div>
 
 
 
