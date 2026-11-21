@@ -188,8 +188,8 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
  <span class="dropdown-text">Live Circuit Simulator</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./reactance_calculator.html">
- <span class="dropdown-text">Reactance Calculator</span></a>
+    <a class="dropdown-item" href="./bode_filter_designer.html">
+ <span class="dropdown-text">Bode Plot &amp; Active Filter Designer</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./simulations/op-amp-checker.html">
@@ -215,6 +215,10 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
  <span class="dropdown-text">ICZV &amp; Planar Kinematics (ENS 119)</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="./bode_filter_designer.html">
+ <span class="dropdown-text">Bode Plot &amp; Active Filter Designer</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="./simulations/op-amp-checker.html">
  <span class="dropdown-text">Op-Amp Golden Rule Checker</span></a>
   </li>  
@@ -229,10 +233,6 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
         <li>
     <a class="dropdown-item" href="./circuit_generator.html">
  <span class="dropdown-text">Circuit Problem Generator</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./reactance_calculator.html">
- <span class="dropdown-text">Reactance Calculator</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./resonance_game.html">
@@ -377,7 +377,7 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
 <h3 class="anchored" data-anchor-id="step-1-mapping-the-fishing-grounds">Step 1: Mapping the Fishing Grounds</h3>
 <p>Before we can pull tide data, we need to know <em>where</em> we are fishing. NOAA uses unique 7-digit Station IDs for all their coastal buoys and sensors.</p>
 <p>Let’s use the <code>folium</code> library to create an interactive web map of the South Shore of Long Island. <strong>Click on the red markers on the map below</strong> to find the Station ID of your favorite fishing spot!</p>
-<div id="f9f7bb16" class="cell" data-execution_count="1">
+<div id="8b7f2ce7" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> folium</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Coordinates for the South Shore of Long Island</span></span>
@@ -424,7 +424,7 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
             <meta name=&quot;viewport&quot; content=&quot;width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; />
             <style>
-                #map_24a5f8f9f25f13e44e47e12557e070e7 {
+                #map_bf2b1f96600f0d3944f3b213ac5f4da9 {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -461,14 +461,14 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
 <body>
     
     
-            <div class=&quot;folium-map&quot; id=&quot;map_24a5f8f9f25f13e44e47e12557e070e7&quot; ></div>
+            <div class=&quot;folium-map&quot; id=&quot;map_bf2b1f96600f0d3944f3b213ac5f4da9&quot; ></div>
         
 </body>
 <script>
     
     
-            var map_24a5f8f9f25f13e44e47e12557e070e7 = L.map(
-                &quot;map_24a5f8f9f25f13e44e47e12557e070e7&quot;,
+            var map_bf2b1f96600f0d3944f3b213ac5f4da9 = L.map(
+                &quot;map_bf2b1f96600f0d3944f3b213ac5f4da9&quot;,
                 {
                     center: [40.6, -73.58],
                     crs: L.CRS.EPSG3857,
@@ -485,7 +485,7 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
 
         
     
-            var tile_layer_f5a0fb12fdd604ab190f35ce146c7666 = L.tileLayer(
+            var tile_layer_61640f57b8aeccf3379d109dc3d9b978 = L.tileLayer(
                 &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
                 {
   &quot;minZoom&quot;: 0,
@@ -502,17 +502,17 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
             );
         
     
-            tile_layer_f5a0fb12fdd604ab190f35ce146c7666.addTo(map_24a5f8f9f25f13e44e47e12557e070e7);
+            tile_layer_61640f57b8aeccf3379d109dc3d9b978.addTo(map_bf2b1f96600f0d3944f3b213ac5f4da9);
         
     
-            var marker_fc957a71f70caf28732f2359c32a8485 = L.marker(
+            var marker_4a53fdd4b8f42336ace9f78eb81f1083 = L.marker(
                 [40.5917, -73.5067],
                 {
 }
-            ).addTo(map_24a5f8f9f25f13e44e47e12557e070e7);
+            ).addTo(map_bf2b1f96600f0d3944f3b213ac5f4da9);
         
     
-            var icon_627dde4f87b906b223aab62307d41131 = L.AwesomeMarkers.icon(
+            var icon_e3e04cbe1f12d3af906e05a843c55854 = L.AwesomeMarkers.icon(
                 {
   &quot;markerColor&quot;: &quot;red&quot;,
   &quot;iconColor&quot;: &quot;white&quot;,
@@ -523,24 +523,24 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
             );
         
     
-        var popup_7648094a1a4f45da18cd198ac7676c23 = L.popup({
+        var popup_e19967319e2e876acd4d5334f1e49f1e = L.popup({
   &quot;maxWidth&quot;: 250,
 });
 
         
             
-                var html_918d395dab674e87ac2361b9bfb5645c = $(`<div id=&quot;html_918d395dab674e87ac2361b9bfb5645c&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;><b>Jones Beach (Coast Guard Station)</b><br>Station ID: <code>8517137</code></div>`)[0];
-                popup_7648094a1a4f45da18cd198ac7676c23.setContent(html_918d395dab674e87ac2361b9bfb5645c);
+                var html_e7b9fac5500171dabc0b652418b4839c = $(`<div id=&quot;html_e7b9fac5500171dabc0b652418b4839c&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;><b>Jones Beach (Coast Guard Station)</b><br>Station ID: <code>8517137</code></div>`)[0];
+                popup_e19967319e2e876acd4d5334f1e49f1e.setContent(html_e7b9fac5500171dabc0b652418b4839c);
             
         
 
-        marker_fc957a71f70caf28732f2359c32a8485.bindPopup(popup_7648094a1a4f45da18cd198ac7676c23)
+        marker_4a53fdd4b8f42336ace9f78eb81f1083.bindPopup(popup_e19967319e2e876acd4d5334f1e49f1e)
         ;
 
         
     
     
-            marker_fc957a71f70caf28732f2359c32a8485.bindTooltip(
+            marker_4a53fdd4b8f42336ace9f78eb81f1083.bindTooltip(
                 `<div>
                      Click for Jones Beach (Coast Guard Station) ID
                  </div>`,
@@ -550,17 +550,17 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
             );
         
     
-                marker_fc957a71f70caf28732f2359c32a8485.setIcon(icon_627dde4f87b906b223aab62307d41131);
+                marker_4a53fdd4b8f42336ace9f78eb81f1083.setIcon(icon_e3e04cbe1f12d3af906e05a843c55854);
             
     
-            var marker_0dcd68f10e23986467b06c08ba9c2ee3 = L.marker(
+            var marker_6ed89a8e4f0bd4e87d663337ed3ac671 = L.marker(
                 [40.5883, -73.665],
                 {
 }
-            ).addTo(map_24a5f8f9f25f13e44e47e12557e070e7);
+            ).addTo(map_bf2b1f96600f0d3944f3b213ac5f4da9);
         
     
-            var icon_85a55d74f2994340de8b39ec5d52a2d6 = L.AwesomeMarkers.icon(
+            var icon_563e3000e73457026f7cc9a3b0458c5e = L.AwesomeMarkers.icon(
                 {
   &quot;markerColor&quot;: &quot;red&quot;,
   &quot;iconColor&quot;: &quot;white&quot;,
@@ -571,24 +571,24 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
             );
         
     
-        var popup_40e0f2195d627ffdceb19dffa33d48bb = L.popup({
+        var popup_17af1d5433b0e3f43601ff19f1a39ea7 = L.popup({
   &quot;maxWidth&quot;: 250,
 });
 
         
             
-                var html_9e47f825655d1e1784b1900abcb63620 = $(`<div id=&quot;html_9e47f825655d1e1784b1900abcb63620&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;><b>Long Beach (Reynolds Channel)</b><br>Station ID: <code>8517562</code></div>`)[0];
-                popup_40e0f2195d627ffdceb19dffa33d48bb.setContent(html_9e47f825655d1e1784b1900abcb63620);
+                var html_7e850e33ad36181bf9bc00216c201063 = $(`<div id=&quot;html_7e850e33ad36181bf9bc00216c201063&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;><b>Long Beach (Reynolds Channel)</b><br>Station ID: <code>8517562</code></div>`)[0];
+                popup_17af1d5433b0e3f43601ff19f1a39ea7.setContent(html_7e850e33ad36181bf9bc00216c201063);
             
         
 
-        marker_0dcd68f10e23986467b06c08ba9c2ee3.bindPopup(popup_40e0f2195d627ffdceb19dffa33d48bb)
+        marker_6ed89a8e4f0bd4e87d663337ed3ac671.bindPopup(popup_17af1d5433b0e3f43601ff19f1a39ea7)
         ;
 
         
     
     
-            marker_0dcd68f10e23986467b06c08ba9c2ee3.bindTooltip(
+            marker_6ed89a8e4f0bd4e87d663337ed3ac671.bindTooltip(
                 `<div>
                      Click for Long Beach (Reynolds Channel) ID
                  </div>`,
@@ -598,17 +598,17 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
             );
         
     
-                marker_0dcd68f10e23986467b06c08ba9c2ee3.setIcon(icon_85a55d74f2994340de8b39ec5d52a2d6);
+                marker_6ed89a8e4f0bd4e87d663337ed3ac671.setIcon(icon_563e3000e73457026f7cc9a3b0458c5e);
             
     
-            var marker_72ed7337f9d2d3c3e8b2e144c1cc5479 = L.marker(
+            var marker_0227833752a34f807e6d8c36b4ca8175 = L.marker(
                 [40.5917, -73.58],
                 {
 }
-            ).addTo(map_24a5f8f9f25f13e44e47e12557e070e7);
+            ).addTo(map_bf2b1f96600f0d3944f3b213ac5f4da9);
         
     
-            var icon_7bfc301552b1f1a990946f932a40891c = L.AwesomeMarkers.icon(
+            var icon_7f9ed9c111a3e910295c241cd5fca692 = L.AwesomeMarkers.icon(
                 {
   &quot;markerColor&quot;: &quot;red&quot;,
   &quot;iconColor&quot;: &quot;white&quot;,
@@ -619,24 +619,24 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
             );
         
     
-        var popup_233d6a8456dde35384b60123975633c0 = L.popup({
+        var popup_f6ccd8d69f3bb3b0de74d263be5c6bcc = L.popup({
   &quot;maxWidth&quot;: 250,
 });
 
         
             
-                var html_5f88083d05eb76d25c965713dc0985c0 = $(`<div id=&quot;html_5f88083d05eb76d25c965713dc0985c0&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;><b>Point Lookout (Jones Inlet)</b><br>Station ID: <code>8517251</code></div>`)[0];
-                popup_233d6a8456dde35384b60123975633c0.setContent(html_5f88083d05eb76d25c965713dc0985c0);
+                var html_68dab1c9a57532bef1dc65138bb7a05e = $(`<div id=&quot;html_68dab1c9a57532bef1dc65138bb7a05e&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;><b>Point Lookout (Jones Inlet)</b><br>Station ID: <code>8517251</code></div>`)[0];
+                popup_f6ccd8d69f3bb3b0de74d263be5c6bcc.setContent(html_68dab1c9a57532bef1dc65138bb7a05e);
             
         
 
-        marker_72ed7337f9d2d3c3e8b2e144c1cc5479.bindPopup(popup_233d6a8456dde35384b60123975633c0)
+        marker_0227833752a34f807e6d8c36b4ca8175.bindPopup(popup_f6ccd8d69f3bb3b0de74d263be5c6bcc)
         ;
 
         
     
     
-            marker_72ed7337f9d2d3c3e8b2e144c1cc5479.bindTooltip(
+            marker_0227833752a34f807e6d8c36b4ca8175.bindTooltip(
                 `<div>
                      Click for Point Lookout (Jones Inlet) ID
                  </div>`,
@@ -646,17 +646,17 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
             );
         
     
-                marker_72ed7337f9d2d3c3e8b2e144c1cc5479.setIcon(icon_7bfc301552b1f1a990946f932a40891c);
+                marker_0227833752a34f807e6d8c36b4ca8175.setIcon(icon_7f9ed9c111a3e910295c241cd5fca692);
             
     
-            var marker_56775cc6884aeb46d50b6389e9352abe = L.marker(
+            var marker_c30d64bb5b29731ae6848a0d5a153156 = L.marker(
                 [40.63, -73.5933],
                 {
 }
-            ).addTo(map_24a5f8f9f25f13e44e47e12557e070e7);
+            ).addTo(map_bf2b1f96600f0d3944f3b213ac5f4da9);
         
     
-            var icon_2842daaed60ebd6808588504ff89aa6d = L.AwesomeMarkers.icon(
+            var icon_69b81de1e26779c8a9b3d8d72be48cdb = L.AwesomeMarkers.icon(
                 {
   &quot;markerColor&quot;: &quot;red&quot;,
   &quot;iconColor&quot;: &quot;white&quot;,
@@ -667,24 +667,24 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
             );
         
     
-        var popup_fb030c9df6fdb5be1042c20885cc26dd = L.popup({
+        var popup_ba1fa74a2b92db9aba552c57bbe60b6b = L.popup({
   &quot;maxWidth&quot;: 250,
 });
 
         
             
-                var html_ab666fbf932ad180c6df1020dfe9f01b = $(`<div id=&quot;html_ab666fbf932ad180c6df1020dfe9f01b&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;><b>Freeport (Baldwin Bay)</b><br>Station ID: <code>8517276</code></div>`)[0];
-                popup_fb030c9df6fdb5be1042c20885cc26dd.setContent(html_ab666fbf932ad180c6df1020dfe9f01b);
+                var html_8b189811472221fc275f493bdafdd158 = $(`<div id=&quot;html_8b189811472221fc275f493bdafdd158&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;><b>Freeport (Baldwin Bay)</b><br>Station ID: <code>8517276</code></div>`)[0];
+                popup_ba1fa74a2b92db9aba552c57bbe60b6b.setContent(html_8b189811472221fc275f493bdafdd158);
             
         
 
-        marker_56775cc6884aeb46d50b6389e9352abe.bindPopup(popup_fb030c9df6fdb5be1042c20885cc26dd)
+        marker_c30d64bb5b29731ae6848a0d5a153156.bindPopup(popup_ba1fa74a2b92db9aba552c57bbe60b6b)
         ;
 
         
     
     
-            marker_56775cc6884aeb46d50b6389e9352abe.bindTooltip(
+            marker_c30d64bb5b29731ae6848a0d5a153156.bindTooltip(
                 `<div>
                      Click for Freeport (Baldwin Bay) ID
                  </div>`,
@@ -694,7 +694,7 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
             );
         
     
-                marker_56775cc6884aeb46d50b6389e9352abe.setIcon(icon_2842daaed60ebd6808588504ff89aa6d);
+                marker_c30d64bb5b29731ae6848a0d5a153156.setIcon(icon_69b81de1e26779c8a9b3d8d72be48cdb);
             
 </script>
 </html>" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe></div></div>
@@ -706,7 +706,7 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
 <h3 class="anchored" data-anchor-id="step-2-building-the-noaa-api-fetcher">Step 2: Building the NOAA API Fetcher</h3>
 <p>Now that you have your interactive map, click a marker to find the Station ID for where you want to fish (For example, <strong>Long Beach</strong> is <code>8517562</code> and <strong>Point Lookout</strong> is <code>8517251</code>).</p>
 <p>Next, we will write a Python function using the <code>requests</code> library to fetch the live tide data from the government servers in JSON format.</p>
-<div id="28e3f8ab" class="cell" data-execution_count="2">
+<div id="965b8ba4" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -752,7 +752,7 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
 <section id="step-3-user-input-visualizing-the-tides" class="level3">
 <h3 class="anchored" data-anchor-id="step-3-user-input-visualizing-the-tides">Step 3: User Input &amp; Visualizing the Tides</h3>
 <p>You have the data fetcher ready—now let’s draw the wave! We will use <code>matplotlib</code> to plot a smooth curve between the high and low tide peaks so you know exactly when the tide is rolling in.</p>
-<div id="a6f0f386" class="cell" data-execution_count="3">
+<div id="56f9a94b" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.dates <span class="im">as</span> mdates</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -815,7 +815,7 @@ gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
 <section id="live-output-demo-point-lookout-jones-inlet-8517251" class="level4">
 <h4 class="anchored" data-anchor-id="live-output-demo-point-lookout-jones-inlet-8517251">Live Output Demo: Point Lookout / Jones Inlet (<code>8517251</code>)</h4>
 <p>Here is what your code outputs when a user enters <code>8517251</code> for a 3-day fishing trip at <strong>Point Lookout / Jones Beach</strong>:</p>
-<div id="dfd02b01" class="cell" data-execution_count="4">
+<div id="6dbc01a2" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">

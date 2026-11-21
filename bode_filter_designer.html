@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dr.&nbsp;Wesley Francillon, PhD">
+
+<title>Bode Plot &amp; Active Filter Designer – Wesley Francillon, PhD</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a24a4402a48cd8560abd59411f39e8d3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-2P04N7WV2H"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
+</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./papillon.png" alt="Papillon Engineering" class="navbar-logo light-content">
+    <img src="./papillon.png" alt="Papillon Engineering" class="navbar-logo dark-content">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-teaching" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Teaching</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-teaching">    
+        <li>
+    <a class="dropdown-item" href="./teaching.html">
+ <span class="dropdown-text">Teaching Statement</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lecture_notes.html">
+ <span class="dropdown-text">Lecture Notes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lab_manuals.html">
+ <span class="dropdown-text">Interactive Lab Manuals Hub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuits_textbook/ch1_foundations.html">
+ <span class="dropdown-text">Circuit Analysis E-Book</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-circuit-analysis" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Circuit Analysis</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-circuit-analysis">    
+        <li>
+    <a class="dropdown-item" href="./circuit_analysis.html">
+ <span class="dropdown-text">Circuit Analysis Hub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_dashboard.html">
+ <span class="dropdown-text">Electrical Dashboard</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_simulator.html">
+ <span class="dropdown-text">Live Circuit Simulator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./bode_filter_designer.html">
+ <span class="dropdown-text">Bode Plot &amp; Active Filter Designer</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./simulations/op-amp-checker.html">
+ <span class="dropdown-text">Op-Amp Golden Rule Checker</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_generator.html">
+ <span class="dropdown-text">Circuit Problem Generator</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-simulations" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Simulations</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-simulations">    
+        <li>
+    <a class="dropdown-item" href="./simulations.html">
+ <span class="dropdown-text">Simulations Hub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./dynamics/iczv_dynamics.html">
+ <span class="dropdown-text">ICZV &amp; Planar Kinematics (ENS 119)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./bode_filter_designer.html">
+ <span class="dropdown-text">Bode Plot &amp; Active Filter Designer</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./simulations/op-amp-checker.html">
+ <span class="dropdown-text">Op-Amp Golden Rule Checker</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./usaf_1951.html">
+ <span class="dropdown-text">1951 USAF Optical Resolution Analyzer</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_simulator.html">
+ <span class="dropdown-text">Live Circuit Simulator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_generator.html">
+ <span class="dropdown-text">Circuit Problem Generator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./resonance_game.html">
+ <span class="dropdown-text">Resonance Defender Game</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_breakout.html">
+ <span class="dropdown-text">Impedance Breaker Game</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-outreach" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Outreach</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-outreach">    
+        <li>
+    <a class="dropdown-item" href="./outreach.html">
+ <span class="dropdown-text">K-12 Outreach Hub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./rss_feeds.html">
+ <span class="dropdown-text">Automated RSS Engineering Wire</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./linear_regression.html">
+ <span class="dropdown-text">Linear Regression</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./outreach_data.html">
+ <span class="dropdown-text">API Data Challenge</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./web_scraping.html">
+ <span class="dropdown-text">Web Scraping</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./resonance_game.html">
+ <span class="dropdown-text">Resonance Defender Game</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_breakout.html">
+ <span class="dropdown-text">Impedance Breaker Game</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./rf_foxhunt.html">
+ <span class="dropdown-text">RF Fox Hunt Lab</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Filter Workbench</h2>
+   
+  <ul>
+  <li><a href="#interactive-bode-filter-workbench" id="toc-interactive-bode-filter-workbench" class="nav-link active" data-scroll-target="#interactive-bode-filter-workbench">1. Interactive Bode &amp; Filter Workbench</a></li>
+  <li><a href="#key-bode-plot-rules-for-laboratory-verification" id="toc-key-bode-plot-rules-for-laboratory-verification" class="nav-link" data-scroll-target="#key-bode-plot-rules-for-laboratory-verification">2. Key Bode Plot Rules for Laboratory Verification</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Bode Plot &amp; Active Filter Designer</h1>
+<p class="subtitle lead">Interactive Frequency Response, Cutoff Dynamics &amp; Op-Amp Filter Bench</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr.&nbsp;Wesley Francillon, PhD </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css">
+
+<style>
+  .bode-prose {
+    font-family: "Computer Modern Serif", "Latin Modern Roman", Georgia, serif;
+    font-size: 1.03rem;
+    line-height: 1.65;
+    color: #0f172a;
+  }
+  .bode-bench {
+    background: #ffffff;
+    border: 2px solid #1e1b4b;
+    border-radius: 14px;
+    padding: 22px;
+    margin: 24px 0 34px 0;
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+  }
+  .topo-btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .topo-btn {
+    background: #f1f5f9;
+    color: #1e293b;
+    border: 1px solid #cbd5e1;
+    padding: 8px 14px;
+    border-radius: 7px;
+    font-weight: 700;
+    font-size: 0.83rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .topo-btn.active {
+    background: #1e1b4b;
+    color: #ffffff;
+    border-color: #1e1b4b;
+  }
+  .control-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 14px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+  .slider-card label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 4px;
+  }
+  .slider-card input[type="range"] {
+    width: 100%;
+    accent-color: #4338ca;
+  }
+  .plot-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.45fr;
+    gap: 18px;
+    align-items: stretch;
+  }
+  @media (max-width: 900px) {
+    .plot-layout { grid-template-columns: 1fr; }
+  }
+  .schem-panel, .chart-panel {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .panel-hdr {
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #1e1b4b;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .telemetry-bar {
+    margin-top: 18px;
+    background: #0f172a;
+    color: #f8fafc;
+    padding: 14px 18px;
+    border-radius: 9px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.82rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 10px;
+  }
+  .tikz-svg text {
+    font-family: "Computer Modern Serif", "Latin Modern Roman", "Times New Roman", serif;
+  }
+</style>
+
+<!-- Hero Banner -->
+<div style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 60%, #4338ca 100%); color: #ffffff; padding: 32px 30px; border-radius: 14px; margin-bottom: 28px; box-shadow: 0 12px 28px rgba(30, 27, 75, 0.18);">
+  <div style="font-size: 0.76rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: #a5b4fc; margin-bottom: 6px;">
+    Papillon Engineering • Frequency-Domain &amp; Analog Filter Workbench
+  </div>
+  <h2 style="color: #ffffff; font-size: 1.8rem; font-weight: 800; margin: 0 0 10px 0; border: none; padding: 0;" class="anchored">
+    Bode Plot &amp; Active Filter Designer
+  </h2>
+  <p style="color: #e0e7ff; font-size: 1rem; line-height: 1.6; margin: 0; max-width: 840px;">
+    Design and analyze 1st- and 2nd-order passive and active operational-amplifier filters directly in your browser. Sweep component values to observe cutoff frequency ($f_c$), passband gain ($A_v$), asymptotic roll-off slopes ($-20$ vs. $-40\text{ dB/dec}$), and phase shift across six decades of frequency.
+  </p>
+</div>
+<section id="interactive-bode-filter-workbench" class="level2">
+<h2 class="anchored" data-anchor-id="interactive-bode-filter-workbench">1. Interactive Bode &amp; Filter Workbench</h2>
+<p>Select a filter topology below, adjust the resistance, capacitance, and feedback gain sliders, and move the <strong>Probe Frequency (<span class="math inline">f_{\text{probe}}</span>)</strong> slider to inspect exact magnitude (<span class="math inline">\text{dB}</span> and linear <span class="math inline">|H(j\omega)|</span>) and phase angle (<span class="math inline">\angle H(j\omega)</span>) at any point on the curve:</p>
+<div class="bode-bench">
+  <!-- Topology Selector -->
+  <div class="topo-btn-row">
+    <button type="button" class="topo-btn active" id="btnLP1" onclick="setFilterTopo('LP1')">1. Passive RC Low-Pass (1st-Order)</button>
+    <button type="button" class="topo-btn" id="btnHP1" onclick="setFilterTopo('HP1')">2. Passive RC High-Pass (1st-Order)</button>
+    <button type="button" class="topo-btn" id="btnALP" onclick="setFilterTopo('ALP')">3. Active Inverting Low-Pass (Op-Amp)</button>
+    <button type="button" class="topo-btn" id="btnSKLP" onclick="setFilterTopo('SKLP')">4. 2nd-Order Sallen-Key Low-Pass</button>
+  </div>
+
+  <!-- Component Sliders -->
+  <div class="control-grid">
+    <div class="slider-card">
+      <label><span>Resistor R (R₁ = R₂):</span> <span id="valR" style="color:#1e1b4b;">10.0 kΩ</span></label>
+      <input type="range" id="slR" min="1" max="100" step="1" value="10" oninput="updateBode()">
+    </div>
+    <div class="slider-card">
+      <label><span>Capacitor C (C₁ = C₂):</span> <span id="valC" style="color:#2563eb;">10 nF</span></label>
+      <input type="range" id="slC" min="1" max="100" step="1" value="10" oninput="updateBode()">
+    </div>
+    <div class="slider-card" id="gainSliderBox" style="opacity: 0.45;">
+      <label><span id="lblGainTitle">Passband Gain (Fixed 0 dB):</span> <span id="valG" style="color:#059669;">1.0 V/V</span></label>
+      <input type="range" id="slG" min="1" max="10" step="0.5" value="2" disabled="" oninput="updateBode()">
+    </div>
+    <div class="slider-card">
+      <label><span>Probe Frequency f_probe:</span> <span id="valF" style="color:#dc2626;">1.59 kHz</span></label>
+      <input type="range" id="slF" min="1" max="6" step="0.02" value="3.20" oninput="updateBode()">
+    </div>
+  </div>
+
+  <!-- Schematic + Dual Bode Canvas -->
+  <div class="plot-layout">
+    <!-- Left: Dynamic American Schematic + Transfer Function -->
+    <div class="schem-panel">
+      <div class="panel-hdr" id="schemTitle">Circuit Topology Schematic</div>
+      <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:10px; text-align:center;">
+        <svg id="schemSvg" class="tikz-svg" viewbox="0 0 360 230" width="100%" height="220" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+      <div id="tfBox" style="margin-top:10px; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; padding:10px 12px; font-size:0.86rem; color:#1e293b; line-height:1.5;">
+      </div>
+    </div>
+
+    <!-- Right: Magnitude (dB) and Phase (deg) Bode Plots -->
+    <div class="chart-panel">
+      <div class="panel-hdr">Asymptotic &amp; Exact Logarithmic Bode Response (10 Hz – 1 MHz)</div>
+      <canvas id="cvMag" width="560" height="185" style="width:100%; background:#ffffff; border:1px solid #cbd5e1; border-radius:6px; margin-bottom:10px;"></canvas>
+      <canvas id="cvPhase" width="560" height="165" style="width:100%; background:#ffffff; border:1px solid #cbd5e1; border-radius:6px;"></canvas>
+    </div>
+  </div>
+
+  <!-- Live Telemetry Readout -->
+  <div class="telemetry-bar" id="bodeTelemetry"></div>
+</div>
+
+<script>
+let fTopo = 'LP1';
+
+function setFilterTopo(t) {
+  fTopo = t;
+  ['LP1', 'HP1', 'ALP', 'SKLP'].forEach(id => {
+    const el = document.getElementById('btn' + id);
+    el.classList.toggle('active', id === t);
+  });
+
+  const gBox = document.getElementById('gainSliderBox');
+  const slG = document.getElementById('slG');
+  const lblG = document.getElementById('lblGainTitle');
+
+  if (t === 'ALP') {
+    gBox.style.opacity = '1';
+    slG.disabled = false;
+    lblG.textContent = 'Inverting Gain |Rf/Rin|:';
+  } else if (t === 'SKLP') {
+    gBox.style.opacity = '1';
+    slG.disabled = false;
+    lblG.textContent = 'Non-Inv. Gain K (1 + Rf/Rg):';
+  } else {
+    gBox.style.opacity = '0.45';
+    slG.disabled = true;
+    lblG.textContent = 'Passband Gain (Passive 0 dB):';
+  }
+  updateBode();
+}
+
+function fmtFreq(f) {
+  if (f >= 1e6) return (f / 1e6).toFixed(2) + ' MHz';
+  if (f >= 1e3) return (f / 1e3).toFixed(2) + ' kHz';
+  return f.toFixed(1) + ' Hz';
+}
+
+function evalResponse(f, fc, gain, topo) {
+  const u = f / fc;
+  if (topo === 'LP1') {
+    const mag = 1 / Math.hypot(1, u);
+    const db = 20 * Math.log10(mag);
+    const deg = -Math.atan(u) * 180 / Math.PI;
+    return { mag, db, deg };
+  } else if (topo === 'HP1') {
+    const mag = u / Math.hypot(1, u);
+    const db = 20 * Math.log10(Math.max(mag, 1e-6));
+    const deg = (Math.PI / 2 - Math.atan(u)) * 180 / Math.PI;
+    return { mag, db, deg };
+  } else if (topo === 'ALP') {
+    const mag = gain / Math.hypot(1, u);
+    const db = 20 * Math.log10(mag);
+    // Inverting amplifier adds -180 deg phase shift
+    const deg = -180 - Math.atan(u) * 180 / Math.PI;
+    return { mag, db, deg };
+  } else {
+    // 2nd-order Sallen-Key Low-Pass: Q = 1 / (3 - K)
+    const K = Math.min(gain, 2.95);
+    const invQ = 3 - K;
+    const re = 1 - u * u;
+    const im = invQ * u;
+    const mag = K / Math.hypot(re, im);
+    const db = 20 * Math.log10(mag);
+    const deg = -Math.atan2(im, re) * 180 / Math.PI;
+    return { mag, db, deg };
+  }
+}
+
+function drawSchematic(R_k, C_nF, gain, fc) {
+  const svg = document.getElementById('schemSvg');
+  const tfBox = document.getElementById('tfBox');
+  const title = document.getElementById('schemTitle');
+
+  if (fTopo === 'LP1') {
+    title.textContent = '1st-Order Passive RC Low-Pass Filter';
+    svg.innerHTML = `
+      <text x="24" y="74" font-size="14" font-style="italic" font-weight="bold" fill="#0f172a">v_in</text>
+      <circle cx="58" cy="70" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="2"/>
+      <line x1="62" y1="70" x2="96" y2="70" stroke="#0f172a" stroke-width="2"/>
+      <path d="M 96 70 L 102 58 L 112 82 L 122 58 L 132 82 L 142 58 L 152 82 L 158 70" stroke="#0f172a" stroke-width="2" fill="none"/>
+      <text x="127" y="47" font-size="13" font-weight="bold" text-anchor="middle" fill="#1e1b4b">R = ${R_k} kΩ</text>
+      <line x1="158" y1="70" x2="295" y2="70" stroke="#0f172a" stroke-width="2"/>
+      <circle cx="215" cy="70" r="3.5" fill="#0f172a"/>
+      <line x1="215" y1="70" x2="215" y2="112" stroke="#0f172a" stroke-width="2"/>
+      <line x1="195" y1="112" x2="235" y2="112" stroke="#0f172a" stroke-width="2.6"/>
+      <line x1="195" y1="126" x2="235" y2="126" stroke="#0f172a" stroke-width="2.6"/>
+      <text x="244" y="123" font-size="13" font-weight="bold" fill="#2563eb">C = ${C_nF} nF</text>
+      <line x1="215" y1="126" x2="215" y2="170" stroke="#0f172a" stroke-width="2"/>
+      <line x1="201" y1="170" x2="229" y2="170" stroke="#0f172a" stroke-width="2"/>
+      <line x1="206" y1="176" x2="224" y2="176" stroke="#0f172a" stroke-width="2"/>
+      <line x1="211" y1="182" x2="219" y2="182" stroke="#0f172a" stroke-width="2"/>
+      <circle cx="299" cy="70" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="2"/>
+      <text x="308" y="74" font-size="14" font-style="italic" font-weight="bold" fill="#0f172a">v_out</text>
+    `;
+    tfBox.innerHTML = `<strong>Transfer Function:</strong> <i>H(j&omega;) = 1 / (1 + j&omega;RC)</i><br><strong>Cutoff (-3 dB):</strong> <i>f<sub>c</sub> = 1 / (2&pi;RC)</i> = <strong>${fmtFreq(fc)}</strong> &bull; Roll-off: <strong>&minus;20 dB/dec</strong>`;
+  } else if (fTopo === 'HP1') {
+    title.textContent = '1st-Order Passive RC High-Pass Filter';
+    svg.innerHTML = `
+      <text x="24" y="74" font-size="14" font-style="italic" font-weight="bold" fill="#0f172a">v_in</text>
+      <circle cx="58" cy="70" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="2"/>
+      <line x1="62" y1="70" x2="115" y2="70" stroke="#0f172a" stroke-width="2"/>
+      <line x1="115" y1="52" x2="115" y2="88" stroke="#0f172a" stroke-width="2.6"/>
+      <line x1="129" y1="52" x2="129" y2="88" stroke="#0f172a" stroke-width="2.6"/>
+      <text x="122" y="42" font-size="13" font-weight="bold" text-anchor="middle" fill="#2563eb">C = ${C_nF} nF</text>
+      <line x1="129" y1="70" x2="295" y2="70" stroke="#0f172a" stroke-width="2"/>
+      <circle cx="215" cy="70" r="3.5" fill="#0f172a"/>
+      <line x1="215" y1="70" x2="215" y2="95" stroke="#0f172a" stroke-width="2"/>
+      <path d="M 215 95 L 203 101 L 227 110 L 203 119 L 227 128 L 203 137 L 227 146 L 215 152" stroke="#0f172a" stroke-width="2" fill="none"/>
+      <text x="236" y="128" font-size="13" font-weight="bold" fill="#1e1b4b">R = ${R_k} kΩ</text>
+      <line x1="215" y1="152" x2="215" y2="175" stroke="#0f172a" stroke-width="2"/>
+      <line x1="201" y1="175" x2="229" y2="175" stroke="#0f172a" stroke-width="2"/>
+      <line x1="206" y1="181" x2="224" y2="181" stroke="#0f172a" stroke-width="2"/>
+      <circle cx="299" cy="70" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="2"/>
+      <text x="308" y="74" font-size="14" font-style="italic" font-weight="bold" fill="#0f172a">v_out</text>
+    `;
+    tfBox.innerHTML = `<strong>Transfer Function:</strong> <i>H(j&omega;) = j&omega;RC / (1 + j&omega;RC)</i><br><strong>Cutoff (-3 dB):</strong> <i>f<sub>c</sub> = 1 / (2&pi;RC)</i> = <strong>${fmtFreq(fc)}</strong> &bull; Slope: <strong>+20 dB/dec</strong> below <i>f<sub>c</sub></i>`;
+  } else if (fTopo === 'ALP') {
+    title.textContent = 'Active Inverting Low-Pass Op-Amp Filter';
+    const Rin_k = (R_k / gain).toFixed(2);
+    svg.innerHTML = `
+      <text x="14" y="114" font-size="13" font-style="italic" font-weight="bold">v_in</text>
+      <line x1="42" y1="110" x2="62" y2="110" stroke="#0f172a" stroke-width="2"/>
+      <path d="M 62 110 L 67 101 L 75 119 L 83 101 L 91 119 L 99 101 L 104 110" stroke="#0f172a" stroke-width="1.8" fill="none"/>
+      <text x="83" y="94" font-size="11" font-weight="bold" text-anchor="middle">Rin=${Rin_k}k</text>
+      <line x1="104" y1="110" x2="165" y2="110" stroke="#0f172a" stroke-width="2"/>
+      <circle cx="132" cy="110" r="3.2" fill="#0f172a"/>
+      <!-- Op-Amp Triangle -->
+      <polygon points="165,92 165,158 232,125" fill="#eef2ff" stroke="#1e1b4b" stroke-width="2.2"/>
+      <text x="173" y="114" font-size="13" font-weight="bold">&minus;</text>
+      <text x="173" y="145" font-size="13" font-weight="bold">+</text>
+      <!-- Non-inverting Ground -->
+      <line x1="165" y1="140" x2="145" y2="140" stroke="#0f172a" stroke-width="1.8"/>
+      <line x1="145" y1="140" x2="145" y2="168" stroke="#0f172a" stroke-width="1.8"/>
+      <line x1="135" y1="168" x2="155" y2="168" stroke="#0f172a" stroke-width="2"/>
+      <!-- Parallel Rf and Cf Feedback -->
+      <line x1="132" y1="110" x2="132" y2="55" stroke="#0f172a" stroke-width="1.8"/>
+      <line x1="132" y1="55" x2="165" y2="55" stroke="#0f172a" stroke-width="1.8"/>
+      <path d="M 165 55 L 170 46 L 178 64 L 186 46 L 194 64 L 202 46 L 207 55" stroke="#0f172a" stroke-width="1.8" fill="none"/>
+      <text x="186" y="39" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#1e1b4b">Rf = ${R_k} kΩ</text>
+      <line x1="207" y1="55" x2="255" y2="55" stroke="#0f172a" stroke-width="1.8"/>
+      <!-- Capacitor Cf in parallel -->
+      <line x1="148" y1="55" x2="148" y2="22" stroke="#2563eb" stroke-width="1.6"/>
+      <line x1="148" y1="22" x2="182" y2="22" stroke="#2563eb" stroke-width="1.6"/>
+      <line x1="182" y1="12" x2="182" y2="32" stroke="#2563eb" stroke-width="2.4"/>
+      <line x1="192" y1="12" x2="192" y2="32" stroke="#2563eb" stroke-width="2.4"/>
+      <text x="200" y="25" font-size="11" font-weight="bold" fill="#2563eb">Cf=${C_nF}nF</text>
+      <line x1="192" y1="22" x2="238" y2="22" stroke="#2563eb" stroke-width="1.6"/>
+      <line x1="238" y1="22" x2="238" y2="55" stroke="#2563eb" stroke-width="1.6"/>
+      <!-- Output -->
+      <line x1="232" y1="125" x2="298" y2="125" stroke="#0f172a" stroke-width="2"/>
+      <line x1="255" y1="55" x2="255" y2="125" stroke="#0f172a" stroke-width="1.8"/>
+      <circle cx="255" cy="125" r="3.2" fill="#0f172a"/>
+      <text x="304" y="129" font-size="13.5" font-style="italic" font-weight="bold">v_out</text>
+    `;
+    tfBox.innerHTML = `<strong>Transfer Function:</strong> <i>H(j&omega;) = &minus;(R<sub>f</sub>/R<sub>in</sub>) / (1 + j&omega;R<sub>f</sub>C<sub>f</sub>)</i><br><strong>DC Gain:</strong> ${gain.toFixed(1)} V/V (${(20*Math.log10(gain)).toFixed(1)} dB) &bull; <strong><i>f<sub>c</sub></i> = ${fmtFreq(fc)}</strong>`;
+  } else {
+    title.textContent = '2nd-Order Sallen-Key Low-Pass Filter (−40 dB/dec)';
+    const K = Math.min(gain, 2.95);
+    const Q = (1 / (3 - K)).toFixed(2);
+    svg.innerHTML = `
+      <text x="12" y="74" font-size="13" font-style="italic" font-weight="bold">v_in</text>
+      <line x1="40" y1="70" x2="55" y2="70" stroke="#0f172a" stroke-width="1.8"/>
+      <path d="M 55 70 L 60 61 L 67 79 L 74 61 L 81 79 L 86 70" stroke="#0f172a" stroke-width="1.8" fill="none"/>
+      <text x="70" y="54" font-size="10.5" font-weight="bold" text-anchor="middle">R₁=${R_k}k</text>
+      <line x1="86" y1="70" x2="115" y2="70" stroke="#0f172a" stroke-width="1.8"/>
+      <path d="M 115 70 L 120 61 L 127 79 L 134 61 L 141 79 L 146 70" stroke="#0f172a" stroke-width="1.8" fill="none"/>
+      <text x="131" y="54" font-size="10.5" font-weight="bold" text-anchor="middle">R₂=${R_k}k</text>
+      <line x1="146" y1="70" x2="188" y2="70" stroke="#0f172a" stroke-width="1.8"/>
+      <!-- C1 feedback -->
+      <line x1="100" y1="70" x2="100" y2="26" stroke="#2563eb" stroke-width="1.6"/>
+      <line x1="100" y1="26" x2="165" y2="26" stroke="#2563eb" stroke-width="1.6"/>
+      <line x1="165" y1="16" x2="165" y2="36" stroke="#2563eb" stroke-width="2.4"/>
+      <line x1="175" y1="16" x2="175" y2="36" stroke="#2563eb" stroke-width="2.4"/>
+      <text x="170" y="12" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#2563eb">C₁=${C_nF}nF</text>
+      <line x1="175" y1="26" x2="275" y2="26" stroke="#2563eb" stroke-width="1.6"/>
+      <line x1="275" y1="26" x2="275" y2="85" stroke="#2563eb" stroke-width="1.6"/>
+      <!-- C2 to ground -->
+      <line x1="164" y1="70" x2="164" y2="112" stroke="#2563eb" stroke-width="1.6"/>
+      <line x1="152" y1="112" x2="176" y2="112" stroke="#2563eb" stroke-width="2.4"/>
+      <line x1="152" y1="122" x2="176" y2="122" stroke="#2563eb" stroke-width="2.4"/>
+      <text x="122" y="122" font-size="10.5" font-weight="bold" fill="#2563eb">C₂=${C_nF}nF</text>
+      <line x1="164" y1="122" x2="164" y2="152" stroke="#0f172a" stroke-width="1.8"/>
+      <line x1="154" y1="152" x2="174" y2="152" stroke="#0f172a" stroke-width="2"/>
+      <!-- Op-Amp -->
+      <polygon points="188,54 188,116 252,85" fill="#eef2ff" stroke="#1e1b4b" stroke-width="2.2"/>
+      <text x="195" y="74" font-size="12" font-weight="bold">+</text>
+      <text x="195" y="104" font-size="12" font-weight="bold">&minus;</text>
+      <line x1="188" y1="100" x2="175" y2="100" stroke="#0f172a" stroke-width="1.6"/>
+      <line x1="175" y1="100" x2="175" y2="175" stroke="#0f172a" stroke-width="1.6"/>
+      <line x1="175" y1="175" x2="275" y2="175" stroke="#0f172a" stroke-width="1.6"/>
+      <line x1="275" y1="175" x2="275" y2="85" stroke="#0f172a" stroke-width="1.6"/>
+      <text x="225" y="192" font-size="11" font-weight="bold" text-anchor="middle" fill="#059669">Stage Gain K = ${K.toFixed(2)} (Q = ${Q})</text>
+      <line x1="252" y1="85" x2="305" y2="85" stroke="#0f172a" stroke-width="2"/>
+      <text x="310" y="89" font-size="13" font-style="italic" font-weight="bold">v_out</text>
+    `;
+    tfBox.innerHTML = `<strong>2nd-Order Pole:</strong> <i>f<sub>0</sub> = 1 / (2&pi;RC)</i> = <strong>${fmtFreq(fc)}</strong> &bull; Quality Factor <strong>Q = ${Q}</strong> (Butterworth at K = 1.59)<br><strong>Stopband Slope:</strong> <strong>&minus;40 dB/decade</strong> (&minus;12 dB/octave)`;
+  }
+}
+
+function updateBode() {
+  const R_k = parseFloat(document.getElementById('slR').value);
+  const C_nF = parseFloat(document.getElementById('slC').value);
+  const gain = parseFloat(document.getElementById('slG').value);
+  const logF = parseFloat(document.getElementById('slF').value);
+
+  const R = R_k * 1e3;
+  const C = C_nF * 1e-9;
+  const fc = 1 / (2 * Math.PI * R * C);
+  const fProbe = Math.pow(10, logF);
+
+  document.getElementById('valR').textContent = R_k.toFixed(1) + ' kΩ';
+  document.getElementById('valC').textContent = C_nF + ' nF';
+  document.getElementById('valG').textContent = (fTopo === 'LP1' || fTopo === 'HP1') ? '1.0 V/V' : Math.min(gain, fTopo === 'SKLP' ? 2.95 : 10).toFixed(2) + ' V/V';
+  document.getElementById('valF').textContent = fmtFreq(fProbe);
+
+  drawSchematic(R_k, C_nF, gain, fc);
+
+  const cMag = document.getElementById('cvMag');
+  const ctxM = cMag.getContext('2d');
+  const cPh = document.getElementById('cvPhase');
+  const ctxP = cPh.getContext('2d');
+
+  const W = cMag.width, Hm = cMag.height, Hp = cPh.height;
+  const padL = 54, padR = 20, padT = 18, padB = 26;
+  const plotW = W - padL - padR;
+
+  ctxM.clearRect(0, 0, W, Hm);
+  ctxP.clearRect(0, 0, W, Hp);
+
+  // Decade grid lines: 10 Hz (1) to 1 MHz (6)
+  const fMinLog = 1, fMaxLog = 6;
+  const xOfLogF = lf => padL + ((lf - fMinLog) / (fMaxLog - fMinLog)) * plotW;
+
+  // --- Draw Magnitude Grid (-60 dB to +25 dB) ---
+  const dbMin = -60, dbMax = 25;
+  const yOfDb = db => padT + ((dbMax - Math.max(dbMin, Math.min(dbMax, db))) / (dbMax - dbMin)) * (Hm - padT - padB);
+
+  ctxM.font = '11px ui-monospace, monospace';
+  [-60, -40, -20, 0, 20].forEach(db => {
+    const y = yOfDb(db);
+    ctxM.strokeStyle = db === 0 ? '#94a3b8' : '#e2e8f0';
+    ctxM.lineWidth = db === 0 ? 1.4 : 1;
+    ctxM.beginPath(); ctxM.moveTo(padL, y); ctxM.lineTo(W - padR, y); ctxM.stroke();
+    ctxM.fillStyle = '#475569';
+    ctxM.textAlign = 'right';
+    ctxM.fillText(db + ' dB', padL - 6, y + 4);
+  });
+
+  // --- Draw Phase Grid (-270 to +90 deg) ---
+  const phMin = fTopo === 'ALP' ? -270 : -180;
+  const phMax = fTopo === 'HP1' ? 90 : 0;
+  const yOfPh = deg => padT + ((phMax - deg) / (phMax - phMin)) * (Hp - padT - padB);
+
+  const phTicks = fTopo === 'ALP' ? [-270, -225, -180] : (fTopo === 'HP1' ? [90, 45, 0] : [0, -45, -90, -135, -180]);
+  ctxP.font = '11px ui-monospace, monospace';
+  phTicks.forEach(deg => {
+    const y = yOfPh(deg);
+    ctxP.strokeStyle = '#e2e8f0';
+    ctxP.lineWidth = 1;
+    ctxP.beginPath(); ctxP.moveTo(padL, y); ctxP.lineTo(W - padR, y); ctxP.stroke();
+    ctxP.fillStyle = '#475569';
+    ctxP.textAlign = 'right';
+    ctxP.fillText(deg + '°', padL - 6, y + 4);
+  });
+
+  // Vertical Decade Lines & Labels
+  const decLabels = ['10 Hz', '100 Hz', '1 kHz', '10 kHz', '100 kHz', '1 MHz'];
+  for (let d = 1; d <= 6; d++) {
+    const x = xOfLogF(d);
+    [ctxM, ctxP].forEach((ctx, idx) => {
+      ctx.strokeStyle = '#e2e8f0';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(x, padT); ctx.lineTo(x, (idx === 0 ? Hm : Hp) - padB); ctx.stroke();
+    });
+    ctxP.fillStyle = '#334155';
+    ctxP.textAlign = 'center';
+    ctxP.fillText(decLabels[d - 1], x, Hp - 8);
+  }
+
+  // Cutoff Frequency Vertical Marker
+  const logFc = Math.log10(fc);
+  if (logFc >= fMinLog && logFc <= fMaxLog) {
+    const xFc = xOfLogF(logFc);
+    [ctxM, ctxP].forEach((ctx, idx) => {
+      ctx.save();
+      ctx.strokeStyle = '#059669';
+      ctx.setLineDash([4, 4]);
+      ctx.lineWidth = 1.6;
+      ctx.beginPath(); ctx.moveTo(xFc, padT); ctx.lineTo(xFc, (idx === 0 ? Hm : Hp) - padB); ctx.stroke();
+      ctx.restore();
+    });
+    ctxM.fillStyle = '#059669';
+    ctxM.font = 'bold 11px sans-serif';
+    ctxM.textAlign = 'left';
+    ctxM.fillText('fc = ' + fmtFreq(fc), Math.min(xFc + 4, W - 95), padT + 12);
+  }
+
+  // Plot Exact Curves
+  ctxM.strokeStyle = '#1e1b4b';
+  ctxM.lineWidth = 2.6;
+  ctxM.beginPath();
+
+  ctxP.strokeStyle = '#2563eb';
+  ctxP.lineWidth = 2.6;
+  ctxP.beginPath();
+
+  const N = 260;
+  for (let i = 0; i <= N; i++) {
+    const lf = fMinLog + (i / N) * (fMaxLog - fMinLog);
+    const f = Math.pow(10, lf);
+    const res = evalResponse(f, fc, gain, fTopo);
+    const x = xOfLogF(lf);
+    const ym = yOfDb(res.db);
+    const yp = yOfPh(res.deg);
+    if (i === 0) {
+      ctxM.moveTo(x, ym);
+      ctxP.moveTo(x, yp);
+    } else {
+      ctxM.lineTo(x, ym);
+      ctxP.lineTo(x, yp);
+    }
+  }
+  ctxM.stroke();
+  ctxP.stroke();
+
+  // Probe Frequency Marker & Dot
+  const xPr = xOfLogF(logF);
+  const pr = evalResponse(fProbe, fc, gain, fTopo);
+  const ymPr = yOfDb(pr.db);
+  const ypPr = yOfPh(pr.deg);
+
+  [ctxM, ctxP].forEach((ctx, idx) => {
+    ctx.save();
+    ctx.strokeStyle = '#dc2626';
+    ctx.lineWidth = 1.4;
+    ctx.beginPath(); ctx.moveTo(xPr, padT); ctx.lineTo(xPr, (idx === 0 ? Hm : Hp) - padB); ctx.stroke();
+    ctx.restore();
+  });
+
+  ctxM.fillStyle = '#dc2626';
+  ctxM.beginPath(); ctxM.arc(xPr, ymPr, 5, 0, 2 * Math.PI); ctxM.fill();
+
+  ctxP.fillStyle = '#dc2626';
+  ctxP.beginPath(); ctxP.arc(xPr, ypPr, 5, 0, 2 * Math.PI); ctxP.fill();
+
+  // Telemetry Bar
+  document.getElementById('bodeTelemetry').innerHTML = `
+    <div><span style="color:#94a3b8;">Cutoff Freq f_c:</span> <strong style="color:#6ee7b7;">${fmtFreq(fc)}</strong></div>
+    <div><span style="color:#94a3b8;">Probe Freq f:</span> <strong style="color:#fca5a5;">${fmtFreq(fProbe)}</strong></div>
+    <div><span style="color:#94a3b8;">Gain |H(jω)|:</span> <strong>${pr.db.toFixed(2)} dB (${pr.mag.toFixed(3)} V/V)</strong></div>
+    <div><span style="color:#94a3b8;">Phase ∠H(jω):</span> <strong style="color:#93c5fd;">${pr.deg.toFixed(1)}°</strong></div>
+  `;
+}
+
+document.addEventListener('DOMContentLoaded', updateBode);
+</script>
+<hr>
+</section>
+<section id="key-bode-plot-rules-for-laboratory-verification" class="level2">
+<h2 class="anchored" data-anchor-id="key-bode-plot-rules-for-laboratory-verification">2. Key Bode Plot Rules for Laboratory Verification</h2>
+<ol type="1">
+<li><strong>The <span class="math inline">-3\text{ dB}</span> Half-Power Cutoff Point (<span class="math inline">f = f_c</span>):</strong> At the cutoff frequency <span class="math inline">f_c = \frac{1}{2\pi RC}</span>, the capacitive reactance equals the resistance (<span class="math inline">X_C = R</span>). Consequently, the output voltage drops to <span class="math inline">\frac{1}{\sqrt{2}} \approx 0.707</span> of the passband voltage (<span class="math inline">20\log_{10}(0.707) = -3.01\text{ dB}</span>), and a 1st-order low-pass filter introduces an exact <strong><span class="math inline">-45^\circ</span> phase lag</strong>.</li>
+<li><strong>Decade Roll-Off Slopes:</strong> Each reactive energy-storage element (<span class="math inline">C</span> or <span class="math inline">L</span>) contributes <span class="math inline">-20\text{ dB/decade}</span> (<span class="math inline">-6\text{ dB/octave}</span>) of attenuation beyond <span class="math inline">f_c</span> and up to <span class="math inline">90^\circ</span> of asymptotic phase shift. Cascading two poles in the <strong>Sallen-Key Low-Pass</strong> topology doubles the stopband roll-off to <strong><span class="math inline">-40\text{ dB/decade}</span></strong> and sweeps the phase from <span class="math inline">0^\circ</span> to <strong><span class="math inline">-180^\circ</span></strong>.</li>
+<li><strong>Resonant Peaking in 2nd-Order Filters (<span class="math inline">Q &gt; 0.707</span>):</strong> In the Sallen-Key topology, increasing the non-inverting stage gain <span class="math inline">K = 1 + \frac{R_f}{R_g}</span> raises the quality factor <span class="math inline">Q = \frac{1}{3 - K}</span>. At <span class="math inline">K = 1.59</span> (<span class="math inline">Q = 0.707</span>), the response is maximally flat (<strong>Butterworth</strong>); above <span class="math inline">K = 1.59</span>, a resonant gain peak emerges right near <span class="math inline">f_c</span> before oscillating at <span class="math inline">K = 3</span>.</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/professorfrancillon\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
