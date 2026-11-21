@@ -29,32 +29,40 @@
     <lastmod>2026-11-08T03:10:24.472Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/simulations.html</loc>
-    <lastmod>2026-11-07T20:00:35.602Z</lastmod>
+    <loc>https://professorfrancillon.com/web_scraping.html</loc>
+    <lastmod>2026-11-12T21:04:36.646Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/circuit_dashboard.html</loc>
-    <lastmod>2026-11-08T22:23:57.472Z</lastmod>
+    <loc>https://professorfrancillon.com/about.html</loc>
+    <lastmod>2026-10-17T20:19:09.730Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/projects.html</loc>
-    <lastmod>2026-10-30T01:12:22.974Z</lastmod>
+    <loc>https://professorfrancillon.com/index.html</loc>
+    <lastmod>2026-11-12T20:20:27.783Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/rss_feeds.html</loc>
-    <lastmod>2026-11-08T02:58:38.579Z</lastmod>
+    <loc>https://professorfrancillon.com/circuit_simulator.html</loc>
+    <lastmod>2026-11-07T23:30:10.956Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/linear_regression.html</loc>
-    <lastmod>2026-10-20T02:17:18.615Z</lastmod>
+    <loc>https://professorfrancillon.com/rf_foxhunt.html</loc>
+    <lastmod>2026-10-30T12:22:18.879Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/resonance_game.html</loc>
-    <lastmod>2026-10-20T13:37:15.578Z</lastmod>
+    <loc>https://professorfrancillon.com/weather_ml.html</loc>
+    <lastmod>2026-10-30T23:07:35.931Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/outreach_data.html</loc>
-    <lastmod>2026-10-18T22:08:54.811Z</lastmod>
+    <loc>https://professorfrancillon.com/circuit_generator.html</loc>
+    <lastmod>2026-11-11T03:14:56.463Z</lastmod>
+  </url>
+  <url>
+    <loc>https://professorfrancillon.com/crystal_structures_part1.html</loc>
+    <lastmod>2026-11-01T12:53:02.887Z</lastmod>
+  </url>
+  <url>
+    <loc>https://professorfrancillon.com/dynamics/iczv_dynamics.html</loc>
+    <lastmod>2026-11-18T00:24:54.544Z</lastmod>
   </url>
   <url>
     <loc>https://professorfrancillon.com/circuit_analysis.html</loc>
@@ -65,40 +73,48 @@
     <lastmod>2026-10-30T01:42:16.576Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/crystal_structures_part1.html</loc>
-    <lastmod>2026-11-01T12:53:02.887Z</lastmod>
+    <loc>https://professorfrancillon.com/dynamics/dynamics/iczv_dynamics.html</loc>
+    <lastmod>2026-11-15T23:08:48.816Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/circuit_generator.html</loc>
-    <lastmod>2026-11-11T03:14:56.463Z</lastmod>
+    <loc>https://professorfrancillon.com/matlab_simulink_lab.html</loc>
+    <lastmod>2026-11-15T20:59:48.857Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/weather_ml.html</loc>
-    <lastmod>2026-10-30T23:07:35.931Z</lastmod>
+    <loc>https://professorfrancillon.com/outreach_data.html</loc>
+    <lastmod>2026-10-18T22:08:54.811Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/rf_foxhunt.html</loc>
-    <lastmod>2026-10-30T12:22:18.879Z</lastmod>
+    <loc>https://professorfrancillon.com/resonance_game.html</loc>
+    <lastmod>2026-10-20T13:37:15.578Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/circuit_simulator.html</loc>
-    <lastmod>2026-11-07T23:30:10.956Z</lastmod>
+    <loc>https://professorfrancillon.com/linear_regression.html</loc>
+    <lastmod>2026-10-20T02:17:18.615Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/index.html</loc>
-    <lastmod>2026-11-12T20:20:27.783Z</lastmod>
+    <loc>https://professorfrancillon.com/rss_feeds.html</loc>
+    <lastmod>2026-11-08T02:58:38.579Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/about.html</loc>
-    <lastmod>2026-10-17T20:19:09.730Z</lastmod>
+    <loc>https://professorfrancillon.com/projects.html</loc>
+    <lastmod>2026-10-30T01:12:22.974Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/web_scraping.html</loc>
-    <lastmod>2026-11-12T21:04:36.646Z</lastmod>
+    <loc>https://professorfrancillon.com/circuit_dashboard.html</loc>
+    <lastmod>2026-11-08T22:23:57.472Z</lastmod>
+  </url>
+  <url>
+    <loc>https://professorfrancillon.com/simulations.html</loc>
+    <lastmod>2026-11-15T23:22:18.942Z</lastmod>
+  </url>
+  <url>
+    <loc>https://professorfrancillon.com/circuits_textbook/ch1_foundations.html</loc>
+    <lastmod>2026-11-18T02:00:35.629Z</lastmod>
   </url>
   <url>
     <loc>https://professorfrancillon.com/simulations/op-amp-checker.html</loc>
-    <lastmod>2026-11-07T18:55:30.458Z</lastmod>
+    <lastmod>2026-11-13T01:46:34.973Z</lastmod>
   </url>
   <url>
     <loc>https://professorfrancillon.com/lecture_notes.html</loc>
@@ -106,7 +122,7 @@
   </url>
   <url>
     <loc>https://professorfrancillon.com/lab_manuals.html</loc>
-    <lastmod>2026-11-08T23:07:12.803Z</lastmod>
+    <lastmod>2026-11-15T23:28:22.975Z</lastmod>
   </url>
   <url>
     <loc>https://professorfrancillon.com/co2_emissions_regression.html</loc>

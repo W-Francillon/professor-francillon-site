@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dr.&nbsp;Wesley Francillon, PhD">
+
+<title>Calculus of Phase Shifts, Phasor Vectors, and RLC Dynamics – Wesley Francillon, PhD</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a24a4402a48cd8560abd59411f39e8d3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-2P04N7WV2H"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
+</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./papillon.png" alt="Papillon Engineering" class="navbar-logo light-content">
+    <img src="./papillon.png" alt="Papillon Engineering" class="navbar-logo dark-content">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-teaching" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Teaching</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-teaching">    
+        <li>
+    <a class="dropdown-item" href="./teaching.html">
+ <span class="dropdown-text">Teaching Statement</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lecture_notes.html">
+ <span class="dropdown-text">Lecture Notes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lab_manuals.html">
+ <span class="dropdown-text">Lab Manuals Hub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./dual_polarity_power_supply.html">
+ <span class="dropdown-text">Dual-Polarity Power Supply Wiring</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./dynamics/iczv_dynamics.html">
+ <span class="dropdown-text">ENS 119: ICZV &amp; Planar Kinematics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuits_textbook/ch1_foundations.html">
+ <span class="dropdown-text">Circuit Analysis E-Book</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-circuit-analysis" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Circuit Analysis</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-circuit-analysis">    
+        <li>
+    <a class="dropdown-item" href="./circuit_analysis.html">
+ <span class="dropdown-text">Circuit Analysis Hub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_dashboard.html">
+ <span class="dropdown-text">Electrical Dashboard</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_simulator.html">
+ <span class="dropdown-text">Live Circuit Simulator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./reactance_calculator.html">
+ <span class="dropdown-text">Reactance Calculator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./simulations/op-amp-checker.html">
+ <span class="dropdown-text">Op-Amp Golden Rule Checker</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_generator.html">
+ <span class="dropdown-text">Circuit Problem Generator</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-simulations" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Simulations</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-simulations">    
+        <li>
+    <a class="dropdown-item" href="./simulations.html">
+ <span class="dropdown-text">Simulations Hub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./dynamics/iczv_dynamics.html">
+ <span class="dropdown-text">ICZV &amp; Planar Kinematics (ENS 119)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./simulations/op-amp-checker.html">
+ <span class="dropdown-text">Op-Amp Golden Rule Checker</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./usaf_1951.html">
+ <span class="dropdown-text">1951 USAF Optical Resolution Analyzer</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_simulator.html">
+ <span class="dropdown-text">Live Circuit Simulator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_generator.html">
+ <span class="dropdown-text">Circuit Problem Generator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./reactance_calculator.html">
+ <span class="dropdown-text">Reactance Calculator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./resonance_game.html">
+ <span class="dropdown-text">Resonance Defender Game</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_breakout.html">
+ <span class="dropdown-text">Impedance Breaker Game</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-outreach" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Outreach</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-outreach">    
+        <li>
+    <a class="dropdown-item" href="./outreach.html">
+ <span class="dropdown-text">K-12 Outreach Hub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./rss_feeds.html">
+ <span class="dropdown-text">Automated RSS Engineering Wire</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./linear_regression.html">
+ <span class="dropdown-text">Linear Regression</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./outreach_data.html">
+ <span class="dropdown-text">API Data Challenge</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./web_scraping.html">
+ <span class="dropdown-text">Web Scraping</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./resonance_game.html">
+ <span class="dropdown-text">Resonance Defender Game</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_breakout.html">
+ <span class="dropdown-text">Impedance Breaker Game</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./rf_foxhunt.html">
+ <span class="dropdown-text">RF Fox Hunt Lab</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Laboratory Architecture</h2>
+   
+  <ul>
+  <li><a href="#core-learning-objectives-mathematical-competencies" id="toc-core-learning-objectives-mathematical-competencies" class="nav-link active" data-scroll-target="#core-learning-objectives-mathematical-competencies">1. Core Learning Objectives &amp; Mathematical Competencies</a></li>
+  <li><a href="#the-three-core-circuit-topologies-investigated" id="toc-the-three-core-circuit-topologies-investigated" class="nav-link" data-scroll-target="#the-three-core-circuit-topologies-investigated">2. The Three Core Circuit Topologies Investigated</a></li>
+  <li><a href="#part-i-the-calculus-of-sine-waves-time-domain-derivatives-in-matlab" id="toc-part-i-the-calculus-of-sine-waves-time-domain-derivatives-in-matlab" class="nav-link" data-scroll-target="#part-i-the-calculus-of-sine-waves-time-domain-derivatives-in-matlab">3. Part I: The Calculus of Sine Waves &amp; Time-Domain Derivatives in MATLAB</a>
+  <ul class="collapse">
+  <li><a href="#why-differentiating-a-sine-wave-produces-a-90circ-phase-shift" id="toc-why-differentiating-a-sine-wave-produces-a-90circ-phase-shift" class="nav-link" data-scroll-target="#why-differentiating-a-sine-wave-produces-a-90circ-phase-shift">Why Differentiating a Sine Wave Produces a <span class="math inline">+90^\circ</span> Phase Shift</a></li>
+  <li><a href="#how-matlab-computes-a-numerical-derivative-diff" id="toc-how-matlab-computes-a-numerical-derivative-diff" class="nav-link" data-scroll-target="#how-matlab-computes-a-numerical-derivative-diff">How MATLAB Computes a Numerical Derivative (<code>diff</code>)</a></li>
+  </ul></li>
+  <li><a href="#part-ii-interactive-phasor-bench-compass-polar-quiver-tip-to-tail-kvl" id="toc-part-ii-interactive-phasor-bench-compass-polar-quiver-tip-to-tail-kvl" class="nav-link" data-scroll-target="#part-ii-interactive-phasor-bench-compass-polar-quiver-tip-to-tail-kvl">4. Part II: Interactive Phasor Bench (<code>compass</code> Polar &amp; <code>quiver</code> Tip-to-Tail KVL)</a>
+  <ul class="collapse">
+  <li><a href="#interactive-phasor-time-domain-explorer" id="toc-interactive-phasor-time-domain-explorer" class="nav-link" data-scroll-target="#interactive-phasor-time-domain-explorer">Interactive Phasor &amp; Time-Domain Explorer</a></li>
+  </ul></li>
+  <li><a href="#part-iii-what-is-simulink-how-does-it-model-circuits-visually" id="toc-part-iii-what-is-simulink-how-does-it-model-circuits-visually" class="nav-link" data-scroll-target="#part-iii-what-is-simulink-how-does-it-model-circuits-visually">5. Part III: What is Simulink &amp; How Does It Model Circuits Visually?</a>
+  <ul class="collapse">
+  <li><a href="#why-engineers-use-simulink-alongside-matlab" id="toc-why-engineers-use-simulink-alongside-matlab" class="nav-link" data-scroll-target="#why-engineers-use-simulink-alongside-matlab">Why Engineers Use Simulink Alongside MATLAB</a></li>
+  </ul></li>
+  <li><a href="#complete-lab-walkthrough-student-exercises" id="toc-complete-lab-walkthrough-student-exercises" class="nav-link" data-scroll-target="#complete-lab-walkthrough-student-exercises">6. Complete Lab Walkthrough &amp; Student Exercises</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Calculus of Phase Shifts, Phasor Vectors, and RLC Dynamics</h1>
+<p class="subtitle lead">An Interactive MATLAB &amp; Simulink Engineering Laboratory</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr.&nbsp;Wesley Francillon, PhD </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- Load Computer Modern / Latin Modern Font for Authentic LaTeX Typography -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css">
+
+<style>
+  .latex-prose, .circuit-card-body {
+    font-family: "Computer Modern Serif", "Latin Modern Roman", Georgia, serif;
+    font-size: 1.03rem;
+    line-height: 1.65;
+    color: #0f172a;
+  }
+  .pillar-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin: 22px 0 34px 0;
+  }
+  .circuit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin: 24px 0 34px 0;
+  }
+  @media (max-width: 768px) {
+    .pillar-grid { grid-template-columns: 1fr; }
+  }
+  .pillar-card {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 20px 22px;
+    box-shadow: 0 3px 8px rgba(15, 23, 42, 0.05);
+  }
+  .pillar-tag {
+    font-size: 0.74rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .pillar-title {
+    font-weight: 800;
+    color: #0f172a;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+  }
+  .circuit-card {
+    background: #ffffff;
+    border: 2px solid #1e1b4b;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.07);
+    display: flex;
+    flex-direction: column;
+  }
+  .circuit-card-header {
+    background: #1e1b4b;
+    color: #ffffff;
+    padding: 11px 16px;
+    font-weight: 800;
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .circuit-svg-box {
+    padding: 14px;
+    background: #ffffff;
+    background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+    background-size: 14px 14px;
+    border-bottom: 1px solid #cbd5e1;
+    text-align: center;
+  }
+  .circuit-card-body {
+    padding: 16px 18px;
+    background: #f8fafc;
+    flex-grow: 1;
+  }
+  .circuit-card-body p {
+    margin: 0 0 8px 0;
+  }
+  .tikz-svg text {
+    font-family: "Computer Modern Serif", "Latin Modern Roman", "Times New Roman", serif;
+  }
+</style>
+
+<!-- Hero Banner -->
+<div style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 60%, #4338ca 100%); color: #ffffff; padding: 36px 32px; border-radius: 14px; margin-bottom: 32px; box-shadow: 0 12px 28px rgba(30, 27, 75, 0.18);">
+  <div style="font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: #a5b4fc; margin-bottom: 8px;">
+    Papillon Engineering Curriculum Series • Interactive Laboratory Module
+  </div>
+  <h2 style="color: #ffffff; font-size: 1.85rem; font-weight: 800; margin: 0 0 12px 0; border: none; padding: 0;" class="anchored">
+    Bridging Calculus, Time-Domain Waveforms, Complex Phasors &amp; Simulink
+  </h2>
+  <p style="color: #e0e7ff; font-size: 1.02rem; line-height: 1.65; margin: 0 0 20px 0; max-width: 850px;">
+    In traditional lectures, students memorize that current leads voltage by 90° in a capacitor (<em>ICE</em>) and lags by 90° in an inductor (<em>ELI</em>) without seeing how time-domain derivatives and integrals physically generate those shifts. This laboratory unifies <strong>analytical calculus</strong>, <strong>numerical MATLAB scripting</strong>, <strong>2D vector geometry</strong>, and <strong>Simulink block-diagram simulation</strong> across RC, RL, and RLC networks.
+  </p>
+  <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+    <a href="resources/circuit_lab_manual.pdf" style="background: #ffffff; color: #1e1b4b; padding: 10px 18px; border-radius: 7px; font-weight: 800; font-size: 0.88rem; text-decoration: none;">📄 Download 14-Page Student Manual (PDF)</a>
+    <a href="resources/phasor_compass_cutout.pdf" style="background: rgba(255,255,255,0.14); color: #ffffff; border: 1px solid rgba(255,255,255,0.35); padding: 10px 18px; border-radius: 7px; font-weight: 700; font-size: 0.88rem; text-decoration: none;">✂️ Printable 360° Phasor Compass (PDF)</a>
+    <a href="#instructor-toolkit" style="background: #f59e0b; color: #0f172a; padding: 10px 18px; border-radius: 7px; font-weight: 800; font-size: 0.88rem; text-decoration: none;">🔑 Get Complete Instructor Toolkit →</a>
+  </div>
+</div>
+<section id="core-learning-objectives-mathematical-competencies" class="level2">
+<h2 class="anchored" data-anchor-id="core-learning-objectives-mathematical-competencies">1. Core Learning Objectives &amp; Mathematical Competencies</h2>
+<p>By completing this laboratory, students master four interconnected pillars of electrical and dynamical systems engineering:</p>
+<div class="pillar-grid">
+<div class="pillar-card" style="border-top: 4px solid #4338ca;">
+<p><span class="pillar-tag" style="color: #4338ca;">Pillar 1 • Time-Domain Calculus</span></p>
+<p><span class="pillar-title">Derivatives &amp; Integrals in Circuits</span></p>
+<p>Apply <span class="math inline">i_C(t) = C\dfrac{dv_C}{dt}</span> and <span class="math inline">v_L(t) = L\dfrac{di_L}{dt}</span> to prove why differentiating a sine wave (<span class="math inline">\dfrac{d}{dt}[\sin(\omega t)] = \omega\cos(\omega t)</span>) produces an exact <span class="math inline">+90^\circ</span> phase advance and scales peak amplitude by <span class="math inline">\omega</span>.</p>
+</div>
+<div class="pillar-card" style="border-top: 4px solid #0284c7;">
+<p><span class="pillar-tag" style="color: #0284c7;">Pillar 2 • Numerical Computation</span></p>
+<p><span class="pillar-title">MATLAB Discrete Differentiation</span></p>
+<p>Build <code>.m</code> scripts from scratch using discrete time vectors, finite-difference numerical derivatives (<code>diff(v_s) ./ diff(t)</code>), and dual-axis oscilloscope waveform plots (<code>yyaxis left</code> and <code>yyaxis right</code>).</p>
+</div>
+<div class="pillar-card" style="border-top: 4px solid #059669;">
+<p><span class="pillar-tag" style="color: #059669;">Pillar 3 • Frequency-Domain Vectors</span></p>
+<p><span class="pillar-title">Phasor Algebra &amp; KVL Geometry</span></p>
+<p>Transform differential operators into complex algebra (<span class="math inline">\dfrac{d}{dt} \leftrightarrow j\omega</span> and <span class="math inline">\int dt \leftrightarrow \dfrac{1}{j\omega}</span>) and verify Kirchhoff’s Voltage Law via polar (<code>compass</code>) and tip-to-tail (<code>quiver</code>) vector plots.</p>
+</div>
+<div class="pillar-card" style="border-top: 4px solid #d97706;">
+<p><span class="pillar-tag" style="color: #d97706;">Pillar 4 • Dynamical Systems</span></p>
+<p><span class="pillar-title">Simulink Continuous Integrators</span></p>
+<p>Translate 1st- and 2nd-order differential equations into continuous-time Simulink integrator feedback loops (<span class="math inline">\dfrac{1}{s}</span>) to observe exponential charging and underdamped RLC ringing.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="the-three-core-circuit-topologies-investigated" class="level2">
+<h2 class="anchored" data-anchor-id="the-three-core-circuit-topologies-investigated">2. The Three Core Circuit Topologies Investigated</h2>
+<p>Throughout this laboratory, students analyze, code, and simulate three foundational circuit topologies across both the <strong>time domain</strong> (differential and integral calculus) and the <strong>frequency domain</strong> (complex phasor impedances):</p>
+<div class="circuit-grid">
+<div class="circuit-card">
+<div class="circuit-card-header">
+  <span>CIRCUIT 1: SERIES RC</span>
+  <span style="color: #93c5fd;">1st-Order Capacitive</span>
+</div>
+<div class="circuit-svg-box">
+  <!-- CircuiTikZ-Grade Vector Schematic: Series RC -->
+  <svg class="tikz-svg" viewbox="0 0 360 205" width="100%" height="175" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="ikzArr" viewbox="0 0 10 10" refx="7" refy="5" markerwidth="6" markerheight="6" orient="auto">
+        <path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#0f172a"></path>
+      </marker>
+    </defs>
+    <!-- Main Loop Wires -->
+    <path d="M 65 75 L 65 42 L 122 42 M 198 42 L 285 42 L 285 88 M 285 104 L 285 155 L 65 155 L 65 115" stroke="#0f172a" stroke-width="2" fill="none" stroke-linecap="square"></path>
+    <!-- AC Voltage Source (CircuiTikZ style) -->
+    <circle cx="65" cy="95" r="20" stroke="#0f172a" stroke-width="2" fill="#ffffff"></circle>
+    <text x="65" y="85" font-size="12" font-weight="bold" text-anchor="middle">+</text>
+    <path d="M 53 98 C 57 90, 61 90, 65 98 C 69 106, 73 106, 77 98" stroke="#0f172a" stroke-width="1.8" fill="none"></path>
+    <text x="36" y="92" font-size="15" font-style="italic" text-anchor="end">v</text>
+    <text x="37" y="96" font-size="10" font-style="italic" text-anchor="start">s</text>
+    <text x="43" y="92" font-size="14" text-anchor="start">(t)</text>
+    <!-- IEEE 6-Turn Precision Resistor R -->
+    <path d="M 122 42 L 128 30 L 139 54 L 150 30 L 161 54 L 172 30 L 183 54 L 189 42 L 198 42" stroke="#0f172a" stroke-width="2" fill="none" stroke-linejoin="miter"></path>
+    <text x="158" y="21" font-size="14" font-style="italic" font-weight="bold" text-anchor="middle">R = 40 Ω</text>
+    <!-- Branch Current Arrow -->
+    <line x1="215" y1="42" x2="242" y2="42" stroke="#0f172a" stroke-width="2" marker-end="url(#ikzArr)"></line>
+    <text x="232" y="30" font-size="14" font-style="italic">i</text>
+    <text x="237" y="34" font-size="10" font-style="italic">C</text>
+    <text x="245" y="30" font-size="13">(t)</text>
+    <!-- Precision Capacitor C -->
+    <line x1="263" y1="88" x2="307" y2="88" stroke="#0f172a" stroke-width="2.6"></line>
+    <line x1="263" y1="104" x2="307" y2="104" stroke="#0f172a" stroke-width="2.6"></line>
+    <text x="314" y="101" font-size="14" font-style="italic" font-weight="bold">C = 50 μF</text>
+    <text x="252" y="84" font-size="12" font-weight="bold" fill="#b91c1c">+</text>
+    <text x="252" y="102" font-size="14" font-style="italic" fill="#b91c1c" text-anchor="end">v</text>
+    <text x="253" y="106" font-size="10" font-style="italic" fill="#b91c1c">C</text>
+    <text x="252" y="118" font-size="13" font-weight="bold" fill="#b91c1c">−</text>
+    <!-- Node & Ground -->
+    <circle cx="175" cy="155" r="3.2" fill="#0f172a"></circle>
+    <line x1="175" y1="155" x2="175" y2="170" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="161" y1="170" x2="189" y2="170" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="166" y1="176" x2="184" y2="176" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="171" y1="182" x2="179" y2="182" stroke="#0f172a" stroke-width="2"></line>
+  </svg>
+</div>
+<div class="circuit-card-body">
+<ul>
+<li><strong>Derivative Law:</strong> <span class="math inline">i_C(t) = C\dfrac{dv_C(t)}{dt}</span></li>
+<li><strong>Integral Law:</strong> <span class="math inline">v_C(t) = \dfrac{1}{C}\displaystyle\int i_C(t)\,dt</span></li>
+<li><strong>Phasor Impedance:</strong> <span class="math inline">\mathbf{Z}_C = \dfrac{1}{j\omega C} = -jX_C</span></li>
+<li><strong>Phase Shift:</strong> <span class="math inline">\mathbf{I}</span> leads <span class="math inline">\mathbf{V}_C</span> by <span class="math inline">+90^\circ</span> (<em>ICE</em>)</li>
+</ul>
+</div>
+</div>
+<div class="circuit-card">
+<div class="circuit-card-header">
+  <span>CIRCUIT 2: SERIES RL</span>
+  <span style="color: #6ee7b7;">1st-Order Inductive</span>
+</div>
+<div class="circuit-svg-box">
+  <!-- CircuiTikZ-Grade Vector Schematic: Series RL -->
+  <svg class="tikz-svg" viewbox="0 0 360 205" width="100%" height="175" xmlns="http://www.w3.org/2000/svg">
+    <!-- Main Loop Wires -->
+    <path d="M 65 75 L 65 42 L 122 42 M 198 42 L 275 42 L 275 62 M 275 126 L 275 155 L 65 155 L 65 115" stroke="#0f172a" stroke-width="2" fill="none" stroke-linecap="square"></path>
+    <!-- AC Voltage Source -->
+    <circle cx="65" cy="95" r="20" stroke="#0f172a" stroke-width="2" fill="#ffffff"></circle>
+    <text x="65" y="85" font-size="12" font-weight="bold" text-anchor="middle">+</text>
+    <path d="M 53 98 C 57 90, 61 90, 65 98 C 69 106, 73 106, 77 98" stroke="#0f172a" stroke-width="1.8" fill="none"></path>
+    <text x="36" y="92" font-size="15" font-style="italic" text-anchor="end">v</text>
+    <text x="37" y="96" font-size="10" font-style="italic" text-anchor="start">s</text>
+    <text x="43" y="92" font-size="14" text-anchor="start">(t)</text>
+    <!-- IEEE 6-Turn Precision Resistor R -->
+    <path d="M 122 42 L 128 30 L 139 54 L 150 30 L 161 54 L 172 30 L 183 54 L 189 42 L 198 42" stroke="#0f172a" stroke-width="2" fill="none" stroke-linejoin="miter"></path>
+    <text x="158" y="21" font-size="14" font-style="italic" font-weight="bold" text-anchor="middle">R = 30 Ω</text>
+    <!-- Branch Current Arrow -->
+    <line x1="215" y1="42" x2="242" y2="42" stroke="#0f172a" stroke-width="2" marker-end="url(#ikzArr)"></line>
+    <text x="232" y="30" font-size="14" font-style="italic">i</text>
+    <text x="237" y="34" font-size="10" font-style="italic">L</text>
+    <text x="245" y="30" font-size="13">(t)</text>
+    <!-- CircuiTikZ 4-Arched Inductor L -->
+    <path d="M 275 62 A 9 8 0 0 1 275 78 A 9 8 0 0 1 275 94 A 9 8 0 0 1 275 110 A 9 8 0 0 1 275 126" stroke="#0f172a" stroke-width="2.2" fill="none"></path>
+    <text x="292" y="99" font-size="14" font-style="italic" font-weight="bold">L = 100 mH</text>
+    <text x="260" y="72" font-size="12" font-weight="bold" fill="#0284c7">+</text>
+    <text x="256" y="98" font-size="14" font-style="italic" fill="#0284c7" text-anchor="end">v</text>
+    <text x="257" y="102" font-size="10" font-style="italic" fill="#0284c7">L</text>
+    <text x="260" y="124" font-size="13" font-weight="bold" fill="#0284c7">−</text>
+    <!-- Node & Ground -->
+    <circle cx="175" cy="155" r="3.2" fill="#0f172a"></circle>
+    <line x1="175" y1="155" x2="175" y2="170" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="161" y1="170" x2="189" y2="170" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="166" y1="176" x2="184" y2="176" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="171" y1="182" x2="179" y2="182" stroke="#0f172a" stroke-width="2"></line>
+  </svg>
+</div>
+<div class="circuit-card-body">
+<ul>
+<li><strong>Derivative Law:</strong> <span class="math inline">v_L(t) = L\dfrac{di_L(t)}{dt}</span></li>
+<li><strong>Integral Law:</strong> <span class="math inline">i_L(t) = \dfrac{1}{L}\displaystyle\int v_L(t)\,dt</span></li>
+<li><strong>Phasor Impedance:</strong> <span class="math inline">\mathbf{Z}_L = j\omega L = +jX_L</span></li>
+<li><strong>Phase Shift:</strong> <span class="math inline">\mathbf{V}_L</span> leads <span class="math inline">\mathbf{I}</span> by <span class="math inline">+90^\circ</span> (<em>ELI</em>)</li>
+</ul>
+</div>
+</div>
+<div class="circuit-card">
+<div class="circuit-card-header">
+  <span>CIRCUIT 3: SERIES RLC</span>
+  <span style="color: #fcd34d;">2nd-Order Resonant</span>
+</div>
+<div class="circuit-svg-box">
+  <!-- CircuiTikZ-Grade Vector Schematic: Series RLC -->
+  <svg class="tikz-svg" viewbox="0 0 360 205" width="100%" height="175" xmlns="http://www.w3.org/2000/svg">
+    <!-- Main Loop Wires -->
+    <path d="M 55 75 L 55 42 L 95 42 M 163 42 L 192 42 M 256 42 L 292 42 L 292 88 M 292 104 L 292 155 L 55 155 L 55 115" stroke="#0f172a" stroke-width="2" fill="none" stroke-linecap="square"></path>
+    <!-- DC Step / AC Voltage Source -->
+    <circle cx="55" cy="95" r="20" stroke="#0f172a" stroke-width="2" fill="#ffffff"></circle>
+    <text x="55" y="90" font-size="13" font-weight="bold" text-anchor="middle">+</text>
+    <text x="55" y="106" font-size="14" font-weight="bold" text-anchor="middle">−</text>
+    <text x="28" y="98" font-size="15" font-style="italic" text-anchor="end">V</text>
+    <text x="29" y="102" font-size="10" font-style="italic" text-anchor="start">s</text>
+    <!-- IEEE Resistor R -->
+    <path d="M 95 42 L 101 30 L 111 54 L 121 30 L 131 54 L 141 30 L 151 54 L 157 42 L 163 42" stroke="#0f172a" stroke-width="2" fill="none" stroke-linejoin="miter"></path>
+    <text x="128" y="21" font-size="14" font-style="italic" font-weight="bold" text-anchor="middle">R (Var)</text>
+    <!-- CircuiTikZ 4-Arched Inductor L -->
+    <path d="M 192 42 A 8 9 0 0 1 208 42 A 8 9 0 0 1 224 42 A 8 9 0 0 1 240 42 A 8 9 0 0 1 256 42" stroke="#0f172a" stroke-width="2.2" fill="none"></path>
+    <text x="224" y="21" font-size="14" font-style="italic" font-weight="bold" text-anchor="middle">L = 1 H</text>
+    <!-- Precision Capacitor C -->
+    <line x1="272" y1="88" x2="312" y2="88" stroke="#0f172a" stroke-width="2.6"></line>
+    <line x1="272" y1="104" x2="312" y2="104" stroke="#0f172a" stroke-width="2.6"></line>
+    <text x="318" y="100" font-size="13.5" font-style="italic" font-weight="bold">C=0.2F</text>
+    <!-- Loop Current Arrow -->
+    <line x1="155" y1="100" x2="195" y2="100" stroke="#059669" stroke-width="2" marker-end="url(#ikzArr)"></line>
+    <text x="175" y="92" font-size="13.5" font-style="italic" fill="#059669" text-anchor="middle">i(t)</text>
+    <!-- Node & Ground -->
+    <circle cx="175" cy="155" r="3.2" fill="#0f172a"></circle>
+    <line x1="175" y1="155" x2="175" y2="170" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="161" y1="170" x2="189" y2="170" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="166" y1="176" x2="184" y2="176" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="171" y1="182" x2="179" y2="182" stroke="#0f172a" stroke-width="2"></line>
+  </svg>
+</div>
+<div class="circuit-card-body">
+<ul>
+<li><strong>KVL Loop:</strong> <span class="math inline">L\dfrac{di}{dt} + Ri + \dfrac{1}{C}\displaystyle\int i\,dt = V_s</span></li>
+<li><strong>2nd-Order ODE:</strong> <span class="math inline">LC\dfrac{d^2v_C}{dt^2} + RC\dfrac{dv_C}{dt} + v_C = V_s</span></li>
+<li><strong>Roots:</strong> <span class="math inline">s_{1,2} = -\alpha \pm \sqrt{\alpha^2 - \omega_0^2}</span></li>
+<li><strong>Regimes:</strong> Underdamped, Critical, Overdamped</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="part-i-the-calculus-of-sine-waves-time-domain-derivatives-in-matlab" class="level2">
+<h2 class="anchored" data-anchor-id="part-i-the-calculus-of-sine-waves-time-domain-derivatives-in-matlab">3. Part I: The Calculus of Sine Waves &amp; Time-Domain Derivatives in MATLAB</h2>
+<section id="why-differentiating-a-sine-wave-produces-a-90circ-phase-shift" class="level3">
+<h3 class="anchored" data-anchor-id="why-differentiating-a-sine-wave-produces-a-90circ-phase-shift">Why Differentiating a Sine Wave Produces a <span class="math inline">+90^\circ</span> Phase Shift</h3>
+<p>In an ideal resistor, voltage and current are proportional (<span class="math inline">v_R = i_R R</span>), so their waveforms peak and cross zero at the exact same instant. In reactive components, however, voltage and current are linked by <strong>calculus</strong>:</p>
+<p><span class="math display">\text{Capacitor: } i_C(t) = C \frac{dv_C(t)}{dt} \qquad \Bigg| \qquad \text{Inductor: } v_L(t) = L \frac{di_L(t)}{dt}</span></p>
+<p>When we drive a capacitor with a sinusoidal voltage <span class="math inline">v_C(t) = V_m \sin(\omega t)</span>, the chain rule of calculus gives:</p>
+<p><span class="math display">i_C(t) = C \frac{d}{dt}\Big[V_m \sin(\omega t)\Big] = \underbrace{\omega C V_m}_{I_m} \cos(\omega t) = I_m \sin(\omega t + 90^\circ)</span></p>
+<!-- Visual Diagram of Derivative Slope vs Phase Shift -->
+<div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 20px; margin: 22px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.04);">
+  <div style="font-weight: 800; color: #1e1b4b; font-size: 0.95rem; margin-bottom: 10px; text-align: center;">
+    GEOMETRIC PROOF: HOW THE DERIVATIVE SLOPE (dv_C/dt) CREATES A +90° LEADING CURRENT WAVE
+  </div>
+  <svg class="tikz-svg" viewbox="0 0 760 230" width="100%" height="220" xmlns="http://www.w3.org/2000/svg" style="background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+    <!-- Axes -->
+    <line x1="60" y1="115" x2="720" y2="115" stroke="#64748b" stroke-width="1.5"></line>
+    <line x1="60" y1="20" x2="60" y2="210" stroke="#64748b" stroke-width="1.5"></line>
+    <!-- Quarter-cycle guide lines -->
+    <line x1="210" y1="25" x2="210" y2="205" stroke="#cbd5e1" stroke-width="1.2" stroke-dasharray="5 5"></line>
+    <line x1="360" y1="25" x2="360" y2="205" stroke="#cbd5e1" stroke-width="1.2" stroke-dasharray="5 5"></line>
+    <line x1="510" y1="25" x2="510" y2="205" stroke="#cbd5e1" stroke-width="1.2" stroke-dasharray="5 5"></line>
+    <!-- Blue Sine Wave v_C(t) -->
+    <path d="M 60 115 Q 135 15 210 115 T 360 115 T 510 115 T 660 115" stroke="#2563eb" stroke-width="3.2" fill="none"></path>
+    <!-- Red Cosine Wave i_C(t) = C dv_C/dt -->
+    <path d="M 60 40 Q 97 40 135 115 T 210 190 T 285 115 T 360 40 T 435 115 T 510 190 T 585 115 T 660 40" stroke="#dc2626" stroke-width="2.8" stroke-dasharray="7 5" fill="none"></path>
+    <!-- Tangent Callout 1: Max Slope at t=0 -->
+    <circle cx="60" cy="115" r="5" fill="#2563eb"></circle>
+    <circle cx="60" cy="40" r="5" fill="#dc2626"></circle>
+    <rect x="70" y="20" width="195" height="38" rx="5" fill="#fee2e2" stroke="#fca5a5"></rect>
+    <text x="167" y="36" font-size="11.5" font-weight="bold" fill="#991b1b" text-anchor="middle">1. At t = 0: v_C = 0 V, but slope</text>
+    <text x="167" y="51" font-size="11.5" font-weight="bold" fill="#991b1b" text-anchor="middle">dv_C/dt is steepest → i_C is MAX!</text>
+    <!-- Tangent Callout 2: Zero Slope at Peak -->
+    <line x1="100" y1="65" x2="170" y2="65" stroke="#0f172a" stroke-width="2"></line>
+    <circle cx="135" cy="65" r="5" fill="#2563eb"></circle>
+    <circle cx="135" cy="115" r="5" fill="#dc2626"></circle>
+    <rect x="280" y="20" width="225" height="38" rx="5" fill="#dbeafe" stroke="#93c5fd"></rect>
+    <text x="392" y="36" font-size="11.5" font-weight="bold" fill="#1e40af" text-anchor="middle">2. At Peak Voltage: Tangent slope</text>
+    <text x="392" y="51" font-size="11.5" font-weight="bold" fill="#1e40af" text-anchor="middle">dv_C/dt = 0 → Current i_C crosses 0 A!</text>
+    <!-- Legend -->
+    <rect x="495" y="166" width="245" height="48" rx="6" fill="#ffffff" stroke="#cbd5e1"></rect>
+    <line x1="505" y1="182" x2="535" y2="182" stroke="#2563eb" stroke-width="3"></line>
+    <text x="543" y="186" font-size="12" font-weight="bold" fill="#1e293b">v_C(t) = V_m sin(ωt) [Volts]</text>
+    <line x1="505" y1="201" x2="535" y2="201" stroke="#dc2626" stroke-width="2.8" stroke-dasharray="5 3"></line>
+    <text x="543" y="205" font-size="12" font-weight="bold" fill="#dc2626">i_C(t) = C (dv_C/dt) [Leads +90°]</text>
+  </svg>
+</div>
+</section>
+<section id="how-matlab-computes-a-numerical-derivative-diff" class="level3">
+<h3 class="anchored" data-anchor-id="how-matlab-computes-a-numerical-derivative-diff">How MATLAB Computes a Numerical Derivative (<code>diff</code>)</h3>
+<p>In digital oscilloscopes and MATLAB scripts, continuous waveforms are stored as discrete vectors sampled every <span class="math inline">\Delta t</span> seconds. MATLAB’s <code>diff(v_s)</code> command subtracts each voltage sample from the next (<span class="math inline">v_{k+1} - v_k</span>). Dividing element-by-element (<code>./</code>) by <code>diff(t)</code> computes the instantaneous rise-over-run derivative slope at every microsecond:</p>
+<p><span class="math display">\frac{dv}{dt} \approx \frac{\Delta v}{\Delta t} = \frac{v(t_{k+1}) - v(t_k)}{t_{k+1} - t_k}</span></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">% =========================================================================</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">% PART 1A: NUMERICAL TIME DERIVATIVE OF A CAPACITOR IN MATLAB</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">% =========================================================================</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="va">clc</span><span class="op">;</span> <span class="va">clear</span><span class="op">;</span> <span class="va">close</span> <span class="va">all</span><span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">% 1. Create a time vector from 0 to 0.05 s (3 cycles of 60 Hz) in 10 us steps</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="va">t</span> <span class="op">=</span> <span class="fl">0</span> <span class="op">:</span> <span class="fl">1e-5</span> <span class="op">:</span> <span class="fl">0.05</span><span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">% 2. Define the 60 Hz sinusoidal voltage: v_s(t) = 12*sin(2*pi*60*t)</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="va">f</span> <span class="op">=</span> <span class="fl">60</span><span class="op">;</span>                         <span class="co">% Frequency = 60 Hz</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="va">w</span> <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span> <span class="op">*</span> <span class="va">f</span><span class="op">;</span>                 <span class="co">% Angular frequency = 376.99 rad/s</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="va">v_s</span> <span class="op">=</span> <span class="fl">12</span> <span class="op">*</span> <span class="va">sin</span>(<span class="va">w</span> <span class="op">*</span> <span class="va">t</span>)<span class="op">;</span>          <span class="co">% Applied capacitor voltage [Volts]</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">% 3. Compute the numerical time derivative dv_s / dt</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="va">dv_dt</span> <span class="op">=</span> <span class="va">diff</span>(<span class="va">v_s</span>) <span class="op">./</span> <span class="va">diff</span>(<span class="va">t</span>)<span class="op">;</span>   <span class="co">% Rise-over-run slope [Volts/sec]</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="va">t_diff</span> <span class="op">=</span> <span class="va">t</span>(<span class="fl">1</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>)<span class="op">;</span>            <span class="co">% Trim last time point to match diff() length</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">% 4. Apply Capacitor Calculus Law: i_C(t) = C * (dv_s / dt)</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="va">C</span> <span class="op">=</span> <span class="fl">10e-6</span><span class="op">;</span>                      <span class="co">% Capacitance = 10 uF</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="va">i_C</span> <span class="op">=</span> <span class="va">C</span> <span class="op">*</span> <span class="va">dv_dt</span><span class="op">;</span>                <span class="co">% Resulting capacitor current [Amps]</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">% 5. Dual-Axis Oscilloscope Plot</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="va">figure</span>(<span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="va">yyaxis</span> <span class="va">left</span><span class="op">;</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="va">plot</span>(<span class="va">t</span><span class="op">,</span> <span class="va">v_s</span><span class="op">,</span> <span class="ss">'b-'</span><span class="op">,</span> <span class="ss">'LineWidth'</span><span class="op">,</span> <span class="fl">2</span>)<span class="op">;</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="va">ylabel</span>(<span class="ss">'Capacitor Voltage v_C(t) [Volts]'</span>)<span class="op">;</span> <span class="va">ylim</span>([<span class="op">-</span><span class="fl">15</span><span class="op">,</span> <span class="fl">15</span>])<span class="op">;</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="va">yyaxis</span> <span class="va">right</span><span class="op">;</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="va">plot</span>(<span class="va">t_diff</span><span class="op">,</span> <span class="va">i_C</span><span class="op">,</span> <span class="ss">'r--'</span><span class="op">,</span> <span class="ss">'LineWidth'</span><span class="op">,</span> <span class="fl">2</span>)<span class="op">;</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="va">ylabel</span>(<span class="ss">'Capacitor Current i_C(t) [Amps]'</span>)<span class="op">;</span> <span class="va">ylim</span>([<span class="op">-</span><span class="fl">0.06</span><span class="op">,</span> <span class="fl">0.06</span>])<span class="op">;</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="va">xlabel</span>(<span class="ss">'Time t [seconds]'</span>)<span class="op">;</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="va">title</span>(<span class="ss">'Ideal Capacitor: Current Leads Voltage by 90^\circ (i_C = C dv_C/dt)'</span>)<span class="op">;</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="va">grid</span> <span class="va">on</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="part-ii-interactive-phasor-bench-compass-polar-quiver-tip-to-tail-kvl" class="level2">
+<h2 class="anchored" data-anchor-id="part-ii-interactive-phasor-bench-compass-polar-quiver-tip-to-tail-kvl">4. Part II: Interactive Phasor Bench (<code>compass</code> Polar &amp; <code>quiver</code> Tip-to-Tail KVL)</h2>
+<p>By Euler’s formula (<span class="math inline">e^{j\theta} = \cos\theta + j\sin\theta</span>), differentiating a sinusoid in the time domain is equivalent to multiplying its complex phasor by <span class="math inline">j\omega</span> in the frequency domain, while integrating is equivalent to dividing by <span class="math inline">j\omega</span>:</p>
+<p><span class="math display">\frac{d}{dt} \iff j\omega = \omega\angle +90^\circ \qquad \Bigg| \qquad \int dt \iff \frac{1}{j\omega} = -j\frac{1}{\omega} = \frac{1}{\omega}\angle -90^\circ</span></p>
+<section id="interactive-phasor-time-domain-explorer" class="level3">
+<h3 class="anchored" data-anchor-id="interactive-phasor-time-domain-explorer">Interactive Phasor &amp; Time-Domain Explorer</h3>
+<p>Use the live telemetry widget below to switch between the <strong>Series RL</strong>, <strong>Series RC</strong>, and <strong>Series RLC</strong> lab circuits. Adjust the resistance <span class="math inline">R</span> and reactance (<span class="math inline">X_L</span> or <span class="math inline">X_C</span>) sliders to observe how the <strong>Polar Plot (<code>compass</code>)</strong> and the <strong>Tip-to-Tail KVL Vector Addition (<code>quiver</code>)</strong> respond in real time:</p>
+<div style="background: #ffffff; border: 2px solid #1e1b4b; border-radius: 12px; padding: 20px; margin: 24px 0; box-shadow: 0 8px 20px rgba(0,0,0,0.06);">
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border-bottom: 1px solid #e2e8f0; padding-bottom: 14px; margin-bottom: 16px;">
+    <div>
+      <span style="font-size: 0.75rem; font-weight: 800; color: #4338ca; text-transform: uppercase; letter-spacing: 0.06em;">Interactive Telemetry Bench</span>
+      <h4 style="margin: 2px 0 0 0; color: #0f172a; font-weight: 800;" class="anchored">Live Phasor Vector &amp; KVL Geometry Simulator</h4>
+    </div>
+    <div style="display: flex; gap: 8px;">
+      <button type="button" onclick="setPhasorMode('RL')" id="btnRL" style="background: #1e1b4b; color: #fff; border: none; padding: 7px 14px; border-radius: 6px; font-weight: 700; font-size: 0.82rem; cursor: pointer;">1. Series RL (Task 2A)</button>
+      <button type="button" onclick="setPhasorMode('RC')" id="btnRC" style="background: #e2e8f0; color: #1e293b; border: none; padding: 7px 14px; border-radius: 6px; font-weight: 700; font-size: 0.82rem; cursor: pointer;">2. Series RC (Task 2B)</button>
+      <button type="button" onclick="setPhasorMode('RLC')" id="btnRLC" style="background: #e2e8f0; color: #1e293b; border: none; padding: 7px 14px; border-radius: 6px; font-weight: 700; font-size: 0.82rem; cursor: pointer;">3. Series RLC</button>
+    </div>
+  </div>
+
+  <!-- Sliders -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; background: #f8fafc; padding: 14px 16px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 18px;">
+    <div>
+      <label style="font-size: 0.8rem; font-weight: 700; color: #334155; display: flex; justify-content: space-between;">
+        <span>Source Voltage |V_s|:</span> <span id="lblVs" style="color: #1e1b4b;">20 V</span>
+      </label>
+      <input type="range" id="slVs" min="10" max="30" step="2" value="20" oninput="updatePhasorWidget()" style="width: 100%; margin-top: 4px;">
+    </div>
+    <div>
+      <label style="font-size: 0.8rem; font-weight: 700; color: #334155; display: flex; justify-content: space-between;">
+        <span>Resistance R:</span> <span id="lblR" style="color: #2563eb;">30 Ω</span>
+      </label>
+      <input type="range" id="slR" min="10" max="80" step="2" value="30" oninput="updatePhasorWidget()" style="width: 100%; margin-top: 4px;">
+    </div>
+    <div>
+      <label style="font-size: 0.8rem; font-weight: 700; color: #334155; display: flex; justify-content: space-between;">
+        <span id="lblXTitle">Inductive Reactance X_L:</span> <span id="lblX" style="color: #dc2626;">38 Ω</span>
+      </label>
+      <input type="range" id="slX" min="10" max="80" step="1" value="38" oninput="updatePhasorWidget()" style="width: 100%; margin-top: 4px;">
+    </div>
+  </div>
+
+  <!-- 2-Column Canvas Display -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 16px;">
+    <div style="text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px;">
+      <div style="font-size: 0.78rem; font-weight: 800; color: #1e1b4b; margin-bottom: 6px;">A. POLAR PLOT (compass) — All Vectors from (0,0)</div>
+      <canvas id="cvCompass" width="310" height="260" style="max-width: 100%; background: #ffffff; border-radius: 6px; border: 1px solid #cbd5e1;"></canvas>
+    </div>
+    <div style="text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px;">
+      <div style="font-size: 0.78rem; font-weight: 800; color: #1e1b4b; margin-bottom: 6px;">B. TIP-TO-TAIL KVL PROOF (quiver): V_R + V_X = V_s</div>
+      <canvas id="cvQuiver" width="310" height="260" style="max-width: 100%; background: #ffffff; border-radius: 6px; border: 1px solid #cbd5e1;"></canvas>
+    </div>
+  </div>
+
+  <!-- Live Telemetry Readout Bar -->
+  <div id="phasorReadout" style="margin-top: 14px; background: #0f172a; color: #f8fafc; padding: 12px 16px; border-radius: 8px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.8rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px;">
+  </div>
+</div>
+
+<script>
+let pMode = 'RL';
+function setPhasorMode(m) {
+  pMode = m;
+  document.getElementById('btnRL').style.background = m === 'RL' ? '#1e1b4b' : '#e2e8f0';
+  document.getElementById('btnRL').style.color = m === 'RL' ? '#fff' : '#1e293b';
+  document.getElementById('btnRC').style.background = m === 'RC' ? '#1e1b4b' : '#e2e8f0';
+  document.getElementById('btnRC').style.color = m === 'RC' ? '#fff' : '#1e293b';
+  document.getElementById('btnRLC').style.background = m === 'RLC' ? '#1e1b4b' : '#e2e8f0';
+  document.getElementById('btnRLC').style.color = m === 'RLC' ? '#fff' : '#1e293b';
+
+  if (m === 'RL') {
+    document.getElementById('slVs').value = 20;
+    document.getElementById('slR').value = 30;
+    document.getElementById('slX').value = 38;
+    document.getElementById('lblXTitle').textContent = 'Inductive Reactance X_L:';
+  } else if (m === 'RC') {
+    document.getElementById('slVs').value = 24;
+    document.getElementById('slR').value = 40;
+    document.getElementById('slX').value = 53;
+    document.getElementById('lblXTitle').textContent = 'Capacitive Reactance X_C:';
+  } else {
+    document.getElementById('slVs').value = 24;
+    document.getElementById('slR').value = 25;
+    document.getElementById('slX').value = 20;
+    document.getElementById('lblXTitle').textContent = 'Net Reactance (X_L - X_C):';
+  }
+  updatePhasorWidget();
+}
+
+function drawArrow(ctx, x1, y1, x2, y2, color, label, dashed=false) {
+  const headlen = 9;
+  const dx = x2 - x1, dy = y2 - y1;
+  const angle = Math.atan2(dy, dx);
+  ctx.save();
+  ctx.strokeStyle = color;
+  ctx.fillStyle = color;
+  ctx.lineWidth = 2.4;
+  if (dashed) ctx.setLineDash([5, 4]);
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.beginPath();
+  ctx.moveTo(x2, y2);
+  ctx.lineTo(x2 - headlen * Math.cos(angle - Math.PI / 6), y2 - headlen * Math.sin(angle - Math.PI / 6));
+  ctx.lineTo(x2 - headlen * Math.cos(angle + Math.PI / 6), y2 - headlen * Math.sin(angle + Math.PI / 6));
+  ctx.closePath();
+  ctx.fill();
+  if (label) {
+    ctx.font = 'bold 12px "Computer Modern Serif", Georgia, serif';
+    ctx.fillText(label, x2 + (dx >= 0 ? 6 : -38), y2 + (dy >= 0 ? 12 : -6));
+  }
+  ctx.restore();
+}
+
+function updatePhasorWidget() {
+  const Vs = parseFloat(document.getElementById('slVs').value);
+  const R = parseFloat(document.getElementById('slR').value);
+  const Xmag = parseFloat(document.getElementById('slX').value);
+  const X = pMode === 'RC' ? -Xmag : Xmag;
+
+  document.getElementById('lblVs').textContent = Vs + ' V';
+  document.getElementById('lblR').textContent = R + ' Ω';
+  document.getElementById('lblX').textContent = (X >= 0 ? '+' : '') + X + ' Ω';
+
+  const Zmag = Math.hypot(R, X);
+  const Zang = Math.atan2(X, R);
+  const Imag = Vs / Zmag;
+  const Iang = -Zang;
+
+  const VR_re = Imag * R * Math.cos(Iang);
+  const VR_im = Imag * R * Math.sin(Iang);
+  const VX_re = -Imag * X * Math.sin(Iang);
+  const VX_im = Imag * X * Math.cos(Iang);
+
+  const VRmag = Math.hypot(VR_re, VR_im);
+  const VXmag = Math.hypot(VX_re, VX_im);
+  const deg = r => (r * 180 / Math.PI).toFixed(1);
+
+  const c1 = document.getElementById('cvCompass');
+  const ctx1 = c1.getContext('2d');
+  ctx1.clearRect(0, 0, c1.width, c1.height);
+  const cx = 155, cy = 130, scale = 3.4;
+
+  ctx1.strokeStyle = '#e2e8f0';
+  ctx1.lineWidth = 1;
+  [35, 70, 102].forEach(r => {
+    ctx1.beginPath(); ctx1.arc(cx, cy, r, 0, 2*Math.PI); ctx1.stroke();
+  });
+  ctx1.strokeStyle = '#94a3b8';
+  ctx1.beginPath(); ctx1.moveTo(15, cy); ctx1.lineTo(295, cy);
+  ctx1.moveTo(cx, 15); ctx1.lineTo(cx, 245); ctx1.stroke();
+
+  drawArrow(ctx1, cx, cy, cx + Vs*scale, cy, '#0f172a', 'Vs');
+  drawArrow(ctx1, cx, cy, cx + VR_re*scale, cy - VR_im*scale, '#2563eb', 'V_R');
+  drawArrow(ctx1, cx, cy, cx + VX_re*scale, cy - VX_im*scale, '#dc2626', pMode === 'RC' ? 'V_C' : 'V_L');
+  drawArrow(ctx1, cx, cy, cx + (VR_re*0.65)*scale, cy - (VR_im*0.65)*scale, '#059669', 'I', true);
+
+  const c2 = document.getElementById('cvQuiver');
+  const ctx2 = c2.getContext('2d');
+  ctx2.clearRect(0, 0, c2.width, c2.height);
+  const qx = 45, qy = 130, qscale = 7.2;
+
+  ctx2.strokeStyle = '#cbd5e1';
+  ctx2.beginPath(); ctx2.moveTo(15, qy); ctx2.lineTo(295, qy);
+  ctx2.moveTo(qx, 20); ctx2.lineTo(qx, 240); ctx2.stroke();
+
+  const tipVRx = qx + VR_re * qscale;
+  const tipVRy = qy - VR_im * qscale;
+  const tipVsx = qx + Vs * qscale;
+
+  drawArrow(ctx2, qx, qy, tipVRx, tipVRy, '#2563eb', '1. V_R');
+  drawArrow(ctx2, tipVRx, tipVRy, tipVsx, qy, '#dc2626', pMode === 'RC' ? '2. V_C' : '2. V_L');
+  drawArrow(ctx2, qx, qy, tipVsx, qy, '#0f172a', '3. V_s', true);
+
+  document.getElementById('phasorReadout').innerHTML = `
+    <div><span style="color:#94a3b8;">Impedance Z:</span> <strong>${Zmag.toFixed(2)}∠${deg(Zang)}° Ω</strong></div>
+    <div><span style="color:#6ee7b7;">Current I:</span> <strong>${Imag.toFixed(3)}∠${deg(Iang)}° A</strong></div>
+    <div><span style="color:#93c5fd;">Resistor V_R:</span> <strong>${VRmag.toFixed(2)}∠${deg(Iang)}° V</strong></div>
+    <div><span style="color:#fca5a5;">Reactive ${pMode==='RC'?'V_C':'V_L'}:</span> <strong>${VXmag.toFixed(2)}∠${deg(Iang + (X>=0?Math.PI/2:-Math.PI/2))}° V</strong></div>
+  `;
+}
+document.addEventListener('DOMContentLoaded', updatePhasorWidget);
+</script>
+<hr>
+</section>
+</section>
+<section id="part-iii-what-is-simulink-how-does-it-model-circuits-visually" class="level2">
+<h2 class="anchored" data-anchor-id="part-iii-what-is-simulink-how-does-it-model-circuits-visually">5. Part III: What is Simulink &amp; How Does It Model Circuits Visually?</h2>
+<section id="why-engineers-use-simulink-alongside-matlab" class="level3">
+<h3 class="anchored" data-anchor-id="why-engineers-use-simulink-alongside-matlab">Why Engineers Use Simulink Alongside MATLAB</h3>
+<p>While <strong>MATLAB</strong> executes sequential lines of text code, <strong>Simulink</strong> is a graphical block-diagram environment designed for modeling dynamical systems governed by differential equations. Instead of solving differential equations by hand before coding, Simulink allows students to wire mathematical operations (<strong>Sum</strong>, <strong>Gain</strong>, and <strong>Integrator <code>1/s</code></strong> blocks) directly into a closed-loop feedback system:</p>
+<ol type="1">
+<li><strong>The Integrator Block (<span class="math inline">\frac{1}{s}</span>) as a Calculus Engine:</strong> In Laplace notation, multiplying by <span class="math inline">\frac{1}{s}</span> represents time integration (<span class="math inline">\int dt</span>). If the wire entering an Integrator block carries the derivative <span class="math inline">\frac{dv_C}{dt}</span>, the wire exiting that block carries the integrated state variable <span class="math inline">v_C(t)</span> itself.</li>
+<li><strong>Isolate the Highest Derivative:</strong> For a 1st-order Series RC circuit (<span class="math inline">V_s = RC\frac{dv_C}{dt} + v_C</span>), isolating the derivative yields: <span class="math display">\frac{dv_C}{dt} = \frac{1}{RC}\Big[V_s(t) - v_C(t)\Big]</span></li>
+</ol>
+<!-- Simulink Schematic 1: 1st-Order RC / RL Loop -->
+<div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 20px; margin: 22px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
+  <div style="font-weight: 800; color: #1e1b4b; font-size: 0.92rem; margin-bottom: 10px; text-align: center;">
+    SIMULINK SCHEMATIC 1: 1ST-ORDER RC CHARGING INTEGRATOR LOOP — dv_C/dt = (1/RC)[V_s(t) − v_C(t)]
+  </div>
+  <svg class="tikz-svg" viewbox="0 0 780 190" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" style="background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+    <defs>
+      <marker id="simArr" viewbox="0 0 10 10" refx="7" refy="5" markerwidth="6" markerheight="6" orient="auto">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="#0f172a"></path>
+      </marker>
+    </defs>
+    <!-- Step Block -->
+    <rect x="30" y="45" width="80" height="55" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="2"></rect>
+    <path d="M 45 85 L 70 85 L 70 60 L 95 60" stroke="#2563eb" stroke-width="2.5" fill="none"></path>
+    <text x="70" y="118" font-size="12" font-weight="bold" fill="#0f172a" text-anchor="middle">Step (10 V)</text>
+    <!-- Sum Block -->
+    <circle cx="195" cy="72" r="22" fill="#ffffff" stroke="#0f172a" stroke-width="2"></circle>
+    <text x="184" y="76" font-size="14" font-weight="bold" fill="#16a34a">+</text>
+    <text x="192" y="90" font-size="15" font-weight="bold" fill="#dc2626">−</text>
+    <text x="195" y="40" font-size="12" font-weight="bold" fill="#0f172a" text-anchor="middle">Sum (|+-)</text>
+    <!-- Gain Block -->
+    <polygon points="295,40 295,105 385,72" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"></polygon>
+    <text x="328" y="76" font-size="12" font-weight="bold" fill="#1e3a8a" text-anchor="middle">1/RC = 5</text>
+    <text x="340" y="122" font-size="12" font-weight="bold" fill="#1e3a8a" text-anchor="middle">Gain (1/RC)</text>
+    <!-- Integrator Block -->
+    <rect x="475" y="45" width="80" height="55" rx="4" fill="#fef3c7" stroke="#d97706" stroke-width="2"></rect>
+    <text x="515" y="78" font-size="18" font-weight="bold" fill="#92400e" text-anchor="middle">1 / s</text>
+    <text x="515" y="118" font-size="12" font-weight="bold" fill="#92400e" text-anchor="middle">Integrator</text>
+    <!-- Scope Block -->
+    <rect x="655" y="45" width="80" height="55" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="2"></rect>
+    <rect x="667" y="55" width="56" height="35" fill="#0f172a" rx="2"></rect>
+    <path d="M 670 85 Q 685 60 720 60" stroke="#4ade80" stroke-width="2.2" fill="none"></path>
+    <text x="695" y="118" font-size="12" font-weight="bold" fill="#0f172a" text-anchor="middle">Scope</text>
+    <!-- Wires -->
+    <line x1="110" y1="72" x2="171" y2="72" stroke="#0f172a" stroke-width="2" marker-end="url(#simArr)"></line>
+    <text x="140" y="64" font-size="12" font-style="italic" font-weight="bold" fill="#334155" text-anchor="middle">V_s(t)</text>
+    <line x1="217" y1="72" x2="293" y2="72" stroke="#0f172a" stroke-width="2" marker-end="url(#simArr)"></line>
+    <text x="255" y="64" font-size="12" font-style="italic" font-weight="bold" fill="#334155" text-anchor="middle">V_s − v_C</text>
+    <line x1="385" y1="72" x2="473" y2="72" stroke="#dc2626" stroke-width="2.2" marker-end="url(#simArr)"></line>
+    <text x="430" y="64" font-size="12.5" font-style="italic" font-weight="bold" fill="#dc2626" text-anchor="middle">dv_C / dt</text>
+    <line x1="555" y1="72" x2="653" y2="72" stroke="#16a34a" stroke-width="2.2" marker-end="url(#simArr)"></line>
+    <text x="602" y="64" font-size="12.5" font-style="italic" font-weight="bold" fill="#16a34a" text-anchor="middle">v_C(t)</text>
+    <!-- Feedback Loop -->
+    <circle cx="602" cy="72" r="4" fill="#0f172a"></circle>
+    <path d="M 602 72 L 602 155 L 195 155 L 195 96" stroke="#0f172a" stroke-width="2" fill="none" marker-end="url(#simArr)"></path>
+    <text x="398" y="172" font-size="12" font-style="italic" fill="#475569" text-anchor="middle">Closed-loop feedback wire returns state variable v_C(t) to the (−) port of the Sum block</text>
+  </svg>
+</div>
+
+<!-- Simulink Schematic 2: 2nd-Order Series RLC Two-Integrator Loop -->
+<div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 20px; margin: 22px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
+  <div style="font-weight: 800; color: #1e1b4b; font-size: 0.92rem; margin-bottom: 10px; text-align: center;">
+    SIMULINK SCHEMATIC 2: 2ND-ORDER SERIES RLC TWO-INTEGRATOR ARCHITECTURE — di/dt = (1/L)[V_s − R·i(t) − v_C(t)]
+  </div>
+  <svg class="tikz-svg" viewbox="0 0 820 225" width="100%" height="210" xmlns="http://www.w3.org/2000/svg" style="background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+    <!-- Step -->
+    <rect x="20" y="40" width="70" height="48" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="2"></rect>
+    <path d="M 32 76 L 55 76 L 55 52 L 78 52" stroke="#2563eb" stroke-width="2.2" fill="none"></path>
+    <text x="55" y="104" font-size="11.5" font-weight="bold" text-anchor="middle">Step (10V)</text>
+    <!-- Sum -->
+    <circle cx="155" cy="64" r="22" fill="#ffffff" stroke="#0f172a" stroke-width="2"></circle>
+    <text x="142" y="68" font-size="13" font-weight="bold" fill="#16a34a">+</text>
+    <text x="163" y="68" font-size="14" font-weight="bold" fill="#dc2626">−</text>
+    <text x="152" y="82" font-size="14" font-weight="bold" fill="#dc2626">−</text>
+    <text x="155" y="32" font-size="11.5" font-weight="bold" text-anchor="middle">Sum (|+--)</text>
+    <!-- Gain 1/L -->
+    <polygon points="225,36 225,92 295,64" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"></polygon>
+    <text x="252" y="68" font-size="11.5" font-weight="bold" fill="#1e3a8a" text-anchor="middle">1/L = 1</text>
+    <!-- Integrator 1 -->
+    <rect x="355" y="40" width="70" height="48" rx="4" fill="#fef3c7" stroke="#d97706" stroke-width="2"></rect>
+    <text x="390" y="69" font-size="16" font-weight="bold" fill="#92400e" text-anchor="middle">1 / s</text>
+    <text x="390" y="32" font-size="11" font-weight="bold" fill="#92400e" text-anchor="middle">Int 1 (Current)</text>
+    <!-- Gain 1/C -->
+    <polygon points="490,36 490,92 560,64" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"></polygon>
+    <text x="517" y="68" font-size="11.5" font-weight="bold" fill="#1e3a8a" text-anchor="middle">1/C = 5</text>
+    <!-- Integrator 2 -->
+    <rect x="620" y="40" width="70" height="48" rx="4" fill="#fef3c7" stroke="#d97706" stroke-width="2"></rect>
+    <text x="655" y="69" font-size="16" font-weight="bold" fill="#92400e" text-anchor="middle">1 / s</text>
+    <text x="655" y="32" font-size="11" font-weight="bold" fill="#92400e" text-anchor="middle">Int 2 (Voltage)</text>
+    <!-- Scope -->
+    <rect x="735" y="40" width="65" height="48" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="2"></rect>
+    <rect x="745" y="49" width="45" height="30" fill="#0f172a" rx="2"></rect>
+    <path d="M 748 72 C 756 45, 764 80, 772 56 C 778 65, 783 62, 788 62" stroke="#4ade80" stroke-width="2" fill="none"></path>
+    <text x="767" y="104" font-size="11.5" font-weight="bold" text-anchor="middle">Scope</text>
+    <!-- Forward Wires -->
+    <line x1="90" y1="64" x2="131" y2="64" stroke="#0f172a" stroke-width="2" marker-end="url(#simArr)"></line>
+    <line x1="177" y1="64" x2="223" y2="64" stroke="#0f172a" stroke-width="2" marker-end="url(#simArr)"></line>
+    <line x1="295" y1="64" x2="353" y2="64" stroke="#dc2626" stroke-width="2" marker-end="url(#simArr)"></line>
+    <text x="324" y="56" font-size="11.5" font-style="italic" font-weight="bold" fill="#dc2626" text-anchor="middle">di/dt</text>
+    <line x1="425" y1="64" x2="488" y2="64" stroke="#2563eb" stroke-width="2" marker-end="url(#simArr)"></line>
+    <text x="456" y="56" font-size="11.5" font-style="italic" font-weight="bold" fill="#2563eb" text-anchor="middle">i(t)</text>
+    <line x1="560" y1="64" x2="618" y2="64" stroke="#d97706" stroke-width="2" marker-end="url(#simArr)"></line>
+    <text x="589" y="56" font-size="11.5" font-style="italic" font-weight="bold" fill="#d97706" text-anchor="middle">dv_C/dt</text>
+    <line x1="690" y1="64" x2="733" y2="64" stroke="#16a34a" stroke-width="2" marker-end="url(#simArr)"></line>
+    <text x="712" y="56" font-size="11.5" font-style="italic" font-weight="bold" fill="#16a34a" text-anchor="middle">v_C(t)</text>
+    <!-- Inner Feedback Gain R -->
+    <polygon points="340,115 340,163 270,139" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"></polygon>
+    <text x="315" y="143" font-size="11.5" font-weight="bold" fill="#1e3a8a" text-anchor="middle">Gain R</text>
+    <circle cx="456" cy="64" r="3.5" fill="#0f172a"></circle>
+    <path d="M 456 64 L 456 139 L 340 139" stroke="#0f172a" stroke-width="1.8" fill="none"></path>
+    <path d="M 270 139 L 166 139 L 166 86" stroke="#0f172a" stroke-width="1.8" fill="none" marker-end="url(#simArr)"></path>
+    <text x="218" y="132" font-size="11" font-style="italic" font-weight="bold" fill="#1e3a8a" text-anchor="middle">Damping Term R·i(t)</text>
+    <!-- Outer Feedback Loop -->
+    <circle cx="712" cy="64" r="3.5" fill="#0f172a"></circle>
+    <path d="M 712 64 L 712 192 L 146 192 L 146 86" stroke="#0f172a" stroke-width="1.8" fill="none" marker-end="url(#simArr)"></path>
+    <text x="430" y="210" font-size="11.5" font-style="italic" fill="#475569" text-anchor="middle">Outer feedback loop returns capacitor voltage v_C(t) to the bottom (−) port of the Sum block</text>
+  </svg>
+</div>
+<hr>
+</section>
+</section>
+<section id="complete-lab-walkthrough-student-exercises" class="level2">
+<h2 class="anchored" data-anchor-id="complete-lab-walkthrough-student-exercises">6. Complete Lab Walkthrough &amp; Student Exercises</h2>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">🧭 Module 0: MATLAB Primer</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">⏱️ Part I: Inductor Calculus Challenge</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">📐 Part II: Phasor MATLAB Code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">🔄 Part III: 2nd-Order RLC Damping</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<section id="absolute-beginners-guide-to-matlab-.m-files" class="level3">
+<h3 class="anchored" data-anchor-id="absolute-beginners-guide-to-matlab-.m-files">Absolute Beginner’s Guide to MATLAB &amp; <code>.m</code> Files</h3>
+<p>While single calculations in the <strong>Command Window</strong> disappear when MATLAB closes, sequences of commands saved in an <strong><code>.m</code> Script File</strong> create reproducible engineering simulations.</p>
+<ol type="1">
+<li><strong>Create Your Script:</strong> Click <strong>New Script</strong> on the <strong>HOME</strong> ribbon and save as <code>Circuit_Lab_LastName.m</code> (use only letters, numbers, and underscores).</li>
+<li><strong>Four Essential MATLAB Symbols:</strong>
+<ul>
+<li><strong><code>%</code> (Comment):</strong> Ignored by MATLAB; used to document engineering units.</li>
+<li><strong><code>;</code> (Semicolon):</strong> Suppresses screen printing of 5,000-element arrays.</li>
+<li><strong><code>:</code> (Colon Operator):</strong> Generates evenly spaced time arrays (<code>t = 0 : 1e-5 : 0.05;</code>).</li>
+<li><strong><code>1j</code> (Imaginary Unit):</strong> Represents <span class="math inline">\sqrt{-1} = 1\angle +90^\circ</span> for complex impedance calculations.</li>
+</ul></li>
+</ol>
+</section>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<section id="student-exercise-task-1b-inductor-derivative-v_l-lfracdi_ldt" class="level3">
+<h3 class="anchored" data-anchor-id="student-exercise-task-1b-inductor-derivative-v_l-lfracdi_ldt">Student Exercise (Task 1B): Inductor Derivative (<span class="math inline">v_L = L\frac{di_L}{dt}</span>)</h3>
+<p>Below your Part 1A capacitor code, simulate an <strong>ideal inductor</strong> of inductance <span class="math inline">L = 50\text{ mH}</span> (<code>50e-3</code> H) driven by a sinusoidal current source <span class="math inline">i_s(t) = 2\sin(120\pi t)\text{ A}</span> by filling in the missing blanks (<code>___</code>):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">% --- PART 1B: STUDENT EXERCISE - IDEAL INDUCTOR (L = 50 mH) ---</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">i_s</span> <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">sin</span>(<span class="va">w</span> <span class="op">*</span> <span class="va">t</span>)<span class="op">;</span>                   <span class="co">% 1. Inductor current: 2*sin(120*pi*t) Amps</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="va">di_dt</span> <span class="op">=</span> <span class="va">diff</span>(___) <span class="op">./</span> <span class="va">diff</span>(<span class="va">t</span>)<span class="op">;</span>           <span class="co">% 2. Numerical derivative di_s / dt</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="va">L</span> <span class="op">=</span> ___<span class="op">;</span>                                <span class="co">% 3. Inductance = 50 mH (50e-3)</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="va">v_L</span> <span class="op">=</span> <span class="va">L</span> <span class="op">*</span> ___<span class="op">;</span>                          <span class="co">% 4. Inductor Calculus Law: v_L = L*(di_s/dt)</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="va">figure</span>(<span class="fl">2</span>)<span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="va">yyaxis</span> <span class="va">left</span><span class="op">;</span>  <span class="va">plot</span>(<span class="va">t</span><span class="op">,</span> <span class="va">i_s</span><span class="op">,</span> <span class="ss">'b-'</span><span class="op">,</span> <span class="ss">'LineWidth'</span><span class="op">,</span> <span class="fl">2</span>)<span class="op">;</span> <span class="va">ylabel</span>(<span class="ss">'Current i_L(t) [Amps]'</span>)<span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="va">yyaxis</span> <span class="va">right</span><span class="op">;</span> <span class="va">plot</span>(<span class="va">t_diff</span><span class="op">,</span> ___<span class="op">,</span> <span class="ss">'r--'</span><span class="op">,</span> <span class="ss">'LineWidth'</span><span class="op">,</span> <span class="fl">2</span>)<span class="op">;</span> <span class="va">ylabel</span>(<span class="ss">'Voltage v_L(t) [Volts]'</span>)<span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="va">xlabel</span>(<span class="ss">'Time t [seconds]'</span>)<span class="op">;</span> <span class="va">title</span>(<span class="ss">'Part 1B: Ideal Inductor (v_L = L di_L/dt)'</span>)<span class="op">;</span> <span class="va">grid</span> <span class="va">on</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<section id="series-rl-phasor-script-compass-quiver" class="level3">
+<h3 class="anchored" data-anchor-id="series-rl-phasor-script-compass-quiver">Series RL Phasor Script (<code>compass</code> &amp; <code>quiver</code>)</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">% --- PART 2A: SERIES RL PHASOR PLOTS (compass &amp; quiver) ---</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">Vs</span> <span class="op">=</span> <span class="fl">20</span> <span class="op">*</span> <span class="va">exp</span>(<span class="fl">1j</span> <span class="op">*</span> <span class="fl">0</span>)<span class="op">;</span>          <span class="co">% Reference source: 20 angle 0 deg V</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="va">f</span> <span class="op">=</span> <span class="fl">60</span><span class="op">;</span> <span class="va">w</span> <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span> <span class="op">*</span> <span class="va">f</span><span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="va">R</span> <span class="op">=</span> <span class="fl">30</span><span class="op">;</span> <span class="va">L</span> <span class="op">=</span> <span class="fl">0.100</span><span class="op">;</span>              <span class="co">% R = 30 Ohms, L = 100 mH</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="va">ZR</span> <span class="op">=</span> <span class="va">R</span><span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="va">ZL</span> <span class="op">=</span> <span class="fl">1j</span> <span class="op">*</span> <span class="va">w</span> <span class="op">*</span> <span class="va">L</span><span class="op">;</span>                <span class="co">% Inductor impedance (+j37.70 Ohms)</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="va">Zeq</span> <span class="op">=</span> <span class="va">ZR</span> <span class="op">+</span> <span class="va">ZL</span><span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="va">I_phasor</span> <span class="op">=</span> <span class="va">Vs</span> <span class="op">/</span> <span class="va">Zeq</span><span class="op">;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="va">VR</span> <span class="op">=</span> <span class="va">I_phasor</span> <span class="op">*</span> <span class="va">ZR</span><span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="va">VL</span> <span class="op">=</span> <span class="va">I_phasor</span> <span class="op">*</span> <span class="va">ZL</span><span class="op">;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">% Polar Plot (compass) &amp; Tip-to-Tail KVL Vector Plot (quiver)</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="va">figure</span>(<span class="fl">3</span>)<span class="op">;</span> <span class="va">compass</span>([<span class="va">Vs</span><span class="op">,</span> <span class="va">VR</span><span class="op">,</span> <span class="va">VL</span><span class="op">,</span> <span class="fl">20</span><span class="op">*</span><span class="va">I_phasor</span>])<span class="op">;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="va">figure</span>(<span class="fl">4</span>)<span class="op">;</span> <span class="va">hold</span> <span class="va">on</span><span class="op">;</span> <span class="va">grid</span> <span class="va">on</span><span class="op">;</span> <span class="va">axis</span> <span class="va">equal</span><span class="op">;</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="va">quiver</span>(<span class="fl">0</span><span class="op">,</span> <span class="fl">0</span><span class="op">,</span> <span class="va">real</span>(<span class="va">VR</span>)<span class="op">,</span> <span class="va">imag</span>(<span class="va">VR</span>)<span class="op">,</span> <span class="fl">0</span><span class="op">,</span> <span class="ss">'b'</span><span class="op">,</span> <span class="ss">'LineWidth'</span><span class="op">,</span> <span class="fl">2</span>)<span class="op">;</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="va">quiver</span>(<span class="va">real</span>(<span class="va">VR</span>)<span class="op">,</span> <span class="va">imag</span>(<span class="va">VR</span>)<span class="op">,</span> <span class="va">real</span>(<span class="va">VL</span>)<span class="op">,</span> <span class="va">imag</span>(<span class="va">VL</span>)<span class="op">,</span> <span class="fl">0</span><span class="op">,</span> <span class="ss">'r'</span><span class="op">,</span> <span class="ss">'LineWidth'</span><span class="op">,</span> <span class="fl">2</span>)<span class="op">;</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="va">quiver</span>(<span class="fl">0</span><span class="op">,</span> <span class="fl">0</span><span class="op">,</span> <span class="va">real</span>(<span class="va">Vs</span>)<span class="op">,</span> <span class="va">imag</span>(<span class="va">Vs</span>)<span class="op">,</span> <span class="fl">0</span><span class="op">,</span> <span class="ss">'k--'</span><span class="op">,</span> <span class="ss">'LineWidth'</span><span class="op">,</span> <span class="fl">2.5</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<section id="comparing-underdamped-critically-damped-and-overdamped-regimes" class="level3">
+<h3 class="anchored" data-anchor-id="comparing-underdamped-critically-damped-and-overdamped-regimes">Comparing Underdamped, Critically Damped, and Overdamped Regimes</h3>
+<p>Using <strong>Simulink Schematic 2</strong> above (<span class="math inline">L = 1\text{ H}</span>, <span class="math inline">C = 0.2\text{ F}</span>, <span class="math inline">V_s = 10\text{ V}</span> step), students run three simulations across <code>R = 1</code>, <code>R = 4.47</code>, and <code>R = 10</code> <span class="math inline">\Omega</span> and verify the characteristic roots <span class="math inline">s_{1,2} = -\alpha \pm \sqrt{\alpha^2 - \omega_0^2}</span>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Run &amp; Resistance <span class="math inline">R</span></th>
+<th style="text-align: left;">Neper Freq. <span class="math inline">\alpha = \frac{R}{2L}</span></th>
+<th style="text-align: left;">Resonant Freq. <span class="math inline">\omega_0 = \frac{1}{\sqrt{LC}}</span></th>
+<th style="text-align: left;">Characteristic Roots <span class="math inline">s_{1,2}</span></th>
+<th style="text-align: left;">Dynamical Regime</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Run 1: <span class="math inline">R = 1\ \Omega</span></strong></td>
+<td style="text-align: left;"><span class="math inline">0.50\text{ Np/s}</span></td>
+<td style="text-align: left;"><span class="math inline">2.236\text{ rad/s}</span></td>
+<td style="text-align: left;"><span class="math inline">-0.50 \pm j2.18\text{ s}^{-1}</span></td>
+<td style="text-align: left;"><strong>Underdamped Ringing</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Run 2: <span class="math inline">R = 4.47\ \Omega</span></strong></td>
+<td style="text-align: left;"><span class="math inline">2.236\text{ Np/s}</span></td>
+<td style="text-align: left;"><span class="math inline">2.236\text{ rad/s}</span></td>
+<td style="text-align: left;"><span class="math inline">-2.236, -2.236\text{ s}^{-1}</span></td>
+<td style="text-align: left;"><strong>Critically Damped</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Run 3: <span class="math inline">R = 10\ \Omega</span></strong></td>
+<td style="text-align: left;"><span class="math inline">5.00\text{ Np/s}</span></td>
+<td style="text-align: left;"><span class="math inline">2.236\text{ rad/s}</span></td>
+<td style="text-align: left;"><span class="math inline">-0.53, -9.47\text{ s}^{-1}</span></td>
+<td style="text-align: left;"><strong>Overdamped</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+</div>
+</div>
+</div>
+<hr>
+<!-- High-Converting Downloads & Showcase -->
+<div id="instructor-toolkit" style="margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; align-items: stretch;">
+
+  <!-- Free Student Resources Card -->
+  <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 26px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
+    <div>
+      <div style="font-size: 0.75rem; font-weight: 800; color: #0284c7; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px;">Open-Access Student Materials</div>
+      <h3 style="margin: 0 0 12px 0; color: #0f172a; font-weight: 800;" class="anchored">🎓 Student Laboratory Handouts</h3>
+      <p style="font-size: 0.92rem; color: #475569; line-height: 1.6; margin-bottom: 18px;">
+        Download the complete 14-page step-by-step laboratory manual and the standalone 1-page printable 360° Phasor Protractor &amp; Radial Compass Arm for hand-drawn KVL vector verification.
+      </p>
+      <ul style="font-size: 0.88rem; color: #334155; line-height: 1.75; padding-left: 18px; margin-bottom: 20px;">
+        <li><strong>14-Page Lab Manual (PDF):</strong> Keystroke-by-keystroke MATLAB &amp; Simulink guide, fill-in-the-blank tables, and 100-point rubric.</li>
+        <li><strong>360° Cutout Phasor Compass (PDF):</strong> Printable circular protractor dial and pivoting voltage-scaled radial arm.</li>
+      </ul>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <a href="resources/circuit_lab_manual.pdf" style="background: #0f172a; color: #ffffff; text-align: center; padding: 11px 16px; border-radius: 7px; font-weight: 700; font-size: 0.9rem; text-decoration: none;">📄 Download Complete Student Manual (PDF)</a>
+      <a href="resources/phasor_compass_cutout.pdf" style="background: #f1f5f9; color: #0f172a; border: 1px solid #cbd5e1; text-align: center; padding: 11px 16px; border-radius: 7px; font-weight: 700; font-size: 0.9rem; text-decoration: none;">✂️ Download Printable 360° Phasor Compass (PDF)</a>
+    </div>
+  </div>
+
+  <!-- Instructor Toolkit Card -->
+  <div style="background: linear-gradient(145deg, #1e1b4b 0%, #312e81 100%); color: #ffffff; border-radius: 12px; padding: 26px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 10px 25px rgba(30, 27, 75, 0.22); border: 2px solid #6366f1;">
+    <div>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <span style="font-size: 0.75rem; font-weight: 800; color: #fcd34d; text-transform: uppercase; letter-spacing: 0.08em;">Turnkey Department Adoption Package</span>
+        <span style="background: #f59e0b; color: #0f172a; font-weight: 800; font-size: 0.8rem; padding: 3px 10px; border-radius: 20px;">INSTANT ZIP DOWNLOAD</span>
+      </div>
+      <h3 style="margin: 0 0 10px 0; color: #ffffff; font-weight: 800;" class="anchored">👨‍🏫 Premium Instructor Toolkit &amp; Solution Key</h3>
+      <p style="font-size: 0.92rem; color: #e0e7ff; line-height: 1.6; margin-bottom: 16px;">
+        Save 20+ hours of lab prep and grading setup. Designed for engineering faculty, department chairs, and lab instructors adopting this module in AC/DC Circuit Analysis or Dynamical Systems courses.
+      </p>
+      <ul style="font-size: 0.88rem; color: #f8fafc; line-height: 1.75; padding-left: 18px; margin-bottom: 22px;">
+        <li><strong>Master MATLAB Script (<code>Instructor_Key.m</code>):</strong> Fully commented solution script generating all 6 figures and printing exact numerical answers to the Command Window.</li>
+        <li><strong>4 Ready-to-Run Simulink Models (<code>.slx</code>):</strong> Pre-built Warm-Up RC, Series RL Step, Pre-Charged RC Decay, and 2nd-Order Series RLC models.</li>
+        <li><strong>Complete Solution Manual (PDF):</strong> Worked derivations for all analysis questions, phasor tables, and RLC root tables.</li>
+        <li><strong>Editable Overleaf LaTeX Source (<code>.tex</code>):</strong> Customize course numbers, component values, and university headers in seconds.</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/professorfrancillon\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

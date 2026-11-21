@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Wesley Francillon, PhD">
+
+<title>Chapter 1: Foundations of DC Circuit Analysis – Wesley Francillon, PhD</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a24a4402a48cd8560abd59411f39e8d3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-2P04N7WV2H"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
+</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="ebook.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../papillon.png" alt="Papillon Engineering" class="navbar-logo light-content">
+    <img src="../papillon.png" alt="Papillon Engineering" class="navbar-logo dark-content">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-teaching" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Teaching</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-teaching">    
+        <li>
+    <a class="dropdown-item" href="../teaching.html">
+ <span class="dropdown-text">Teaching Statement</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lecture_notes.html">
+ <span class="dropdown-text">Lecture Notes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lab_manuals.html">
+ <span class="dropdown-text">Lab Manuals Hub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../dual_polarity_power_supply.html">
+ <span class="dropdown-text">Dual-Polarity Power Supply Wiring</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../dynamics/iczv_dynamics.html">
+ <span class="dropdown-text">ENS 119: ICZV &amp; Planar Kinematics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../circuits_textbook/ch1_foundations.html">
+ <span class="dropdown-text">Circuit Analysis E-Book</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-circuit-analysis" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Circuit Analysis</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-circuit-analysis">    
+        <li>
+    <a class="dropdown-item" href="../circuit_analysis.html">
+ <span class="dropdown-text">Circuit Analysis Hub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../circuit_dashboard.html">
+ <span class="dropdown-text">Electrical Dashboard</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../circuit_simulator.html">
+ <span class="dropdown-text">Live Circuit Simulator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../reactance_calculator.html">
+ <span class="dropdown-text">Reactance Calculator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../simulations/op-amp-checker.html">
+ <span class="dropdown-text">Op-Amp Golden Rule Checker</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../circuit_generator.html">
+ <span class="dropdown-text">Circuit Problem Generator</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-simulations" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Simulations</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-simulations">    
+        <li>
+    <a class="dropdown-item" href="../simulations.html">
+ <span class="dropdown-text">Simulations Hub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../dynamics/iczv_dynamics.html">
+ <span class="dropdown-text">ICZV &amp; Planar Kinematics (ENS 119)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../simulations/op-amp-checker.html">
+ <span class="dropdown-text">Op-Amp Golden Rule Checker</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../usaf_1951.html">
+ <span class="dropdown-text">1951 USAF Optical Resolution Analyzer</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../circuit_simulator.html">
+ <span class="dropdown-text">Live Circuit Simulator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../circuit_generator.html">
+ <span class="dropdown-text">Circuit Problem Generator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../reactance_calculator.html">
+ <span class="dropdown-text">Reactance Calculator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../resonance_game.html">
+ <span class="dropdown-text">Resonance Defender Game</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../circuit_breakout.html">
+ <span class="dropdown-text">Impedance Breaker Game</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-outreach" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Outreach</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-outreach">    
+        <li>
+    <a class="dropdown-item" href="../outreach.html">
+ <span class="dropdown-text">K-12 Outreach Hub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../rss_feeds.html">
+ <span class="dropdown-text">Automated RSS Engineering Wire</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../linear_regression.html">
+ <span class="dropdown-text">Linear Regression</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../outreach_data.html">
+ <span class="dropdown-text">API Data Challenge</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../web_scraping.html">
+ <span class="dropdown-text">Web Scraping</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../resonance_game.html">
+ <span class="dropdown-text">Resonance Defender Game</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../circuit_breakout.html">
+ <span class="dropdown-text">Impedance Breaker Game</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../rf_foxhunt.html">
+ <span class="dropdown-text">RF Fox Hunt Lab</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page…</h2>
+   
+  <ul>
+  <li><a href="#chapter-learning-objectives" id="toc-chapter-learning-objectives" class="nav-link active" data-scroll-target="#chapter-learning-objectives"><span class="header-section-number">0.1</span> 🎯 Chapter Learning Objectives</a></li>
+  <li><a href="#what-is-an-electrical-circuit" id="toc-what-is-an-electrical-circuit" class="nav-link" data-scroll-target="#what-is-an-electrical-circuit"><span class="header-section-number">1</span> What is an Electrical Circuit?</a></li>
+  <li><a href="#fundamental-electrical-quantities" id="toc-fundamental-electrical-quantities" class="nav-link" data-scroll-target="#fundamental-electrical-quantities"><span class="header-section-number">2</span> Fundamental Electrical Quantities</a>
+  <ul class="collapse">
+  <li><a href="#electric-charge-q-and-current-i" id="toc-electric-charge-q-and-current-i" class="nav-link" data-scroll-target="#electric-charge-q-and-current-i"><span class="header-section-number">2.1</span> Electric Charge (<span class="math inline">\(q\)</span>) and Current (<span class="math inline">\(i\)</span>)</a></li>
+  <li><a href="#voltage-v-potential-difference" id="toc-voltage-v-potential-difference" class="nav-link" data-scroll-target="#voltage-v-potential-difference"><span class="header-section-number">2.2</span> Voltage (<span class="math inline">\(v\)</span>) — Potential Difference</a></li>
+  <li><a href="#resistance-r-and-ohms-law" id="toc-resistance-r-and-ohms-law" class="nav-link" data-scroll-target="#resistance-r-and-ohms-law"><span class="header-section-number">2.3</span> Resistance (<span class="math inline">\(R\)</span>) and Ohm’s Law</a></li>
+  <li><a href="#electrical-power-p-and-the-passive-sign-convention" id="toc-electrical-power-p-and-the-passive-sign-convention" class="nav-link" data-scroll-target="#electrical-power-p-and-the-passive-sign-convention"><span class="header-section-number">2.4</span> Electrical Power (<span class="math inline">\(P\)</span>) and the Passive Sign Convention</a></li>
+  <li><a href="#concept-check-1.1-physical-sizing-power-marine-dc-wiring" id="toc-concept-check-1.1-physical-sizing-power-marine-dc-wiring" class="nav-link" data-scroll-target="#concept-check-1.1-physical-sizing-power-marine-dc-wiring"><span class="header-section-number">2.5</span> 🛑 Concept Check 1.1: Physical Sizing, Power &amp; Marine DC Wiring</a></li>
+  </ul></li>
+  <li><a href="#ideal-vs.-practical-non-ideal-sources" id="toc-ideal-vs.-practical-non-ideal-sources" class="nav-link" data-scroll-target="#ideal-vs.-practical-non-ideal-sources"><span class="header-section-number">3</span> Ideal vs.&nbsp;Practical (Non-Ideal) Sources</a>
+  <ul class="collapse">
+  <li><a href="#ideal-vs.-practical-voltage-sources" id="toc-ideal-vs.-practical-voltage-sources" class="nav-link" data-scroll-target="#ideal-vs.-practical-voltage-sources"><span class="header-section-number">3.1</span> Ideal vs.&nbsp;Practical Voltage Sources</a></li>
+  <li><a href="#ideal-vs.-practical-current-sources" id="toc-ideal-vs.-practical-current-sources" class="nav-link" data-scroll-target="#ideal-vs.-practical-current-sources"><span class="header-section-number">3.2</span> Ideal vs.&nbsp;Practical Current Sources</a></li>
+  </ul></li>
+  <li><a href="#kirchhoffs-laws-series-circuits" id="toc-kirchhoffs-laws-series-circuits" class="nav-link" data-scroll-target="#kirchhoffs-laws-series-circuits"><span class="header-section-number">4</span> Kirchhoff’s Laws &amp; Series Circuits</a>
+  <ul class="collapse">
+  <li><a href="#definitions-of-circuit-topology" id="toc-definitions-of-circuit-topology" class="nav-link" data-scroll-target="#definitions-of-circuit-topology"><span class="header-section-number">4.1</span> Definitions of Circuit Topology</a></li>
+  <li><a href="#kirchhoffs-current-law-kcl" id="toc-kirchhoffs-current-law-kcl" class="nav-link" data-scroll-target="#kirchhoffs-current-law-kcl"><span class="header-section-number">4.2</span> Kirchhoff’s Current Law (KCL)</a></li>
+  <li><a href="#kirchhoffs-voltage-law-kvl" id="toc-kirchhoffs-voltage-law-kvl" class="nav-link" data-scroll-target="#kirchhoffs-voltage-law-kvl"><span class="header-section-number">4.3</span> Kirchhoff’s Voltage Law (KVL)</a></li>
+  <li><a href="#series-resistors-and-voltage-division" id="toc-series-resistors-and-voltage-division" class="nav-link" data-scroll-target="#series-resistors-and-voltage-division"><span class="header-section-number">4.4</span> Series Resistors and Voltage Division</a></li>
+  </ul></li>
+  <li><a href="#section-problem-set-series-circuits-kvl-elt-112-ens-233-exam-standard" id="toc-section-problem-set-series-circuits-kvl-elt-112-ens-233-exam-standard" class="nav-link" data-scroll-target="#section-problem-set-series-circuits-kvl-elt-112-ens-233-exam-standard"><span class="header-section-number">5</span> 🛑 Section Problem Set: Series Circuits &amp; KVL (ELT 112 / ENS 233 Exam Standard)</a>
+  <ul class="collapse">
+  <li><a href="#problem-1.1-dual-source-series-loop-with-reference-polarity" id="toc-problem-1.1-dual-source-series-loop-with-reference-polarity" class="nav-link" data-scroll-target="#problem-1.1-dual-source-series-loop-with-reference-polarity"><span class="header-section-number">5.1</span> Problem 1.1: Dual-Source Series Loop with Reference Polarity</a></li>
+  <li><a href="#problem-1.2-multi-source-multi-resistor-series-loop" id="toc-problem-1.2-multi-source-multi-resistor-series-loop" class="nav-link" data-scroll-target="#problem-1.2-multi-source-multi-resistor-series-loop"><span class="header-section-number">5.2</span> Problem 1.2: Multi-Source, Multi-Resistor Series Loop</a></li>
+  <li><a href="#problem-1.3-voltage-division-in-a-series-loop" id="toc-problem-1.3-voltage-division-in-a-series-loop" class="nav-link" data-scroll-target="#problem-1.3-voltage-division-in-a-series-loop"><span class="header-section-number">5.3</span> Problem 1.3: Voltage Division in a Series Loop</a></li>
+  </ul></li>
+  <li><a href="#laboratory-simulation-corner-verifying-series-circuits-in-ltspice" id="toc-laboratory-simulation-corner-verifying-series-circuits-in-ltspice" class="nav-link" data-scroll-target="#laboratory-simulation-corner-verifying-series-circuits-in-ltspice"><span class="header-section-number">6</span> 💻 Laboratory &amp; Simulation Corner: Verifying Series Circuits in LTspice</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../circuits_textbook/ch1_foundations.html">Module 1: DC Foundations</a></li><li class="breadcrumb-item"><a href="../circuits_textbook/ch1_foundations.html">Chapter 1: Foundations of DC Circuit Analysis</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Chapter 1: Foundations of DC Circuit Analysis</h1>
+<p class="subtitle lead">ELT 112 / ENS 233 — Department of Engineering Science</p>
+</div>
+
+
+
+<div class="quarto-title-meta column-page-left">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Wesley Francillon, PhD </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<script>
+function checkNumericAnswer(inputId, correctVal, tolerance, feedbackId, unitStr) {
+  const userVal = parseFloat(document.getElementById(inputId).value);
+  const fb = document.getElementById(feedbackId);
+  if (isNaN(userVal)) {
+    fb.innerHTML = "⚠️ Please enter a numeric value.";
+    fb.style.color = "#b45309";
+    return;
+  }
+  if (Math.abs(userVal - correctVal) <= tolerance) {
+    fb.innerHTML = "✅ Correct! (" + correctVal + " " + unitStr + ")";
+    fb.style.color = "#15803d";
+  } else {
+    fb.innerHTML = "❌ Not quite. Check your polarity and signs, or review the step-by-step solution below.";
+    fb.style.color = "#b91c1c";
+  }
+}
+</script>
+<section id="chapter-learning-objectives" class="level3 ebook-objectives" data-number="0.1">
+<h3 data-number="0.1" class="anchored" data-anchor-id="chapter-learning-objectives"><span class="header-section-number">0.1</span> 🎯 Chapter Learning Objectives</h3>
+<p>By the end of this chapter, you will be able to:</p>
+<ol type="1">
+<li><strong>Define and quantify</strong> electric charge (<span class="math inline">\(q\)</span>), current (<span class="math inline">\(i\)</span>), voltage (<span class="math inline">\(v\)</span>), resistance (<span class="math inline">\(R\)</span>), and power (<span class="math inline">\(P\)</span>) in DC networks using proper SI units and engineering prefixes.</li>
+<li><strong>Apply the Passive Sign Convention (PSC)</strong> to determine whether a circuit element is absorbing or supplying electrical power.</li>
+<li><strong>Distinguish between ideal and non-ideal (practical) sources</strong> and model the impact of internal source resistance on terminal voltage under load.</li>
+<li><strong>Formulate Kirchhoff’s Voltage Law (KVL) and Kirchhoff’s Current Law (KCL)</strong> equations for single-loop and single-node-pair circuits.</li>
+<li><strong>Analyze series resistive circuits</strong> and apply the Voltage Divider Rule (VDR).</li>
+</ol>
+</section>
+<hr>
+<section id="what-is-an-electrical-circuit" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="what-is-an-electrical-circuit"><span class="header-section-number">1</span> What is an Electrical Circuit?</h2>
+<p>An <strong>electrical circuit</strong> is a mathematical and physical interconnection of electrical elements arranged in one or more closed paths to perform a desired function—whether that function is delivering bulk power to an industrial motor, conditioning a microvolt sensor signal, or illuminating navigation lights on a vessel.</p>
+<p>For steady Direct Current (DC) to flow, two fundamental physical conditions must be met: 1. <strong>A Driving Potential (Source):</strong> An electromotive force (EMF) or voltage source must establish a potential energy difference across the system. 2. <strong>A Complete Closed Path (Loop):</strong> Charge carriers must have an uninterrupted conductive path leaving one terminal of the source, passing through the load, and returning to the opposite terminal of the source.</p>
+<ul>
+<li><strong>Closed Circuit:</strong> An uninterrupted conductive loop allowing current <span class="math inline">\(i &gt; 0\)</span> to flow.</li>
+<li><strong>Open Circuit:</strong> A break in the conductive path (<span class="math inline">\(R \to \infty\)</span>), resulting in zero current flow (<span class="math inline">\(i = 0\text{ A}\)</span>), though a nonzero potential difference (<span class="math inline">\(v \neq 0\text{ V}\)</span>) can exist across the open terminals.</li>
+<li><strong>Short Circuit:</strong> A direct, near-zero resistance connection (<span class="math inline">\(R \approx 0\ \Omega\)</span>) between two points, resulting in zero voltage drop (<span class="math inline">\(v = 0\text{ V}\)</span>) across the short and potentially hazardous overcurrent if unmitigated by a fuse or circuit breaker.</li>
+</ul>
+<hr>
+</section>
+<section id="fundamental-electrical-quantities" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="fundamental-electrical-quantities"><span class="header-section-number">2</span> Fundamental Electrical Quantities</h2>
+<section id="electric-charge-q-and-current-i" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="electric-charge-q-and-current-i"><span class="header-section-number">2.1</span> Electric Charge (<span class="math inline">\(q\)</span>) and Current (<span class="math inline">\(i\)</span>)</h3>
+<p>At the atomic level, all electrical phenomena arise from <strong>electric charge (<span class="math inline">\(q\)</span>)</strong>, measured in <strong>Coulombs (<span class="math inline">\(\text{C}\)</span>)</strong>. A single electron carries a negative charge of <span class="math inline">\(-e = -1.602 \times 10^{-19}\text{ C}\)</span>, meaning it takes approximately <span class="math inline">\(6.24 \times 10^{18}\)</span> electrons to accumulate <span class="math inline">\(1\text{ C}\)</span> of charge.</p>
+<p>When charge carriers are forced to move through a conductor cross-section, their time rate of flow defines <strong>electric current (<span class="math inline">\(i\)</span>)</strong>:</p>
+<p><span class="math display">\[i(t) = \frac{dq(t)}{dt} \quad \left[\text{Amperes, A} = \frac{\text{Coulombs}}{\text{second}}\right]\]</span></p>
+<p>For steady Direct Current (DC), where the rate of charge flow is constant over time (<span class="math inline">\(I\)</span>), this simplifies to:</p>
+<p><span class="math display">\[I = \frac{Q}{t} \iff Q = I \cdot t\]</span></p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Conventional Current vs.&nbsp;Electron Flow
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In engineering circuit analysis, we universally use <strong>Conventional Current Flow</strong>, defined as the net flow of <em>positive</em> charge. In metallic conductors (like copper wire), negative electrons physically drift from the negative terminal toward the positive terminal, meaning <strong>conventional current flows from positive (<span class="math inline">\(+\)</span>) to negative (<span class="math inline">\(-\)</span>)</strong> outside the source—opposite to physical electron drift. Always draw and solve your schematics using conventional current!</p>
+</div>
+</div>
+</section>
+<section id="voltage-v-potential-difference" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="voltage-v-potential-difference"><span class="header-section-number">2.2</span> Voltage (<span class="math inline">\(v\)</span>) — Potential Difference</h3>
+<p>Charge will not move systematically without an external force doing work on it. <strong>Voltage (<span class="math inline">\(v_{ab}\)</span>)</strong>, also called electromotive force or potential difference, is the energy (work <span class="math inline">\(w\)</span>, in Joules) required to move a unit positive charge (<span class="math inline">\(1\text{ C}\)</span>) between two points <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>:</p>
+<p><span class="math display">\[v_{ab} = \frac{dw}{dq} \quad \left[\text{Volts, V} = \frac{\text{Joules}}{\text{Coulomb}}\right]\]</span></p>
+<p>Mathematically, <span class="math inline">\(v_{ab} = v_a - v_b\)</span> represents the potential of terminal <span class="math inline">\(a\)</span> with respect to terminal <span class="math inline">\(b\)</span>. If <span class="math inline">\(v_{ab} = +12\text{ V}\)</span>, terminal <span class="math inline">\(a\)</span> is <span class="math inline">\(12\text{ V}\)</span> higher in potential than terminal <span class="math inline">\(b\)</span>, and therefore <span class="math inline">\(v_{ba} = -v_{ab} = -12\text{ V}\)</span>.</p>
+</section>
+<section id="resistance-r-and-ohms-law" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="resistance-r-and-ohms-law"><span class="header-section-number">2.3</span> Resistance (<span class="math inline">\(R\)</span>) and Ohm’s Law</h3>
+<p>As charge carriers move through a material, they collide with the atomic lattice, impeding their flow and converting electrical energy into thermal energy (heat). This physical opposition to current is <strong>Resistance (<span class="math inline">\(R\)</span>)</strong>, measured in <strong>Ohms (<span class="math inline">\(\Omega\)</span>)</strong>.</p>
+<p>For a uniform cylindrical or rectangular conductor of length <span class="math inline">\(\ell\)</span> and cross-sectional area <span class="math inline">\(A\)</span>, physical resistance is governed by the material’s <strong>resistivity (<span class="math inline">\(\rho\)</span>, in <span class="math inline">\(\Omega\cdot\text{m}\)</span>)</strong>:</p>
+<p><span class="math display">\[R = \rho \frac{\ell}{A}\]</span></p>
+<p>In 1827, Georg Simon Ohm established that for linear conductive materials at constant temperature, the voltage across a resistor is directly proportional to the current flowing through it:</p>
+<p><span class="math display">\[v = i \cdot R \quad \Longleftrightarrow \quad i = \frac{v}{R} \quad \Longleftrightarrow \quad R = \frac{v}{i}\]</span></p>
+<p>The reciprocal of resistance is <strong>Conductance (<span class="math inline">\(G\)</span>)</strong>, which measures how easily a material conducts current, expressed in <strong>Siemens (<span class="math inline">\(\text{S}\)</span>)</strong>:</p>
+<p><span class="math display">\[G = \frac{1}{R} = \frac{i}{v} \quad [\text{S} \text{ or } \Omega^{-1}]\]</span></p>
+</section>
+<section id="electrical-power-p-and-the-passive-sign-convention" class="level3" data-number="2.4">
+<h3 data-number="2.4" class="anchored" data-anchor-id="electrical-power-p-and-the-passive-sign-convention"><span class="header-section-number">2.4</span> Electrical Power (<span class="math inline">\(P\)</span>) and the Passive Sign Convention</h3>
+<p><strong>Power (<span class="math inline">\(p\)</span>)</strong> is the time rate of expending or absorbing energy, measured in <strong>Watts (<span class="math inline">\(\text{W}\)</span>)</strong>. By applying the chain rule to our definitions of voltage and current:</p>
+<p><span class="math display">\[p = \frac{dw}{dt} = \left(\frac{dw}{dq}\right) \cdot \left(\frac{dq}{dt}\right) = v \cdot i \quad \left[\text{Watts, W} = \frac{\text{Joules}}{\text{second}}\right]\]</span></p>
+<p>For a purely resistive element (<span class="math inline">\(v = iR\)</span>), we can substitute Ohm’s Law into the power equation to yield the three forms of <strong>Joule’s Law</strong> (always positive for a positive resistor <span class="math inline">\(R\)</span>):</p>
+<p><span class="math display">\[P = V \cdot I = I^2 R = \frac{V^2}{R}\]</span></p>
+<section id="the-passive-sign-convention-psc" class="level4" data-number="2.4.1">
+<h4 data-number="2.4.1" class="anchored" data-anchor-id="the-passive-sign-convention-psc"><span class="header-section-number">2.4.1</span> The Passive Sign Convention (PSC)</h4>
+<p>How do we know whether an element (like a battery or voltage source) is <em>absorbing</em> power (charging/dissipating) or <em>supplying</em> power (discharging) to the rest of the circuit? We use the <strong>Passive Sign Convention</strong>:</p>
+<ul>
+<li><strong>Case 1 (Passive Alignment):</strong> If the reference current arrow <span class="math inline">\(i\)</span> <strong>enters the positive (<span class="math inline">\(+\)</span>) terminal</strong> of an element, calculate <span class="math inline">\(P = +v \cdot i\)</span>.</li>
+<li><strong>Case 2 (Active Alignment):</strong> If the reference current arrow <span class="math inline">\(i\)</span> <strong>enters the negative (<span class="math inline">\(-\)</span>) terminal</strong> (exits the <span class="math inline">\(+\)</span> terminal), calculate <span class="math inline">\(P = -v \cdot i\)</span>.</li>
+</ul>
+<p>Once computed with the proper sign: * If <span class="math inline">\(P &gt; 0\)</span>: The element is <strong>absorbing (dissipating)</strong> power. * If <span class="math inline">\(P &lt; 0\)</span>: The element is <strong>supplying (delivering)</strong> power to the circuit.</p>
+<p>In any closed electrical circuit, Conservation of Energy dictates that the algebraic sum of power across all elements is strictly zero:</p>
+<p><span class="math display">\[\sum P_{\text{absorbed}} + \sum P_{\text{supplied}} = 0\]</span></p>
+<hr>
+</section>
+</section>
+<section id="concept-check-1.1-physical-sizing-power-marine-dc-wiring" class="level3" data-number="2.5">
+<h3 data-number="2.5" class="anchored" data-anchor-id="concept-check-1.1-physical-sizing-power-marine-dc-wiring"><span class="header-section-number">2.5</span> 🛑 Concept Check 1.1: Physical Sizing, Power &amp; Marine DC Wiring</h3>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🚤 Real-World Engineering Application: Marine Auxiliary Bus Wiring
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Suppose you are wiring a pair of LED spreader lights mounted on the T-top of a 22-foot center-console boat. The spreader lights draw a steady total current of <span class="math inline">\(I = 4.0\text{ A}\)</span> from a <span class="math inline">\(12.8\text{ V}\)</span> <span class="math inline">\(\text{LiFePO}_4\)</span> auxiliary battery located in the center console.</p>
+<p>To reach the T-top and return to the negative ground bus, the total round-trip length of 14 AWG marine tinned copper wire is <span class="math inline">\(\ell = 6.0\text{ m}\)</span> (<span class="math inline">\(3.0\text{ m}\)</span> positive run + <span class="math inline">\(3.0\text{ m}\)</span> negative return). The cross-sectional area of 14 AWG wire is <span class="math inline">\(A = 2.08 \times 10^{-6}\text{ m}^2\)</span>, and the resistivity of copper is <span class="math inline">\(\rho = 1.72 \times 10^{-8}\ \Omega\cdot\text{m}\)</span>.</p>
+</div>
+</div>
+<div class="problem-card">
+<div class="problem-header">
+<p><span>Interactive Self-Check 1.1: Wire Voltage Drop &amp; Lamp Power</span> <span class="badge-difficulty">Foundational</span></p>
+</div>
+<ol type="1">
+<li>Calculate the total round-trip resistance <span class="math inline">\(R_{\text{wire}}\)</span> of the 14 AWG copper cable in <strong>milliohms (<span class="math inline">\(\text{m}\Omega\)</span>)</strong>.</li>
+<li>Calculate the voltage drop <span class="math inline">\(V_{\text{drop}}\)</span> across the wiring harness in <strong>Volts (<span class="math inline">\(\text{V}\)</span>)</strong>.</li>
+<li>What is the actual terminal voltage <span class="math inline">\(V_{\text{load}}\)</span> delivered across the LED spreader lights?</li>
+</ol>
+<div class="check-box-container">
+<p><label>1. <span class="math inline">\(R_{\text{wire}}\)</span> (<span class="math inline">\(\text{m}\Omega\)</span>):</label> <input type="number" step="any" id="ans1_1a" class="check-input" placeholder="e.g. 49.6"> <button class="check-btn" onclick="checkNumericAnswer('ans1_1a', 49.6, 0.5, 'fb1_1a', 'mΩ')">Check</button> <span id="fb1_1a" class="feedback-msg"></span></p>
+</div>
+<div class="check-box-container">
+<p><label>2. <span class="math inline">\(V_{\text{drop}}\)</span> (<span class="math inline">\(\text{V}\)</span>):</label> <input type="number" step="any" id="ans1_1b" class="check-input" placeholder="e.g. 0.198"> <button class="check-btn" onclick="checkNumericAnswer('ans1_1b', 0.198, 0.01, 'fb1_1b', 'V')">Check</button> <span id="fb1_1b" class="feedback-msg"></span></p>
+</div>
+<div class="check-box-container">
+<p><label>3. <span class="math inline">\(V_{\text{load}}\)</span> (<span class="math inline">\(\text{V}\)</span>):</label> <input type="number" step="any" id="ans1_1c" class="check-input" placeholder="e.g. 12.60"> <button class="check-btn" onclick="checkNumericAnswer('ans1_1c', 12.602, 0.02, 'fb1_1c', 'V')">Check</button> <span id="fb1_1c" class="feedback-msg"></span></p>
+</div>
+<details class="solution-box">
+<summary>
+💡 Click to View Step-by-Step Worked Solution
+</summary>
+<div class="solution-content">
+<p><strong>Step 1: Compute the total wire resistance (<span class="math inline">\(R_{\text{wire}}\)</span>)</strong> Using the physical resistance equation <span class="math inline">\(R = \rho \frac{\ell}{A}\)</span>: <span class="math display">\[R_{\text{wire}} = \left(1.72 \times 10^{-8}\ \Omega\cdot\text{m}\right) \frac{6.0\text{ m}}{2.08 \times 10^{-6}\text{ m}^2} = 0.0496\ \Omega = \mathbf{49.6\text{ m}\Omega}\]</span></p>
+<p><strong>Step 2: Compute the line voltage drop (<span class="math inline">\(V_{\text{drop}}\)</span>)</strong> By Ohm’s Law, the <span class="math inline">\(4.0\text{ A}\)</span> current flowing through <span class="math inline">\(R_{\text{wire}}\)</span> drops: <span class="math display">\[V_{\text{drop}} = I \cdot R_{\text{wire}} = (4.0\text{ A})(0.0496\ \Omega) = \mathbf{0.198\text{ V}}\]</span></p>
+<p><strong>Step 3: Compute the voltage remaining at the spreader lights (<span class="math inline">\(V_{\text{load}}\)</span>)</strong> <span class="math display">\[V_{\text{load}} = V_{\text{battery}} - V_{\text{drop}} = 12.8\text{ V} - 0.198\text{ V} = \mathbf{12.60\text{ V}}\]</span> <em>(Note: Because <span class="math inline">\(0.198\text{ V} / 12.8\text{ V} = 1.55\%\)</span>, this is well below the ABYC 3% marine voltage drop limit for critical lighting!)</em></p>
+</div>
+</details>
+</div>
+<hr>
+</section>
+</section>
+<section id="ideal-vs.-practical-non-ideal-sources" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="ideal-vs.-practical-non-ideal-sources"><span class="header-section-number">3</span> Ideal vs.&nbsp;Practical (Non-Ideal) Sources</h2>
+<p>In circuit schematics, we distinguish between <strong>ideal sources</strong> (theoretical constructs that maintain fixed voltage or current regardless of load) and <strong>practical (non-ideal) sources</strong> (real physical supplies like lab bench supplies, batteries, and solar arrays that exhibit internal losses).</p>
+<section id="ideal-vs.-practical-voltage-sources" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="ideal-vs.-practical-voltage-sources"><span class="header-section-number">3.1</span> Ideal vs.&nbsp;Practical Voltage Sources</h3>
+<ul>
+<li><strong>Ideal Voltage Source (<span class="math inline">\(V_s\)</span>):</strong> Maintains a fixed terminal voltage <span class="math inline">\(V_T = V_s\)</span> regardless of the current <span class="math inline">\(I_L\)</span> drawn from it. Its internal resistance is strictly zero (<span class="math inline">\(R_s = 0\ \Omega\)</span>).</li>
+<li><strong>Practical Voltage Source:</strong> Modeled as an ideal voltage source <span class="math inline">\(V_s\)</span> <strong>in series with an internal resistance <span class="math inline">\(R_s\)</span></strong>. When a load resistor <span class="math inline">\(R_L\)</span> is connected across its terminals, internal voltage drop occurs:</li>
+</ul>
+<p><span class="math display">\[V_T = V_s - I_L R_s = V_s \left(\frac{R_L}{R_s + R_L}\right)\]</span></p>
+<p>As the load demands more current (<span class="math inline">\(R_L\)</span> decreases), the terminal voltage <span class="math inline">\(V_T\)</span> droops.</p>
+</section>
+<section id="ideal-vs.-practical-current-sources" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="ideal-vs.-practical-current-sources"><span class="header-section-number">3.2</span> Ideal vs.&nbsp;Practical Current Sources</h3>
+<ul>
+<li><strong>Ideal Current Source (<span class="math inline">\(I_s\)</span>):</strong> Supplies a fixed current <span class="math inline">\(I_L = I_s\)</span> regardless of the voltage across its terminals. Its internal resistance is infinite (<span class="math inline">\(R_p \to \infty\)</span>).</li>
+<li><strong>Practical Current Source:</strong> Modeled as an ideal current source <span class="math inline">\(I_s\)</span> <strong>in parallel with an internal shunt resistance <span class="math inline">\(R_p\)</span></strong>. Some current leaks internally through <span class="math inline">\(R_p\)</span>, reducing the current delivered to the load:</li>
+</ul>
+<p><span class="math display">\[I_L = I_s - \frac{V_T}{R_p} = I_s \left(\frac{R_p}{R_p + R_L}\right)\]</span></p>
+<hr>
+</section>
+</section>
+<section id="kirchhoffs-laws-series-circuits" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="kirchhoffs-laws-series-circuits"><span class="header-section-number">4</span> Kirchhoff’s Laws &amp; Series Circuits</h2>
+<p>To solve any linear circuit systematically, we rely on two foundational conservation laws published by Gustav Kirchhoff in 1845.</p>
+<section id="definitions-of-circuit-topology" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="definitions-of-circuit-topology"><span class="header-section-number">4.1</span> Definitions of Circuit Topology</h3>
+<ul>
+<li><strong>Branch:</strong> A single two-terminal circuit element (such as a voltage source or a resistor).</li>
+<li><strong>Node:</strong> A point of connection between two or more branches. Every point along an ideal wire (with no components in between) belongs to the <strong>exact same node</strong>.</li>
+<li><strong>Loop:</strong> Any closed path in a circuit that starts at a node, passes through a set of nodes without visiting any intermediate node more than once, and returns to the starting node.</li>
+</ul>
+</section>
+<section id="kirchhoffs-current-law-kcl" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="kirchhoffs-current-law-kcl"><span class="header-section-number">4.2</span> Kirchhoff’s Current Law (KCL)</h3>
+<p>Based on the <strong>Conservation of Electric Charge</strong>, KCL states that the algebraic sum of all currents entering and leaving any node (or closed boundary) at any instant is zero:</p>
+<p><span class="math display">\[\sum_{n=1}^{N} i_n = 0 \quad \Longleftrightarrow \quad \sum I_{\text{entering}} = \sum I_{\text{leaving}}\]</span></p>
+</section>
+<section id="kirchhoffs-voltage-law-kvl" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="kirchhoffs-voltage-law-kvl"><span class="header-section-number">4.3</span> Kirchhoff’s Voltage Law (KVL)</h3>
+<p>Based on the <strong>Conservation of Energy</strong>, KVL states that the algebraic sum of all voltages around any closed loop in a circuit is zero:</p>
+<p><span class="math display">\[\sum_{m=1}^{M} v_m = 0 \quad \Longleftrightarrow \quad \sum V_{\text{rises}} = \sum V_{\text{drops}}\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>🧭 Sign Convention for Walking a KVL Loop
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Choose a starting corner (usually the bottom-left ground reference) and walk around the loop (typically <strong>clockwise</strong>). Each time you encounter a component, record the <strong>first polarity sign (<span class="math inline">\(+\)</span> or <span class="math inline">\(-\)</span>)</strong> you hit as you enter that component: * If you enter the <strong><span class="math inline">\(-\)</span> terminal</strong> and exit the <strong><span class="math inline">\(+\)</span> terminal</strong>, it is a <strong>voltage rise</strong> (<span class="math inline">\(-v\)</span> if summing drops, or <span class="math inline">\(+v\)</span> if summing rises). * If you enter the <strong><span class="math inline">\(+\)</span> terminal</strong> and exit the <strong><span class="math inline">\(-\)</span> terminal</strong>, it is a <strong>voltage drop</strong>. * Standard convention: <strong>Add (+) whenever you hit a <span class="math inline">\(+\)</span> sign first; subtract (<span class="math inline">\(-\)</span>) whenever you hit a <span class="math inline">\(-\)</span> sign first</strong>, and set the sum equal to <span class="math inline">\(0\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="series-resistors-and-voltage-division" class="level3" data-number="4.4">
+<h3 data-number="4.4" class="anchored" data-anchor-id="series-resistors-and-voltage-division"><span class="header-section-number">4.4</span> Series Resistors and Voltage Division</h3>
+<p>Two or more elements are in <strong>series</strong> if they share a single common node that has <strong>no other branching paths</strong>, forcing the exact same current <span class="math inline">\(i\)</span> to flow through every element in sequence:</p>
+<p><span class="math display">\[R_{\text{eq}} = R_1 + R_2 + \dots + R_N = \sum_{k=1}^{N} R_k\]</span></p>
+<p>For <span class="math inline">\(N\)</span> resistors in series connected across a net source voltage <span class="math inline">\(V_T\)</span>, the voltage across any individual resistor <span class="math inline">\(R_k\)</span> is given directly by the <strong>Voltage Divider Rule (VDR)</strong>:</p>
+<p><span class="math display">\[V_k = V_T \left(\frac{R_k}{R_{\text{eq}}}\right)\]</span></p>
+<hr>
+</section>
+</section>
+<section id="section-problem-set-series-circuits-kvl-elt-112-ens-233-exam-standard" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="section-problem-set-series-circuits-kvl-elt-112-ens-233-exam-standard"><span class="header-section-number">5</span> 🛑 Section Problem Set: Series Circuits &amp; KVL (ELT 112 / ENS 233 Exam Standard)</h2>
+<p>Work through the following three problems on paper first. Pay strict attention to <strong>source polarities</strong> and the <strong>direction of the reference current arrow</strong>. Then enter your numeric answers to verify your work!</p>
+<hr>
+<section id="problem-1.1-dual-source-series-loop-with-reference-polarity" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="problem-1.1-dual-source-series-loop-with-reference-polarity"><span class="header-section-number">5.1</span> Problem 1.1: Dual-Source Series Loop with Reference Polarity</h3>
+<div class="problem-card">
+<div class="problem-header">
+<p><span>Problem 1.1: Find <span class="math inline">\(i_x\)</span> and <span class="math inline">\(v_x\)</span></span> <span class="badge-difficulty">ELT 112 Exam 1 — Part I</span></p>
+</div>
+<p>Find the current <span class="math inline">\(i_x\)</span> (in <span class="math inline">\(\text{mA}\)</span>) and the voltage <span class="math inline">\(v_x\)</span> (in <span class="math inline">\(\text{V}\)</span>) in the circuit below. Pay careful attention to the polarity of the <span class="math inline">\(5\text{ V}\)</span> and <span class="math inline">\(7\text{ V}\)</span> sources!</p>
+<div style="text-align: center; margin: 1.5rem 0;">
+<svg width="360" height="240" viewbox="0 0 360 240" xmlns="http://www.w3.org/2000/svg" style="background:#fff; max-width:100%;">
+  <line x1="60" y1="190" x2="60" y2="135" stroke="#000" stroke-width="2"></line>
+  <line x1="60" y1="95" x2="60" y2="50" stroke="#000" stroke-width="2"></line>
+  <line x1="60" y1="50" x2="145" y2="50" stroke="#000" stroke-width="2"></line>
+  <line x1="185" y1="50" x2="270" y2="50" stroke="#000" stroke-width="2"></line>
+  <line x1="270" y1="50" x2="270" y2="85" stroke="#000" stroke-width="2"></line>
+  <line x1="270" y1="155" x2="270" y2="190" stroke="#000" stroke-width="2"></line>
+  <line x1="270" y1="190" x2="60" y2="190" stroke="#000" stroke-width="2"></line>
+
+  <circle cx="60" cy="115" r="20" fill="#fff" stroke="#000" stroke-width="2"></circle>
+  <text x="60" y="110" font-family="serif" font-size="16" text-anchor="middle" font-weight="bold">−</text>
+  <text x="60" y="128" font-family="serif" font-size="16" text-anchor="middle" font-weight="bold">+</text>
+  <text x="22" y="120" font-family="serif" font-size="16" text-anchor="middle">5 V</text>
+
+  <circle cx="165" cy="50" r="20" fill="#fff" stroke="#000" stroke-width="2"></circle>
+  <text x="155" y="55" font-family="serif" font-size="16" text-anchor="middle" font-weight="bold">+</text>
+  <text x="175" y="55" font-family="serif" font-size="16" text-anchor="middle" font-weight="bold">−</text>
+  <text x="165" y="20" font-family="serif" font-size="16" text-anchor="middle">7 V</text>
+
+  <polyline points="270,85 280,91 260,103 280,115 260,127 280,139 260,149 270,155" fill="none" stroke="#000" stroke-width="2"></polyline>
+  <text x="312" y="125" font-family="serif" font-size="16">100 Ω</text>
+  <text x="242" y="92" font-family="serif" font-size="15" font-weight="bold">+</text>
+  <text x="242" y="130" font-family="serif" font-size="16" font-style="italic">v<tspan dy="4" font-size="12">x</tspan></text>
+  <text x="242" y="160" font-family="serif" font-size="15" font-weight="bold">−</text>
+
+  <path d="M 135 145 A 30 30 0 1 1 185 115" fill="none" stroke="#d946ef" stroke-width="2.5"></path>
+  <polygon points="185,122 192,108 177,111" fill="#d946ef"></polygon>
+  <text x="160" y="130" font-family="serif" font-size="17" font-style="italic" fill="#d946ef" font-weight="bold">i<tspan dy="4" font-size="12">x</tspan></text>
+</svg>
+</div>
+<div class="check-box-container">
+<p><label><span class="math inline">\(i_x\)</span> (<span class="math inline">\(\text{mA}\)</span>):</label> <input type="number" step="any" id="ans_p1_i" class="check-input" placeholder="e.g. -120"> <button class="check-btn" onclick="checkNumericAnswer('ans_p1_i', -120, 0.5, 'fb_p1_i', 'mA')">Check <span class="math inline">\(i_x\)</span></button> <span id="fb_p1_i" class="feedback-msg"></span></p>
+</div>
+<div class="check-box-container">
+<p><label><span class="math inline">\(v_x\)</span> (<span class="math inline">\(\text{V}\)</span>):</label> <input type="number" step="any" id="ans_p1_v" class="check-input" placeholder="e.g. -12"> <button class="check-btn" onclick="checkNumericAnswer('ans_p1_v', -12, 0.1, 'fb_p1_v', 'V')">Check <span class="math inline">\(v_x\)</span></button> <span id="fb_p1_v" class="feedback-msg"></span></p>
+</div>
+<details class="solution-box">
+<summary>
+💡 Click to View Step-by-Step Worked Solution &amp; Circuitikz Code
+</summary>
+<div class="solution-content">
+<p><strong>Step 1: Apply KVL around the clockwise loop (<span class="math inline">\(i_x\)</span>)</strong> Starting at the bottom-left corner and walking clockwise in the direction of <span class="math inline">\(i_x\)</span>: * Passing upward through the <span class="math inline">\(5\text{ V}\)</span> source, we enter the <span class="math inline">\(+\)</span> terminal and exit the <span class="math inline">\(-\)</span> terminal: <span class="math inline">\(+5\text{ V}\)</span>. * Passing left-to-right through the <span class="math inline">\(7\text{ V}\)</span> source, we enter the <span class="math inline">\(+\)</span> terminal and exit the <span class="math inline">\(-\)</span> terminal: <span class="math inline">\(+7\text{ V}\)</span>. * Passing downward through the <span class="math inline">\(100\ \Omega\)</span> resistor, we enter the <span class="math inline">\(+\)</span> terminal of <span class="math inline">\(v_x\)</span>: <span class="math inline">\(+v_x\)</span>.</p>
+<p><span class="math display">\[\text{KVL: } +5\text{ V} + 7\text{ V} + v_x = 0 \implies v_x = \mathbf{-12\text{ V}}\]</span></p>
+<p><strong>Step 2: Apply Ohm’s Law to find <span class="math inline">\(i_x\)</span></strong> Since the reference arrow <span class="math inline">\(i_x\)</span> enters the positive (<span class="math inline">\(+\)</span>) terminal of <span class="math inline">\(v_x\)</span>, the Passive Sign Convention gives: <span class="math display">\[i_x = \frac{v_x}{100\ \Omega} = \frac{-12\text{ V}}{100\ \Omega} = -0.12\text{ A} = \mathbf{-120\text{ mA}}\]</span> <em>(Physical interpretation: Because both sources have their positive terminals oriented to push current counter-clockwise, actual conventional current of <span class="math inline">\(120\text{ mA}\)</span> flows counter-clockwise, opposite to <span class="math inline">\(i_x\)</span>.)</em></p>
+<p><strong>Original Overleaf <code>circuitikz</code> Code:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode latex code-with-copy"><code class="sourceCode latex"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">\begin</span>{<span class="ex">circuitikz</span>}[scale=1.2]</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\draw</span> (0,0) to[V, l=5V] (0,3) </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>          to[V, l=7V] (3,3) </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>          to[R, l=<span class="ss">$100</span><span class="sc">\ \Omega</span><span class="ss">$</span>, v=<span class="ss">$v_x$</span>] (3,0) -- (0,0);</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\draw</span>[-&gt;, thick, magenta] (1.5, 1.0) arc (-90:170:0.5) node[anchor=north west] {<span class="ss">$i_x$</span>};</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">circuitikz</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</details>
+</div>
+<hr>
+</section>
+<section id="problem-1.2-multi-source-multi-resistor-series-loop" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="problem-1.2-multi-source-multi-resistor-series-loop"><span class="header-section-number">5.2</span> Problem 1.2: Multi-Source, Multi-Resistor Series Loop</h3>
+<div class="problem-card">
+<div class="problem-header">
+<p><span>Problem 1.2: Find the current <span class="math inline">\(i\)</span></span> <span class="badge-difficulty">ELT 112 Exam 1 — Part I</span></p>
+</div>
+<p>Find the current <span class="math inline">\(i\)</span> (in <span class="math inline">\(\text{mA}\)</span>) in the following series circuit. Note the magenta reference arrow for <span class="math inline">\(i\)</span> pointing to the <strong>left</strong> across the <span class="math inline">\(25\ \Omega\)</span> resistor!</p>
+<div style="text-align: center; margin: 1.5rem 0;">
+<svg width="480" height="240" viewbox="0 0 480 240" xmlns="http://www.w3.org/2000/svg" style="background:#fff; max-width:100%;">
+  <line x1="50" y1="190" x2="50" y2="140" stroke="#000" stroke-width="2"></line>
+  <line x1="50" y1="100" x2="50" y2="50" stroke="#000" stroke-width="2"></line>
+  <circle cx="50" cy="120" r="20" fill="#fff" stroke="#000" stroke-width="2"></circle>
+  <text x="50" y="115" font-family="serif" font-size="16" text-anchor="middle" font-weight="bold">−</text>
+  <text x="50" y="133" font-family="serif" font-size="16" text-anchor="middle" font-weight="bold">+</text>
+  <text x="18" y="125" font-family="serif" font-size="15" text-anchor="middle">5 V</text>
+
+  <line x1="50" y1="50" x2="95" y2="50" stroke="#000" stroke-width="2"></line>
+  <circle cx="115" cy="50" r="20" fill="#fff" stroke="#000" stroke-width="2"></circle>
+  <text x="106" y="55" font-family="serif" font-size="16" text-anchor="middle" font-weight="bold">+</text>
+  <text x="124" y="55" font-family="serif" font-size="16" text-anchor="middle" font-weight="bold">−</text>
+  <text x="115" y="22" font-family="serif" font-size="15" text-anchor="middle">5 V</text>
+  <line x1="135" y1="50" x2="175" y2="50" stroke="#000" stroke-width="2"></line>
+
+  <polyline points="175,50 181,40 193,60 205,40 217,60 229,40 239,60 245,50" fill="none" stroke="#000" stroke-width="2"></polyline>
+  <text x="210" y="25" font-family="serif" font-size="15" text-anchor="middle">15 Ω</text>
+  <line x1="245" y1="50" x2="305" y2="50" stroke="#000" stroke-width="2"></line>
+
+  <polyline points="305,50 311,40 323,60 335,40 347,60 359,40 369,60 375,50" fill="none" stroke="#d946ef" stroke-width="2"></polyline>
+  <text x="340" y="25" font-family="serif" font-size="15" fill="#d946ef" text-anchor="middle">25 Ω</text>
+  <polygon points="275,50 288,44 288,56" fill="#d946ef"></polygon>
+  <text x="282" y="36" font-family="serif" font-size="16" font-style="italic" fill="#d946ef" font-weight="bold">i</text>
+  <line x1="375" y1="50" x2="420" y2="50" stroke="#000" stroke-width="2"></line>
+
+  <line x1="420" y1="50" x2="420" y2="100" stroke="#000" stroke-width="2"></line>
+  <circle cx="420" cy="120" r="20" fill="#fff" stroke="#000" stroke-width="2"></circle>
+  <text x="420" y="115" font-family="serif" font-size="16" text-anchor="middle" font-weight="bold">+</text>
+  <text x="420" y="133" font-family="serif" font-size="16" text-anchor="middle" font-weight="bold">−</text>
+  <text x="452" y="125" font-family="serif" font-size="15" text-anchor="middle">5 V</text>
+  <line x1="420" y1="140" x2="420" y2="190" stroke="#000" stroke-width="2"></line>
+
+  <line x1="420" y1="190" x2="270" y2="190" stroke="#000" stroke-width="2"></line>
+  <polyline points="270,190 264,200 252,180 240,200 228,180 216,200 206,180 200,190" fill="none" stroke="#000" stroke-width="2"></polyline>
+  <text x="235" y="220" font-family="serif" font-size="15" text-anchor="middle">5 Ω</text>
+  <line x1="200" y1="190" x2="50" y2="190" stroke="#000" stroke-width="2"></line>
+</svg>
+</div>
+<div class="check-box-container">
+<p><label>Current <span class="math inline">\(i\)</span> (<span class="math inline">\(\text{mA}\)</span>):</label> <input type="number" step="any" id="ans_p2_i" class="check-input" placeholder="e.g. 333.3"> <button class="check-btn" onclick="checkNumericAnswer('ans_p2_i', 333.3, 1.5, 'fb_p2_i', 'mA')">Check <span class="math inline">\(i\)</span></button> <span id="fb_p2_i" class="feedback-msg"></span></p>
+</div>
+<details class="solution-box">
+<summary>
+💡 Click to View Step-by-Step Worked Solution &amp; Circuitikz Code
+</summary>
+<div class="solution-content">
+<p><strong>Step 1: Find Total Series Equivalent Resistance (<span class="math inline">\(R_T\)</span>)</strong> Since this is a single-loop series circuit, all three resistors carry the exact same current: <span class="math display">\[R_T = 15\ \Omega + 25\ \Omega + 5\ \Omega = 45\ \Omega\]</span></p>
+<p><strong>Step 2: Apply KVL in the direction of current <span class="math inline">\(i\)</span> (Counter-Clockwise)</strong> Notice that the reference arrow <span class="math inline">\(i\)</span> points <strong>to the left</strong> along the top branch (counter-clockwise). Let’s sum the voltage rises/drops walking counter-clockwise starting from the top-right corner: * Going right-to-left across <span class="math inline">\(25\ \Omega\)</span> and <span class="math inline">\(15\ \Omega\)</span>: <span class="math inline">\(+i(25\ \Omega + 15\ \Omega)\)</span> * Going right-to-left across the top <span class="math inline">\(5\text{ V}\)</span> source (entering <span class="math inline">\(-\)</span> and exiting <span class="math inline">\(+\)</span>): <span class="math inline">\(-5\text{ V}\)</span> * Going top-to-bottom across the left <span class="math inline">\(5\text{ V}\)</span> source (entering <span class="math inline">\(-\)</span> and exiting <span class="math inline">\(+\)</span>): <span class="math inline">\(-5\text{ V}\)</span> * Going left-to-right across the bottom <span class="math inline">\(5\ \Omega\)</span> resistor: <span class="math inline">\(+i(5\ \Omega)\)</span> * Going bottom-to-top across the right <span class="math inline">\(5\text{ V}\)</span> source (entering <span class="math inline">\(-\)</span> and exiting <span class="math inline">\(+\)</span>): <span class="math inline">\(-5\text{ V}\)</span></p>
+<p><span class="math display">\[i(15 + 25 + 5) - 5\text{ V} - 5\text{ V} - 5\text{ V} = 0\]</span> <span class="math display">\[45\,i = 15\text{ V} \implies i = \frac{15\text{ V}}{45\ \Omega} = \frac{1}{3}\text{ A} = \mathbf{333.33\text{ mA}}\]</span></p>
+<p><strong>Original Overleaf <code>circuitikz</code> Code:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode latex code-with-copy"><code class="sourceCode latex"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">\begin</span>{<span class="ex">circuitikz</span>}[scale=1.2]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\draw</span> (0,0) to[V, l=5V] (0,3) </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>          to[V, l=5V] (2,3) </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>          to[R, l=<span class="ss">$15</span><span class="sc">\ \Omega</span><span class="ss">$</span>] (4,3) </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>          to[R, l=<span class="ss">$25</span><span class="sc">\ \Omega</span><span class="ss">$</span>, i&lt;=<span class="ss">$i$</span>, color=magenta] (6,3) </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>          to[V, l_=5V] (6,0) </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>          to[R, l=<span class="ss">$5</span><span class="sc">\ \Omega</span><span class="ss">$</span>] (0,0);</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">circuitikz</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</details>
+</div>
+<hr>
+</section>
+<section id="problem-1.3-voltage-division-in-a-series-loop" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="problem-1.3-voltage-division-in-a-series-loop"><span class="header-section-number">5.3</span> Problem 1.3: Voltage Division in a Series Loop</h3>
+<div class="problem-card">
+<div class="problem-header">
+<p><span>Problem 1.3: Voltage Divider Rule</span> <span class="badge-difficulty">ELT 112 Exam 1 — Part I</span></p>
+</div>
+<p>Calculate the magnitude of the voltage across the <span class="math inline">\(20\ \Omega\)</span> resistor (<span class="math inline">\(V_{20}\)</span>) using the <strong>Voltage Divider Rule</strong>.</p>
+<div style="text-align: center; margin: 1.5rem 0;">
+<svg width="420" height="230" viewbox="0 0 420 230" xmlns="http://www.w3.org/2000/svg" style="background:#fff; max-width:100%;">
+  <line x1="60" y1="185" x2="60" y2="135" stroke="#000" stroke-width="2"></line>
+  <line x1="60" y1="95" x2="60" y2="45" stroke="#000" stroke-width="2"></line>
+  <circle cx="60" cy="115" r="20" fill="#fff" stroke="#000" stroke-width="2"></circle>
+  <text x="60" y="110" font-family="serif" font-size="16" text-anchor="middle" font-weight="bold">+</text>
+  <text x="60" y="128" font-family="serif" font-size="16" text-anchor="middle" font-weight="bold">−</text>
+  <text x="23" y="120" font-family="serif" font-size="15" text-anchor="middle">12 V</text>
+
+  <line x1="60" y1="45" x2="115" y2="45" stroke="#000" stroke-width="2"></line>
+  <polyline points="115,45 121,35 133,55 145,35 157,55 169,35 179,55 185,45" fill="none" stroke="#000" stroke-width="2"></polyline>
+  <text x="150" y="22" font-family="serif" font-size="15" text-anchor="middle">10 Ω</text>
+  <line x1="185" y1="45" x2="245" y2="45" stroke="#000" stroke-width="2"></line>
+
+  <polyline points="245,45 251,35 263,55 275,35 287,55 299,35 309,55 315,45" fill="none" stroke="#000" stroke-width="2"></polyline>
+  <text x="280" y="22" font-family="serif" font-size="15" text-anchor="middle">20 Ω</text>
+  <line x1="315" y1="45" x2="370" y2="45" stroke="#000" stroke-width="2"></line>
+
+  <line x1="370" y1="45" x2="370" y2="185" stroke="#000" stroke-width="2"></line>
+
+  <line x1="370" y1="185" x2="250" y2="185" stroke="#000" stroke-width="2"></line>
+  <polyline points="250,185 244,195 232,175 220,195 208,175 196,195 186,175 180,185" fill="none" stroke="#000" stroke-width="2"></polyline>
+  <text x="215" y="215" font-family="serif" font-size="15" text-anchor="middle">30 Ω</text>
+  <line x1="180" y1="185" x2="60" y2="185" stroke="#000" stroke-width="2"></line>
+</svg>
+</div>
+<div class="check-box-container">
+<p><label><span class="math inline">\(V_{20}\)</span> (<span class="math inline">\(\text{V}\)</span>):</label> <input type="number" step="any" id="ans_p3_v" class="check-input" placeholder="e.g. 4.0"> <button class="check-btn" onclick="checkNumericAnswer('ans_p3_v', 4.0, 0.05, 'fb_p3_v', 'V')">Check <span class="math inline">\(V_{20}\)</span></button> <span id="fb_p3_v" class="feedback-msg"></span></p>
+</div>
+<details class="solution-box">
+<summary>
+💡 Click to View Step-by-Step Worked Solution &amp; Circuitikz Code
+</summary>
+<div class="solution-content">
+<p><strong>Step 1: Compute the Total Series Resistance (<span class="math inline">\(R_{\text{eq}}\)</span>)</strong> All three resistors (<span class="math inline">\(10\ \Omega\)</span>, <span class="math inline">\(20\ \Omega\)</span>, and <span class="math inline">\(30\ \Omega\)</span>) are connected in a single series loop: <span class="math display">\[R_{\text{eq}} = 10\ \Omega + 20\ \Omega + 30\ \Omega = 60\ \Omega\]</span></p>
+<p><strong>Step 2: Apply the Voltage Divider Rule</strong> <span class="math display">\[V_{20} = V_s \left(\frac{R_{20}}{R_{\text{eq}}}\right) = 12\text{ V} \left(\frac{20\ \Omega}{60\ \Omega}\right) = 12\text{ V} \left(\frac{1}{3}\right) = \mathbf{4.0\text{ V}}\]</span></p>
+<p><strong>Original Overleaf <code>circuitikz</code> Code:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode latex code-with-copy"><code class="sourceCode latex"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">\begin</span>{<span class="ex">circuitikz</span>}[scale=1.2]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\draw</span> (0,0) to[V, invert, l=12V] (0,3) </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>          to[R, l=<span class="ss">$10</span><span class="sc">\ \Omega</span><span class="ss">$</span>] (3,3) </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>          to[R, l=<span class="ss">$20</span><span class="sc">\ \Omega</span><span class="ss">$</span>] (6,3) </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>          -- (6,0) </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>          to[R, l=<span class="ss">$30</span><span class="sc">\ \Omega</span><span class="ss">$</span>] (0,0);</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">circuitikz</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</details>
+</div>
+<hr>
+</section>
+</section>
+<section id="laboratory-simulation-corner-verifying-series-circuits-in-ltspice" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="laboratory-simulation-corner-verifying-series-circuits-in-ltspice"><span class="header-section-number">6</span> 💻 Laboratory &amp; Simulation Corner: Verifying Series Circuits in LTspice</h2>
+<p>Before moving to Chapter 2 (Series-Parallel Networks &amp; Current Division), let’s connect the theory above to your virtual and hardware lab workflow:</p>
+<ol type="1">
+<li><strong>Ground Reference (<span class="math inline">\(0\text{ V}\)</span>) Requirement:</strong> Every SPICE simulator (LTspice and TINA-TI) solves circuits using a Nodal Analysis matrix. If you draw <strong>Problem 1.3</strong> in LTspice without placing a <strong>GND (<code>G</code>)</strong> symbol on the bottom wire, SPICE will throw a <code>Singular Matrix: Check node...</code> error because node voltages are undefined without a <span class="math inline">\(0\text{ V}\)</span> reference!</li>
+<li><strong>Measuring Differential Voltage (<span class="math inline">\(V_{20}\)</span>):</strong> In both LTspice and on your bench <strong>Siglent SDS2204X Plus oscilloscope</strong>, nodal probes measure voltage <em>with respect to ground</em>. Notice that in Problem 1.3, neither terminal of the <span class="math inline">\(20\ \Omega\)</span> resistor is connected directly to the bottom ground wire (the <span class="math inline">\(30\ \Omega\)</span> resistor sits in between).
+<ul>
+<li><strong>In LTspice:</strong> Click and <strong>hold</strong> on the node between the <span class="math inline">\(10\ \Omega\)</span> and <span class="math inline">\(20\ \Omega\)</span> resistors (red probe), drag to the node between the <span class="math inline">\(20\ \Omega\)</span> and <span class="math inline">\(30\ \Omega\)</span> resistors (black probe), and release.</li>
+<li><strong>On the Bench DMM:</strong> Connect the red <code>V/Ω</code> lead to the left lead of the <span class="math inline">\(20\ \Omega\)</span> resistor and the black <code>COM</code> lead to the right lead of the <span class="math inline">\(20\ \Omega\)</span> resistor (since a handheld or benchtop DMM has floating inputs, unlike a grounded-BNC oscilloscope).</li>
+</ul></li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/professorfrancillon\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
