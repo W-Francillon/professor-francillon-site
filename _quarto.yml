@@ -7,6 +7,7 @@ project:
     - "widgets/usaf_1951_analyzer.html"
     - "widgets/op_amp_checker.html"
     - "widgets/rss_feed_studio.html"
+    - "resources/*"
 
 website:
   title: "Wesley Francillon, PhD"
@@ -35,11 +36,7 @@ website:
           - href: lecture_notes.qmd
             text: Lecture Notes
           - href: lab_manuals.qmd
-            text: Lab Manuals Hub
-          - href: dual_polarity_power_supply.qmd
-            text: Dual-Polarity Power Supply Wiring
-          - href: dynamics/iczv_dynamics.qmd
-            text: "ENS 119: ICZV & Planar Kinematics"
+            text: Interactive Lab Manuals Hub
           - href: circuits_textbook/ch1_foundations.qmd
             text: "Circuit Analysis E-Book"
       - text: Circuit Analysis

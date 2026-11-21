@@ -127,12 +127,48 @@ toc: false
 </style>
 
 <div class="hub-container">
-<h1 class="hub-header">Laboratory Manuals &amp; Protocols</h1>
+<h1 class="hub-header">Interactive Laboratory Manuals &amp; Protocols</h1>
 <p class="hub-subtitle">Standard Operating Procedures, Hardware Instrumentation Guides &amp; Virtual Benches</p>
 
 <div class="hub-card-grid">
 
-<!-- NEW ICZV & PLANAR KINEMATICS CARD -->
+<!-- NEW ENS 233 MATLAB & SIMULINK CIRCUIT LAB CARD -->
+<div class="hub-card">
+<div class="hub-card-visual" style="background-image: radial-gradient(#e2e8f0 1px, transparent 1px); background-size: 14px 14px;">
+<svg viewBox="0 0 320 145" xmlns="http://www.w3.org/2000/svg" style="height: auto; max-height: 150px;">
+<defs>
+<marker id="phArr" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+<path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#1e1b4b"/>
+</marker>
+</defs>
+<!-- Left: 90-deg Sine/Cosine Phase Shift Waveforms -->
+<line x1="18" y1="74" x2="162" y2="74" stroke="#94a3b8" stroke-width="1.4"/>
+<line x1="26" y1="22" x2="26" y2="126" stroke="#94a3b8" stroke-width="1.4"/>
+<path d="M 26 74 Q 58 22 90 74 T 154 74" fill="none" stroke="#2563eb" stroke-width="2.4"/>
+<path d="M 26 36 Q 42 36 58 74 T 90 112 T 122 74 T 154 36" fill="none" stroke="#dc2626" stroke-width="2.1" stroke-dasharray="5 3"/>
+<text x="90" y="136" font-family="Georgia, serif" font-size="10.5" font-weight="bold" fill="#334155" text-anchor="middle">i = C dv/dt (+90°)</text>
+<!-- Right: Tip-to-Tail KVL Phasor Triangle -->
+<circle cx="242" cy="74" r="44" fill="none" stroke="#cbd5e1" stroke-width="1.2" stroke-dasharray="3 3"/>
+<line x1="194" y1="74" x2="286" y2="74" stroke="#0f172a" stroke-width="2.2" marker-end="url(#phArr)"/>
+<line x1="194" y1="74" x2="254" y2="38" stroke="#2563eb" stroke-width="2.2"/>
+<line x1="254" y1="38" x2="286" y2="74" stroke="#dc2626" stroke-width="2.2"/>
+<text x="242" y="136" font-family="Georgia, serif" font-size="10.5" font-weight="bold" fill="#1e1b4b" text-anchor="middle">V_R + V_L = V_s</text>
+</svg>
+</div>
+<div class="hub-card-body">
+<span class="hub-tag" style="background: #f3e8ff; color: #5b21b6; border: 1px solid #d8b4fe;">ENS 233 • Circuit Analysis &amp; Simulink</span>
+<h3 class="hub-card-title">Calculus of Phase Shifts, Phasors &amp; RLC Dynamics</h3>
+<p class="hub-card-desc">
+Interactive MATLAB &amp; Simulink laboratory bridging time-domain derivatives, live <code>compass</code> &amp; <code>quiver</code> KVL vector geometry, and continuous-time 1st- and 2nd-order integrator feedback loops.
+</p>
+<div class="hub-btn-row">
+<a href="matlab_simulink_lab.html" class="hub-btn">Open Interactive Lab &rarr;</a>
+<a href="resources/circuit_lab_manual.pdf" class="hub-btn-outline">PDF Manual</a>
+</div>
+</div>
+</div>
+
+<!-- ICZV & PLANAR KINEMATICS CARD -->
 <div class="hub-card">
 <div class="hub-card-visual" style="background-image: radial-gradient(#e2e8f0 1px, transparent 1px); background-size: 14px 14px;">
 <svg viewBox="0 0 320 145" xmlns="http://www.w3.org/2000/svg" style="height: auto; max-height: 150px;">
@@ -157,7 +193,7 @@ toc: false
 </svg>
 </div>
 <div class="hub-card-body">
-<span class="hub-tag" style="background: #eef2ff; color: #312e81; border: 1px solid #c7d2fe;">Engineering Mechanics • Dynamics</span>
+<span class="hub-tag" style="background: #eef2ff; color: #312e81; border: 1px solid #c7d2fe;">ENS 119 • Engineering Mechanics: Dynamics</span>
 <h3 class="hub-card-title">Planar Kinematics &amp; the Instantaneous Center (ICZV)</h3>
 <p class="hub-card-desc">
 Complete theoretical guide and interactive laboratory bridging relative-velocity vector algebra and geometric Instantaneous Center methods. Includes a 4-mechanism telemetry bench and 3 group challenge problems.
