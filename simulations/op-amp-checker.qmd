@@ -1,0 +1,54 @@
+---
+title: "Operational Amplifier Golden Rule Checker"
+author: "Dr. Wesley Francillon"
+date: "2026-11-06"
+categories: [Circuit Analysis, Electronics, Interactive Tools]
+description: "Interactive nodal analysis solver and virtual oscilloscope for evaluating ideal op-amp configurations, virtual short-circuits, and DC rail saturation."
+format:
+  html:
+    toc: true
+    code-fold: true
+    html-math-method: katex
+---
+
+## Overview: The Ideal Op-Amp Golden Rules
+
+In operational amplifier circuit analysis, negative feedback networks are analyzed rapidly by applying the two **ideal op-amp assumptions** (often called the *Golden Rules*):
+
+1. **Infinite Open-Loop Gain ($A_{ol} \to \infty$):** When an op-amp operates in its linear region with negative feedback, the voltage difference between the non-inverting and inverting input terminals is driven to zero (a *virtual short*):
+   $$\mathbf{V_+ = V_-}$$
+
+2. **Infinite Input Impedance ($R_{in} \to \infty$):** Because the input stage draws negligible current, the current entering both the non-inverting and inverting terminals is zero:
+   $$\mathbf{I_+ = I_- = 0\text{ A}}$$
+
+---
+
+## Part 1: Interactive Nodal & KCL Schematic Analyzer
+
+Select an amplifier topology below and adjust the input voltages and resistor values. Observe how the virtual short ($V_+ = V_-$) dictates the branch currents and closed-loop output voltage $V_{out}$ in real time.
+
+<iframe src="/widgets/op_amp_checker.html?mode=schematic" width="100%" height="560px" style="border: 1px solid #d4d4d8; border-radius: 12px; background: #f4f4f6; box-shadow: 0 4px 15px rgba(0,0,0,0.06);"></iframe>
+
+---
+
+## Summary of Standard Closed-Loop Topologies
+
+Before testing AC waveform clipping and completing the design challenges in Part 2, review how Kirchhoff's Current Law (KCL) at the inverting node ($V_-$) yields the closed-loop gain for each standard configuration:
+
+| Topology | Node Voltage ($V_+ = V_-$) | Ideal Closed-Loop Output ($V_{out}$) | Input Impedance ($Z_{in}$) |
+| :--- | :--- | :--- | :--- |
+| **Non-Inverting** | $V_- = V_{in}$ | $V_{out} = V_{in}\left(1 + \dfrac{R_f}{R_{in}}\right)$ | $\infty$ (Extremely High) |
+| **Inverting** | $V_- = 0\text{ V}$ *(Virtual Ground)* | $V_{out} = -\left(\dfrac{R_f}{R_{in}}\right)V_{in}$ | $R_{in}$ |
+| **Summing Mixer** | $V_- = 0\text{ V}$ *(Virtual Ground)* | $V_{out} = -R_f\left(\dfrac{V_1}{R_1} + \dfrac{V_2}{R_2}\right)$ | $R_1, R_2$ per channel |
+| **Difference (Matched)** | $V_- = V_2\left(\dfrac{R_4}{R_3 + R_4}\right)$ | $V_{out} = \dfrac{R_f}{R_1}\left(V_2 - V_1\right)$ | $R_1$ (Inverting) |
+| **Unity Buffer** | $V_- = V_{in}$ | $V_{out} = V_{in}$ ($A_v = 1$) | $\infty$ (Impedance Isolator) |
+
+---
+
+## Part 2: AC Waveform Clipping & Design Verification Lab
+
+Real operational amplifiers cannot output voltages beyond their DC power supply rails ($+V_{CC}$ and $-V_{EE}$). Whenever the ideal mathematical output exceeds these limits, the output stage saturates and **clips** the waveform. 
+
+Use the virtual oscilloscope below to inspect sinusoidal, triangular, and square wave amplification, complete the **5 progressive design challenges**, and export your verified circuit directly to **LTspice (`.cir`)** or **LaTeX (`circuitikz`)**.
+
+<iframe src="/widgets/op_amp_checker.html?mode=lab" width="100%" height="540px" style="border: 1px solid #d4d4d8; border-radius: 12px; background: #f4f4f6; box-shadow: 0 4px 15px rgba(0,0,0,0.06);"></iframe>

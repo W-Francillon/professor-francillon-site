@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Op-Amp Golden Rule Analyzer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- KaTeX for Computer Modern LaTeX Typography -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f4f6;
+            color: #111827;
+            margin: 0;
+            padding: 12px;
+        }
+        .card {
+            background: #ffffff;
+            border: 1px solid #d4d4d8;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+        }
+        .tab-active {
+            background-color: #2e1065;
+            color: #ffffff;
+            border-color: #2e1065;
+            font-weight: 600;
+        }
+        .tab-inactive {
+            background-color: #ffffff;
+            color: #374151;
+            border-color: #d4d4d8;
+        }
+        .tab-inactive:hover {
+            background-color: #f3e8ff;
+            color: #4c1d95;
+            border-color: #c084fc;
+        }
+        .wire { fill: none; stroke: #111827; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
+        .wire-active {
+            fill: none;
+            stroke: #6d28d9;
+            stroke-width: 3.5;
+            stroke-dasharray: 8 8;
+            animation: flow 0.9s linear infinite;
+        }
+        @keyframes flow { to { stroke-dashoffset: -16; } }
+        .resistor { fill: none; stroke: #111827; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
+        .opamp-body { fill: #ffffff; stroke: #111827; stroke-width: 4; stroke-linejoin: round; }
+        .node-dot { fill: #6d28d9; stroke: #ffffff; stroke-width: 1.5; }
+        .svg-text { font-family: "KaTeX_Main", "Times New Roman", serif; font-size: 15px; font-weight: bold; fill: #111827; }
+        .svg-sub { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: 12px; font-weight: 600; fill: #4b5563; }
+        input[type=range] {
+            -webkit-appearance: none;
+            background: #e4e4e7;
+            height: 7px;
+            border-radius: 999px;
+            outline: none;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #5b21b6;
+            cursor: pointer;
+            border: 2px solid #ffffff;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+        }
+        input[type=range]::-webkit-slider-thumb:hover { background: #4c1d95; transform: scale(1.1); }
+    </style>
+</head>
+<body>
+
+    <div class="max-w-6xl mx-auto space-y-3">
+
+        <!-- SECTION 1: SCHEMATIC & KCL SOLVER -->
+        <div id="schematicSection" class="space-y-3">
+            <div class="card p-3 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+                <div class="flex flex-wrap gap-1.5" id="topologyBar">
+                    <button onclick="setTopology('non-inverting')" data-top="non-inverting" class="top-btn tab-active px-3 py-1.5 rounded-md text-xs border transition">Non-Inverting</button>
+                    <button onclick="setTopology('inverting')" data-top="inverting" class="top-btn tab-inactive px-3 py-1.5 rounded-md text-xs border transition">Inverting</button>
+                    <button onclick="setTopology('summing')" data-top="summing" class="top-btn tab-inactive px-3 py-1.5 rounded-md text-xs border transition">Summing Mixer</button>
+                    <button onclick="setTopology('difference')" data-top="difference" class="top-btn tab-inactive px-3 py-1.5 rounded-md text-xs border transition">Difference</button>
+                    <button onclick="setTopology('buffer')" data-top="buffer" class="top-btn tab-inactive px-3 py-1.5 rounded-md text-xs border transition">Unity Buffer</button>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2 text-xs">
+                    <span class="px-2.5 py-1 rounded bg-zinc-100 border border-zinc-300" id="badgeVp"></span>
+                    <span class="px-2.5 py-1 rounded bg-zinc-100 border border-zinc-300" id="badgeVm"></span>
+                    <span class="px-2.5 py-1 rounded bg-purple-50 border border-purple-300 text-purple-900 font-semibold" id="badgeAv"></span>
+                    <span class="px-2.5 py-1 rounded bg-zinc-900 text-white font-semibold" id="badgeVout"></span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
+                <div class="md:col-span-7 card p-3 flex flex-col justify-between relative bg-white">
+                    <div class="flex items-center justify-between border-b border-zinc-200 pb-2 mb-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-zinc-700">Circuit Schematic & Active Node Map</span>
+                        <span id="satWarning" class="hidden px-2 py-0.5 rounded bg-red-100 text-red-800 border border-red-300 font-bold text-xs">
+                            Rail Saturation Clipping!
+                        </span>
+                    </div>
+                    <div id="svgContainer" class="w-full flex items-center justify-center min-h-[310px] bg-zinc-50/70 rounded-lg border border-zinc-200 p-2"></div>
+                    <div class="flex justify-between items-center text-[11px] text-zinc-500 pt-2 mt-2 border-t border-zinc-100">
+                        <span id="flowNoteLatex"></span>
+                        <span id="railInfoLatex"></span>
+                    </div>
+                </div>
+
+                <div class="md:col-span-5 flex flex-col gap-3">
+                    <div class="card p-3.5 space-y-3">
+                        <div class="flex items-center justify-between border-b border-zinc-200 pb-1.5">
+                            <span class="text-xs font-bold uppercase tracking-wider text-zinc-700">Circuit Parameters</span>
+                            <button onclick="randomize()" class="text-xs font-semibold text-purple-700 hover:text-purple-900 px-2 py-0.5 rounded bg-purple-50 border border-purple-200">
+                                Randomize Values
+                            </button>
+                        </div>
+                        <div id="sliderContainer" class="space-y-2.5"></div>
+                    </div>
+
+                    <div class="card p-3.5 flex-grow bg-zinc-50/60 flex flex-col justify-between">
+                        <div class="text-xs font-bold uppercase tracking-wider text-purple-900 border-b border-zinc-200 pb-1.5 mb-2">
+                            Live Golden Rule KCL Derivation
+                        </div>
+                        <div id="kclSteps" class="space-y-2 text-xs text-zinc-800 leading-relaxed"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: OSCILLOSCOPE & DESIGN CHALLENGE LAB -->
+        <div id="labSection" class="space-y-3">
+            <div class="card p-3.5 border-l-4 border-l-purple-700 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+                <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-purple-800">Interactive Design Challenge</span>
+                        <span id="missionCount" class="text-xs font-semibold text-zinc-500">(Mission 1 of 5)</span>
+                        <div id="missionDots" class="flex gap-1.5 ml-2"></div>
+                    </div>
+                    <div id="missionText" class="text-xs md:text-sm text-zinc-800 font-medium"></div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                    <span id="missionStatus" class="px-3 py-1.5 rounded-md text-xs font-bold bg-zinc-100 border border-zinc-300 text-zinc-700">
+                        In Progress...
+                    </span>
+                    <button onclick="nextMission()" class="px-3 py-1.5 rounded-md text-xs font-semibold bg-zinc-900 hover:bg-purple-900 text-white transition">
+                        Next Challenge &rarr;
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
+                <div class="md:col-span-8 card p-3.5 flex flex-col justify-between">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-200 pb-2 mb-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-zinc-700" id="scopeTitleLatex"></span>
+                        <div class="flex gap-1">
+                            <button onclick="setWave('sine')" id="w_sine" class="px-2.5 py-1 rounded text-xs font-semibold bg-purple-700 text-white">Sine</button>
+                            <button onclick="setWave('triangle')" id="w_triangle" class="px-2.5 py-1 rounded text-xs font-semibold bg-zinc-100 text-zinc-700 hover:bg-zinc-200">Triangle</button>
+                            <button onclick="setWave('square')" id="w_square" class="px-2.5 py-1 rounded text-xs font-semibold bg-zinc-100 text-zinc-700 hover:bg-zinc-200">Square</button>
+                            <button onclick="setWave('dc')" id="w_dc" class="px-2.5 py-1 rounded text-xs font-semibold bg-zinc-100 text-zinc-700 hover:bg-zinc-200">DC</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border border-zinc-300 rounded-lg p-2 relative">
+                        <canvas id="scopeCanvas" width="600" height="240" class="w-full h-[230px] block"></canvas>
+                    </div>
+
+                    <div class="flex flex-wrap justify-between items-center text-xs text-zinc-600 pt-2 mt-2 border-t border-zinc-100">
+                        <div class="flex items-center gap-4">
+                            <span class="flex items-center gap-1.5 font-semibold text-zinc-800" id="legCh1"></span>
+                            <span class="flex items-center gap-1.5 font-semibold text-purple-700" id="legCh2"></span>
+                            <span class="flex items-center gap-1.5 font-semibold text-red-600">
+                                <span class="w-3 h-1 bg-red-600 inline-block"></span> Clipped Saturation
+                            </span>
+                        </div>
+                        <span id="clipReadout" class="font-bold text-zinc-700">Clipping: 0%</span>
+                    </div>
+                </div>
+
+                <div class="md:col-span-4 card p-3.5 flex flex-col justify-between space-y-3">
+                    <div class="space-y-3">
+                        <div class="text-xs font-bold uppercase tracking-wider text-zinc-700 border-b border-zinc-200 pb-1.5">
+                            Power Supply Rails & Frequency
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <div>
+                                <label class="text-xs font-semibold text-zinc-600 block mb-1" id="lblVcc"></label>
+                                <input type="number" id="inputVcc" value="15" min="3" max="36" step="1" onchange="updateRails()" class="w-full border border-zinc-300 rounded px-2.5 py-1.5 text-xs font-bold text-zinc-900">
+                            </div>
+                            <div>
+                                <label class="text-xs font-semibold text-zinc-600 block mb-1" id="lblVee"></label>
+                                <input type="number" id="inputVee" value="-15" min="-36" max="-3" step="1" onchange="updateRails()" class="w-full border border-zinc-300 rounded px-2.5 py-1.5 text-xs font-bold text-zinc-900">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="text-xs font-semibold text-zinc-600 block mb-1">Oscilloscope Timebase Frequency</label>
+                            <select id="freqSelect" onchange="state.freq = parseFloat(this.value)" class="w-full border border-zinc-300 rounded px-2.5 py-1.5 text-xs font-semibold text-zinc-800 bg-white">
+                                <option value="1">100 Hz (1 Cycle)</option>
+                                <option value="2" selected>250 Hz (2 Cycles)</option>
+                                <option value="3">500 Hz (3 Cycles)</option>
+                                <option value="5">1.0 kHz (5 Cycles)</option>
+                            </select>
+                        </div>
+
+                        <div class="p-2.5 rounded-lg bg-purple-50 border border-purple-200 text-xs text-purple-950 space-y-1">
+                            <div class="font-bold" id="gbwpHeader"></div>
+                            <div id="gbwpText" class="text-[11px] text-purple-800"></div>
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-zinc-200 space-y-2">
+                        <div class="text-[11px] font-bold uppercase tracking-wider text-zinc-500">Lab Report & Simulation Export</div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="exportSpice()" class="px-3 py-2 rounded-md bg-zinc-900 hover:bg-purple-900 text-white text-xs font-semibold transition">
+                                Download .cir
+                            </button>
+                            <button onclick="copyTikz()" id="tikzBtn" class="px-3 py-2 rounded-md bg-white hover:bg-purple-50 text-purple-900 border border-purple-300 text-xs font-semibold transition">
+                                Copy LaTeX TikZ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const viewMode = params.get('mode') || 'all';
+        if (viewMode === 'schematic') document.getElementById('labSection').style.display = 'none';
+        if (viewMode === 'lab') document.getElementById('schematicSection').style.display = 'none';
+
+        function tex(str) {
+            try {
+                if (window.katex) {
+                    return katex.renderToString(str, { throwOnError: false, displayMode: false });
+                }
+            } catch (e) {}
+            return str;
+        }
+
+        const STORAGE_KEY = 'francillon_opamp_state_v3';
+        let state = {
+            topology: 'non-inverting',
+            wave: 'sine',
+            freq: 2,
+            vin1: 2.0,
+            vin2: 1.0,
+            rin: 10,
+            rf: 20,
+            r2: 10,
+            r4: 20,
+            vcc: 15,
+            vee: -15,
+            phase: 0,
+            missionIdx: 0,
+            completed: [false, false, false, false, false]
+        };
+
+        function saveState() {
+            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+        }
+        function loadState() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (raw) state = { ...state, ...JSON.parse(raw) };
+            } catch(e) {}
+        }
+        window.addEventListener('storage', (e) => {
+            if (e.key === STORAGE_KEY) {
+                loadState();
+                syncTopologyTabs();
+                buildSliders();
+                updateUI(false);
+            }
+        });
+
+        const missions = [
+            {
+                title: "Challenge 1: Unity Voltage Follower",
+                desc: () => `Select <b>Unity Buffer</b> (or Non-Inverting) and set ${tex('V_{in} = 3.5\\text{ V}')} so the output tracks at exactly ${tex('V_{out} = +3.50\\text{ V}')}.`,
+                check: (s, c) => Math.abs(c.vOutIdeal - 3.5) < 0.05 && Math.abs(s.vin1 - 3.5) < 0.05
+            },
+            {
+                title: "Challenge 2: Inverting Sensor Amplifier",
+                desc: () => `Switch to <b>Inverting</b>. Set ${tex('R_f')} and ${tex('R_{in}')} for a closed-loop gain of ${tex('A_v = -4.0\\text{ V/V}')} and produce ${tex('V_{out} = +8.00\\text{ V}')}.`,
+                check: (s, c) => s.topology === 'inverting' && Math.abs(c.gain - (-4.0)) < 0.05 && Math.abs(c.vOutIdeal - 8.0) < 0.1
+            },
+            {
+                title: "Challenge 3: Observe Power Rail Clipping",
+                desc: () => `Increase ${tex('R_f')} or ${tex('V_{in}')} in Part 1 until the ideal output exceeds ${tex('+V_{CC}')} or ${tex('-V_{EE}')} and clips in red on the scope.`,
+                check: (s, c) => c.isClipped
+            },
+            {
+                title: "Challenge 4: Two-Channel Audio Mixer",
+                desc: () => `Select <b>Summing Mixer</b>. Combine ${tex('V_1 = 2.0\\text{ V}')} and ${tex('V_2 = 3.0\\text{ V}')} with ${tex('R_1=R_2=10\\text{ k}\\Omega, R_f=20\\text{ k}\\Omega')} to reach ${tex('V_{out} = -10.0\\text{ V}')}.`,
+                check: (s, c) => s.topology === 'summing' && Math.abs(c.vOutIdeal - (-10.0)) < 0.1
+            },
+            {
+                title: "Challenge 5: Differential Subtractor",
+                desc: () => `Select <b>Difference</b>. Match ${tex('R_1=R_3=10\\text{ k}\\Omega')} and ${tex('R_f=R_4=30\\text{ k}\\Omega')} with ${tex('V_1=1\\text{ V}, V_2=3\\text{ V}')} to hit ${tex('V_{out} = +6.0\\text{ V}')}.`,
+                check: (s, c) => s.topology === 'difference' && Math.abs(c.vOutIdeal - 6.0) < 0.1
+            }
+        ];
+
+        function solve() {
+            let vP = 0, vM = 0, vOutIdeal = 0, iF = 0, gain = 1, gainTex = "";
+            if (state.topology === 'non-inverting') {
+                vP = state.vin1; vM = vP;
+                gain = 1 + (state.rf / state.rin);
+                vOutIdeal = vP * gain;
+                iF = (vOutIdeal - vM) / state.rf;
+                gainTex = `A_v = +${gain.toFixed(2)}\\text{ V/V}`;
+            } else if (state.topology === 'inverting') {
+                vP = 0; vM = 0;
+                gain = -(state.rf / state.rin);
+                vOutIdeal = state.vin1 * gain;
+                iF = (state.vin1 - vM) / state.rin;
+                gainTex = `A_v = ${gain.toFixed(2)}\\text{ V/V}`;
+            } else if (state.topology === 'summing') {
+                vP = 0; vM = 0;
+                iF = (state.vin1 / state.rin) + (state.vin2 / state.r2);
+                vOutIdeal = -state.rf * iF;
+                gain = -(state.rf / state.rin);
+                gainTex = `\\text{Summing}`;
+            } else if (state.topology === 'difference') {
+                vP = state.vin2 * (state.r4 / (state.r2 + state.r4));
+                vM = vP;
+                iF = (state.vin1 - vM) / state.rin;
+                vOutIdeal = vM - (iF * state.rf);
+                gain = state.rf / state.rin;
+                gainTex = `A_d = ${gain.toFixed(2)}\\text{ V/V}`;
+            } else if (state.topology === 'buffer') {
+                vP = state.vin1; vM = vP;
+                gain = 1.0; vOutIdeal = vP; iF = 0;
+                gainTex = `A_v = 1.00\\text{ V/V}`;
+            }
+
+            const vOutActual = Math.max(state.vee, Math.min(state.vcc, vOutIdeal));
+            const isClipped = Math.abs(vOutIdeal - vOutActual) > 0.01;
+            return { vP, vM, vOutIdeal, vOutActual, iF, gain, gainTex, isClipped };
+        }
+
+        const zigH = (x, y) => `M${x},${y} l6,-8 l10,16 l10,-16 l10,16 l10,-16 l6,8`;
+        const zigV = (x, y) => `M${x},${y} l-8,6 l16,10 l-16,10 l16,10 l-16,10 l8,6`;
+        const gnd = (x, y) => `
+            <line x1="${x}" y1="${y}" x2="${x}" y2="${y+12}" class="wire"/>
+            <line x1="${x-14}" y1="${y+12}" x2="${x+14}" y2="${y+12}" class="wire"/>
+            <line x1="${x-9}" y1="${y+18}" x2="${x+9}" y2="${y+18}" class="wire"/>
+            <line x1="${x-4}" y1="${y+24}" x2="${x+4}" y2="${y+24}" class="wire"/>
+        `;
+        const pillLabel = (x, y, w, h, mainText, subText, borderColor = "#111827") => `
+            <rect x="${x - w/2}" y="${y - h/2}" width="${w}" height="${h}" rx="6" fill="#ffffff" stroke="${borderColor}" stroke-width="2.5"/>
+            <text x="${x}" y="${y - 2}" text-anchor="middle" class="svg-sub">${mainText}</text>
+            <text x="${x}" y="${y + 13}" text-anchor="middle" class="svg-text">${subText}</text>
+        `;
+
+        function renderSchematic(c) {
+            let s = `<svg viewBox="0 0 580 310" class="w-full h-auto max-h-[300px]">`;
+
+            s += `
+                <line x1="295" y1="122" x2="295" y2="92" stroke="#6b7280" stroke-width="2" stroke-dasharray="3 3"/>
+                <text x="295" y="85" text-anchor="middle" class="svg-sub" fill="#5b21b6">+Vcc (${state.vcc}V)</text>
+                <line x1="295" y1="188" x2="295" y2="218" stroke="#6b7280" stroke-width="2" stroke-dasharray="3 3"/>
+                <text x="295" y="232" text-anchor="middle" class="svg-sub" fill="#5b21b6">-Vee (${state.vee}V)</text>
+
+                <polygon points="230,90 230,220 360,155" class="opamp-body"/>
+                <text x="246" y="131" class="svg-text" font-size="20">−</text>
+                <text x="245" y="192" class="svg-text" font-size="18">+</text>
+
+                <line x1="360" y1="155" x2="465" y2="155" class="wire"/>
+                <circle cx="400" cy="155" r="5" class="node-dot"/>
+                ${pillLabel(515, 155, 92, 42, "V_out", `${c.vOutActual.toFixed(2)} V`, c.isClipped ? "#dc2626" : "#5b21b6")}
+            `;
+
+            if (state.topology === 'non-inverting') {
+                s += `
+                    <line x1="95" y1="185" x2="230" y2="185" class="wire-active"/>
+                    ${pillLabel(52, 185, 82, 40, "V_in", `${state.vin1.toFixed(1)} V`, "#5b21b6")}
+
+                    <line x1="230" y1="125" x2="175" y2="125" class="wire"/>
+                    <circle cx="175" cy="125" r="5" class="node-dot"/>
+
+                    <line x1="175" y1="125" x2="175" y2="48" class="wire-active"/>
+                    <line x1="175" y1="48" x2="260" y2="48" class="wire-active"/>
+                    <path d="${zigH(260, 48)}" class="resistor"/>
+                    <rect x="242" y="10" width="88" height="22" rx="4" fill="#ffffff"/>
+                    <text x="286" y="26" text-anchor="middle" class="svg-text">Rf = ${state.rf} kΩ</text>
+                    <line x1="312" y1="48" x2="400" y2="48" class="wire-active"/>
+                    <line x1="400" y1="48" x2="400" y2="155" class="wire-active"/>
+
+                    <line x1="175" y1="125" x2="175" y2="210" class="wire-active"/>
+                    <path d="${zigV(175, 210)}" class="resistor"/>
+                    <rect x="70" y="224" width="90" height="24" rx="4" fill="#ffffff"/>
+                    <text x="115" y="240" text-anchor="middle" class="svg-text">Rin = ${state.rin} kΩ</text>
+                    <line x1="175" y1="262" x2="175" y2="272" class="wire"/>
+                    ${gnd(175, 272)}
+                `;
+            } 
+            else if (state.topology === 'inverting') {
+                s += `
+                    ${pillLabel(50, 125, 80, 40, "V_in", `${state.vin1.toFixed(1)} V`, "#5b21b6")}
+                    <line x1="90" y1="125" x2="112" y2="125" class="wire-active"/>
+                    <path d="${zigH(112, 125)}" class="resistor"/>
+                    <rect x="95" y="86" width="86" height="22" rx="4" fill="#ffffff"/>
+                    <text x="138" y="102" text-anchor="middle" class="svg-text">Rin = ${state.rin} kΩ</text>
+                    <line x1="164" y1="125" x2="230" y2="125" class="wire-active"/>
+                    <circle cx="190" cy="125" r="5" class="node-dot"/>
+
+                    <line x1="190" y1="125" x2="190" y2="48" class="wire-active"/>
+                    <line x1="190" y1="48" x2="265" y2="48" class="wire-active"/>
+                    <path d="${zigH(265, 48)}" class="resistor"/>
+                    <rect x="247" y="10" width="88" height="22" rx="4" fill="#ffffff"/>
+                    <text x="291" y="26" text-anchor="middle" class="svg-text">Rf = ${state.rf} kΩ</text>
+                    <line x1="317" y1="48" x2="400" y2="48" class="wire-active"/>
+                    <line x1="400" y1="48" x2="400" y2="155" class="wire-active"/>
+
+                    <line x1="230" y1="185" x2="190" y2="185" class="wire"/>
+                    <line x1="190" y1="185" x2="190" y2="230" class="wire"/>
+                    ${gnd(190, 230)}
+                `;
+            }
+            else if (state.topology === 'summing') {
+                s += `
+                    ${pillLabel(48, 85, 76, 36, "V_1", `${state.vin1.toFixed(1)} V`, "#5b21b6")}
+                    <line x1="86" y1="85" x2="108" y2="85" class="wire-active"/>
+                    <path d="${zigH(108, 85)}" class="resistor"/>
+                    <text x="134" y="68" text-anchor="middle" class="svg-text">R1=${state.rin}kΩ</text>
+                    <line x1="160" y1="85" x2="190" y2="85" class="wire-active"/>
+                    <line x1="190" y1="85" x2="190" y2="125" class="wire-active"/>
+
+                    ${pillLabel(48, 150, 76, 36, "V_2", `${state.vin2.toFixed(1)} V`, "#5b21b6")}
+                    <line x1="86" y1="150" x2="108" y2="150" class="wire-active"/>
+                    <path d="${zigH(108, 150)}" class="resistor"/>
+                    <text x="134" y="133" text-anchor="middle" class="svg-text">R2=${state.r2}kΩ</text>
+                    <line x1="160" y1="150" x2="190" y2="150" class="wire-active"/>
+                    <line x1="190" y1="150" x2="190" y2="125" class="wire-active"/>
+
+                    <line x1="190" y1="125" x2="230" y2="125" class="wire-active"/>
+                    <circle cx="190" cy="125" r="5" class="node-dot"/>
+
+                    <line x1="190" y1="85" x2="190" y2="38" class="wire-active"/>
+                    <line x1="190" y1="38" x2="265" y2="38" class="wire-active"/>
+                    <path d="${zigH(265, 38)}" class="resistor"/>
+                    <text x="291" y="22" text-anchor="middle" class="svg-text">Rf = ${state.rf} kΩ</text>
+                    <line x1="317" y1="38" x2="400" y2="38" class="wire-active"/>
+                    <line x1="400" y1="38" x2="400" y2="155" class="wire-active"/>
+
+                    <line x1="230" y1="185" x2="200" y2="185" class="wire"/>
+                    <line x1="200" y1="185" x2="200" y2="235" class="wire"/>
+                    ${gnd(200, 235)}
+                `;
+            }
+            else if (state.topology === 'difference') {
+                s += `
+                    ${pillLabel(48, 125, 76, 36, "V_1 (-)", `${state.vin1.toFixed(1)} V`, "#111827")}
+                    <line x1="86" y1="125" x2="108" y2="125" class="wire-active"/>
+                    <path d="${zigH(108, 125)}" class="resistor"/>
+                    <text x="134" y="106" text-anchor="middle" class="svg-text">R1=${state.rin}kΩ</text>
+                    <line x1="160" y1="125" x2="230" y2="125" class="wire-active"/>
+                    <circle cx="190" cy="125" r="5" class="node-dot"/>
+
+                    <line x1="190" y1="125" x2="190" y2="45" class="wire-active"/>
+                    <line x1="190" y1="45" x2="265" y2="45" class="wire-active"/>
+                    <path d="${zigH(265, 45)}" class="resistor"/>
+                    <text x="291" y="28" text-anchor="middle" class="svg-text">Rf = ${state.rf} kΩ</text>
+                    <line x1="317" y1="45" x2="400" y2="45" class="wire-active"/>
+                    <line x1="400" y1="45" x2="400" y2="155" class="wire-active"/>
+
+                    ${pillLabel(48, 185, 76, 36, "V_2 (+)", `${state.vin2.toFixed(1)} V`, "#5b21b6")}
+                    <line x1="86" y1="185" x2="108" y2="185" class="wire-active"/>
+                    <path d="${zigH(108, 185)}" class="resistor"/>
+                    <text x="134" y="168" text-anchor="middle" class="svg-text">R3=${state.r2}kΩ</text>
+                    <line x1="160" y1="185" x2="230" y2="185" class="wire-active"/>
+                    <circle cx="190" cy="185" r="5" class="node-dot"/>
+
+                    <line x1="190" y1="185" x2="190" y2="205" class="wire"/>
+                    <path d="${zigV(190, 205)}" class="resistor"/>
+                    <text x="138" y="236" text-anchor="middle" class="svg-text">R4=${state.r4}kΩ</text>
+                    <line x1="190" y1="257" x2="190" y2="270" class="wire"/>
+                    ${gnd(190, 270)}
+                `;
+            }
+            else if (state.topology === 'buffer') {
+                s += `
+                    ${pillLabel(58, 185, 86, 40, "V_in", `${state.vin1.toFixed(1)} V`, "#5b21b6")}
+                    <line x1="101" y1="185" x2="230" y2="185" class="wire-active"/>
+
+                    <line x1="230" y1="125" x2="180" y2="125" class="wire-active"/>
+                    <line x1="180" y1="125" x2="180" y2="48" class="wire-active"/>
+                    <line x1="180" y1="48" x2="400" y2="48" class="wire-active"/>
+                    <line x1="400" y1="48" x2="400" y2="155" class="wire-active"/>
+                    <rect x="215" y="22" width="150" height="22" rx="4" fill="#ffffff"/>
+                    <text x="290" y="37" text-anchor="middle" class="svg-text">Unity Feedback (Rf = 0)</text>
+                `;
+            }
+
+            s += `</svg>`;
+            document.getElementById('svgContainer').innerHTML = s;
+        }
+
+        function sliderRow(key, texLabel, min, max, step, unit) {
+            return `
+                <div>
+                    <div class="flex justify-between items-center text-xs mb-1">
+                        <span class="font-medium text-zinc-700">${tex(texLabel)}</span>
+                        <span id="val_${key}" class="font-bold text-purple-900">${tex(`${state[key]}\\text{ ${unit}}`)}</span>
+                    </div>
+                    <input type="range" min="${min}" max="${max}" step="${step}" value="${state[key]}" 
+                        class="w-full" oninput="onSlide('${key}', this.value, '${unit}')">
+                </div>
+            `;
+        }
+
+        function buildSliders() {
+            let h = '';
+            if (state.topology === 'non-inverting' || state.topology === 'inverting') {
+                h += sliderRow('vin1', 'V_{in}\\text{ (Input Voltage)}', -10, 10, 0.5, 'V');
+                h += sliderRow('rf', 'R_f\\text{ (Feedback Resistor)}', 1, 100, 1, 'k\\Omega');
+                h += sliderRow('rin', 'R_{in}\\text{ (Input Resistor)}', 1, 50, 1, 'k\\Omega');
+            } else if (state.topology === 'summing') {
+                h += sliderRow('vin1', 'V_1\\text{ (Channel 1)}', -10, 10, 0.5, 'V');
+                h += sliderRow('vin2', 'V_2\\text{ (Channel 2)}', -10, 10, 0.5, 'V');
+                h += sliderRow('rin', 'R_1\\text{ (Ch 1 Resistor)}', 1, 50, 1, 'k\\Omega');
+                h += sliderRow('r2', 'R_2\\text{ (Ch 2 Resistor)}', 1, 50, 1, 'k\\Omega');
+                h += sliderRow('rf', 'R_f\\text{ (Feedback Resistor)}', 1, 100, 1, 'k\\Omega');
+            } else if (state.topology === 'difference') {
+                h += sliderRow('vin1', 'V_1\\text{ (Inverting Input)}', -10, 10, 0.5, 'V');
+                h += sliderRow('vin2', 'V_2\\text{ (Non-Inverting Input)}', -10, 10, 0.5, 'V');
+                h += sliderRow('rin', 'R_1\\text{ (Inverting R)}', 1, 50, 1, 'k\\Omega');
+                h += sliderRow('rf', 'R_f\\text{ (Feedback R)}', 1, 100, 1, 'k\\Omega');
+                h += sliderRow('r2', 'R_3\\text{ (Divider Input R)}', 1, 50, 1, 'k\\Omega');
+                h += sliderRow('r4', 'R_4\\text{ (Divider Ground R)}', 1, 100, 1, 'k\\Omega');
+            } else if (state.topology === 'buffer') {
+                h += sliderRow('vin1', 'V_{in}\\text{ (Input Voltage)}', -15, 15, 0.5, 'V');
+                h += `<div class="p-2.5 rounded bg-zinc-100 border border-zinc-200 text-xs text-zinc-700">
+                    A <b>Unity Buffer</b> wires ${tex('V_{out}')} directly to ${tex('V_-')}, yielding ${tex('A_v = 1')} with near-infinite input impedance.
+                </div>`;
+            }
+            document.getElementById('sliderContainer').innerHTML = h;
+        }
+
+        window.onSlide = function(key, val, unit) {
+            state[key] = parseFloat(val);
+            document.getElementById(`val_${key}`).innerHTML = tex(`${val}\\text{ ${unit}}`);
+            updateUI(true);
+        };
+
+        function updateKCL(c) {
+            let steps = '';
+            if (state.topology === 'non-inverting') {
+                steps = `
+                    <div><b>1. Virtual Short:</b> ${tex(`V_+ = V_{in} = ${state.vin1.toFixed(2)}\\text{ V} \\implies V_- = ${c.vM.toFixed(2)}\\text{ V}`)}</div>
+                    <div><b>2. KCL at ${tex('V_-')}:</b> ${tex(`I_{R_{in}} = \\frac{V_- - 0}{R_{in}} = \\frac{${c.vM.toFixed(2)}}{${state.rin}\\text{k}\\Omega} = ${c.iF.toFixed(2)}\\text{ mA}`)}</div>
+                    <div class="pt-1 border-t border-zinc-200"><b>3. Output:</b> ${tex(`V_{out} = V_{in}\\left(1 + \\frac{R_f}{R_{in}}\\right) = \\mathbf{${c.vOutIdeal.toFixed(2)}\\text{ V}}`)}</div>
+                `;
+            } else if (state.topology === 'inverting') {
+                steps = `
+                    <div><b>1. Virtual Ground:</b> ${tex(`V_+ = 0\\text{ V} \\implies V_- = 0.00\\text{ V}`)}</div>
+                    <div><b>2. Input Current:</b> ${tex(`I_{in} = \\frac{V_{in} - 0}{R_{in}} = \\frac{${state.vin1.toFixed(2)}}{${state.rin}\\text{k}\\Omega} = ${c.iF.toFixed(2)}\\text{ mA}`)}</div>
+                    <div class="pt-1 border-t border-zinc-200"><b>3. Output:</b> ${tex(`V_{out} = -I_{in}R_f = -\\frac{R_f}{R_{in}}V_{in} = \\mathbf{${c.vOutIdeal.toFixed(2)}\\text{ V}}`)}</div>
+                `;
+            } else if (state.topology === 'summing') {
+                steps = `
+                    <div><b>1. Virtual Ground:</b> ${tex(`V_- = V_+ = 0.00\\text{ V}`)} (Isolates inputs)</div>
+                    <div><b>2. KCL Sum:</b> ${tex(`I_f = \\frac{V_1}{R_1} + \\frac{V_2}{R_2} = ${c.iF.toFixed(2)}\\text{ mA}`)}</div>
+                    <div class="pt-1 border-t border-zinc-200"><b>3. Output:</b> ${tex(`V_{out} = -R_f\\left(\\frac{V_1}{R_1} + \\frac{V_2}{R_2}\\right) = \\mathbf{${c.vOutIdeal.toFixed(2)}\\text{ V}}`)}</div>
+                `;
+            } else if (state.topology === 'difference') {
+                steps = `
+                    <div><b>1. Divider at ${tex('V_+')}:</b> ${tex(`V_+ = V_2\\left(\\frac{R_4}{R_3+R_4}\\right) = ${c.vP.toFixed(2)}\\text{ V}`)}</div>
+                    <div><b>2. Inverting Branch:</b> ${tex(`V_- = ${c.vM.toFixed(2)}\\text{ V}, \\; I_1 = \\frac{V_1 - V_-}{R_1} = ${c.iF.toFixed(2)}\\text{ mA}`)}</div>
+                    <div class="pt-1 border-t border-zinc-200"><b>3. Output:</b> ${tex(`V_{out} = V_- - I_1 R_f = \\mathbf{${c.vOutIdeal.toFixed(2)}\\text{ V}}`)}</div>
+                `;
+            } else if (state.topology === 'buffer') {
+                steps = `
+                    <div><b>1. Input Tracking:</b> ${tex(`V_+ = V_{in} = ${state.vin1.toFixed(2)}\\text{ V}`)}</div>
+                    <div><b>2. Unity Loop:</b> Direct feedback forces ${tex(`V_{out} = V_- = V_+`)}</div>
+                    <div class="pt-1 border-t border-zinc-200"><b>3. Output:</b> ${tex(`V_{out} = \\mathbf{${c.vOutIdeal.toFixed(2)}\\text{ V}} \\quad (I_f = 0\\text{ mA})`)}</div>
+                `;
+            }
+            document.getElementById('kclSteps').innerHTML = steps;
+        }
+
+        const canvas = document.getElementById('scopeCanvas');
+        const ctx = canvas ? canvas.getContext('2d') : null;
+
+        function sampleWave(t) {
+            if (state.wave === 'dc') return 1.0;
+            if (state.wave === 'sine') return Math.sin(t);
+            if (state.wave === 'square') return Math.sin(t) >= 0 ? 1 : -1;
+            if (state.wave === 'triangle') return (2 / Math.PI) * Math.asin(Math.sin(t));
+            return Math.sin(t);
+        }
+
+        function drawScope() {
+            if (viewMode === 'schematic' || !canvas || !ctx) return;
+            const w = canvas.width, h = canvas.height;
+            const midY = h / 2;
+            const scaleY = (h / 2 - 18) / 18;
+
+            ctx.clearRect(0, 0, w, h);
+
+            ctx.strokeStyle = '#e4e4e7';
+            ctx.lineWidth = 1;
+            for (let x = 0; x <= w; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+            for (let y = 0; y <= h; y += 30) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+            ctx.strokeStyle = '#a1a1aa';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath(); ctx.moveTo(0, midY); ctx.lineTo(w, midY); ctx.stroke();
+
+            const yVcc = midY - state.vcc * scaleY;
+            const yVee = midY - state.vee * scaleY;
+            ctx.setLineDash([5, 5]);
+            ctx.strokeStyle = '#dc2626';
+            ctx.beginPath(); ctx.moveTo(0, yVcc); ctx.lineTo(w, yVcc); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(0, yVee); ctx.lineTo(w, yVee); ctx.stroke();
+            ctx.setLineDash([]);
+
+            const c = solve();
+            let clippedCount = 0;
+
+            ctx.strokeStyle = '#18181b';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            for (let x = 0; x < w; x++) {
+                const t = (x / w) * Math.PI * 2 * state.freq + state.phase;
+                const y = midY - (state.vin1 * sampleWave(t)) * scaleY;
+                x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            ctx.lineWidth = 3.2;
+            for (let x = 0; x < w - 1; x++) {
+                const t1 = (x / w) * Math.PI * 2 * state.freq + state.phase;
+                const t2 = ((x + 1) / w) * Math.PI * 2 * state.freq + state.phase;
+                const raw1 = c.vOutIdeal * sampleWave(t1);
+                const raw2 = c.vOutIdeal * sampleWave(t2);
+                const cl1 = Math.max(state.vee, Math.min(state.vcc, raw1));
+                const cl2 = Math.max(state.vee, Math.min(state.vcc, raw2));
+
+                const isClip = Math.abs(raw1 - cl1) > 0.05 || Math.abs(raw2 - cl2) > 0.05;
+                if (isClip) clippedCount++;
+
+                ctx.strokeStyle = isClip ? '#dc2626' : '#6d28d9';
+                ctx.beginPath();
+                ctx.moveTo(x, midY - cl1 * scaleY);
+                ctx.lineTo(x + 1, midY - cl2 * scaleY);
+                ctx.stroke();
+            }
+
+            const pct = Math.round((clippedCount / w) * 100);
+            const clipEl = document.getElementById('clipReadout');
+            if (clipEl) {
+                clipEl.textContent = `Clipping: ${pct}%`;
+                clipEl.className = pct > 0 ? "font-bold text-red-600" : "font-semibold text-zinc-700";
+            }
+
+            if (state.wave !== 'dc') state.phase -= 0.04;
+            requestAnimationFrame(drawScope);
+        }
+
+        function updateUI(persist = true) {
+            const c = solve();
+
+            const bVp = document.getElementById('badgeVp'); if(bVp) bVp.innerHTML = tex(`V_+ = ${c.vP.toFixed(2)}\\text{ V}`);
+            const bVm = document.getElementById('badgeVm'); if(bVm) bVm.innerHTML = tex(`V_- = ${c.vM.toFixed(2)}\\text{ V}`);
+            const bAv = document.getElementById('badgeAv'); if(bAv) bAv.innerHTML = tex(c.gainTex);
+            const bVo = document.getElementById('badgeVout'); if(bVo) bVo.innerHTML = tex(`V_{out} = ${c.vOutActual.toFixed(2)}\\text{ V}`);
+            const fNote = document.getElementById('flowNoteLatex'); if(fNote) fNote.innerHTML = `Dashed purple trace indicates active current flow (${tex('I_{in} = I_f')})`;
+            const rInfo = document.getElementById('railInfoLatex'); if(rInfo) rInfo.innerHTML = tex(`\\text{Rails: } +V_{CC}=${state.vcc}\\text{V},\\; -V_{EE}=${state.vee}\\text{V}`);
+
+            const sTitle = document.getElementById('scopeTitleLatex'); if(sTitle) sTitle.innerHTML = `Dual-Channel Oscilloscope (${tex('V_{in}')} vs. ${tex('V_{out}')})`;
+            const lCh1 = document.getElementById('legCh1'); if(lCh1) lCh1.innerHTML = `<span class="w-3 h-1 bg-zinc-800 inline-block"></span> CH1: ${tex('V_{in}(t)')}`;
+            const lCh2 = document.getElementById('legCh2'); if(lCh2) lCh2.innerHTML = `<span class="w-3 h-1 bg-purple-700 inline-block"></span> CH2: ${tex('V_{out}(t)')}`;
+            const gHead = document.getElementById('gbwpHeader'); if(gHead) gHead.innerHTML = `Small-Signal Bandwidth (${tex('f_{-3\\text{dB}}')})`;
+
+            const lVcc = document.getElementById('lblVcc'); if(lVcc) lVcc.innerHTML = tex(`+V_{CC}\\text{ Supply (V)}`);
+            const lVee = document.getElementById('lblVee'); if(lVee) lVee.innerHTML = tex(`-V_{EE}\\text{ Supply (V)}`);
+
+            const satEl = document.getElementById('satWarning');
+            if (satEl) {
+                c.isClipped ? satEl.classList.remove('hidden') : satEl.classList.add('hidden');
+            }
+
+            renderSchematic(c);
+            updateKCL(c);
+
+            const noiseGain = state.topology === 'buffer' ? 1 : (1 + state.rf / state.rin);
+            const bw = (1000 / noiseGain).toFixed(1);
+            const gbText = document.getElementById('gbwpText');
+            if (gbText) {
+                gbText.innerHTML = `At noise gain ${tex(`1 + R_f/R_{in} = ${noiseGain.toFixed(1)}`)}, a ${tex('1\\text{ MHz}')} op-amp rolls off at ${tex(`\\mathbf{${bw}\\text{ kHz}}`)}.`;
+            }
+
+            const m = missions[state.missionIdx];
+            const mCount = document.getElementById('missionCount'); if(mCount) mCount.textContent = `(Mission ${state.missionIdx + 1} of ${missions.length})`;
+            const mText = document.getElementById('missionText'); if(mText) mText.innerHTML = `<b>${m.title}:</b> ${m.desc()}`;
+
+            const passed = m.check(state, c);
+            const stBadge = document.getElementById('missionStatus');
+            if (stBadge) {
+                if (passed) {
+                    state.completed[state.missionIdx] = true;
+                    stBadge.className = "px-3 py-1.5 rounded-md text-xs font-bold bg-purple-100 border border-purple-400 text-purple-900";
+                    stBadge.textContent = "✓ Target Verified!";
+                } else {
+                    stBadge.className = "px-3 py-1.5 rounded-md text-xs font-bold bg-zinc-100 border border-zinc-300 text-zinc-600";
+                    stBadge.textContent = "Tuning Circuit...";
+                }
+            }
+
+            const mDots = document.getElementById('missionDots');
+            if (mDots) {
+                mDots.innerHTML = state.completed.map((done, i) =>
+                    `<span onclick="state.missionIdx=${i};updateUI(true)" class="cursor-pointer w-2.5 h-2.5 rounded-full ${done ? 'bg-purple-700' : (i === state.missionIdx ? 'bg-zinc-900' : 'bg-zinc-300')}"></span>`
+                ).join('');
+            }
+
+            if (persist) saveState();
+        }
+
+        function syncTopologyTabs() {
+            document.querySelectorAll('.top-btn').forEach(btn => {
+                btn.className = (btn.dataset.top === state.topology)
+                    ? "top-btn tab-active px-3 py-1.5 rounded-md text-xs border transition"
+                    : "top-btn tab-inactive px-3 py-1.5 rounded-md text-xs border transition";
+            });
+        }
+
+        window.setTopology = function(top) {
+            state.topology = top;
+            syncTopologyTabs();
+            buildSliders();
+            updateUI(true);
+        };
+
+        window.setWave = function(w) {
+            state.wave = w;
+            ['sine', 'triangle', 'square', 'dc'].forEach(t => {
+                const el = document.getElementById(`w_${t}`);
+                if (el) {
+                    el.className = (t === w)
+                        ? "px-2.5 py-1 rounded text-xs font-semibold bg-purple-700 text-white"
+                        : "px-2.5 py-1 rounded text-xs font-semibold bg-zinc-100 text-zinc-700 hover:bg-zinc-200";
+                }
+            });
+            saveState();
+        };
+
+        window.updateRails = function() {
+            const vccIn = document.getElementById('inputVcc');
+            const veeIn = document.getElementById('inputVee');
+            if(vccIn) state.vcc = parseFloat(vccIn.value) || 15;
+            if(veeIn) state.vee = parseFloat(veeIn.value) || -15;
+            updateUI(true);
+        };
+
+        window.randomize = function() {
+            state.vin1 = Math.round((Math.random() * 8 - 4) * 2) / 2 || 2.0;
+            state.rin = [5, 10, 15, 20, 25][Math.floor(Math.random() * 5)];
+            state.rf = [10, 20, 30, 40, 50, 80][Math.floor(Math.random() * 6)];
+            buildSliders();
+            updateUI(true);
+        };
+
+        window.nextMission = function() {
+            state.missionIdx = (state.missionIdx + 1) % missions.length;
+            updateUI(true);
+        };
+
+        window.exportSpice = function() {
+            const c = solve();
+            const net = `* Operational Amplifier Golden Rule Studio - Dr. Wesley Francillon
+* Topology: ${state.topology.toUpperCase()} | Ideal V_out = ${c.vOutIdeal.toFixed(2)}V
+V1 N_IN 0 DC ${state.vin1} AC 1
+VCC N_VCC 0 DC ${state.vcc}
+VEE N_VEE 0 DC ${state.vee}
+Rin N_IN N_INV ${state.rin}k
+Rf N_INV N_OUT ${state.rf}k
+E1 N_OUT 0 0 N_INV 100000
+.tran 10m
+.end`;
+            const blob = new Blob([net], { type: 'text/plain' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `opamp_${state.topology}.cir`;
+            a.click();
+        };
+
+        window.copyTikz = function() {
+            const tikz = `\\begin{circuitikz}[american]
+  \\draw (0,0) node[op amp] (OA) {};
+  \\draw (OA.-) to[R, l=$R_{in}\\,(${state.rin}\\text{k}\\Omega)$] ++(-2.5,0) node[left] {$V_{in}=${state.vin1}\\text{V}$};
+  \\draw (OA.+) -- ++(0,-0.8) node[ground] {};
+  \\draw (OA.-) -- ++(0,1.2) coordinate (fb) to[R, l=$R_f\\,(${state.rf}\\text{k}\\Omega)$] (fb -| OA.out) -- (OA.out);
+  \\draw (OA.out) to[short, -o] ++(1,0) node[right] {$V_{out}$};
+\\end{circuitikz}`;
+            navigator.clipboard.writeText(tikz);
+            const btn = document.getElementById('tikzBtn');
+            if(btn) {
+                btn.textContent = "✓ Copied TikZ!";
+                setTimeout(() => { btn.textContent = "Copy LaTeX TikZ"; }, 2000);
+            }
+        };
+
+        loadState();
+        syncTopologyTabs();
+        buildSliders();
+        updateUI(false);
+        if (viewMode !== 'schematic') {
+            requestAnimationFrame(drawScope);
+        }
+    </script>
+</body>
+</html>

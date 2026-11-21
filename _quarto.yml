@@ -1,19 +1,21 @@
 project:
   type: website
   resources:
-    - "circuit_app.html"
-    - "resonance_defender.html"
-    - "circuit_breakout_app.html"
-    - "usaf_1951_analyzer.html"
+    - "widgets/circuit_app.html"
+    - "widgets/resonance_defender.html"
+    - "widgets/circuit_breakout_app.html"
+    - "widgets/usaf_1951_analyzer.html"
+    - "widgets/op_amp_checker.html"
+    - "widgets/rss_feed_studio.html"
 
 website:
   title: "Wesley Francillon, PhD"
   site-url: "https://professorfrancillon.com"
-  
+  description: "Academic portfolio, circuit simulation tools, and engineering educational resources by Wesley Francillon, PhD."
+
   # Google Analytics 4 Measurement ID
-  # Replace G-XXXXXXXXXX with the ID from your GA4 stream
   google-analytics: "G-2P04N7WV2H"
-  
+
   page-navigation: false
   search: true
 
@@ -33,25 +35,15 @@ website:
           - href: lecture_notes.qmd
             text: Lecture Notes
           - href: lab_manuals.qmd
-            text: Lab Manuals
-      - text: Outreach
-        menu: 
-          - href: outreach.qmd
-            text: K-12 Outreach Hub
-          - href: linear_regression.qmd
-            text: Linear Regression
-          - href: outreach_data.qmd
-            text: API Data Challenge
-          - href: web_scraping.qmd
-            text: Web Scraping
-          - href: resonance_game.qmd
-            text: Resonance Defender Game
-          - href: circuit_breakout.qmd
-            text: Impedance Breaker Game
-          - href: rf_foxhunt.qmd
-            text: RF Fox Hunt Lab
+            text: Lab Manuals Hub
+          - href: dual_polarity_power_supply.qmd
+            text: Dual-Polarity Power Supply Wiring
+          - href: dynamics/iczv_dynamics.qmd
+            text: "ENS 119: ICZV & Planar Kinematics"
+          - href: circuits_textbook/ch1_foundations.qmd
+            text: "Circuit Analysis E-Book"
       - text: Circuit Analysis
-        menu: 
+        menu:
           - href: circuit_analysis.qmd
             text: Circuit Analysis Hub
           - href: circuit_dashboard.qmd
@@ -60,16 +52,18 @@ website:
             text: Live Circuit Simulator
           - href: reactance_calculator.qmd
             text: Reactance Calculator
-          - href: resonance_game.qmd
-            text: Resonance Defender Game
-          - href: circuit_breakout.qmd
-            text: Impedance Breaker Game
+          - href: simulations/op-amp-checker.qmd
+            text: Op-Amp Golden Rule Checker
           - href: circuit_generator.qmd
             text: Circuit Problem Generator
       - text: Simulations
         menu:
           - href: simulations.qmd
             text: Simulations Hub
+          - href: dynamics/iczv_dynamics.qmd
+            text: "ICZV & Planar Kinematics (ENS 119)"
+          - href: simulations/op-amp-checker.qmd
+            text: Op-Amp Golden Rule Checker
           - href: usaf_1951.qmd
             text: 1951 USAF Optical Resolution Analyzer
           - href: circuit_simulator.qmd
@@ -82,12 +76,50 @@ website:
             text: Resonance Defender Game
           - href: circuit_breakout.qmd
             text: Impedance Breaker Game
+      - text: Outreach
+        menu:
+          - href: outreach.qmd
+            text: K-12 Outreach Hub
+          - href: rss_feeds.qmd
+            text: Automated RSS Engineering Wire
+          - href: linear_regression.qmd
+            text: Linear Regression
+          - href: outreach_data.qmd
+            text: API Data Challenge
+          - href: web_scraping.qmd
+            text: Web Scraping
+          - href: resonance_game.qmd
+            text: Resonance Defender Game
+          - href: circuit_breakout.qmd
+            text: Impedance Breaker Game
+          - href: rf_foxhunt.qmd
+            text: RF Fox Hunt Lab
       - href: projects.qmd
         text: Projects
 
+  sidebar:
+    - id: circuits-book
+      title: "Introduction to Circuit Analysis"
+      style: "docked"
+      background: light
+      collapse-level: 2
+      contents:
+        - section: "Module 1: DC Foundations"
+          contents:
+            - circuits_textbook/ch1_foundations.qmd
+            - circuits_textbook/ch2_series_parallel.qmd
+        - section: "Module 2: Systematic Analysis"
+          contents:
+            - circuits_textbook/ch3_mesh_nodal.qmd
+            - circuits_textbook/ch4_theorems.qmd
+        - section: "Module 3: Time Domain & Lab"
+          contents:
+            - circuits_textbook/ch5_transients.qmd
+            - circuits_textbook/ch6_labs_sim.qmd
+
 format:
   html:
-    theme: 
+    theme:
       - cosmo
       - custom.scss
     fontcolor: "#000000"

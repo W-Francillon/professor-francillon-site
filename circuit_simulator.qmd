@@ -1,5 +1,6 @@
 ---
 title: "Interactive Circuit Simulator"
+description: "Web-based DC/AC circuit simulator featuring nodal analysis, transient responses, and real-time schematic waveform plotting."
 subtitle: "Real-Time Analog, Digital, and Power Electronic Simulation"
 page-layout: full
 ---

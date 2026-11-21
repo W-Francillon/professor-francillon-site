@@ -1,0 +1,852 @@
+---
+title: "Calculus of Phase Shifts, Phasor Vectors, and RLC Dynamics"
+subtitle: "An Interactive MATLAB & Simulink Engineering Laboratory"
+author: "Dr. Wesley Francillon, PhD"
+format:
+  html:
+    toc: true
+    toc-title: "Laboratory Architecture"
+    toc-depth: 3
+    code-fold: false
+    html-math-method: katex
+---
+
+```{=html}
+<!-- Load Computer Modern / Latin Modern Font for Authentic LaTeX Typography -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css">
+
+<style>
+  .latex-prose, .circuit-card-body {
+    font-family: "Computer Modern Serif", "Latin Modern Roman", Georgia, serif;
+    font-size: 1.03rem;
+    line-height: 1.65;
+    color: #0f172a;
+  }
+  .pillar-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin: 22px 0 34px 0;
+  }
+  .circuit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin: 24px 0 34px 0;
+  }
+  @media (max-width: 768px) {
+    .pillar-grid { grid-template-columns: 1fr; }
+  }
+  .pillar-card {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 20px 22px;
+    box-shadow: 0 3px 8px rgba(15, 23, 42, 0.05);
+  }
+  .pillar-tag {
+    font-size: 0.74rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .pillar-title {
+    font-weight: 800;
+    color: #0f172a;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+  }
+  .circuit-card {
+    background: #ffffff;
+    border: 2px solid #1e1b4b;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.07);
+    display: flex;
+    flex-direction: column;
+  }
+  .circuit-card-header {
+    background: #1e1b4b;
+    color: #ffffff;
+    padding: 11px 16px;
+    font-weight: 800;
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .circuit-svg-box {
+    padding: 14px;
+    background: #ffffff;
+    background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+    background-size: 14px 14px;
+    border-bottom: 1px solid #cbd5e1;
+    text-align: center;
+  }
+  .circuit-card-body {
+    padding: 16px 18px;
+    background: #f8fafc;
+    flex-grow: 1;
+  }
+  .circuit-card-body p {
+    margin: 0 0 8px 0;
+  }
+  .tikz-svg text {
+    font-family: "Computer Modern Serif", "Latin Modern Roman", "Times New Roman", serif;
+  }
+</style>
+
+<!-- Hero Banner -->
+<div style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 60%, #4338ca 100%); color: #ffffff; padding: 36px 32px; border-radius: 14px; margin-bottom: 32px; box-shadow: 0 12px 28px rgba(30, 27, 75, 0.18);">
+  <div style="font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: #a5b4fc; margin-bottom: 8px;">
+    Papillon Engineering Curriculum Series • Interactive Laboratory Module
+  </div>
+  <h2 style="color: #ffffff; font-size: 1.85rem; font-weight: 800; margin: 0 0 12px 0; border: none; padding: 0;">
+    Bridging Calculus, Time-Domain Waveforms, Complex Phasors &amp; Simulink
+  </h2>
+  <p style="color: #e0e7ff; font-size: 1.02rem; line-height: 1.65; margin: 0 0 20px 0; max-width: 850px;">
+    In traditional lectures, students memorize that current leads voltage by 90° in a capacitor (<em>ICE</em>) and lags by 90° in an inductor (<em>ELI</em>) without seeing how time-domain derivatives and integrals physically generate those shifts. This laboratory unifies <strong>analytical calculus</strong>, <strong>numerical MATLAB scripting</strong>, <strong>2D vector geometry</strong>, and <strong>Simulink block-diagram simulation</strong> across RC, RL, and RLC networks.
+  </p>
+  <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+    <a href="resources/circuit_lab_manual.pdf" style="background: #ffffff; color: #1e1b4b; padding: 10px 18px; border-radius: 7px; font-weight: 800; font-size: 0.88rem; text-decoration: none;">📄 Download 14-Page Student Manual (PDF)</a>
+    <a href="resources/phasor_compass_cutout.pdf" style="background: rgba(255,255,255,0.14); color: #ffffff; border: 1px solid rgba(255,255,255,0.35); padding: 10px 18px; border-radius: 7px; font-weight: 700; font-size: 0.88rem; text-decoration: none;">✂️ Printable 360° Phasor Compass (PDF)</a>
+    <a href="#instructor-toolkit" style="background: #f59e0b; color: #0f172a; padding: 10px 18px; border-radius: 7px; font-weight: 800; font-size: 0.88rem; text-decoration: none;">🔑 Get Complete Instructor Toolkit →</a>
+  </div>
+</div>
+```
+
+## 1. Core Learning Objectives & Mathematical Competencies
+
+By completing this laboratory, students master four interconnected pillars of electrical and dynamical systems engineering:
+
+:::: {.pillar-grid}
+
+::: {.pillar-card style="border-top: 4px solid #4338ca;"}
+[Pillar 1 • Time-Domain Calculus]{.pillar-tag style="color: #4338ca;"}
+
+[Derivatives & Integrals in Circuits]{.pillar-title}
+
+Apply $i_C(t) = C\dfrac{dv_C}{dt}$ and $v_L(t) = L\dfrac{di_L}{dt}$ to prove why differentiating a sine wave ($\dfrac{d}{dt}[\sin(\omega t)] = \omega\cos(\omega t)$) produces an exact $+90^\circ$ phase advance and scales peak amplitude by $\omega$.
+:::
+
+::: {.pillar-card style="border-top: 4px solid #0284c7;"}
+[Pillar 2 • Numerical Computation]{.pillar-tag style="color: #0284c7;"}
+
+[MATLAB Discrete Differentiation]{.pillar-title}
+
+Build `.m` scripts from scratch using discrete time vectors, finite-difference numerical derivatives (`diff(v_s) ./ diff(t)`), and dual-axis oscilloscope waveform plots (`yyaxis left` and `yyaxis right`).
+:::
+
+::: {.pillar-card style="border-top: 4px solid #059669;"}
+[Pillar 3 • Frequency-Domain Vectors]{.pillar-tag style="color: #059669;"}
+
+[Phasor Algebra & KVL Geometry]{.pillar-title}
+
+Transform differential operators into complex algebra ($\dfrac{d}{dt} \leftrightarrow j\omega$ and $\int dt \leftrightarrow \dfrac{1}{j\omega}$) and verify Kirchhoff's Voltage Law via polar (`compass`) and tip-to-tail (`quiver`) vector plots.
+:::
+
+::: {.pillar-card style="border-top: 4px solid #d97706;"}
+[Pillar 4 • Dynamical Systems]{.pillar-tag style="color: #d97706;"}
+
+[Simulink Continuous Integrators]{.pillar-title}
+
+Translate 1st- and 2nd-order differential equations into continuous-time Simulink integrator feedback loops ($\dfrac{1}{s}$) to observe exponential charging and underdamped RLC ringing.
+:::
+
+::::
+
+---
+
+## 2. The Three Core Circuit Topologies Investigated
+
+Throughout this laboratory, students analyze, code, and simulate three foundational circuit topologies across both the **time domain** (differential and integral calculus) and the **frequency domain** (complex phasor impedances):
+
+:::: {.circuit-grid}
+
+::: {.circuit-card}
+```{=html}
+<div class="circuit-card-header">
+  <span>CIRCUIT 1: SERIES RC</span>
+  <span style="color: #93c5fd;">1st-Order Capacitive</span>
+</div>
+<div class="circuit-svg-box">
+  <!-- CircuiTikZ-Grade Vector Schematic: Series RC -->
+  <svg class="tikz-svg" viewBox="0 0 360 205" width="100%" height="175" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="ikzArr" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#0f172a"/>
+      </marker>
+    </defs>
+    <!-- Main Loop Wires -->
+    <path d="M 65 75 L 65 42 L 122 42 M 198 42 L 285 42 L 285 88 M 285 104 L 285 155 L 65 155 L 65 115" stroke="#0f172a" stroke-width="2" fill="none" stroke-linecap="square"/>
+    <!-- AC Voltage Source (CircuiTikZ style) -->
+    <circle cx="65" cy="95" r="20" stroke="#0f172a" stroke-width="2" fill="#ffffff"/>
+    <text x="65" y="85" font-size="12" font-weight="bold" text-anchor="middle">+</text>
+    <path d="M 53 98 C 57 90, 61 90, 65 98 C 69 106, 73 106, 77 98" stroke="#0f172a" stroke-width="1.8" fill="none"/>
+    <text x="36" y="92" font-size="15" font-style="italic" text-anchor="end">v</text>
+    <text x="37" y="96" font-size="10" font-style="italic" text-anchor="start">s</text>
+    <text x="43" y="92" font-size="14" text-anchor="start">(t)</text>
+    <!-- IEEE 6-Turn Precision Resistor R -->
+    <path d="M 122 42 L 128 30 L 139 54 L 150 30 L 161 54 L 172 30 L 183 54 L 189 42 L 198 42" stroke="#0f172a" stroke-width="2" fill="none" stroke-linejoin="miter"/>
+    <text x="158" y="21" font-size="14" font-style="italic" font-weight="bold" text-anchor="middle">R = 40 Ω</text>
+    <!-- Branch Current Arrow -->
+    <line x1="215" y1="42" x2="242" y2="42" stroke="#0f172a" stroke-width="2" marker-end="url(#ikzArr)"/>
+    <text x="232" y="30" font-size="14" font-style="italic">i</text>
+    <text x="237" y="34" font-size="10" font-style="italic">C</text>
+    <text x="245" y="30" font-size="13">(t)</text>
+    <!-- Precision Capacitor C -->
+    <line x1="263" y1="88" x2="307" y2="88" stroke="#0f172a" stroke-width="2.6"/>
+    <line x1="263" y1="104" x2="307" y2="104" stroke="#0f172a" stroke-width="2.6"/>
+    <text x="314" y="101" font-size="14" font-style="italic" font-weight="bold">C = 50 μF</text>
+    <text x="252" y="84" font-size="12" font-weight="bold" fill="#b91c1c">+</text>
+    <text x="252" y="102" font-size="14" font-style="italic" fill="#b91c1c" text-anchor="end">v</text>
+    <text x="253" y="106" font-size="10" font-style="italic" fill="#b91c1c">C</text>
+    <text x="252" y="118" font-size="13" font-weight="bold" fill="#b91c1c">−</text>
+    <!-- Node & Ground -->
+    <circle cx="175" cy="155" r="3.2" fill="#0f172a"/>
+    <line x1="175" y1="155" x2="175" y2="170" stroke="#0f172a" stroke-width="2"/>
+    <line x1="161" y1="170" x2="189" y2="170" stroke="#0f172a" stroke-width="2"/>
+    <line x1="166" y1="176" x2="184" y2="176" stroke="#0f172a" stroke-width="2"/>
+    <line x1="171" y1="182" x2="179" y2="182" stroke="#0f172a" stroke-width="2"/>
+  </svg>
+</div>
+```
+::: {.circuit-card-body}
+- **Derivative Law:** $i_C(t) = C\dfrac{dv_C(t)}{dt}$
+- **Integral Law:** $v_C(t) = \dfrac{1}{C}\displaystyle\int i_C(t)\,dt$
+- **Phasor Impedance:** $\mathbf{Z}_C = \dfrac{1}{j\omega C} = -jX_C$
+- **Phase Shift:** $\mathbf{I}$ leads $\mathbf{V}_C$ by $+90^\circ$ (*ICE*)
+:::
+:::
+
+::: {.circuit-card}
+```{=html}
+<div class="circuit-card-header">
+  <span>CIRCUIT 2: SERIES RL</span>
+  <span style="color: #6ee7b7;">1st-Order Inductive</span>
+</div>
+<div class="circuit-svg-box">
+  <!-- CircuiTikZ-Grade Vector Schematic: Series RL -->
+  <svg class="tikz-svg" viewBox="0 0 360 205" width="100%" height="175" xmlns="http://www.w3.org/2000/svg">
+    <!-- Main Loop Wires -->
+    <path d="M 65 75 L 65 42 L 122 42 M 198 42 L 275 42 L 275 62 M 275 126 L 275 155 L 65 155 L 65 115" stroke="#0f172a" stroke-width="2" fill="none" stroke-linecap="square"/>
+    <!-- AC Voltage Source -->
+    <circle cx="65" cy="95" r="20" stroke="#0f172a" stroke-width="2" fill="#ffffff"/>
+    <text x="65" y="85" font-size="12" font-weight="bold" text-anchor="middle">+</text>
+    <path d="M 53 98 C 57 90, 61 90, 65 98 C 69 106, 73 106, 77 98" stroke="#0f172a" stroke-width="1.8" fill="none"/>
+    <text x="36" y="92" font-size="15" font-style="italic" text-anchor="end">v</text>
+    <text x="37" y="96" font-size="10" font-style="italic" text-anchor="start">s</text>
+    <text x="43" y="92" font-size="14" text-anchor="start">(t)</text>
+    <!-- IEEE 6-Turn Precision Resistor R -->
+    <path d="M 122 42 L 128 30 L 139 54 L 150 30 L 161 54 L 172 30 L 183 54 L 189 42 L 198 42" stroke="#0f172a" stroke-width="2" fill="none" stroke-linejoin="miter"/>
+    <text x="158" y="21" font-size="14" font-style="italic" font-weight="bold" text-anchor="middle">R = 30 Ω</text>
+    <!-- Branch Current Arrow -->
+    <line x1="215" y1="42" x2="242" y2="42" stroke="#0f172a" stroke-width="2" marker-end="url(#ikzArr)"/>
+    <text x="232" y="30" font-size="14" font-style="italic">i</text>
+    <text x="237" y="34" font-size="10" font-style="italic">L</text>
+    <text x="245" y="30" font-size="13">(t)</text>
+    <!-- CircuiTikZ 4-Arched Inductor L -->
+    <path d="M 275 62 A 9 8 0 0 1 275 78 A 9 8 0 0 1 275 94 A 9 8 0 0 1 275 110 A 9 8 0 0 1 275 126" stroke="#0f172a" stroke-width="2.2" fill="none"/>
+    <text x="292" y="99" font-size="14" font-style="italic" font-weight="bold">L = 100 mH</text>
+    <text x="260" y="72" font-size="12" font-weight="bold" fill="#0284c7">+</text>
+    <text x="256" y="98" font-size="14" font-style="italic" fill="#0284c7" text-anchor="end">v</text>
+    <text x="257" y="102" font-size="10" font-style="italic" fill="#0284c7">L</text>
+    <text x="260" y="124" font-size="13" font-weight="bold" fill="#0284c7">−</text>
+    <!-- Node & Ground -->
+    <circle cx="175" cy="155" r="3.2" fill="#0f172a"/>
+    <line x1="175" y1="155" x2="175" y2="170" stroke="#0f172a" stroke-width="2"/>
+    <line x1="161" y1="170" x2="189" y2="170" stroke="#0f172a" stroke-width="2"/>
+    <line x1="166" y1="176" x2="184" y2="176" stroke="#0f172a" stroke-width="2"/>
+    <line x1="171" y1="182" x2="179" y2="182" stroke="#0f172a" stroke-width="2"/>
+  </svg>
+</div>
+```
+::: {.circuit-card-body}
+- **Derivative Law:** $v_L(t) = L\dfrac{di_L(t)}{dt}$
+- **Integral Law:** $i_L(t) = \dfrac{1}{L}\displaystyle\int v_L(t)\,dt$
+- **Phasor Impedance:** $\mathbf{Z}_L = j\omega L = +jX_L$
+- **Phase Shift:** $\mathbf{V}_L$ leads $\mathbf{I}$ by $+90^\circ$ (*ELI*)
+:::
+:::
+
+::: {.circuit-card}
+```{=html}
+<div class="circuit-card-header">
+  <span>CIRCUIT 3: SERIES RLC</span>
+  <span style="color: #fcd34d;">2nd-Order Resonant</span>
+</div>
+<div class="circuit-svg-box">
+  <!-- CircuiTikZ-Grade Vector Schematic: Series RLC -->
+  <svg class="tikz-svg" viewBox="0 0 360 205" width="100%" height="175" xmlns="http://www.w3.org/2000/svg">
+    <!-- Main Loop Wires -->
+    <path d="M 55 75 L 55 42 L 95 42 M 163 42 L 192 42 M 256 42 L 292 42 L 292 88 M 292 104 L 292 155 L 55 155 L 55 115" stroke="#0f172a" stroke-width="2" fill="none" stroke-linecap="square"/>
+    <!-- DC Step / AC Voltage Source -->
+    <circle cx="55" cy="95" r="20" stroke="#0f172a" stroke-width="2" fill="#ffffff"/>
+    <text x="55" y="90" font-size="13" font-weight="bold" text-anchor="middle">+</text>
+    <text x="55" y="106" font-size="14" font-weight="bold" text-anchor="middle">−</text>
+    <text x="28" y="98" font-size="15" font-style="italic" text-anchor="end">V</text>
+    <text x="29" y="102" font-size="10" font-style="italic" text-anchor="start">s</text>
+    <!-- IEEE Resistor R -->
+    <path d="M 95 42 L 101 30 L 111 54 L 121 30 L 131 54 L 141 30 L 151 54 L 157 42 L 163 42" stroke="#0f172a" stroke-width="2" fill="none" stroke-linejoin="miter"/>
+    <text x="128" y="21" font-size="14" font-style="italic" font-weight="bold" text-anchor="middle">R (Var)</text>
+    <!-- CircuiTikZ 4-Arched Inductor L -->
+    <path d="M 192 42 A 8 9 0 0 1 208 42 A 8 9 0 0 1 224 42 A 8 9 0 0 1 240 42 A 8 9 0 0 1 256 42" stroke="#0f172a" stroke-width="2.2" fill="none"/>
+    <text x="224" y="21" font-size="14" font-style="italic" font-weight="bold" text-anchor="middle">L = 1 H</text>
+    <!-- Precision Capacitor C -->
+    <line x1="272" y1="88" x2="312" y2="88" stroke="#0f172a" stroke-width="2.6"/>
+    <line x1="272" y1="104" x2="312" y2="104" stroke="#0f172a" stroke-width="2.6"/>
+    <text x="318" y="100" font-size="13.5" font-style="italic" font-weight="bold">C=0.2F</text>
+    <!-- Loop Current Arrow -->
+    <line x1="155" y1="100" x2="195" y2="100" stroke="#059669" stroke-width="2" marker-end="url(#ikzArr)"/>
+    <text x="175" y="92" font-size="13.5" font-style="italic" fill="#059669" text-anchor="middle">i(t)</text>
+    <!-- Node & Ground -->
+    <circle cx="175" cy="155" r="3.2" fill="#0f172a"/>
+    <line x1="175" y1="155" x2="175" y2="170" stroke="#0f172a" stroke-width="2"/>
+    <line x1="161" y1="170" x2="189" y2="170" stroke="#0f172a" stroke-width="2"/>
+    <line x1="166" y1="176" x2="184" y2="176" stroke="#0f172a" stroke-width="2"/>
+    <line x1="171" y1="182" x2="179" y2="182" stroke="#0f172a" stroke-width="2"/>
+  </svg>
+</div>
+```
+::: {.circuit-card-body}
+- **KVL Loop:** $L\dfrac{di}{dt} + Ri + \dfrac{1}{C}\displaystyle\int i\,dt = V_s$
+- **2nd-Order ODE:** $LC\dfrac{d^2v_C}{dt^2} + RC\dfrac{dv_C}{dt} + v_C = V_s$
+- **Roots:** $s_{1,2} = -\alpha \pm \sqrt{\alpha^2 - \omega_0^2}$
+- **Regimes:** Underdamped, Critical, Overdamped
+:::
+:::
+
+::::
+
+---
+
+## 3. Part I: The Calculus of Sine Waves & Time-Domain Derivatives in MATLAB
+
+### Why Differentiating a Sine Wave Produces a $+90^\circ$ Phase Shift
+In an ideal resistor, voltage and current are proportional ($v_R = i_R R$), so their waveforms peak and cross zero at the exact same instant. In reactive components, however, voltage and current are linked by **calculus**:
+
+$$\text{Capacitor: } i_C(t) = C \frac{dv_C(t)}{dt} \qquad \Bigg| \qquad \text{Inductor: } v_L(t) = L \frac{di_L(t)}{dt}$$
+
+When we drive a capacitor with a sinusoidal voltage $v_C(t) = V_m \sin(\omega t)$, the chain rule of calculus gives:
+
+$$i_C(t) = C \frac{d}{dt}\Big[V_m \sin(\omega t)\Big] = \underbrace{\omega C V_m}_{I_m} \cos(\omega t) = I_m \sin(\omega t + 90^\circ)$$
+
+```{=html}
+<!-- Visual Diagram of Derivative Slope vs Phase Shift -->
+<div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 20px; margin: 22px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.04);">
+  <div style="font-weight: 800; color: #1e1b4b; font-size: 0.95rem; margin-bottom: 10px; text-align: center;">
+    GEOMETRIC PROOF: HOW THE DERIVATIVE SLOPE (dv_C/dt) CREATES A +90° LEADING CURRENT WAVE
+  </div>
+  <svg class="tikz-svg" viewBox="0 0 760 230" width="100%" height="220" xmlns="http://www.w3.org/2000/svg" style="background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+    <!-- Axes -->
+    <line x1="60" y1="115" x2="720" y2="115" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="60" y1="20" x2="60" y2="210" stroke="#64748b" stroke-width="1.5"/>
+    <!-- Quarter-cycle guide lines -->
+    <line x1="210" y1="25" x2="210" y2="205" stroke="#cbd5e1" stroke-width="1.2" stroke-dasharray="5 5"/>
+    <line x1="360" y1="25" x2="360" y2="205" stroke="#cbd5e1" stroke-width="1.2" stroke-dasharray="5 5"/>
+    <line x1="510" y1="25" x2="510" y2="205" stroke="#cbd5e1" stroke-width="1.2" stroke-dasharray="5 5"/>
+    <!-- Blue Sine Wave v_C(t) -->
+    <path d="M 60 115 Q 135 15 210 115 T 360 115 T 510 115 T 660 115" stroke="#2563eb" stroke-width="3.2" fill="none"/>
+    <!-- Red Cosine Wave i_C(t) = C dv_C/dt -->
+    <path d="M 60 40 Q 97 40 135 115 T 210 190 T 285 115 T 360 40 T 435 115 T 510 190 T 585 115 T 660 40" stroke="#dc2626" stroke-width="2.8" stroke-dasharray="7 5" fill="none"/>
+    <!-- Tangent Callout 1: Max Slope at t=0 -->
+    <circle cx="60" cy="115" r="5" fill="#2563eb"/>
+    <circle cx="60" cy="40" r="5" fill="#dc2626"/>
+    <rect x="70" y="20" width="195" height="38" rx="5" fill="#fee2e2" stroke="#fca5a5"/>
+    <text x="167" y="36" font-size="11.5" font-weight="bold" fill="#991b1b" text-anchor="middle">1. At t = 0: v_C = 0 V, but slope</text>
+    <text x="167" y="51" font-size="11.5" font-weight="bold" fill="#991b1b" text-anchor="middle">dv_C/dt is steepest → i_C is MAX!</text>
+    <!-- Tangent Callout 2: Zero Slope at Peak -->
+    <line x1="100" y1="65" x2="170" y2="65" stroke="#0f172a" stroke-width="2"/>
+    <circle cx="135" cy="65" r="5" fill="#2563eb"/>
+    <circle cx="135" cy="115" r="5" fill="#dc2626"/>
+    <rect x="280" y="20" width="225" height="38" rx="5" fill="#dbeafe" stroke="#93c5fd"/>
+    <text x="392" y="36" font-size="11.5" font-weight="bold" fill="#1e40af" text-anchor="middle">2. At Peak Voltage: Tangent slope</text>
+    <text x="392" y="51" font-size="11.5" font-weight="bold" fill="#1e40af" text-anchor="middle">dv_C/dt = 0 → Current i_C crosses 0 A!</text>
+    <!-- Legend -->
+    <rect x="495" y="166" width="245" height="48" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+    <line x1="505" y1="182" x2="535" y2="182" stroke="#2563eb" stroke-width="3"/>
+    <text x="543" y="186" font-size="12" font-weight="bold" fill="#1e293b">v_C(t) = V_m sin(ωt) [Volts]</text>
+    <line x1="505" y1="201" x2="535" y2="201" stroke="#dc2626" stroke-width="2.8" stroke-dasharray="5 3"/>
+    <text x="543" y="205" font-size="12" font-weight="bold" fill="#dc2626">i_C(t) = C (dv_C/dt) [Leads +90°]</text>
+  </svg>
+</div>
+```
+
+### How MATLAB Computes a Numerical Derivative (`diff`)
+In digital oscilloscopes and MATLAB scripts, continuous waveforms are stored as discrete vectors sampled every $\Delta t$ seconds. MATLAB's `diff(v_s)` command subtracts each voltage sample from the next ($v_{k+1} - v_k$). Dividing element-by-element (`./`) by `diff(t)` computes the instantaneous rise-over-run derivative slope at every microsecond:
+
+$$\frac{dv}{dt} \approx \frac{\Delta v}{\Delta t} = \frac{v(t_{k+1}) - v(t_k)}{t_{k+1} - t_k}$$
+
+```matlab
+% =========================================================================
+% PART 1A: NUMERICAL TIME DERIVATIVE OF A CAPACITOR IN MATLAB
+% =========================================================================
+clc; clear; close all;
+
+% 1. Create a time vector from 0 to 0.05 s (3 cycles of 60 Hz) in 10 us steps
+t = 0 : 1e-5 : 0.05;
+
+% 2. Define the 60 Hz sinusoidal voltage: v_s(t) = 12*sin(2*pi*60*t)
+f = 60;                         % Frequency = 60 Hz
+w = 2 * pi * f;                 % Angular frequency = 376.99 rad/s
+v_s = 12 * sin(w * t);          % Applied capacitor voltage [Volts]
+
+% 3. Compute the numerical time derivative dv_s / dt
+dv_dt = diff(v_s) ./ diff(t);   % Rise-over-run slope [Volts/sec]
+t_diff = t(1:end-1);            % Trim last time point to match diff() length
+
+% 4. Apply Capacitor Calculus Law: i_C(t) = C * (dv_s / dt)
+C = 10e-6;                      % Capacitance = 10 uF
+i_C = C * dv_dt;                % Resulting capacitor current [Amps]
+
+% 5. Dual-Axis Oscilloscope Plot
+figure(1);
+yyaxis left;
+plot(t, v_s, 'b-', 'LineWidth', 2);
+ylabel('Capacitor Voltage v_C(t) [Volts]'); ylim([-15, 15]);
+
+yyaxis right;
+plot(t_diff, i_C, 'r--', 'LineWidth', 2);
+ylabel('Capacitor Current i_C(t) [Amps]'); ylim([-0.06, 0.06]);
+xlabel('Time t [seconds]');
+title('Ideal Capacitor: Current Leads Voltage by 90^\circ (i_C = C dv_C/dt)');
+grid on;
+```
+
+---
+
+## 4. Part II: Interactive Phasor Bench (`compass` Polar & `quiver` Tip-to-Tail KVL)
+
+By Euler's formula ($e^{j\theta} = \cos\theta + j\sin\theta$), differentiating a sinusoid in the time domain is equivalent to multiplying its complex phasor by $j\omega$ in the frequency domain, while integrating is equivalent to dividing by $j\omega$:
+
+$$\frac{d}{dt} \iff j\omega = \omega\angle +90^\circ \qquad \Bigg| \qquad \int dt \iff \frac{1}{j\omega} = -j\frac{1}{\omega} = \frac{1}{\omega}\angle -90^\circ$$
+
+### Interactive Phasor & Time-Domain Explorer
+Use the live telemetry widget below to switch between the **Series RL**, **Series RC**, and **Series RLC** lab circuits. Adjust the resistance $R$ and reactance ($X_L$ or $X_C$) sliders to observe how the **Polar Plot (`compass`)** and the **Tip-to-Tail KVL Vector Addition (`quiver`)** respond in real time:
+
+```{=html}
+<div style="background: #ffffff; border: 2px solid #1e1b4b; border-radius: 12px; padding: 20px; margin: 24px 0; box-shadow: 0 8px 20px rgba(0,0,0,0.06);">
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border-bottom: 1px solid #e2e8f0; padding-bottom: 14px; margin-bottom: 16px;">
+    <div>
+      <span style="font-size: 0.75rem; font-weight: 800; color: #4338ca; text-transform: uppercase; letter-spacing: 0.06em;">Interactive Telemetry Bench</span>
+      <h4 style="margin: 2px 0 0 0; color: #0f172a; font-weight: 800;">Live Phasor Vector &amp; KVL Geometry Simulator</h4>
+    </div>
+    <div style="display: flex; gap: 8px;">
+      <button type="button" onclick="setPhasorMode('RL')" id="btnRL" style="background: #1e1b4b; color: #fff; border: none; padding: 7px 14px; border-radius: 6px; font-weight: 700; font-size: 0.82rem; cursor: pointer;">1. Series RL (Task 2A)</button>
+      <button type="button" onclick="setPhasorMode('RC')" id="btnRC" style="background: #e2e8f0; color: #1e293b; border: none; padding: 7px 14px; border-radius: 6px; font-weight: 700; font-size: 0.82rem; cursor: pointer;">2. Series RC (Task 2B)</button>
+      <button type="button" onclick="setPhasorMode('RLC')" id="btnRLC" style="background: #e2e8f0; color: #1e293b; border: none; padding: 7px 14px; border-radius: 6px; font-weight: 700; font-size: 0.82rem; cursor: pointer;">3. Series RLC</button>
+    </div>
+  </div>
+
+  <!-- Sliders -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; background: #f8fafc; padding: 14px 16px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 18px;">
+    <div>
+      <label style="font-size: 0.8rem; font-weight: 700; color: #334155; display: flex; justify-content: space-between;">
+        <span>Source Voltage |V_s|:</span> <span id="lblVs" style="color: #1e1b4b;">20 V</span>
+      </label>
+      <input type="range" id="slVs" min="10" max="30" step="2" value="20" oninput="updatePhasorWidget()" style="width: 100%; margin-top: 4px;">
+    </div>
+    <div>
+      <label style="font-size: 0.8rem; font-weight: 700; color: #334155; display: flex; justify-content: space-between;">
+        <span>Resistance R:</span> <span id="lblR" style="color: #2563eb;">30 Ω</span>
+      </label>
+      <input type="range" id="slR" min="10" max="80" step="2" value="30" oninput="updatePhasorWidget()" style="width: 100%; margin-top: 4px;">
+    </div>
+    <div>
+      <label style="font-size: 0.8rem; font-weight: 700; color: #334155; display: flex; justify-content: space-between;">
+        <span id="lblXTitle">Inductive Reactance X_L:</span> <span id="lblX" style="color: #dc2626;">38 Ω</span>
+      </label>
+      <input type="range" id="slX" min="10" max="80" step="1" value="38" oninput="updatePhasorWidget()" style="width: 100%; margin-top: 4px;">
+    </div>
+  </div>
+
+  <!-- 2-Column Canvas Display -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 16px;">
+    <div style="text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px;">
+      <div style="font-size: 0.78rem; font-weight: 800; color: #1e1b4b; margin-bottom: 6px;">A. POLAR PLOT (compass) — All Vectors from (0,0)</div>
+      <canvas id="cvCompass" width="310" height="260" style="max-width: 100%; background: #ffffff; border-radius: 6px; border: 1px solid #cbd5e1;"></canvas>
+    </div>
+    <div style="text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px;">
+      <div style="font-size: 0.78rem; font-weight: 800; color: #1e1b4b; margin-bottom: 6px;">B. TIP-TO-TAIL KVL PROOF (quiver): V_R + V_X = V_s</div>
+      <canvas id="cvQuiver" width="310" height="260" style="max-width: 100%; background: #ffffff; border-radius: 6px; border: 1px solid #cbd5e1;"></canvas>
+    </div>
+  </div>
+
+  <!-- Live Telemetry Readout Bar -->
+  <div id="phasorReadout" style="margin-top: 14px; background: #0f172a; color: #f8fafc; padding: 12px 16px; border-radius: 8px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.8rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px;">
+  </div>
+</div>
+
+<script>
+let pMode = 'RL';
+function setPhasorMode(m) {
+  pMode = m;
+  document.getElementById('btnRL').style.background = m === 'RL' ? '#1e1b4b' : '#e2e8f0';
+  document.getElementById('btnRL').style.color = m === 'RL' ? '#fff' : '#1e293b';
+  document.getElementById('btnRC').style.background = m === 'RC' ? '#1e1b4b' : '#e2e8f0';
+  document.getElementById('btnRC').style.color = m === 'RC' ? '#fff' : '#1e293b';
+  document.getElementById('btnRLC').style.background = m === 'RLC' ? '#1e1b4b' : '#e2e8f0';
+  document.getElementById('btnRLC').style.color = m === 'RLC' ? '#fff' : '#1e293b';
+
+  if (m === 'RL') {
+    document.getElementById('slVs').value = 20;
+    document.getElementById('slR').value = 30;
+    document.getElementById('slX').value = 38;
+    document.getElementById('lblXTitle').textContent = 'Inductive Reactance X_L:';
+  } else if (m === 'RC') {
+    document.getElementById('slVs').value = 24;
+    document.getElementById('slR').value = 40;
+    document.getElementById('slX').value = 53;
+    document.getElementById('lblXTitle').textContent = 'Capacitive Reactance X_C:';
+  } else {
+    document.getElementById('slVs').value = 24;
+    document.getElementById('slR').value = 25;
+    document.getElementById('slX').value = 20;
+    document.getElementById('lblXTitle').textContent = 'Net Reactance (X_L - X_C):';
+  }
+  updatePhasorWidget();
+}
+
+function drawArrow(ctx, x1, y1, x2, y2, color, label, dashed=false) {
+  const headlen = 9;
+  const dx = x2 - x1, dy = y2 - y1;
+  const angle = Math.atan2(dy, dx);
+  ctx.save();
+  ctx.strokeStyle = color;
+  ctx.fillStyle = color;
+  ctx.lineWidth = 2.4;
+  if (dashed) ctx.setLineDash([5, 4]);
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.beginPath();
+  ctx.moveTo(x2, y2);
+  ctx.lineTo(x2 - headlen * Math.cos(angle - Math.PI / 6), y2 - headlen * Math.sin(angle - Math.PI / 6));
+  ctx.lineTo(x2 - headlen * Math.cos(angle + Math.PI / 6), y2 - headlen * Math.sin(angle + Math.PI / 6));
+  ctx.closePath();
+  ctx.fill();
+  if (label) {
+    ctx.font = 'bold 12px "Computer Modern Serif", Georgia, serif';
+    ctx.fillText(label, x2 + (dx >= 0 ? 6 : -38), y2 + (dy >= 0 ? 12 : -6));
+  }
+  ctx.restore();
+}
+
+function updatePhasorWidget() {
+  const Vs = parseFloat(document.getElementById('slVs').value);
+  const R = parseFloat(document.getElementById('slR').value);
+  const Xmag = parseFloat(document.getElementById('slX').value);
+  const X = pMode === 'RC' ? -Xmag : Xmag;
+
+  document.getElementById('lblVs').textContent = Vs + ' V';
+  document.getElementById('lblR').textContent = R + ' Ω';
+  document.getElementById('lblX').textContent = (X >= 0 ? '+' : '') + X + ' Ω';
+
+  const Zmag = Math.hypot(R, X);
+  const Zang = Math.atan2(X, R);
+  const Imag = Vs / Zmag;
+  const Iang = -Zang;
+
+  const VR_re = Imag * R * Math.cos(Iang);
+  const VR_im = Imag * R * Math.sin(Iang);
+  const VX_re = -Imag * X * Math.sin(Iang);
+  const VX_im = Imag * X * Math.cos(Iang);
+
+  const VRmag = Math.hypot(VR_re, VR_im);
+  const VXmag = Math.hypot(VX_re, VX_im);
+  const deg = r => (r * 180 / Math.PI).toFixed(1);
+
+  const c1 = document.getElementById('cvCompass');
+  const ctx1 = c1.getContext('2d');
+  ctx1.clearRect(0, 0, c1.width, c1.height);
+  const cx = 155, cy = 130, scale = 3.4;
+
+  ctx1.strokeStyle = '#e2e8f0';
+  ctx1.lineWidth = 1;
+  [35, 70, 102].forEach(r => {
+    ctx1.beginPath(); ctx1.arc(cx, cy, r, 0, 2*Math.PI); ctx1.stroke();
+  });
+  ctx1.strokeStyle = '#94a3b8';
+  ctx1.beginPath(); ctx1.moveTo(15, cy); ctx1.lineTo(295, cy);
+  ctx1.moveTo(cx, 15); ctx1.lineTo(cx, 245); ctx1.stroke();
+
+  drawArrow(ctx1, cx, cy, cx + Vs*scale, cy, '#0f172a', 'Vs');
+  drawArrow(ctx1, cx, cy, cx + VR_re*scale, cy - VR_im*scale, '#2563eb', 'V_R');
+  drawArrow(ctx1, cx, cy, cx + VX_re*scale, cy - VX_im*scale, '#dc2626', pMode === 'RC' ? 'V_C' : 'V_L');
+  drawArrow(ctx1, cx, cy, cx + (VR_re*0.65)*scale, cy - (VR_im*0.65)*scale, '#059669', 'I', true);
+
+  const c2 = document.getElementById('cvQuiver');
+  const ctx2 = c2.getContext('2d');
+  ctx2.clearRect(0, 0, c2.width, c2.height);
+  const qx = 45, qy = 130, qscale = 7.2;
+
+  ctx2.strokeStyle = '#cbd5e1';
+  ctx2.beginPath(); ctx2.moveTo(15, qy); ctx2.lineTo(295, qy);
+  ctx2.moveTo(qx, 20); ctx2.lineTo(qx, 240); ctx2.stroke();
+
+  const tipVRx = qx + VR_re * qscale;
+  const tipVRy = qy - VR_im * qscale;
+  const tipVsx = qx + Vs * qscale;
+
+  drawArrow(ctx2, qx, qy, tipVRx, tipVRy, '#2563eb', '1. V_R');
+  drawArrow(ctx2, tipVRx, tipVRy, tipVsx, qy, '#dc2626', pMode === 'RC' ? '2. V_C' : '2. V_L');
+  drawArrow(ctx2, qx, qy, tipVsx, qy, '#0f172a', '3. V_s', true);
+
+  document.getElementById('phasorReadout').innerHTML = `
+    <div><span style="color:#94a3b8;">Impedance Z:</span> <strong>${Zmag.toFixed(2)}∠${deg(Zang)}° Ω</strong></div>
+    <div><span style="color:#6ee7b7;">Current I:</span> <strong>${Imag.toFixed(3)}∠${deg(Iang)}° A</strong></div>
+    <div><span style="color:#93c5fd;">Resistor V_R:</span> <strong>${VRmag.toFixed(2)}∠${deg(Iang)}° V</strong></div>
+    <div><span style="color:#fca5a5;">Reactive ${pMode==='RC'?'V_C':'V_L'}:</span> <strong>${VXmag.toFixed(2)}∠${deg(Iang + (X>=0?Math.PI/2:-Math.PI/2))}° V</strong></div>
+  `;
+}
+document.addEventListener('DOMContentLoaded', updatePhasorWidget);
+</script>
+```
+
+---
+
+## 5. Part III: What is Simulink & How Does It Model Circuits Visually?
+
+### Why Engineers Use Simulink Alongside MATLAB
+While **MATLAB** executes sequential lines of text code, **Simulink** is a graphical block-diagram environment designed for modeling dynamical systems governed by differential equations. Instead of solving differential equations by hand before coding, Simulink allows students to wire mathematical operations (**Sum**, **Gain**, and **Integrator `1/s`** blocks) directly into a closed-loop feedback system:
+
+1. **The Integrator Block ($\frac{1}{s}$) as a Calculus Engine:** In Laplace notation, multiplying by $\frac{1}{s}$ represents time integration ($\int dt$). If the wire entering an Integrator block carries the derivative $\frac{dv_C}{dt}$, the wire exiting that block carries the integrated state variable $v_C(t)$ itself.
+2. **Isolate the Highest Derivative:** For a 1st-order Series RC circuit ($V_s = RC\frac{dv_C}{dt} + v_C$), isolating the derivative yields:
+   $$\frac{dv_C}{dt} = \frac{1}{RC}\Big[V_s(t) - v_C(t)\Big]$$
+
+```{=html}
+<!-- Simulink Schematic 1: 1st-Order RC / RL Loop -->
+<div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 20px; margin: 22px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
+  <div style="font-weight: 800; color: #1e1b4b; font-size: 0.92rem; margin-bottom: 10px; text-align: center;">
+    SIMULINK SCHEMATIC 1: 1ST-ORDER RC CHARGING INTEGRATOR LOOP — dv_C/dt = (1/RC)[V_s(t) − v_C(t)]
+  </div>
+  <svg class="tikz-svg" viewBox="0 0 780 190" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" style="background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+    <defs>
+      <marker id="simArr" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="#0f172a"/>
+      </marker>
+    </defs>
+    <!-- Step Block -->
+    <rect x="30" y="45" width="80" height="55" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="2"/>
+    <path d="M 45 85 L 70 85 L 70 60 L 95 60" stroke="#2563eb" stroke-width="2.5" fill="none"/>
+    <text x="70" y="118" font-size="12" font-weight="bold" fill="#0f172a" text-anchor="middle">Step (10 V)</text>
+    <!-- Sum Block -->
+    <circle cx="195" cy="72" r="22" fill="#ffffff" stroke="#0f172a" stroke-width="2"/>
+    <text x="184" y="76" font-size="14" font-weight="bold" fill="#16a34a">+</text>
+    <text x="192" y="90" font-size="15" font-weight="bold" fill="#dc2626">−</text>
+    <text x="195" y="40" font-size="12" font-weight="bold" fill="#0f172a" text-anchor="middle">Sum (|+-)</text>
+    <!-- Gain Block -->
+    <polygon points="295,40 295,105 385,72" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+    <text x="328" y="76" font-size="12" font-weight="bold" fill="#1e3a8a" text-anchor="middle">1/RC = 5</text>
+    <text x="340" y="122" font-size="12" font-weight="bold" fill="#1e3a8a" text-anchor="middle">Gain (1/RC)</text>
+    <!-- Integrator Block -->
+    <rect x="475" y="45" width="80" height="55" rx="4" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+    <text x="515" y="78" font-size="18" font-weight="bold" fill="#92400e" text-anchor="middle">1 / s</text>
+    <text x="515" y="118" font-size="12" font-weight="bold" fill="#92400e" text-anchor="middle">Integrator</text>
+    <!-- Scope Block -->
+    <rect x="655" y="45" width="80" height="55" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="2"/>
+    <rect x="667" y="55" width="56" height="35" fill="#0f172a" rx="2"/>
+    <path d="M 670 85 Q 685 60 720 60" stroke="#4ade80" stroke-width="2.2" fill="none"/>
+    <text x="695" y="118" font-size="12" font-weight="bold" fill="#0f172a" text-anchor="middle">Scope</text>
+    <!-- Wires -->
+    <line x1="110" y1="72" x2="171" y2="72" stroke="#0f172a" stroke-width="2" marker-end="url(#simArr)"/>
+    <text x="140" y="64" font-size="12" font-style="italic" font-weight="bold" fill="#334155" text-anchor="middle">V_s(t)</text>
+    <line x1="217" y1="72" x2="293" y2="72" stroke="#0f172a" stroke-width="2" marker-end="url(#simArr)"/>
+    <text x="255" y="64" font-size="12" font-style="italic" font-weight="bold" fill="#334155" text-anchor="middle">V_s − v_C</text>
+    <line x1="385" y1="72" x2="473" y2="72" stroke="#dc2626" stroke-width="2.2" marker-end="url(#simArr)"/>
+    <text x="430" y="64" font-size="12.5" font-style="italic" font-weight="bold" fill="#dc2626" text-anchor="middle">dv_C / dt</text>
+    <line x1="555" y1="72" x2="653" y2="72" stroke="#16a34a" stroke-width="2.2" marker-end="url(#simArr)"/>
+    <text x="602" y="64" font-size="12.5" font-style="italic" font-weight="bold" fill="#16a34a" text-anchor="middle">v_C(t)</text>
+    <!-- Feedback Loop -->
+    <circle cx="602" cy="72" r="4" fill="#0f172a"/>
+    <path d="M 602 72 L 602 155 L 195 155 L 195 96" stroke="#0f172a" stroke-width="2" fill="none" marker-end="url(#simArr)"/>
+    <text x="398" y="172" font-size="12" font-style="italic" fill="#475569" text-anchor="middle">Closed-loop feedback wire returns state variable v_C(t) to the (−) port of the Sum block</text>
+  </svg>
+</div>
+
+<!-- Simulink Schematic 2: 2nd-Order Series RLC Two-Integrator Loop -->
+<div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 20px; margin: 22px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
+  <div style="font-weight: 800; color: #1e1b4b; font-size: 0.92rem; margin-bottom: 10px; text-align: center;">
+    SIMULINK SCHEMATIC 2: 2ND-ORDER SERIES RLC TWO-INTEGRATOR ARCHITECTURE — di/dt = (1/L)[V_s − R·i(t) − v_C(t)]
+  </div>
+  <svg class="tikz-svg" viewBox="0 0 820 225" width="100%" height="210" xmlns="http://www.w3.org/2000/svg" style="background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+    <!-- Step -->
+    <rect x="20" y="40" width="70" height="48" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="2"/>
+    <path d="M 32 76 L 55 76 L 55 52 L 78 52" stroke="#2563eb" stroke-width="2.2" fill="none"/>
+    <text x="55" y="104" font-size="11.5" font-weight="bold" text-anchor="middle">Step (10V)</text>
+    <!-- Sum -->
+    <circle cx="155" cy="64" r="22" fill="#ffffff" stroke="#0f172a" stroke-width="2"/>
+    <text x="142" y="68" font-size="13" font-weight="bold" fill="#16a34a">+</text>
+    <text x="163" y="68" font-size="14" font-weight="bold" fill="#dc2626">−</text>
+    <text x="152" y="82" font-size="14" font-weight="bold" fill="#dc2626">−</text>
+    <text x="155" y="32" font-size="11.5" font-weight="bold" text-anchor="middle">Sum (|+--)</text>
+    <!-- Gain 1/L -->
+    <polygon points="225,36 225,92 295,64" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+    <text x="252" y="68" font-size="11.5" font-weight="bold" fill="#1e3a8a" text-anchor="middle">1/L = 1</text>
+    <!-- Integrator 1 -->
+    <rect x="355" y="40" width="70" height="48" rx="4" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+    <text x="390" y="69" font-size="16" font-weight="bold" fill="#92400e" text-anchor="middle">1 / s</text>
+    <text x="390" y="32" font-size="11" font-weight="bold" fill="#92400e" text-anchor="middle">Int 1 (Current)</text>
+    <!-- Gain 1/C -->
+    <polygon points="490,36 490,92 560,64" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+    <text x="517" y="68" font-size="11.5" font-weight="bold" fill="#1e3a8a" text-anchor="middle">1/C = 5</text>
+    <!-- Integrator 2 -->
+    <rect x="620" y="40" width="70" height="48" rx="4" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+    <text x="655" y="69" font-size="16" font-weight="bold" fill="#92400e" text-anchor="middle">1 / s</text>
+    <text x="655" y="32" font-size="11" font-weight="bold" fill="#92400e" text-anchor="middle">Int 2 (Voltage)</text>
+    <!-- Scope -->
+    <rect x="735" y="40" width="65" height="48" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="2"/>
+    <rect x="745" y="49" width="45" height="30" fill="#0f172a" rx="2"/>
+    <path d="M 748 72 C 756 45, 764 80, 772 56 C 778 65, 783 62, 788 62" stroke="#4ade80" stroke-width="2" fill="none"/>
+    <text x="767" y="104" font-size="11.5" font-weight="bold" text-anchor="middle">Scope</text>
+    <!-- Forward Wires -->
+    <line x1="90" y1="64" x2="131" y2="64" stroke="#0f172a" stroke-width="2" marker-end="url(#simArr)"/>
+    <line x1="177" y1="64" x2="223" y2="64" stroke="#0f172a" stroke-width="2" marker-end="url(#simArr)"/>
+    <line x1="295" y1="64" x2="353" y2="64" stroke="#dc2626" stroke-width="2" marker-end="url(#simArr)"/>
+    <text x="324" y="56" font-size="11.5" font-style="italic" font-weight="bold" fill="#dc2626" text-anchor="middle">di/dt</text>
+    <line x1="425" y1="64" x2="488" y2="64" stroke="#2563eb" stroke-width="2" marker-end="url(#simArr)"/>
+    <text x="456" y="56" font-size="11.5" font-style="italic" font-weight="bold" fill="#2563eb" text-anchor="middle">i(t)</text>
+    <line x1="560" y1="64" x2="618" y2="64" stroke="#d97706" stroke-width="2" marker-end="url(#simArr)"/>
+    <text x="589" y="56" font-size="11.5" font-style="italic" font-weight="bold" fill="#d97706" text-anchor="middle">dv_C/dt</text>
+    <line x1="690" y1="64" x2="733" y2="64" stroke="#16a34a" stroke-width="2" marker-end="url(#simArr)"/>
+    <text x="712" y="56" font-size="11.5" font-style="italic" font-weight="bold" fill="#16a34a" text-anchor="middle">v_C(t)</text>
+    <!-- Inner Feedback Gain R -->
+    <polygon points="340,115 340,163 270,139" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+    <text x="315" y="143" font-size="11.5" font-weight="bold" fill="#1e3a8a" text-anchor="middle">Gain R</text>
+    <circle cx="456" cy="64" r="3.5" fill="#0f172a"/>
+    <path d="M 456 64 L 456 139 L 340 139" stroke="#0f172a" stroke-width="1.8" fill="none"/>
+    <path d="M 270 139 L 166 139 L 166 86" stroke="#0f172a" stroke-width="1.8" fill="none" marker-end="url(#simArr)"/>
+    <text x="218" y="132" font-size="11" font-style="italic" font-weight="bold" fill="#1e3a8a" text-anchor="middle">Damping Term R·i(t)</text>
+    <!-- Outer Feedback Loop -->
+    <circle cx="712" cy="64" r="3.5" fill="#0f172a"/>
+    <path d="M 712 64 L 712 192 L 146 192 L 146 86" stroke="#0f172a" stroke-width="1.8" fill="none" marker-end="url(#simArr)"/>
+    <text x="430" y="210" font-size="11.5" font-style="italic" fill="#475569" text-anchor="middle">Outer feedback loop returns capacitor voltage v_C(t) to the bottom (−) port of the Sum block</text>
+  </svg>
+</div>
+```
+
+---
+
+## 6. Complete Lab Walkthrough & Student Exercises
+
+::: {.panel-tabset}
+
+## 🧭 Module 0: MATLAB Primer
+
+### Absolute Beginner's Guide to MATLAB & `.m` Files
+While single calculations in the **Command Window** disappear when MATLAB closes, sequences of commands saved in an **`.m` Script File** create reproducible engineering simulations.
+
+1. **Create Your Script:** Click **New Script** on the **HOME** ribbon and save as `Circuit_Lab_LastName.m` (use only letters, numbers, and underscores).
+2. **Four Essential MATLAB Symbols:**
+   * **`%` (Comment):** Ignored by MATLAB; used to document engineering units.
+   * **`;` (Semicolon):** Suppresses screen printing of 5,000-element arrays.
+   * **`:` (Colon Operator):** Generates evenly spaced time arrays (`t = 0 : 1e-5 : 0.05;`).
+   * **`1j` (Imaginary Unit):** Represents $\sqrt{-1} = 1\angle +90^\circ$ for complex impedance calculations.
+
+## ⏱️ Part I: Inductor Calculus Challenge
+
+### Student Exercise (Task 1B): Inductor Derivative ($v_L = L\frac{di_L}{dt}$)
+Below your Part 1A capacitor code, simulate an **ideal inductor** of inductance $L = 50\text{ mH}$ (`50e-3` H) driven by a sinusoidal current source $i_s(t) = 2\sin(120\pi t)\text{ A}$ by filling in the missing blanks (`___`):
+
+```matlab
+% --- PART 1B: STUDENT EXERCISE - IDEAL INDUCTOR (L = 50 mH) ---
+i_s = 2 * sin(w * t);                   % 1. Inductor current: 2*sin(120*pi*t) Amps
+di_dt = diff(___) ./ diff(t);           % 2. Numerical derivative di_s / dt
+L = ___;                                % 3. Inductance = 50 mH (50e-3)
+v_L = L * ___;                          % 4. Inductor Calculus Law: v_L = L*(di_s/dt)
+
+figure(2);
+yyaxis left;  plot(t, i_s, 'b-', 'LineWidth', 2); ylabel('Current i_L(t) [Amps]');
+yyaxis right; plot(t_diff, ___, 'r--', 'LineWidth', 2); ylabel('Voltage v_L(t) [Volts]');
+xlabel('Time t [seconds]'); title('Part 1B: Ideal Inductor (v_L = L di_L/dt)'); grid on;
+```
+
+## 📐 Part II: Phasor MATLAB Code
+
+### Series RL Phasor Script (`compass` & `quiver`)
+```matlab
+% --- PART 2A: SERIES RL PHASOR PLOTS (compass & quiver) ---
+Vs = 20 * exp(1j * 0);          % Reference source: 20 angle 0 deg V
+f = 60; w = 2 * pi * f;
+R = 30; L = 0.100;              % R = 30 Ohms, L = 100 mH
+
+ZR = R;
+ZL = 1j * w * L;                % Inductor impedance (+j37.70 Ohms)
+Zeq = ZR + ZL;
+I_phasor = Vs / Zeq;
+VR = I_phasor * ZR;
+VL = I_phasor * ZL;
+
+% Polar Plot (compass) & Tip-to-Tail KVL Vector Plot (quiver)
+figure(3); compass([Vs, VR, VL, 20*I_phasor]);
+figure(4); hold on; grid on; axis equal;
+quiver(0, 0, real(VR), imag(VR), 0, 'b', 'LineWidth', 2);
+quiver(real(VR), imag(VR), real(VL), imag(VL), 0, 'r', 'LineWidth', 2);
+quiver(0, 0, real(Vs), imag(Vs), 0, 'k--', 'LineWidth', 2.5);
+```
+
+## 🔄 Part III: 2nd-Order RLC Damping
+
+### Comparing Underdamped, Critically Damped, and Overdamped Regimes
+Using **Simulink Schematic 2** above ($L = 1\text{ H}$, $C = 0.2\text{ F}$, $V_s = 10\text{ V}$ step), students run three simulations across `R = 1`, `R = 4.47`, and `R = 10` $\Omega$ and verify the characteristic roots $s_{1,2} = -\alpha \pm \sqrt{\alpha^2 - \omega_0^2}$:
+
+| Run & Resistance $R$ | Neper Freq. $\alpha = \frac{R}{2L}$ | Resonant Freq. $\omega_0 = \frac{1}{\sqrt{LC}}$ | Characteristic Roots $s_{1,2}$ | Dynamical Regime |
+| :--- | :--- | :--- | :--- | :--- |
+| **Run 1: $R = 1\ \Omega$** | $0.50\text{ Np/s}$ | $2.236\text{ rad/s}$ | $-0.50 \pm j2.18\text{ s}^{-1}$ | **Underdamped Ringing** |
+| **Run 2: $R = 4.47\ \Omega$** | $2.236\text{ Np/s}$ | $2.236\text{ rad/s}$ | $-2.236, -2.236\text{ s}^{-1}$ | **Critically Damped** |
+| **Run 3: $R = 10\ \Omega$** | $5.00\text{ Np/s}$ | $2.236\text{ rad/s}$ | $-0.53, -9.47\text{ s}^{-1}$ | **Overdamped** |
+
+:::
+
+---
+
+```{=html}
+<!-- High-Converting Downloads & Showcase -->
+<div id="instructor-toolkit" style="margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; align-items: stretch;">
+
+  <!-- Free Student Resources Card -->
+  <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 26px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
+    <div>
+      <div style="font-size: 0.75rem; font-weight: 800; color: #0284c7; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px;">Open-Access Student Materials</div>
+      <h3 style="margin: 0 0 12px 0; color: #0f172a; font-weight: 800;">🎓 Student Laboratory Handouts</h3>
+      <p style="font-size: 0.92rem; color: #475569; line-height: 1.6; margin-bottom: 18px;">
+        Download the complete 14-page step-by-step laboratory manual and the standalone 1-page printable 360° Phasor Protractor &amp; Radial Compass Arm for hand-drawn KVL vector verification.
+      </p>
+      <ul style="font-size: 0.88rem; color: #334155; line-height: 1.75; padding-left: 18px; margin-bottom: 20px;">
+        <li><strong>14-Page Lab Manual (PDF):</strong> Keystroke-by-keystroke MATLAB &amp; Simulink guide, fill-in-the-blank tables, and 100-point rubric.</li>
+        <li><strong>360° Cutout Phasor Compass (PDF):</strong> Printable circular protractor dial and pivoting voltage-scaled radial arm.</li>
+      </ul>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <a href="resources/circuit_lab_manual.pdf" style="background: #0f172a; color: #ffffff; text-align: center; padding: 11px 16px; border-radius: 7px; font-weight: 700; font-size: 0.9rem; text-decoration: none;">📄 Download Complete Student Manual (PDF)</a>
+      <a href="resources/phasor_compass_cutout.pdf" style="background: #f1f5f9; color: #0f172a; border: 1px solid #cbd5e1; text-align: center; padding: 11px 16px; border-radius: 7px; font-weight: 700; font-size: 0.9rem; text-decoration: none;">✂️ Download Printable 360° Phasor Compass (PDF)</a>
+    </div>
+  </div>
+
+  <!-- Instructor Toolkit Card -->
+  <div style="background: linear-gradient(145deg, #1e1b4b 0%, #312e81 100%); color: #ffffff; border-radius: 12px; padding: 26px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 10px 25px rgba(30, 27, 75, 0.22); border: 2px solid #6366f1;">
+    <div>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <span style="font-size: 0.75rem; font-weight: 800; color: #fcd34d; text-transform: uppercase; letter-spacing: 0.08em;">Turnkey Department Adoption Package</span>
+        <span style="background: #f59e0b; color: #0f172a; font-weight: 800; font-size: 0.8rem; padding: 3px 10px; border-radius: 20px;">INSTANT ZIP DOWNLOAD</span>
+      </div>
+      <h3 style="margin: 0 0 10px 0; color: #ffffff; font-weight: 800;">👨‍🏫 Premium Instructor Toolkit &amp; Solution Key</h3>
+      <p style="font-size: 0.92rem; color: #e0e7ff; line-height: 1.6; margin-bottom: 16px;">
+        Save 20+ hours of lab prep and grading setup. Designed for engineering faculty, department chairs, and lab instructors adopting this module in AC/DC Circuit Analysis or Dynamical Systems courses.
+      </p>
+      <ul style="font-size: 0.88rem; color: #f8fafc; line-height: 1.75; padding-left: 18px; margin-bottom: 22px;">
+        <li><strong>Master MATLAB Script (<code>Instructor_Key.m</code>):</strong> Fully commented solution script generating all 6 figures and printing exact numerical answers to the Command Window.</li>
+        <li><strong>4 Ready-to-Run Simulink Models (<code>.slx</code>):</strong> Pre-built Warm-Up RC, Series RL Step, Pre-Charged RC Decay, and 2nd-Order Series RLC models.</li>
+        <li><strong>Complete Solution Manual (PDF):</strong> Worked derivations for all analysis questions, phasor tables, and RLC root tables.</li>
+        <li><strong>Editable Overleaf LaTeX Source (<code>.tex</code>):</strong> Customize course numbers, component values, and university headers in seconds.</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+```

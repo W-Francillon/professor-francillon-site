@@ -1,1601 +1,1270 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Circuit Analysis Engine</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Crimson+Pro:ital,wght@0,600;1,600&display=swap');
-        
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: #ffffff;
-            color: #0f172a;
-            margin: 0;
-            padding: 0;
-        }
-        .font-mono-code { font-family: 'JetBrains Mono', monospace; }
-        
-        /* Tab Navigation Styling matching clean academic theme */
-        .tab-btn {
-            padding: 0.55rem 1rem;
-            font-size: 0.8rem;
-            font-weight: 600;
-            border-radius: 0.5rem;
-            transition: all 0.15s ease;
-            border: 1px solid transparent;
-        }
-        .tab-active {
-            background-color: #1e1b4b; /* Deep Papillon Indigo/Purple */
-            color: #ffffff;
-            box-shadow: 0 2px 6px rgba(30, 27, 75, 0.2);
-        }
-        .tab-inactive {
-            background-color: #f1f5f9;
-            color: #475569;
-            border-color: #e2e8f0;
-        }
-        .tab-inactive:hover {
-            background-color: #e2e8f0;
-            color: #0f172a;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Engineering Circuit Analysis Problem Engine</title>
 
-        /* High-Contrast CircuiTikZ-style SVG styling */
-        .tikz-svg {
-            width: 100%;
-            height: auto;
-            max-height: 330px;
-            user-select: none;
-        }
-        .tikz-wire {
-            stroke: #0f172a;
-            stroke-width: 2.2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            fill: none;
-        }
-        .tikz-comp {
-            stroke: #0f172a;
-            stroke-width: 2.2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            fill: #ffffff;
-        }
-        .tikz-label-title {
-            font-family: 'Inter', sans-serif;
-            font-size: 13px;
-            font-weight: 700;
-            fill: #0f172a;
-        }
-        .tikz-label-val {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            font-weight: 600;
-            fill: #3b0764; /* Deep purple value accent */
-        }
-        .tikz-node-label {
-            font-family: 'Crimson Pro', Georgia, serif;
-            font-style: italic;
-            font-weight: 600;
-            font-size: 16px;
-            fill: #b91c1c; /* Crisp academic crimson for nodal/branch variables */
-        }
-        .tikz-sign {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
-            font-weight: 700;
-            fill: #0f172a;
-        }
-        .blueprint-grid {
-            background-color: #ffffff;
-            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
-            background-size: 16px 16px;
-        }
-    </style>
+<!-- Load Authentic Computer Modern / Latin Modern Roman Webfont for LaTeX Prose -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css">
+
+<!-- MathJax 3 Configuration for Computer Modern LaTeX Equations -->
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']],
+      processEscapes: true
+    },
+    chtml: {
+      scale: 1.02
+    }
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+  :root {
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --ink: #0f172a;
+    --muted: #64748b;
+    --navy: #1e1b4b;
+    --indigo: #312e81;
+    --accent: #4338ca;
+    --border: #e2e8f0;
+    --ok-bg: #dcfce7;
+    --ok-txt: #166534;
+    --err-bg: #fee2e2;
+    --err-txt: #991b1b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 18px 22px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .title-block h1 {
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    margin: 0 0 4px 0;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .title-block h1::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+  }
+  .title-block p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .top-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .diff-group {
+    display: inline-flex;
+    background: #e2e8f0;
+    padding: 3px;
+    border-radius: 7px;
+  }
+  .diff-btn {
+    border: none;
+    background: transparent;
+    padding: 6px 11px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #475569;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .diff-btn.active {
+    background: #ffffff;
+    color: var(--navy);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  }
+  .badge {
+    background: #f1f5f9;
+    border: 1px solid var(--border);
+    padding: 7px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--indigo);
+  }
+  .btn-primary {
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--accent); }
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .tab {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    border-radius: 7px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .tab.active {
+    background: var(--navy);
+    color: #fff;
+    border-color: var(--navy);
+  }
+  .workspace {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+  @media (max-width: 920px) {
+    .workspace { grid-template-columns: 1fr; }
+  }
+  .left-col, .right-col {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .schem-card {
+    background: #fff;
+    border: 2px solid var(--navy);
+    border-radius: 9px;
+    overflow: hidden;
+  }
+  .schem-head {
+    background: var(--navy);
+    color: #fff;
+    padding: 8px 14px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.74rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  .schem-body {
+    padding: 16px;
+    min-height: 330px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+    background-size: 16px 16px;
+  }
+  .schem-foot {
+    background: #f8fafc;
+    border-top: 1px solid var(--border);
+    padding: 8px 14px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 16px 18px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  }
+  .panel-title {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--indigo);
+    margin-bottom: 8px;
+  }
+  /* Problem Spec & Params styled in Computer Modern Serif */
+  .spec-text {
+    font-family: "Computer Modern Serif", "Latin Modern Roman", Georgia, serif;
+    font-size: 1.05rem;
+    line-height: 1.55;
+    margin-bottom: 12px;
+    color: #000;
+  }
+  .param-box {
+    font-family: "Computer Modern Serif", "Latin Modern Roman", Georgia, serif;
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 14px;
+    font-size: 1.0rem;
+    color: #000;
+  }
+  .q-row {
+    margin-bottom: 10px;
+  }
+  .q-label {
+    font-family: "Computer Modern Serif", "Latin Modern Roman", Georgia, serif;
+    font-size: 0.96rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: block;
+    color: #0f172a;
+  }
+  .input-group {
+    display: flex;
+    gap: 8px;
+  }
+  .input-group input {
+    flex: 1;
+    padding: 8px 11px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 0.9rem;
+  }
+  .unit-pill {
+    font-family: "Computer Modern Serif", "Latin Modern Roman", Georgia, serif;
+    background: #f1f5f9;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    min-width: 52px;
+    text-align: center;
+  }
+  .btn-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .btn-verify {
+    flex: 1;
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .btn-secondary {
+    background: #f1f5f9;
+    color: var(--ink);
+    border: 1px solid #cbd5e1;
+    padding: 10px 13px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.82rem;
+    cursor: pointer;
+  }
+  .btn-secondary:hover { background: #e2e8f0; }
+  .feedback {
+    font-family: "Computer Modern Serif", "Latin Modern Roman", Georgia, serif;
+    margin-top: 10px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    display: none;
+  }
+  .feedback.ok { background: var(--ok-bg); color: var(--ok-txt); display: block; }
+  .feedback.err { background: var(--err-bg); color: var(--err-txt); display: block; }
+
+  /* Full Overleaf-Style Computer Modern LaTeX Solution Sheet */
+  .derivation {
+    margin-top: 14px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-top: 3px solid #000000;
+    padding: 20px 22px;
+    border-radius: 4px;
+    font-family: "Computer Modern Serif", "Latin Modern Roman", "CMU Serif", Georgia, serif;
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: #000000;
+    display: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    overflow-x: auto;
+  }
+  .derivation .latex-heading {
+    font-family: "Computer Modern Serif", "Latin Modern Roman", "CMU Serif", Georgia, serif;
+    font-size: 1.15rem;
+    font-weight: bold;
+    border-bottom: 1px solid #000;
+    padding-bottom: 4px;
+    margin: 0 0 12px 0;
+    color: #000;
+  }
+
+  /* Export Code Panel (LTspice / TINA-TI & Overleaf LaTeX) */
+  .export-panel {
+    background: #0f172a;
+    color: #f8fafc;
+    border-radius: 9px;
+    padding: 14px 16px;
+    border: 1px solid #334155;
+  }
+  .export-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .export-tabs {
+    display: flex;
+    gap: 6px;
+  }
+  .exp-tab {
+    background: #1e293b;
+    color: #cbd5e1;
+    border: 1px solid #334155;
+    padding: 5px 11px;
+    border-radius: 5px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .exp-tab.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .exp-actions {
+    display: flex;
+    gap: 6px;
+  }
+  .btn-copy {
+    background: #334155;
+    color: #f8fafc;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .btn-copy:hover { background: #475569; }
+  pre.code-out {
+    margin: 0;
+    padding: 12px;
+    background: #020617;
+    color: #38bdf8;
+    border-radius: 6px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    overflow-x: auto;
+    max-height: 200px;
+    white-space: pre;
+  }
+</style>
 </head>
-<body class="p-1 md:p-3">
+<body>
 
-<div class="max-w-5xl mx-auto bg-white border border-slate-300 rounded-xl shadow-sm overflow-hidden">
-    
-    <!-- Top Header & Navigation Bar -->
-    <div class="bg-slate-50 px-5 py-4 border-b border-slate-200">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-3">
-            <div>
-                <div class="flex items-center gap-2">
-                    <span class="inline-block w-2.5 h-2.5 rounded-full bg-indigo-900"></span>
-                    <h2 class="text-base font-bold text-slate-900 tracking-tight uppercase">Engineering Circuit Analysis Problem Engine</h2>
-                </div>
-                <p class="text-xs text-slate-500 mt-0.5">High-Contrast IEEE/CircuiTikZ Schematics • Step-by-Step Derivations • LTspice & LaTeX Export</p>
-            </div>
-            <div class="flex items-center gap-2 self-end md:self-center">
-                <span id="topology-badge" class="text-[11px] font-mono-code font-semibold bg-indigo-50 text-indigo-950 border border-indigo-200 px-2.5 py-1 rounded">Topology 1 of 4</span>
-                <button onclick="generateCircuit()" class="bg-indigo-950 hover:bg-indigo-800 text-white font-semibold py-1.5 px-3.5 rounded-lg text-xs transition shadow-sm flex items-center gap-1.5">
-                    <span>↻</span> New Circuit Topology
-                </button>
-            </div>
-        </div>
+<div class="topbar">
+  <div class="title-block">
+    <h1>ENGINEERING CIRCUIT ANALYSIS PROBLEM ENGINE</h1>
+    <p>High-Contrast IEEE/CircuiTikZ Schematics • Computer Modern $\LaTeX$ Derivations • LTspice, TINA-TI &amp; Overleaf Export</p>
+  </div>
+  <div class="top-actions">
+    <div class="diff-group">
+      <button class="diff-btn active" onclick="setDifficulty('all', this)">All</button>
+      <button class="diff-btn" onclick="setDifficulty('beginner', this)">Beginner</button>
+      <button class="diff-btn" onclick="setDifficulty('intermediate', this)">Intermediate</button>
+      <button class="diff-btn" onclick="setDifficulty('advanced', this)">Advanced (3-Loop / Dep.)</button>
+    </div>
+    <span class="badge" id="topoBadge">Topology 1 of 4</span>
+    <button class="btn-primary" onclick="nextTopology()">↻ New Circuit Topology</button>
+    <button class="btn-secondary" style="padding:7px 11px;" onclick="rerollValues()">🎲 New Values</button>
+  </div>
+</div>
 
-        <!-- Mode Selector Tabs -->
-        <div class="flex flex-wrap gap-1.5" id="mode-tabs">
-            <button onclick="setMode('DC')" id="tab-DC" class="tab-btn tab-active">1. DC Networks (Mesh / Nodal / Dependent)</button>
-            <button onclick="setMode('TH')" id="tab-TH" class="tab-btn tab-inactive">2. Thévenin & Norton</button>
-            <button onclick="setMode('AC')" id="tab-AC" class="tab-btn tab-inactive">3. AC Phasor (RLC)</button>
-            <button onclick="setMode('TR')" id="tab-TR" class="tab-btn tab-inactive">4. 1st-Order (RC / RL)</button>
-            <button onclick="setMode('RLC2')" id="tab-RLC2" class="tab-btn tab-inactive">5. 2nd-Order RLC</button>
-            <button onclick="setMode('OP')" id="tab-OP" class="tab-btn tab-inactive">6. Op-Amps</button>
-        </div>
+<div class="tabs">
+  <button class="tab active" onclick="selectCategory('dc', this)">1. DC Networks (Mesh / Nodal / Dependent)</button>
+  <button class="tab" onclick="selectCategory('thevenin', this)">2. Thévenin &amp; Norton</button>
+  <button class="tab" onclick="selectCategory('ac', this)">3. AC Phasor (RLC)</button>
+  <button class="tab" onclick="selectCategory('first', this)">4. 1st-Order (RC / RL)</button>
+  <button class="tab" onclick="selectCategory('second', this)">5. 2nd-Order RLC (ICs, Roots &amp; Forced)</button>
+  <button class="tab" onclick="selectCategory('opamp', this)">6. Op-Amps</button>
+</div>
+
+<div class="workspace">
+  <!-- LEFT COLUMN: Schematic + Export Code Output -->
+  <div class="left-col">
+    <div class="schem-card">
+      <div class="schem-head">
+        <span id="schemTitle">DC TOPOLOGY</span>
+        <span id="schemLevel">ANSI / IEEE Y32.2 Standard</span>
+      </div>
+      <div class="schem-body" id="svgContainer"></div>
+      <div class="schem-foot">
+        <span>All component values are exact.</span>
+        <span>Click "New Circuit Topology" or "New Values"</span>
+      </div>
     </div>
 
-    <!-- Main Workspace Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 p-5 gap-6 items-start">
-        
-        <!-- Left Column: High-Contrast Schematic Canvas (7 Cols) -->
-        <div class="lg:col-span-7 flex flex-col">
-            <div class="border-2 border-slate-800 rounded-xl overflow-hidden blueprint-grid relative flex flex-col justify-between min-h-[340px]">
-                <!-- Top Canvas Banner -->
-                <div class="bg-slate-900 text-white px-3.5 py-1.5 flex justify-between items-center text-[11px] font-mono-code">
-                    <span id="schematic-title">TOPOLOGY: DC MULTI-LOOP MESH</span>
-                    <span class="text-slate-300">ANSI / IEEE Y32.2 Standard</span>
-                </div>
-                
-                <!-- Dynamic SVG Mount Point -->
-                <div id="svg-container" class="w-full flex-1 flex items-center justify-center p-2"></div>
-
-                <!-- Bottom Canvas Sub-caption -->
-                <div class="bg-slate-100/90 border-t border-slate-200 px-3.5 py-1 text-[11px] text-slate-600 flex justify-between font-mono-code">
-                    <span id="schematic-hint">All component values are exact.</span>
-                    <span>Click "New Circuit Topology" to cycle layouts</span>
-                </div>
-            </div>
+    <!-- Dedicated LTspice / TINA-TI & Overleaf LaTeX Export Box -->
+    <div class="export-panel">
+      <div class="export-header">
+        <div class="export-tabs">
+          <button class="exp-tab active" id="tabLatex" onclick="switchExport('latex')">Overleaf LaTeX (CircuiTikZ + Solution)</button>
+          <button class="exp-tab" id="tabSpice" onclick="switchExport('spice')">SPICE Netlist (.cir for LTspice &amp; TINA-TI)</button>
         </div>
-
-        <!-- Right Column: Problem Statement & Verification (5 Cols) -->
-        <div class="lg:col-span-5 flex flex-col space-y-4">
-            
-            <!-- Problem Specification Card -->
-            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4">
-                <div class="text-[11px] font-bold uppercase tracking-wider text-indigo-950 mb-1">Problem Specification</div>
-                <div id="problem-desc" class="text-sm text-slate-800 leading-relaxed font-medium"></div>
-                
-                <div class="mt-3 pt-3 border-t border-slate-200">
-                    <div class="text-[11px] font-semibold uppercase text-slate-500 mb-1.5">Given Circuit Parameters:</div>
-                    <div id="given-values" class="grid grid-cols-2 gap-2 bg-white p-2.5 rounded-lg border border-slate-200 font-mono-code text-xs text-slate-900"></div>
-                </div>
-            </div>
-
-            <!-- Interactive Answer Checker Card -->
-            <div class="bg-white border-2 border-slate-200 rounded-xl p-4 space-y-3 shadow-sm">
-                <label class="block text-xs uppercase tracking-wider text-slate-800 font-bold" id="question-prompt">Calculate Target Value:</label>
-                
-                <div class="flex gap-2">
-                    <input type="number" step="any" id="user-answer" placeholder="Enter numerical value..." 
-                        onkeydown="if(event.key==='Enter') checkAnswer()"
-                        class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-indigo-900 focus:bg-white font-mono-code">
-                    <span id="unit-label" class="bg-slate-100 border border-slate-300 px-3.5 py-2 rounded-lg text-xs font-mono-code font-bold text-slate-700 flex items-center justify-center min-w-[52px]">V</span>
-                </div>
-
-                <div class="flex gap-2 pt-1">
-                    <button onclick="checkAnswer()" class="flex-1 bg-indigo-950 hover:bg-indigo-800 text-white font-semibold py-2.5 px-4 rounded-lg text-xs transition shadow-sm">
-                        ✓ Verify Answer
-                    </button>
-                    <button onclick="toggleDrawer('solution-drawer')" class="bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 font-semibold py-2.5 px-3.5 rounded-lg text-xs transition">
-                        Show Solution
-                    </button>
-                </div>
-
-                <div id="feedback-box" class="hidden text-xs p-3 rounded-lg font-medium"></div>
-            </div>
+        <div class="exp-actions">
+          <button class="btn-copy" onclick="copyExportCode()" id="copyBtn">📋 Copy Code</button>
+          <button class="btn-copy" onclick="downloadSpice()">⬇ Download .cir</button>
         </div>
+      </div>
+      <pre class="code-out" id="exportCodeBox"></pre>
+    </div>
+  </div>
+
+  <!-- RIGHT COLUMN: Problem Spec, Inputs, and Computer Modern LaTeX Derivation -->
+  <div class="right-col">
+    <div class="panel">
+      <div class="panel-title">Problem Specification</div>
+      <div class="spec-text" id="probSpec"></div>
+      <div class="panel-title">Given Circuit Parameters:</div>
+      <div class="param-box" id="paramGrid"></div>
     </div>
 
-    <!-- Bottom Export & Derivation Bar -->
-    <div class="bg-slate-50 border-t border-slate-200 px-5 py-3.5">
-        <div class="flex flex-wrap items-center justify-between gap-2">
-            <div class="flex flex-wrap gap-2">
-                <button onclick="toggleDrawer('solution-drawer')" class="text-xs bg-white hover:bg-slate-100 text-slate-900 border border-slate-300 px-3.5 py-2 rounded-lg font-semibold transition shadow-sm">
-                    📖 Step-by-Step Mathematical Derivation
-                </button>
-                <button onclick="toggleDrawer('spice-drawer')" class="text-xs bg-white hover:bg-slate-100 text-indigo-950 border border-slate-300 px-3.5 py-2 rounded-lg font-mono-code font-semibold transition shadow-sm">
-                    💻 LTspice Netlist (.cir)
-                </button>
-                <button onclick="toggleDrawer('latex-drawer')" class="text-xs bg-white hover:bg-slate-100 text-purple-950 border border-slate-300 px-3.5 py-2 rounded-lg font-mono-code font-semibold transition shadow-sm">
-                    📄 Overleaf LaTeX (CircuiTikZ)
-                </button>
-            </div>
-        </div>
-
-        <!-- Mathematical Solution Drawer -->
-        <div id="solution-drawer" class="hidden mt-3 bg-white border border-slate-300 rounded-xl p-5 text-sm text-slate-800 space-y-2.5 leading-relaxed shadow-inner"></div>
-        
-        <!-- LTspice Netlist Drawer -->
-        <div id="spice-drawer" class="hidden mt-3 bg-slate-900 border border-slate-800 rounded-xl p-4 relative text-slate-100">
-            <div class="flex justify-between items-center mb-2 pb-2 border-b border-slate-700">
-                <span class="text-[11px] font-mono-code text-slate-400">Ready-to-run LTspice / TINA-TI Netlist</span>
-                <button onclick="copyCode('spice-code', this)" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs px-3 py-1 rounded font-medium transition">Copy Netlist</button>
-            </div>
-            <pre id="spice-code" class="text-xs font-mono-code text-emerald-300 overflow-x-auto leading-relaxed"></pre>
-        </div>
-
-        <!-- LaTeX CircuiTikZ Drawer -->
-        <div id="latex-drawer" class="hidden mt-3 bg-slate-900 border border-slate-800 rounded-xl p-4 relative text-slate-100">
-            <div class="flex justify-between items-center mb-2 pb-2 border-b border-slate-700">
-                <span class="text-[11px] font-mono-code text-slate-400">Requires \usepackage[american]{circuitikz} in preamble</span>
-                <button onclick="copyCode('latex-code', this)" class="bg-purple-600 hover:bg-purple-500 text-white text-xs px-3 py-1 rounded font-medium transition">Copy LaTeX</button>
-            </div>
-            <pre id="latex-code" class="text-xs font-mono-code text-purple-200 overflow-x-auto leading-relaxed"></pre>
-        </div>
+    <div class="panel">
+      <div class="panel-title">Calculate Target Quantities:</div>
+      <div id="inputsContainer"></div>
+      <div class="btn-row">
+        <button class="btn-verify" onclick="verifyAnswers()">✓ Verify Answer</button>
+        <button class="btn-secondary" onclick="toggleDerivation()">Show $\LaTeX$ Solution</button>
+      </div>
+      <div class="feedback" id="feedbackBox"></div>
+      <div class="derivation" id="derivationBox">
+        <div class="latex-heading">Step-by-Step Mathematical Derivation</div>
+        <div id="derivationContent"></div>
+      </div>
     </div>
+  </div>
 </div>
 
 <script>
-/* ============================================================================
-   HIGH-CONTRAST CIRCUITIKZ SVG PRIMITIVE GRAPHICS LIBRARY
-   Zero-overlap guaranteed coordinates on a 620 x 310 viewport
-   ============================================================================ */
-const TikZ = {
-    wire(x1, y1, x2, y2) {
-        return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="tikz-wire"/>`;
+const randPick = arr => arr[Math.floor(Math.random() * arr.length)];
+let currentCat = 'dc';
+let currentDiff = 'all';
+let currentIndex = 0;
+let currentExportMode = 'latex';
+let activeProblem = null;
+
+function typesetMath() {
+  if (window.MathJax && window.MathJax.typesetPromise) {
+    window.MathJax.typesetPromise();
+  }
+}
+
+// --- SVG PRIMITIVES ---
+function svgWrap(inner) {
+  return `<svg width="100%" height="295" viewBox="0 0 560 300" xmlns="http://www.w3.org/2000/svg" style="max-width:530px;font-family:sans-serif;">
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="#0f172a"/>
+      </marker>
+    </defs>
+    ${inner}
+  </svg>`;
+}
+function hRes(x, y, label, val) {
+  return `<path d="M ${x} ${y} l 12 0 l 5 -10 l 10 20 l 10 -20 l 10 20 l 10 -20 l 5 10 l 12 0" stroke="#0f172a" stroke-width="2" fill="none"/>
+          <text x="${x+37}" y="${y-15}" font-size="12" font-weight="bold" text-anchor="middle">${label}</text>
+          <text x="${x+37}" y="${y+24}" font-size="11" fill="#312e81" font-weight="bold" text-anchor="middle">${val}</text>`;
+}
+function vRes(x, y, label, val) {
+  return `<path d="M ${x} ${y} l 0 12 l -10 5 l 20 10 l -20 10 l 20 10 l -20 10 l 10 5 l 0 12" stroke="#0f172a" stroke-width="2" fill="none"/>
+          <text x="${x+16}" y="${y+34}" font-size="12" font-weight="bold">${label}</text>
+          <text x="${x+16}" y="${y+49}" font-size="11" fill="#312e81" font-weight="bold">${val}</text>`;
+}
+function vSource(x, y, label, val, side='left') {
+  const tx = side === 'left' ? x - 25 : x + 25;
+  const anchor = side === 'left' ? 'end' : 'start';
+  return `<circle cx="${x}" cy="${y}" r="18" stroke="#0f172a" stroke-width="2" fill="#fff"/>
+          <text x="${x}" y="${y-5}" font-size="13" font-weight="bold" text-anchor="middle">+</text>
+          <text x="${x}" y="${y+13}" font-size="15" font-weight="bold" text-anchor="middle">−</text>
+          <text x="${tx}" y="${y-4}" font-size="12" font-weight="bold" text-anchor="${anchor}">${label}</text>
+          <text x="${tx}" y="${y+12}" font-size="11" fill="#312e81" font-weight="bold" text-anchor="${anchor}">${val}</text>`;
+}
+function iSource(x, y, label, val, side='right') {
+  const tx = side === 'left' ? x - 25 : x + 25;
+  const anchor = side === 'left' ? 'end' : 'start';
+  return `<circle cx="${x}" cy="${y}" r="18" stroke="#0f172a" stroke-width="2" fill="#fff"/>
+          <line x1="${x}" y1="${y+11}" x2="${x}" y2="${y-9}" stroke="#0f172a" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="${tx}" y="${y-4}" font-size="12" font-weight="bold" text-anchor="${anchor}">${label}</text>
+          <text x="${tx}" y="${y+12}" font-size="11" fill="#312e81" font-weight="bold" text-anchor="${anchor}">${val}</text>`;
+}
+function depSource(x, y, label, val, isCurrent=true) {
+  const inner = isCurrent
+    ? `<line x1="${x}" y1="${y+11}" x2="${x}" y2="${y-9}" stroke="#0f172a" stroke-width="2" marker-end="url(#arrow)"/>`
+    : `<text x="${x}" y="${y-4}" font-size="12" font-weight="bold" text-anchor="middle">+</text>
+       <text x="${x}" y="${y+12}" font-size="14" font-weight="bold" text-anchor="middle">−</text>`;
+  return `<polygon points="${x},${y-22} ${x+22},${y} ${x},${y+22} ${x-22},${y}" stroke="#0f172a" stroke-width="2" fill="#fff"/>
+          ${inner}
+          <text x="${x+28}" y="${y-4}" font-size="12" font-weight="bold">${label}</text>
+          <text x="${x+28}" y="${y+12}" font-size="11" fill="#b91c1c" font-weight="bold">${val}</text>`;
+}
+function gnd(x, y) {
+  return `<path d="M ${x-14} ${y} L ${x+14} ${y} M ${x-9} ${y+5} L ${x+9} ${y+5} M ${x-4} ${y+10} L ${x+4} ${y+10}" stroke="#0f172a" stroke-width="2"/>`;
+}
+
+// --- TOPOLOGIES ---
+const TOPOLOGIES = {
+  dc: [
+    {
+      title: "DC TOPOLOGY 1: TWO-LOOP MESH NETWORK (DUAL SOURCES)",
+      level: "beginner",
+      generate() {
+        const V1 = randPick([20, 30, 40, 50, 60]);
+        const V2 = randPick([15, 20, 25, 35]);
+        const R1 = randPick([10, 20, 30, 40]);
+        const R2 = randPick([10, 20, 25, 50]);
+        const R3 = randPick([10, 15, 20, 30]);
+        const G = (1/R1) + (1/R2) + (1/R3);
+        const VA = ((V1/R1) + (V2/R3)) / G;
+        const IR2 = VA / R2;
+        return {
+          spec: `Use <strong>Mesh Analysis</strong> or <strong>Nodal Analysis</strong> to determine the node voltage $V_A$ and downward branch current $I_{R2}$ flowing through the central resistor $R_2$.`,
+          params: [`$V_1 = ${V1}\\text{ V}$`, `$V_2 = ${V2}\\text{ V}$`, `$R_1 = ${R1}\\text{ }\\Omega$`, `$R_2 = ${R2}\\text{ }\\Omega$`, `$R_3 = ${R3}\\text{ }\\Omega$`],
+          questions: [
+            { label: "Node Voltage $V_A$", ans: VA, unit: "$\\text{V}$" },
+            { label: "Branch Current $I_{R2}$ (downward)", ans: IR2, unit: "$\\text{A}$" }
+          ],
+          svg: svgWrap(`
+            <path d="M 90 250 L 90 80 L 145 80 M 219 80 L 315 80 M 389 80 L 450 80 L 450 250 L 90 250" stroke="#0f172a" stroke-width="2" fill="none"/>
+            <path d="M 270 80 L 270 125 M 270 199 L 270 250" stroke="#0f172a" stroke-width="2" fill="none"/>
+            ${hRes(145, 80, "R₁", R1+" Ω")}
+            ${hRes(315, 80, "R₃", R3+" Ω")}
+            ${vRes(270, 125, "R₂", R2+" Ω")}
+            ${vSource(90, 165, "V₁", V1+" V", "left")}
+            ${vSource(450, 165, "V₂", V2+" V", "right")}
+            <circle cx="270" cy="80" r="4" fill="#b91c1c"/><text x="270" y="68" font-size="12" font-weight="bold" fill="#b91c1c" text-anchor="middle">V_A</text>
+            <circle cx="270" cy="250" r="4" fill="#0f172a"/>${gnd(270, 250)}
+          `),
+          derivation: `
+            <p><strong>1. Nodal Analysis (KCL) at Node $V_A$:</strong><br>
+            Summing the currents leaving node $V_A$ relative to the reference ground ($0\\text{ V}$):</p>
+            $$\\frac{V_A - V_1}{R_1} + \\frac{V_A}{R_2} + \\frac{V_A - V_2}{R_3} = 0$$
+            <p>Substitute the given circuit parameters into the KCL equation:</p>
+            $$\\frac{V_A - ${V1}}{${R1}} + \\frac{V_A}{${R2}} + \\frac{V_A - ${V2}}{${R3}} = 0$$
+            <p><strong>2. Factor Conductance Terms:</strong></p>
+            $$V_A \\left( \\frac{1}{${R1}} + \\frac{1}{${R2}} + \\frac{1}{${R3}} \\right) = \\frac{${V1}}{${R1}} + \\frac{${V2}}{${R3}}$$
+            $$V_A (${G.toFixed(4)}\\text{ S}) = ${(V1/R1 + V2/R3).toFixed(4)}\\text{ A} \\implies \\mathbf{V_A = ${VA.toFixed(3)}\\text{ V}}$$
+            <p><strong>3. Branch Current $I_{R2}$ via Ohm's Law:</strong></p>
+            $$\\mathbf{I_{R2}} = \\frac{V_A}{R_2} = \\frac{${VA.toFixed(3)}\\text{ V}}{${R2}\\text{ }\\Omega} = \\mathbf{${IR2.toFixed(3)}\\text{ A}}$$
+          `,
+          latex: `% Overleaf CircuiTikZ + Solution Export
+\\documentclass{article}
+\\usepackage[siunitx, american]{circuitikz}
+\\usepackage{amsmath}
+\\begin{document}
+
+\\begin{circuitikz}[scale=1.0]
+  \\draw (0,0) to[V, l=$V_1=\\SI{${V1}}{\\volt}$, invert] (0,3)
+              to[R, l=$R_1=\\SI{${R1}}{\\ohm}$] (3,3) node[above]{$V_A$}
+              to[R, l=$R_3=\\SI{${R3}}{\\ohm}$] (6,3)
+              to[V, l=$V_2=\\SI{${V2}}{\\volt}$] (6,0) -- (0,0);
+  \\draw (3,3) to[R, l=$R_2=\\SI{${R2}}{\\ohm}$] (3,0) node[ground]{};
+\\end{circuitikz}
+
+\\subsection*{Solution}
+\\begin{align*}
+  \\frac{V_A - ${V1}}{${R1}} + \\frac{V_A}{${R2}} + \\frac{V_A - ${V2}}{${R3}} &= 0 \\\\
+  V_A &= \\SI{${VA.toFixed(3)}}{\\volt}, \\quad I_{R2} = \\frac{V_A}{${R2}} = \\SI{${IR2.toFixed(3)}}{\\ampere}
+\\end{align*}
+\\end{document}`,
+          spice: `* Universal SPICE Netlist (LTspice & TINA-TI Compatible)
+V1 1 0 DC ${V1}
+R1 1 2 ${R1}
+R2 2 0 ${R2}
+R3 2 3 ${R3}
+V2 3 0 DC ${V2}
+.OP
+* Expected: V(2) = ${VA.toFixed(3)} V, I(R2) = ${IR2.toFixed(3)} A
+.END`
+        };
+      }
     },
-    dot(x, y, label = '', pos = 'top') {
-        let l = '';
-        if (label) {
-            const dx = pos === 'left' ? -14 : (pos === 'right' ? 14 : 0);
-            const dy = pos === 'top' ? -12 : (pos === 'bottom' ? 20 : 5);
-            const anchor = pos === 'left' ? 'end' : (pos === 'right' ? 'start' : 'middle');
-            l = `<text x="${x + dx}" y="${y + dy}" text-anchor="${anchor}" class="tikz-node-label">${label}</text>`;
-        }
-        return `<circle cx="${x}" cy="${y}" r="4" fill="#0f172a"/>${l}`;
+    {
+      title: "DC TOPOLOGY 2: TWO-LOOP MIXED SOURCES (VOLTAGE + CURRENT SOURCE)",
+      level: "intermediate",
+      generate() {
+        const V1 = randPick([24, 36, 48, 60]);
+        const Is = randPick([2, 3, 4, 5]);
+        const R1 = randPick([6, 12, 15, 20]);
+        const R2 = randPick([10, 12, 20, 30]);
+        const R3 = randPick([5, 10, 15]);
+        const VA = (V1/R1 + Is) / (1/R1 + 1/R2);
+        const IR1 = (V1 - VA) / R1;
+        return {
+          spec: `Given an independent voltage source $V_1$ on the left and an independent current source $I_s$ on the right, determine node voltage $V_A$ and the current $I_{R1}$ flowing rightward through $R_1$.`,
+          params: [`$V_1 = ${V1}\\text{ V}$`, `$I_s = ${Is}\\text{ A (upward)}$`, `$R_1 = ${R1}\\text{ }\\Omega$`, `$R_2 = ${R2}\\text{ }\\Omega$`, `$R_3 = ${R3}\\text{ }\\Omega$`],
+          questions: [
+            { label: "Node Voltage $V_A$", ans: VA, unit: "$\\text{V}$" },
+            { label: "Branch Current $I_{R1}$ (rightward)", ans: IR1, unit: "$\\text{A}$" }
+          ],
+          svg: svgWrap(`
+            <path d="M 90 250 L 90 80 L 145 80 M 219 80 L 315 80 M 389 80 L 450 80 L 450 250 L 90 250" stroke="#0f172a" stroke-width="2" fill="none"/>
+            <path d="M 270 80 L 270 125 M 270 199 L 270 250" stroke="#0f172a" stroke-width="2" fill="none"/>
+            ${hRes(145, 80, "R₁", R1+" Ω")}
+            ${hRes(315, 80, "R₃", R3+" Ω")}
+            ${vRes(270, 125, "R₂", R2+" Ω")}
+            ${vSource(90, 165, "V₁", V1+" V", "left")}
+            ${iSource(450, 165, "I_s", Is+" A", "right")}
+            <circle cx="270" cy="80" r="4" fill="#b91c1c"/><text x="270" y="68" font-size="12" font-weight="bold" fill="#b91c1c" text-anchor="middle">V_A</text>
+            <circle cx="270" cy="250" r="4" fill="#0f172a"/>${gnd(270, 250)}
+          `),
+          derivation: `
+            <p><strong>1. Series Current Source Simplification:</strong><br>
+            Because resistor $R_3$ is in series with the ideal current source $I_s = ${Is}\\text{ A}$, the right-hand branch forces the entire ${Is}\\text{ A} directly into node $V_A$:</p>
+            $$\\frac{V_A - V_1}{R_1} + \\frac{V_A}{R_2} - I_s = 0$$
+            <p><strong>2. Solve for Node Voltage $V_A$ and Branch Current $I_{R1}$:</strong></p>
+            $$V_A \\left(\\frac{1}{${R1}} + \\frac{1}{${R2}}\\right) = \\frac{${V1}}{${R1}} + ${Is}$$
+            $$\\mathbf{V_A = ${VA.toFixed(3)}\\text{ V}}, \\qquad \\mathbf{I_{R1}} = \\frac{V_1 - V_A}{R_1} = \\frac{${V1} - ${VA.toFixed(3)}}{${R1}} = \\mathbf{${IR1.toFixed(3)}\\text{ A}}$$
+          `,
+          latex: `\\begin{circuitikz}[american]
+  \\draw (0,0) to[V, l=$\\SI{${V1}}{\\volt}$, invert] (0,3) to[R, l=$\\SI{${R1}}{\\ohm}$] (3,3) node[above]{$V_A$}
+              to[R, l=$\\SI{${R3}}{\\ohm}$] (6,3) to[I, l_=$\\SI{${Is}}{\\ampere}$, invert] (6,0) -- (0,0);
+  \\draw (3,3) to[R, l=$\\SI{${R2}}{\\ohm}$] (3,0) node[ground]{};
+\\end{circuitikz}`,
+          spice: `* Universal SPICE Netlist (LTspice & TINA-TI Compatible)
+V1 1 0 DC ${V1}
+R1 1 2 ${R1}
+R2 2 0 ${R2}
+R3 2 3 ${R3}
+I1 0 3 DC ${Is}
+.OP
+.END`
+        };
+      }
     },
-    term(x, y, label = '', pos = 'right') {
-        const dx = pos === 'right' ? 14 : (pos === 'left' ? -14 : 0);
-        const dy = pos === 'top' ? -10 : (pos === 'bottom' ? 18 : 5);
-        return `<circle cx="${x}" cy="${y}" r="4.5" fill="#ffffff" stroke="#b91c1c" stroke-width="2.5"/>
-                <text x="${x + dx}" y="${y + dy}" text-anchor="middle" class="tikz-node-label">${label}</text>`;
+    {
+      title: "DC TOPOLOGY 3: DEPENDENT SOURCE NETWORK (CCCS DIAMOND SOURCE)",
+      level: "advanced",
+      generate() {
+        const Vs = randPick([20, 30, 40, 50]);
+        const R1 = randPick([10, 20]);
+        const R2 = randPick([20, 40]);
+        const beta = randPick([2, 3, 4]);
+        const VA = (Vs / R1) / ((1 / R1) + (1 - beta) / R2);
+        const ix = VA / R2;
+        return {
+          spec: `The diamond source on the right is a <strong>Current-Controlled Current Source (CCCS)</strong> supplying $I_{\\text{dep}} = ${beta}i_x$ upward into node $V_A$, where $i_x$ is the downward branch current through $R_2$. Determine $V_A$ and $i_x$.`,
+          params: [`$V_s = ${Vs}\\text{ V}$`, `$R_1 = ${R1}\\text{ }\\Omega$`, `$R_2 = ${R2}\\text{ }\\Omega$`, `$I_{\\text{dep}} = ${beta}i_x$`, `$i_x = I_{R2}$`],
+          questions: [
+            { label: "Node Voltage $V_A$", ans: VA, unit: "$\\text{V}$" },
+            { label: "Controlling Current $i_x$", ans: ix, unit: "$\\text{A}$" }
+          ],
+          svg: svgWrap(`
+            <path d="M 100 250 L 100 80 L 155 80 M 229 80 L 430 80 L 430 250 L 100 250" stroke="#0f172a" stroke-width="2" fill="none"/>
+            <path d="M 275 80 L 275 125 M 275 199 L 275 250" stroke="#0f172a" stroke-width="2" fill="none"/>
+            ${hRes(155, 80, "R₁", R1+" Ω")}
+            ${vRes(275, 125, "R₂ (i_x ↓)", R2+" Ω")}
+            ${vSource(100, 165, "V_s", Vs+" V", "left")}
+            ${depSource(430, 165, "I_dep", beta+" i_x", true)}
+            <circle cx="275" cy="80" r="4" fill="#b91c1c"/><text x="275" y="68" font-size="12" font-weight="bold" fill="#b91c1c" text-anchor="middle">V_A</text>
+            <circle cx="275" cy="250" r="4" fill="#0f172a"/>${gnd(275, 250)}
+          `),
+          derivation: `
+            <p><strong>1. Controlling Variable Constraint Equation:</strong><br>
+            Express the controlling branch current $i_x$ in terms of node voltage $V_A$:</p>
+            $$i_x = \\frac{V_A}{R_2} = \\frac{V_A}{${R2}}$$
+            <p><strong>2. Nodal KCL Equation at Node $V_A$:</strong></p>
+            $$\\frac{V_A - V_s}{R_1} + i_x - ${beta}i_x = 0 \\implies \\frac{V_A - ${Vs}}{${R1}} + (1 - ${beta})\\frac{V_A}{${R2}} = 0$$
+            <p><strong>3. Solve for $V_A$ and $i_x$:</strong></p>
+            $$V_A \\left( \\frac{1}{${R1}} + \\frac{${1-beta}}{${R2}} \\right) = \\frac{${Vs}}{${R1}} \\implies \\mathbf{V_A = ${VA.toFixed(3)}\\text{ V}}, \\qquad \\mathbf{i_x = ${ix.toFixed(3)}\\text{ A}}$$
+          `,
+          latex: `\\begin{circuitikz}[american]
+  \\draw (0,0) to[V, l=$\\SI{${Vs}}{\\volt}$, invert] (0,3) to[R, l=$\\SI{${R1}}{\\ohm}$] (3,3) node[above]{$V_A$} -- (6,3)
+              to[cI, l_=$${beta}i_x$, invert] (6,0) -- (0,0);
+  \\draw (3,3) to[R, l=$\\SI{${R2}}{\\ohm}$, i=$i_x$] (3,0) node[ground]{};
+\\end{circuitikz}`,
+          spice: `* Universal SPICE Netlist (LTspice & TINA-TI Compatible)
+Vs 1 0 DC ${Vs}
+R1 1 2 ${R1}
+R2 2 3 ${R2}
+Vsens 3 0 DC 0
+F1 0 2 Vsens ${beta}
+.OP
+.END`
+        };
+      }
     },
-    gnd(x, y) {
-        return `<line x1="${x}" y1="${y}" x2="${x}" y2="${y+12}" class="tikz-wire"/>
-                <line x1="${x-14}" y1="${y+12}" x2="${x+14}" y2="${y+12}" class="tikz-wire"/>
-                <line x1="${x-9}" y1="${y+17}" x2="${x+9}" y2="${y+17}" class="tikz-wire"/>
-                <line x1="${x-4}" y1="${y+22}" x2="${x+4}" y2="${y+22}" class="tikz-wire"/>`;
-    },
-    // Horizontal Resistor between (x1, y) and (x2, y)
-    resH(x1, x2, y, name, val, pos = 'top') {
-        const cx = (x1 + x2) / 2;
-        const s = cx - 24;
-        const pts = `${s},${y} ${s+4},${y-9} ${s+12},${y+9} ${s+20},${y-9} ${s+28},${y+9} ${s+36},${y-9} ${s+44},${y+9} ${s+48},${y}`;
-        const ny = pos === 'top' ? y - 25 : y + 23;
-        const vy = pos === 'top' ? y - 12 : y + 37;
-        return `<line x1="${x1}" y1="${y}" x2="${s}" y2="${y}" class="tikz-wire"/>
-                <polyline points="${pts}" class="tikz-wire"/>
-                <line x1="${s+48}" y1="${y}" x2="${x2}" y2="${y}" class="tikz-wire"/>
-                <text x="${cx}" y="${ny}" text-anchor="middle" class="tikz-label-title">${name}</text>
-                <text x="${cx}" y="${vy}" text-anchor="middle" class="tikz-label-val">${val}</text>`;
-    },
-    // Vertical Resistor between (x, y1) and (x, y2)
-    resV(x, y1, y2, name, val, side = 'right') {
-        const cy = (y1 + y2) / 2;
-        const s = cy - 24;
-        const pts = `${x},${s} ${x-9},${s+4} ${x+9},${s+12} ${x-9},${s+20} ${x+9},${s+28} ${x-9},${s+36} ${x+9},${s+44} ${x},${s+48}`;
-        const tx = side === 'right' ? x + 15 : x - 15;
-        const anchor = side === 'right' ? 'start' : 'end';
-        return `<line x1="${x}" y1="${y1}" x2="${x}" y2="${s}" class="tikz-wire"/>
-                <polyline points="${pts}" class="tikz-wire"/>
-                <line x1="${x}" y1="${s+48}" x2="${x}" y2="${y2}" class="tikz-wire"/>
-                <text x="${tx}" y="${cy - 3}" text-anchor="${anchor}" class="tikz-label-title">${name}</text>
-                <text x="${tx}" y="${cy + 12}" text-anchor="${anchor}" class="tikz-label-val">${val}</text>`;
-    },
-    // Horizontal Inductor
-    indH(x1, x2, y, name, val, pos = 'top') {
-        const cx = (x1 + x2) / 2;
-        const s = cx - 28;
-        const d = `M ${s} ${y} C ${s} ${y-16}, ${s+14} ${y-16}, ${s+14} ${y} C ${s+14} ${y-16}, ${s+28} ${y-16}, ${s+28} ${y} C ${s+28} ${y-16}, ${s+42} ${y-16}, ${s+42} ${y} C ${s+42} ${y-16}, ${s+56} ${y-16}, ${s+56} ${y}`;
-        const ny = pos === 'top' ? y - 28 : y + 22;
-        const vy = pos === 'top' ? y - 14 : y + 36;
-        return `<line x1="${x1}" y1="${y}" x2="${s}" y2="${y}" class="tikz-wire"/>
-                <path d="${d}" class="tikz-wire"/>
-                <line x1="${s+56}" y1="${y}" x2="${x2}" y2="${y}" class="tikz-wire"/>
-                <text x="${cx}" y="${ny}" text-anchor="middle" class="tikz-label-title">${name}</text>
-                <text x="${cx}" y="${vy}" text-anchor="middle" class="tikz-label-val">${val}</text>`;
-    },
-    // Vertical Inductor
-    indV(x, y1, y2, name, val, side = 'right') {
-        const cy = (y1 + y2) / 2;
-        const s = cy - 28;
-        const d = `M ${x} ${s} C ${x+16} ${s}, ${x+16} ${s+14}, ${x} ${s+14} C ${x+16} ${s+14}, ${x+16} ${s+28}, ${x} ${s+28} C ${x+16} ${s+28}, ${x+16} ${s+42}, ${x} ${s+42} C ${x+16} ${s+42}, ${x+16} ${s+56}, ${x} ${s+56}`;
-        const tx = side === 'right' ? x + 20 : x - 16;
-        const anchor = side === 'right' ? 'start' : 'end';
-        return `<line x1="${x}" y1="${y1}" x2="${x}" y2="${s}" class="tikz-wire"/>
-                <path d="${d}" class="tikz-wire"/>
-                <line x1="${x}" y1="${s+56}" x2="${x}" y2="${y2}" class="tikz-wire"/>
-                <text x="${tx}" y="${cy - 3}" text-anchor="${anchor}" class="tikz-label-title">${name}</text>
-                <text x="${tx}" y="${cy + 12}" text-anchor="${anchor}" class="tikz-label-val">${val}</text>`;
-    },
-    // Vertical Capacitor
-    capV(x, y1, y2, name, val, side = 'right') {
-        const cy = (y1 + y2) / 2;
-        const tx = side === 'right' ? x + 22 : x - 22;
-        const anchor = side === 'right' ? 'start' : 'end';
-        return `<line x1="${x}" y1="${y1}" x2="${x}" y2="${cy-6}" class="tikz-wire"/>
-                <line x1="${x-15}" y1="${cy-6}" x2="${x+15}" y2="${cy-6}" stroke="#0f172a" stroke-width="2.8"/>
-                <line x1="${x-15}" y1="${cy+6}" x2="${x+15}" y2="${cy+6}" stroke="#0f172a" stroke-width="2.8"/>
-                <line x1="${x}" y1="${cy+6}" x2="${x}" y2="${y2}" class="tikz-wire"/>
-                <text x="${tx}" y="${cy - 3}" text-anchor="${anchor}" class="tikz-label-title">${name}</text>
-                <text x="${tx}" y="${cy + 12}" text-anchor="${anchor}" class="tikz-label-val">${val}</text>`;
-    },
-    // Horizontal Capacitor
-    capH(x1, x2, y, name, val, pos = 'top') {
-        const cx = (x1 + x2) / 2;
-        const ny = pos === 'top' ? y - 28 : y + 26;
-        const vy = pos === 'top' ? y - 15 : y + 40;
-        return `<line x1="${x1}" y1="${y}" x2="${cx-6}" y2="${y}" class="tikz-wire"/>
-                <line x1="${cx-6}" y1="${y-15}" x2="${cx-6}" y2="${y+15}" stroke="#0f172a" stroke-width="2.8"/>
-                <line x1="${cx+6}" y1="${y-15}" x2="${cx+6}" y2="${y+15}" stroke="#0f172a" stroke-width="2.8"/>
-                <line x1="${cx+6}" y1="${y}" x2="${x2}" y2="${y}" class="tikz-wire"/>
-                <text x="${cx}" y="${ny}" text-anchor="middle" class="tikz-label-title">${name}</text>
-                <text x="${cx}" y="${vy}" text-anchor="middle" class="tikz-label-val">${val}</text>`;
-    },
-    // Vertical Independent Voltage Source
-    vsrcV(x, y1, y2, name, val, side = 'left') {
-        const cy = (y1 + y2) / 2;
-        const r = 22;
-        const tx = side === 'left' ? x - 30 : x + 30;
-        const anchor = side === 'left' ? 'end' : 'start';
-        return `<line x1="${x}" y1="${y1}" x2="${x}" y2="${cy-r}" class="tikz-wire"/>
-                <circle cx="${x}" cy="${cy}" r="${r}" class="tikz-comp"/>
-                <text x="${x}" y="${cy-6}" text-anchor="middle" class="tikz-sign">+</text>
-                <text x="${x}" y="${cy+14}" text-anchor="middle" class="tikz-sign">−</text>
-                <line x1="${x}" y1="${cy+r}" x2="${x}" y2="${y2}" class="tikz-wire"/>
-                <text x="${tx}" y="${cy - 3}" text-anchor="${anchor}" class="tikz-label-title">${name}</text>
-                <text x="${tx}" y="${cy + 12}" text-anchor="${anchor}" class="tikz-label-val">${val}</text>`;
-    },
-    // Vertical AC Sinusoidal Source
-    acsrcV(x, y1, y2, name, val, side = 'left') {
-        const cy = (y1 + y2) / 2;
-        const r = 22;
-        const tx = side === 'left' ? x - 30 : x + 30;
-        const anchor = side === 'left' ? 'end' : 'start';
-        return `<line x1="${x}" y1="${y1}" x2="${x}" y2="${cy-r}" class="tikz-wire"/>
-                <circle cx="${x}" cy="${cy}" r="${r}" class="tikz-comp"/>
-                <path d="M ${x-11} ${cy} Q ${x-5.5} ${cy-11}, ${x} ${cy} T ${x+11} ${cy}" class="tikz-wire"/>
-                <line x1="${x}" y1="${cy+r}" x2="${x}" y2="${y2}" class="tikz-wire"/>
-                <text x="${tx}" y="${cy - 3}" text-anchor="${anchor}" class="tikz-label-title">${name}</text>
-                <text x="${tx}" y="${cy + 12}" text-anchor="${anchor}" class="tikz-label-val">${val}</text>`;
-    },
-    // Vertical Independent Current Source (Arrow Up or Down)
-    isrcV(x, y1, y2, name, val, dir = 'up', side = 'left') {
-        const cy = (y1 + y2) / 2;
-        const r = 22;
-        const tx = side === 'left' ? x - 30 : x + 30;
-        const anchor = side === 'left' ? 'end' : 'start';
-        const arrow = dir === 'up'
-            ? `<line x1="${x}" y1="${cy+12}" x2="${x}" y2="${cy-8}" class="tikz-wire"/>
-               <polygon points="${x},${cy-14} ${x-5},${cy-4} ${x+5},${cy-4}" fill="#0f172a"/>`
-            : `<line x1="${x}" y1="${cy-12}" x2="${x}" y2="${cy+8}" class="tikz-wire"/>
-               <polygon points="${x},${cy+14} ${x-5},${cy+4} ${x+5},${cy+4}" fill="#0f172a"/>`;
-        return `<line x1="${x}" y1="${y1}" x2="${x}" y2="${cy-r}" class="tikz-wire"/>
-                <circle cx="${x}" cy="${cy}" r="${r}" class="tikz-comp"/>
-                ${arrow}
-                <line x1="${x}" y1="${cy+r}" x2="${x}" y2="${y2}" class="tikz-wire"/>
-                <text x="${tx}" y="${cy - 3}" text-anchor="${anchor}" class="tikz-label-title">${name}</text>
-                <text x="${tx}" y="${cy + 12}" text-anchor="${anchor}" class="tikz-label-val">${val}</text>`;
-    },
-    // Vertical Diamond Dependent Source (Voltage or Current)
-    depsrcV(x, y1, y2, name, val, type = 'V', side = 'right') {
-        const cy = (y1 + y2) / 2;
-        const r = 24;
-        const tx = side === 'right' ? x + 30 : x - 30;
-        const anchor = side === 'right' ? 'start' : 'end';
-        const inner = type === 'V'
-            ? `<text x="${x}" y="${cy-5}" text-anchor="middle" class="tikz-sign">+</text>
-               <text x="${x}" y="${cy+14}" text-anchor="middle" class="tikz-sign">−</text>`
-            : `<line x1="${x}" y1="${cy+11}" x2="${x}" y2="${cy-7}" class="tikz-wire"/>
-               <polygon points="${x},${cy-13} ${x-4.5},${cy-4} ${x+4.5},${cy-4}" fill="#0f172a"/>`;
-        return `<line x1="${x}" y1="${y1}" x2="${x}" y2="${cy-r}" class="tikz-wire"/>
-                <polygon points="${x},${cy-r} ${x+r},${cy} ${x},${cy+r} ${x-r},${cy}" class="tikz-comp"/>
-                ${inner}
-                <line x1="${x}" y1="${cy+r}" x2="${x}" y2="${y2}" class="tikz-wire"/>
-                <text x="${tx}" y="${cy - 3}" text-anchor="${anchor}" class="tikz-label-title">${name}</text>
-                <text x="${tx}" y="${cy + 12}" text-anchor="${anchor}" class="tikz-label-val">${val}</text>`;
-    },
-    // Horizontal Switch (Closing or Opening at t = 0)
-    swH(x1, x2, y, label = 't = 0', action = 'close') {
-        const cx = (x1 + x2) / 2;
-        const s1 = cx - 18, s2 = cx + 18;
-        const arrowArc = action === 'close'
-            ? `<path d="M ${cx-2} ${y-22} Q ${cx+8} ${y-14} ${cx+6} ${y-3}" stroke="#b91c1c" stroke-width="1.5" fill="none"/>
-               <polygon points="${cx+6},${y-2} ${cx+3},${y-7} ${cx+9},${y-7}" fill="#b91c1c"/>`
-            : `<path d="M ${cx+6} ${y-4} Q ${cx+8} ${y-16} ${cx-2} ${y-24}" stroke="#b91c1c" stroke-width="1.5" fill="none"/>
-               <polygon points="${cx-3},${y-25} ${cx+2},${y-23} ${cx-1},${y-19}" fill="#b91c1c"/>`;
-        return `<line x1="${x1}" y1="${y}" x2="${s1}" y2="${y}" class="tikz-wire"/>
-                <circle cx="${s1}" cy="${y}" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="2"/>
-                <line x1="${s1}" y1="${y}" x2="${s2-4}" y2="${y-18}" class="tikz-wire"/>
-                <circle cx="${s2}" cy="${y}" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="2"/>
-                <line x1="${s2}" y1="${y}" x2="${x2}" y2="${y}" class="tikz-wire"/>
-                ${arrowArc}
-                <text x="${cx}" y="${y-28}" text-anchor="middle" class="tikz-node-label" style="font-size:13px">${label}</text>`;
-    },
-    // Branch Current Arrow on Wire
-    iArrowH(x, y, label, dir = 'right') {
-        const pts = dir === 'right'
-            ? `${x+6},${y} ${x-4},${y-4.5} ${x-4},${y+4.5}`
-            : `${x-6},${y} ${x+4},${y-4.5} ${x+4},${y+4.5}`;
-        return `<polygon points="${pts}" fill="#b91c1c"/>
-                <text x="${x}" y="${y-10}" text-anchor="middle" class="tikz-node-label">${label}</text>`;
+    {
+      title: "DC TOPOLOGY 4: THREE-LOOP LADDER NETWORK (3 MESH CURRENTS)",
+      level: "advanced",
+      generate() {
+        const V1 = randPick([30, 45, 60]);
+        const V2 = randPick([12, 24, 36]);
+        const R1 = randPick([10, 15, 20]);
+        const R2 = randPick([20, 30]);
+        const R3 = randPick([10, 20]);
+        const R4 = randPick([20, 30]);
+        const R5 = randPick([10, 15]);
+        const a11 = 1/R1 + 1/R2 + 1/R3;
+        const a12 = -1/R3;
+        const a21 = -1/R3;
+        const a22 = 1/R3 + 1/R4 + 1/R5;
+        const b1 = V1/R1;
+        const b2 = V2/R5;
+        const det = a11*a22 - a12*a21;
+        const VA = (b1*a22 - b2*a12) / det;
+        const VB = (a11*b2 - a21*b1) / det;
+        const I3 = (VA - VB) / R3;
+        return {
+          spec: `Solve this <strong>Three-Loop Network</strong> using Mesh or Nodal Analysis to find node voltages $V_A$, $V_B$, and the bridging current $I_{R3}$ flowing from $V_A$ to $V_B$.`,
+          params: [`$V_1 = ${V1}\\text{ V}$`, `$V_2 = ${V2}\\text{ V}$`, `$R_1 = ${R1}\\text{ }\\Omega$`, `$R_2 = ${R2}\\text{ }\\Omega$`, `$R_3 = ${R3}\\text{ }\\Omega$`, `$R_4 = ${R4}\\text{ }\\Omega$`, `$R_5 = ${R5}\\text{ }\\Omega$`],
+          questions: [
+            { label: "Node Voltage $V_A$", ans: VA, unit: "$\\text{V}$" },
+            { label: "Node Voltage $V_B$", ans: VB, unit: "$\\text{V}$" },
+            { label: "Bridge Current $I_{R3}$ ($A \\to B$)", ans: I3, unit: "$\\text{A}$" }
+          ],
+          svg: svgWrap(`
+            <path d="M 60 250 L 60 80 L 95 80 M 169 80 L 235 80 M 309 80 L 375 80 M 449 80 L 500 80 L 500 250 L 60 250" stroke="#0f172a" stroke-width="2" fill="none"/>
+            <path d="M 200 80 L 200 125 M 200 199 L 200 250" stroke="#0f172a" stroke-width="2" fill="none"/>
+            <path d="M 345 80 L 345 125 M 345 199 L 345 250" stroke="#0f172a" stroke-width="2" fill="none"/>
+            ${hRes(95, 80, "R₁", R1+"Ω")}
+            ${vRes(200, 125, "R₂", R2+"Ω")}
+            ${hRes(235, 80, "R₃", R3+"Ω")}
+            ${vRes(345, 125, "R₄", R4+"Ω")}
+            ${hRes(375, 80, "R₅", R5+"Ω")}
+            ${vSource(60, 165, "V₁", V1+"V", "left")}
+            ${vSource(500, 165, "V₂", V2+"V", "right")}
+            <circle cx="200" cy="80" r="4" fill="#b91c1c"/><text x="200" y="66" font-size="12" font-weight="bold" fill="#b91c1c" text-anchor="middle">V_A</text>
+            <circle cx="345" cy="80" r="4" fill="#b91c1c"/><text x="345" y="66" font-size="12" font-weight="bold" fill="#b91c1c" text-anchor="middle">V_B</text>
+            <circle cx="272" cy="250" r="4" fill="#0f172a"/>${gnd(272, 250)}
+          `),
+          derivation: `
+            <p><strong>1. Formulate the $2\\times 2$ Nodal Conductance Matrix at Nodes $V_A$ and $V_B$:</strong></p>
+            $$\\begin{bmatrix} \\frac{1}{R_1}+\\frac{1}{R_2}+\\frac{1}{R_3} & -\\frac{1}{R_3} \\\\[6pt] -\\frac{1}{R_3} & \\frac{1}{R_3}+\\frac{1}{R_4}+\\frac{1}{R_5} \\end{bmatrix} \\begin{bmatrix} V_A \\\\ V_B \\end{bmatrix} = \\begin{bmatrix} V_1/R_1 \\\\ V_2/R_5 \\end{bmatrix}$$
+            <p><strong>2. Substitute Numerical Conductances:</strong></p>
+            $$\\begin{bmatrix} ${a11.toFixed(4)} & ${a12.toFixed(4)} \\\\ ${a21.toFixed(4)} & ${a22.toFixed(4)} \\end{bmatrix} \\begin{bmatrix} V_A \\\\ V_B \\end{bmatrix} = \\begin{bmatrix} ${b1.toFixed(3)} \\\\ ${b2.toFixed(3)} \\end{bmatrix}$$
+            <p><strong>3. Cramer's Rule Solution ($\\Delta = ${det.toFixed(6)}\\text{ S}^2$):</strong></p>
+            $$\\mathbf{V_A = ${VA.toFixed(3)}\\text{ V}}, \\quad \\mathbf{V_B = ${VB.toFixed(3)}\\text{ V}}, \\quad \\mathbf{I_{R3}} = \\frac{V_A - V_B}{${R3}} = \\mathbf{${I3.toFixed(3)}\\text{ A}}$$
+          `,
+          latex: `\\begin{circuitikz}[american]
+  \\draw (0,0) to[V, l=$\\SI{${V1}}{\\volt}$, invert] (0,3) to[R, l=$\\SI{${R1}}{\\ohm}$] (2.5,3) node[above]{$V_A$}
+              to[R, l=$\\SI{${R3}}{\\ohm}$] (5,3) node[above]{$V_B$}
+              to[R, l=$\\SI{${R5}}{\\ohm}$] (7.5,3) to[V, l=$\\SI{${V2}}{\\volt}$] (7.5,0) -- (0,0);
+  \\draw (2.5,3) to[R, l=$\\SI{${R2}}{\\ohm}$] (2.5,0);
+  \\draw (5,3) to[R, l=$\\SI{${R4}}{\\ohm}$] (5,0) node[ground]{};
+\\end{circuitikz}`,
+          spice: `* Universal SPICE Netlist (LTspice & TINA-TI Compatible)
+V1 1 0 DC ${V1}
+R1 1 2 ${R1}
+R2 2 0 ${R2}
+R3 2 3 ${R3}
+R4 3 0 ${R4}
+R5 3 4 ${R5}
+V2 4 0 DC ${V2}
+.OP
+.END`
+        };
+      }
     }
+  ],
+
+  thevenin: [
+    {
+      title: "THÉVENIN 1: TWO-SOURCE NETWORK WITH TERMINALS (a-b)",
+      level: "beginner",
+      generate() {
+        const Vs = randPick([24, 36, 48]);
+        const Is = randPick([1, 2, 3]);
+        const R1 = randPick([10, 20]);
+        const R2 = randPick([20, 30]);
+        const R3 = randPick([5, 10]);
+        const Vth = Vs * (R2 / (R1 + R2)) + Is * ((R1 * R2) / (R1 + R2));
+        const Rth = ((R1 * R2) / (R1 + R2)) + R3;
+        return {
+          spec: `Determine the <strong>Thévenin Equivalent Voltage ($V_{\\text{Th}}$)</strong> and <strong>Thévenin Equivalent Resistance ($R_{\\text{Th}}$)</strong> with respect to open terminals $a$–$b$.`,
+          params: [`$V_s = ${Vs}\\text{ V}$`, `$I_s = ${Is}\\text{ A}$`, `$R_1 = ${R1}\\text{ }\\Omega$`, `$R_2 = ${R2}\\text{ }\\Omega$`, `$R_3 = ${R3}\\text{ }\\Omega$`],
+          questions: [
+            { label: "Thévenin Voltage $V_{\\text{Th}}$", ans: Vth, unit: "$\\text{V}$" },
+            { label: "Thévenin Resistance $R_{\\text{Th}}$", ans: Rth, unit: "$\\Omega$" }
+          ],
+          svg: svgWrap(`
+            <path d="M 80 250 L 80 80 L 130 80 M 204 80 L 340 80 M 414 80 L 470 80" stroke="#0f172a" stroke-width="2" fill="none"/>
+            <path d="M 240 80 L 240 125 M 240 199 L 240 250" stroke="#0f172a" stroke-width="2" fill="none"/>
+            <path d="M 310 80 L 310 250 M 80 250 L 470 250" stroke="#0f172a" stroke-width="2" fill="none"/>
+            ${hRes(130, 80, "R₁", R1+"Ω")}
+            ${vRes(240, 125, "R₂", R2+"Ω")}
+            ${iSource(310, 165, "I_s", Is+"A", "right")}
+            ${hRes(340, 80, "R₃", R3+"Ω")}
+            ${vSource(80, 165, "V_s", Vs+"V", "left")}
+            <circle cx="470" cy="80" r="4" fill="#fff" stroke="#0f172a" stroke-width="2"/><text x="485" y="84" font-weight="bold">a</text>
+            <circle cx="470" cy="250" r="4" fill="#fff" stroke="#0f172a" stroke-width="2"/><text x="485" y="254" font-weight="bold">b</text>
+          `),
+          derivation: `
+            <p><strong>1. Thévenin Resistance $R_{\\text{Th}}$ (Deactivate Independent Sources):</strong><br>
+            Replace voltage source $V_s$ with a short circuit and current source $I_s$ with an open circuit:</p>
+            $$R_{\\text{Th}} = (R_1 \\parallel R_2) + R_3 = \\frac{${R1}(${R2})}{${R1}+${R2}} + ${R3} = \\mathbf{${Rth.toFixed(2)}\\text{ }\\Omega}$$
+            <p><strong>2. Open-Circuit Thévenin Voltage $V_{\\text{Th}} = V_{ab}$:</strong><br>
+            With terminals $a$–$b$ open, zero current flows through $R_3$, so $V_{\\text{Th}}$ equals the central node voltage:</p>
+            $$\\frac{V_{\\text{Th}} - ${Vs}}{${R1}} + \\frac{V_{\\text{Th}}}{${R2}} - ${Is} = 0 \\implies \\mathbf{V_{\\text{Th}} = ${Vth.toFixed(2)}\\text{ V}}$$
+          `,
+          latex: `\\begin{circuitikz}[american]
+  \\draw (0,0) to[V, l=$\\SI{${Vs}}{\\volt}$, invert] (0,3) to[R, l=$\\SI{${R1}}{\\ohm}$] (2.5,3)
+              to[R, l=$\\SI{${R2}}{\\ohm}$] (2.5,0);
+  \\draw (2.5,3) -- (4,3) to[I, l_=$\\SI{${Is}}{\\ampere}$, invert] (4,0);
+  \\draw (4,3) to[R, l=$\\SI{${R3}}{\\ohm}$, -o] (6.5,3) node[right]{$a$};
+  \\draw (0,0) to[short, -o] (6.5,0) node[right]{$b$};
+\\end{circuitikz}`,
+          spice: `* Universal SPICE Netlist (LTspice & TINA-TI Compatible)
+Vs 1 0 DC ${Vs}
+R1 1 2 ${R1}
+R2 2 0 ${R2}
+Is 0 2 DC ${Is}
+R3 2 3 ${R3}
+Rload 3 0 1G
+.OP
+.END`
+        };
+      }
+    }
+  ],
+
+  ac: [
+    {
+      title: "AC PHASOR 1: TWO-LOOP RLC IMPEDANCE NETWORK (SINE CONVENTION)",
+      level: "intermediate",
+      generate() {
+        const Vm = randPick([50, 100, 120]);
+        const R1 = randPick([10, 20]);
+        const XL = randPick([20, 30, 40]);
+        const XC = randPick([10, 15, 25]);
+        const Xeq = -(XL * XC) / (XL - XC);
+        const Zmag = Math.hypot(R1, Xeq);
+        const Im = Vm / Zmag;
+        return {
+          spec: `Given sinusoidal source $v(t) = ${Vm}\\sin(\\omega t)\\text{ V}$ driving a two-loop RLC network, find the total input impedance magnitude $|\\mathbf{Z}_{\\text{total}}|$ and peak source current $I_m$.`,
+          params: [`$v(t) = ${Vm}\\sin(\\omega t)\\text{ V}$`, `$R_1 = ${R1}\\text{ }\\Omega$`, `$X_L = ${XL}\\text{ }\\Omega$`, `$X_C = ${XC}\\text{ }\\Omega$`],
+          questions: [
+            { label: "Total Impedance Magnitude $|\\mathbf{Z}_{\\text{total}}|$", ans: Zmag, unit: "$\\Omega$" },
+            { label: "Peak Source Current $I_m$", ans: Im, unit: "$\\text{A}$" }
+          ],
+          svg: svgWrap(`
+            <path d="M 90 250 L 90 80 L 145 80 M 219 80 L 430 80 L 430 250 L 90 250" stroke="#0f172a" stroke-width="2" fill="none"/>
+            <path d="M 285 80 L 285 125 M 285 199 L 285 250" stroke="#0f172a" stroke-width="2" fill="none"/>
+            ${hRes(145, 80, "R₁", R1+" Ω")}
+            ${vRes(285, 125, "jX_L", "j"+XL+" Ω")}
+            ${vRes(430, 125, "-jX_C", "-j"+XC+" Ω")}
+            ${vSource(90, 165, "v(t)", Vm+"∠0° V", "left")}
+          `),
+          derivation: `
+            <p><strong>1. Equivalent Parallel Reactive Impedance $\\mathbf{Z}_p$:</strong></p>
+            $$\\mathbf{Z}_p = \\frac{(jX_L)(-jX_C)}{jX_L - jX_C} = \\frac{${XL}(${XC})}{j(${XL} - ${XC})} = j(${Xeq.toFixed(2)})\\text{ }\\Omega$$
+            <p><strong>2. Total Input Impedance $\\mathbf{Z}_{\\text{total}}$ and Peak Current $I_m$:</strong></p>
+            $$\\mathbf{Z}_{\\text{total}} = R_1 + \\mathbf{Z}_p = ${R1} + j(${Xeq.toFixed(2)})\\text{ }\\Omega$$
+            $$|\\mathbf{Z}_{\\text{total}}| = \\sqrt{${R1}^2 + (${Xeq.toFixed(2)})^2} = \\mathbf{${Zmag.toFixed(3)}\\text{ }\\Omega}, \\qquad \\mathbf{I_m} = \\frac{${Vm}}{|\\mathbf{Z}_{\\text{total}}|} = \\mathbf{${Im.toFixed(3)}\\text{ A}}$$
+          `,
+          latex: `\\begin{circuitikz}[american]
+  \\draw (0,0) to[sV, l=$${Vm}\\sin(\\omega t)$] (0,3) to[R, l=$\\SI{${R1}}{\\ohm}$] (3,3)
+              to[L, l=$j\\SI{${XL}}{\\ohm}$] (3,0);
+  \\draw (3,3) -- (5.5,3) to[C, l=$-j\\SI{${XC}}{\\ohm}$] (5.5,0) -- (0,0);
+\\end{circuitikz}`,
+          spice: `* Universal SPICE Netlist (LTspice & TINA-TI Compatible, f = 60 Hz)
+V1 1 0 AC ${Vm} 0
+R1 1 2 ${R1}
+L1 2 0 ${(XL / (2 * Math.PI * 60)).toFixed(5)}
+C1 2 0 ${(1 / (2 * Math.PI * 60 * XC)).toFixed(6)}
+.AC LIN 1 60 60
+.END`
+        };
+      }
+    }
+  ],
+
+  first: [
+    {
+      title: "1ST-ORDER RC TRANSIENT: STEP / SWITCHING RESPONSE",
+      level: "beginner",
+      generate() {
+        const V0 = randPick([4, 6, 8]);
+        const Vs = randPick([20, 24, 30]);
+        const R = randPick([10, 20, 50]);
+        const C_mF = randPick([10, 20, 50]);
+        const C = C_mF * 1e-3;
+        const tau = R * C;
+        const v_at_tau = Vs + (V0 - Vs) * Math.exp(-1);
+        return {
+          spec: `A capacitor has initial voltage $v_C(0^-) = ${V0}\\text{ V}$ prior to $t = 0$. At $t = 0$, a switch connects a DC source $V_s = ${Vs}\\text{ V}$ in series with $R = ${R}\\text{ }\\Omega$ and $C = ${C_mF}\\text{ mF}$. Find $v_C(0^+)$, $v_C(\\infty)$, $\\tau$, and $v_C(\\tau)$.`,
+          params: [`$v_C(0^-) = ${V0}\\text{ V}$`, `$V_s = ${Vs}\\text{ V}$`, `$R = ${R}\\text{ }\\Omega$`, `$C = ${C_mF}\\text{ mF}$`],
+          questions: [
+            { label: "1. Initial Continuity Voltage $v_C(0^+)$", ans: V0, unit: "$\\text{V}$" },
+            { label: "2. Final Steady-State Voltage $v_C(\\infty)$", ans: Vs, unit: "$\\text{V}$" },
+            { label: "3. Time Constant $\\tau = RC$", ans: tau, unit: "$\\text{s}$" },
+            { label: "4. Capacitor Voltage $v_C(t = \\tau)$", ans: v_at_tau, unit: "$\\text{V}$" }
+          ],
+          svg: svgWrap(`
+            <path d="M 100 250 L 100 80 L 210 80 M 284 80 L 420 80 L 420 155 M 420 175 L 420 250 L 100 250" stroke="#0f172a" stroke-width="2" fill="none"/>
+            ${vSource(100, 165, "V_s", Vs+" V", "left")}
+            ${hRes(210, 80, "R", R+" Ω")}
+            <line x1="395" y1="155" x2="445" y2="155" stroke="#0f172a" stroke-width="3"/>
+            <line x1="395" y1="175" x2="445" y2="175" stroke="#0f172a" stroke-width="3"/>
+            <text x="455" y="170" font-size="12" font-weight="bold">C = ${C_mF} mF</text>
+          `),
+          derivation: `
+            <p><strong>1. Capacitive Voltage Continuity at $t = 0^+$:</strong></p>
+            $$v_C(0^+) = v_C(0^-) = \\mathbf{${V0}\\text{ V}}$$
+            <p><strong>2. Final Forced Response as $t \\to \\infty$:</strong><br>
+            In DC steady state, the capacitor acts as an open circuit ($i_C(\\infty) = 0$):</p>
+            $$v_C(\\infty) = V_s = \\mathbf{${Vs}\\text{ V}}$$
+            <p><strong>3. Time Constant $\\tau$ and Complete Step Response:</strong></p>
+            $$\\tau = R C = (${R}\\text{ }\\Omega)(${C}\\text{ F}) = \\mathbf{${tau.toFixed(3)}\\text{ s}}$$
+            $$v_C(t) = v_C(\\infty) + \\left[v_C(0^+) - v_C(\\infty)\\right]e^{-t/\\tau} = ${Vs} + (${V0 - Vs})e^{-t/${tau.toFixed(3)}}$$
+            <p>Evaluating at $t = \\tau$: $\\mathbf{v_C(\\tau) = ${v_at_tau.toFixed(3)}\\text{ V}}$.</p>
+          `,
+          latex: `\\begin{circuitikz}[american]
+  \\draw (0,0) to[V, l=$\\SI{${Vs}}{\\volt}$, invert] (0,3) to[closing switch, l=$t=0$] (2,3)
+              to[R, l=$\\SI{${R}}{\\ohm}$] (4.5,3) to[C, l=$\\SI{${C_mF}}{\\milli\\farad}$] (4.5,0) -- (0,0);
+\\end{circuitikz}`,
+          spice: `* Universal SPICE Netlist (LTspice & TINA-TI Compatible)
+Vs 1 0 DC ${Vs}
+R1 1 2 ${R}
+C1 2 0 ${C} IC=${V0}
+.IC V(2)=${V0}
+.TRAN ${(tau/20).toFixed(4)} ${(tau*5).toFixed(3)} 0 UIC
+.END`
+        };
+      }
+    }
+  ],
+
+  second: [
+    {
+      title: "2ND-ORDER SERIES RLC: SOURCE-FREE NATURAL RESPONSE (ROOTS & 2×2 SYSTEM)",
+      level: "intermediate",
+      generate() {
+        const pairs = [
+          { s1: -2, s2: -8, L: 1, R: 10, C: 0.0625, v0: 12, i0: 0 },
+          { s1: -2, s2: -10, L: 1, R: 12, C: 0.05, v0: 16, i0: 0 },
+          { s1: -1, s2: -5, L: 1, R: 6, C: 0.2, v0: 12, i0: 0 }
+        ];
+        const p = randPick(pairs);
+        const alpha = p.R / (2 * p.L);
+        const w0 = 1 / Math.sqrt(p.L * p.C);
+        const dv0 = -p.i0 / p.C;
+        const A1 = (dv0 - p.s2 * p.v0) / (p.s1 - p.s2);
+        const A2 = p.v0 - A1;
+        return {
+          spec: `<strong>Source-Free Overdamped Series RLC:</strong> Given $v_C(0^-) = ${p.v0}\\text{ V}$ and $i_L(0^-) = ${p.i0}\\text{ A}$, find the initial derivative $\\frac{dv_C(0^+)}{dt}$, characteristic roots $s_1, s_2$ ($s_1 > s_2$), and solve the $2\\times 2$ initial-condition system for $A_1, A_2$ in $v_C(t) = A_1 e^{s_1 t} + A_2 e^{s_2 t}$.`,
+          params: [`$R = ${p.R}\\text{ }\\Omega$`, `$L = ${p.L}\\text{ H}$`, `$C = ${p.C}\\text{ F}$`, `$v_C(0^-) = ${p.v0}\\text{ V}$`, `$i_L(0^-) = ${p.i0}\\text{ A}$`],
+          questions: [
+            { label: "1. Initial Derivative $\\frac{dv_C(0^+)}{dt} = \\frac{i_C(0^+)}{C}$", ans: dv0, unit: "$\\text{V/s}$" },
+            { label: "2. Neper Frequency $\\alpha = \\frac{R}{2L}$", ans: alpha, unit: "$\\text{Np/s}$" },
+            { label: "3. Characteristic Root $s_1$ (less negative)", ans: p.s1, unit: "$\\text{s}^{-1}$" },
+            { label: "4. Characteristic Root $s_2$ (more negative)", ans: p.s2, unit: "$\\text{s}^{-1}$" },
+            { label: "5. Constant $A_1$ (from $2\\times 2$ system)", ans: A1, unit: "$\\text{V}$" },
+            { label: "6. Constant $A_2$ (from $2\\times 2$ system)", ans: A2, unit: "$\\text{V}$" }
+          ],
+          svg: svgWrap(`
+            <path d="M 100 240 L 100 80 L 180 80 M 254 80 L 320 80 M 400 80 L 450 80 L 450 150 M 450 170 L 450 240 L 100 240" stroke="#0f172a" stroke-width="2" fill="none"/>
+            ${hRes(180, 80, "R", p.R+" Ω")}
+            <path d="M 320 80 q 10 -18 20 0 q 10 -18 20 0 q 10 -18 20 0 q 10 -18 20 0" stroke="#0f172a" stroke-width="2" fill="none"/>
+            <text x="360" y="62" font-size="12" font-weight="bold" text-anchor="middle">L = ${p.L} H</text>
+            <line x1="425" y1="150" x2="475" y2="150" stroke="#0f172a" stroke-width="3"/>
+            <line x1="425" y1="170" x2="475" y2="170" stroke="#0f172a" stroke-width="3"/>
+            <text x="482" y="165" font-size="12" font-weight="bold">C = ${p.C} F</text>
+          `),
+          derivation: `
+            <p><strong>Step 1 — Initial Conditions at $t = 0^+$:</strong></p>
+            $$v_C(0^+) = v_C(0^-) = ${p.v0}\\text{ V}, \\qquad i_L(0^+) = i_L(0^-) = ${p.i0}\\text{ A}$$
+            $$\\left.\\frac{dv_C}{dt}\\right|_{t=0^+} = \\frac{i_C(0^+)}{C} = \\frac{-i_L(0^+)}{C} = \\mathbf{${dv0}\\text{ V/s}}$$
+            <p><strong>Step 2 — Characteristic Polynomial &amp; Roots:</strong></p>
+            $$s^2 + \\frac{R}{L}s + \\frac{1}{LC} = s^2 + ${p.R}s + ${Math.round(1/(p.L*p.C))} = 0$$
+            $$\\alpha = \\frac{R}{2L} = ${alpha}\\text{ Np/s}, \\qquad \\omega_0 = \\frac{1}{\\sqrt{LC}} = ${w0.toFixed(2)}\\text{ rad/s}$$
+            $$s_{1,2} = -\\alpha \\pm \\sqrt{\\alpha^2 - \\omega_0^2} \\implies \\mathbf{s_1 = ${p.s1}\\text{ s}^{-1}}, \\quad \\mathbf{s_2 = ${p.s2}\\text{ s}^{-1}}$$
+            <p><strong>Step 3 — Solve the $2\\times 2$ System of Equations for $A_1$ and $A_2$:</strong></p>
+            $$\\begin{cases} A_1 + A_2 = v_C(0^+) = ${p.v0} \\\\ s_1 A_1 + s_2 A_2 = \\dfrac{dv_C(0^+)}{dt} = ${dv0} \\end{cases} \\implies \\begin{bmatrix} 1 & 1 \\\\ ${p.s1} & ${p.s2} \\end{bmatrix} \\begin{bmatrix} A_1 \\\\ A_2 \\end{bmatrix} = \\begin{bmatrix} ${p.v0} \\\\ ${dv0} \\end{bmatrix}$$
+            <p>Solving yields $\\mathbf{A_1 = ${A1.toFixed(2)}\\text{ V}}$ and $\\mathbf{A_2 = ${A2.toFixed(2)}\\text{ V}}$.</p>
+          `,
+          latex: `\\begin{circuitikz}[american]
+  \\draw (0,0) -- (0,3) to[R, l=$\\SI{${p.R}}{\\ohm}$] (2.5,3)
+              to[L, l=$\\SI{${p.L}}{\\henry}$] (5,3)
+              to[C, l=$\\SI{${p.C}}{\\farad}$] (5,0) -- (0,0);
+\\end{circuitikz}`,
+          spice: `* Universal SPICE Netlist (LTspice & TINA-TI Compatible)
+R1 0 1 ${p.R}
+L1 1 2 ${p.L} IC=${p.i0}
+C1 2 0 ${p.C} IC=${p.v0}
+.IC V(2)=${p.v0}
+.TRAN 0.02 4 0 UIC
+.END`
+        };
+      }
+    },
+    {
+      title: "2ND-ORDER SERIES RLC: STEP / FORCED RESPONSE WITH DC SOURCE",
+      level: "advanced",
+      generate() {
+        const Vs = randPick([24, 30, 40]);
+        const v0 = randPick([4, 6, 10]);
+        const s1 = -2, s2 = -10;
+        const diffV = v0 - Vs;
+        const A1 = (-s2 * diffV) / (s1 - s2);
+        const A2 = diffV - A1;
+        return {
+          spec: `<strong>Forced / Step Response of Series RLC:</strong> At $t = 0$, a switch connects $V_s = ${Vs}\\text{ V}$ to a series RLC circuit ($R = 12\\text{ }\\Omega, L = 1\\text{ H}, C = 0.05\\text{ F}$) with $v_C(0^-) = ${v0}\\text{ V}$ and $i_L(0^-) = 0\\text{ A}$. Solve for $v_C(\\infty)$, roots $s_1, s_2$, and coefficients $A_1, A_2$ in $v_C(t) = v_C(\\infty) + A_1 e^{s_1 t} + A_2 e^{s_2 t}$.`,
+          params: [`$V_s = ${Vs}\\text{ V}$`, `$R = 12\\text{ }\\Omega$`, `$L = 1\\text{ H}$`, `$C = 0.05\\text{ F}$`, `$v_C(0^-) = ${v0}\\text{ V}$`, `$i_L(0^-) = 0\\text{ A}$`],
+          questions: [
+            { label: "1. Forced Steady-State Value $v_C(\\infty)$", ans: Vs, unit: "$\\text{V}$" },
+            { label: "2. Characteristic Root $s_1$ (less negative)", ans: s1, unit: "$\\text{s}^{-1}$" },
+            { label: "3. Characteristic Root $s_2$ (more negative)", ans: s2, unit: "$\\text{s}^{-1}$" },
+            { label: "4. Transient Sum $A_1 + A_2 = v_C(0^+) - v_C(\\infty)$", ans: diffV, unit: "$\\text{V}$" },
+            { label: "5. Coefficient $A_1$", ans: A1, unit: "$\\text{V}$" },
+            { label: "6. Coefficient $A_2$", ans: A2, unit: "$\\text{V}$" }
+          ],
+          svg: svgWrap(`
+            <path d="M 80 240 L 80 80 L 160 80 M 234 80 L 300 80 M 380 80 L 450 80 L 450 150 M 450 170 L 450 240 L 80 240" stroke="#0f172a" stroke-width="2" fill="none"/>
+            ${vSource(80, 160, "V_s", Vs+" V", "left")}
+            ${hRes(160, 80, "R", "12 Ω")}
+            <path d="M 300 80 q 10 -18 20 0 q 10 -18 20 0 q 10 -18 20 0 q 10 -18 20 0" stroke="#0f172a" stroke-width="2" fill="none"/>
+            <text x="340" y="62" font-size="12" font-weight="bold" text-anchor="middle">L = 1 H</text>
+            <line x1="425" y1="150" x2="475" y2="150" stroke="#0f172a" stroke-width="3"/>
+            <line x1="425" y1="170" x2="475" y2="170" stroke="#0f172a" stroke-width="3"/>
+            <text x="482" y="165" font-size="12" font-weight="bold">C = 0.05 F</text>
+          `),
+          derivation: `
+            <p><strong>Step 1 — Include the Forced Response $v_C(\\infty)$ Before Solving for $A_1, A_2$:</strong></p>
+            $$v_C(t) = v_C(\\infty) + A_1 e^{s_1 t} + A_2 e^{s_2 t}, \\qquad v_C(\\infty) = V_s = \\mathbf{${Vs}\\text{ V}}$$
+            <p><strong>Step 2 — Characteristic Equation &amp; Roots:</strong></p>
+            $$s^2 + \\frac{R}{L}s + \\frac{1}{LC} = s^2 + 12s + 20 = (s + 2)(s + 10) = 0 \\implies \\mathbf{s_1 = -2\\text{ s}^{-1}}, \\; \\mathbf{s_2 = -10\\text{ s}^{-1}}$$
+            <p><strong>Step 3 — $2\\times 2$ Initial Condition System at $t = 0^+$:</strong></p>
+            $$\\begin{cases} v_C(0^+) = v_C(\\infty) + A_1 + A_2 \\implies A_1 + A_2 = ${v0} - ${Vs} = ${diffV} \\\\[4pt] \\dfrac{dv_C(0^+)}{dt} = \\dfrac{i_L(0^+)}{C} = 0 \\implies -2A_1 - 10A_2 = 0 \\end{cases}$$
+            <p>From the derivative equation, $A_1 = -5A_2$. Substituting into the first equation yields $-4A_2 = ${diffV}$:</p>
+            $$\\mathbf{A_2 = ${A2.toFixed(2)}\\text{ V}}, \\qquad \\mathbf{A_1 = ${A1.toFixed(2)}\\text{ V}}$$
+          `,
+          latex: `\\begin{circuitikz}[american]
+  \\draw (0,0) to[V, l=$\\SI{${Vs}}{\\volt}$, invert] (0,3) to[R, l=$\\SI{12}{\\ohm}$] (2.5,3)
+              to[L, l=$\\SI{1}{\\henry}$] (5,3) to[C, l=$\\SI{0.05}{\\farad}$] (5,0) -- (0,0);
+\\end{circuitikz}`,
+          spice: `* Universal SPICE Netlist (LTspice & TINA-TI Compatible)
+Vs 1 0 DC ${Vs}
+R1 1 2 12
+L1 2 3 1 IC=0
+C1 3 0 0.05 IC=${v0}
+.IC V(3)=${v0}
+.TRAN 0.02 4 0 UIC
+.END`
+        };
+      }
+    }
+  ],
+
+  opamp: [
+    {
+      title: "OP-AMP: INVERTING AMPLIFIER TOPOLOGY",
+      level: "beginner",
+      generate() {
+        const Vin = randPick([1.5, 2.0, 2.5, 3.0]);
+        const Rin = randPick([10, 20]);
+        const Rf = randPick([40, 60, 80, 100]);
+        const Vout = -(Rf / Rin) * Vin;
+        return {
+          spec: `Assuming an ideal operational amplifier, calculate the closed-loop voltage gain $A_v = V_{\\text{out}} / V_{\\text{in}}$ and output voltage $V_{\\text{out}}$.`,
+          params: [`$V_{\\text{in}} = ${Vin}\\text{ V}$`, `$R_{\\text{in}} = ${Rin}\\text{ k}\\Omega$`, `$R_f = ${Rf}\\text{ k}\\Omega$`],
+          questions: [
+            { label: "Closed-Loop Voltage Gain $A_v$", ans: -(Rf/Rin), unit: "$\\text{V/V}$" },
+            { label: "Output Voltage $V_{\\text{out}}$", ans: Vout, unit: "$\\text{V}$" }
+          ],
+          svg: svgWrap(`
+            <path d="M 80 140 L 130 140 M 204 140 L 280 140 M 240 140 L 240 60 L 280 60 M 354 60 L 430 60 L 430 155 M 390 155 L 470 155" stroke="#0f172a" stroke-width="2" fill="none"/>
+            <polygon points="280,115 280,195 390,155" stroke="#0f172a" stroke-width="2" fill="#fff"/>
+            <text x="292" y="145" font-size="14" font-weight="bold">−</text>
+            <text x="292" y="178" font-size="14" font-weight="bold">+</text>
+            <path d="M 280 172 L 250 172 L 250 220" stroke="#0f172a" stroke-width="2" fill="none"/>
+            ${gnd(250, 220)}
+            ${hRes(130, 140, "R_in", Rin+" kΩ")}
+            ${hRes(280, 60, "R_f", Rf+" kΩ")}
+            <text x="45" y="144" font-size="12" font-weight="bold">V_in (${Vin}V)</text>
+            <text x="478" y="159" font-size="12" font-weight="bold" fill="#b91c1c">V_out</text>
+          `),
+          derivation: `
+            <p><strong>1. Virtual Ground &amp; Inverting Node KCL:</strong><br>
+            By the virtual short-circuit approximation at the ideal op-amp input terminals, $V_- = V_+ = 0\\text{ V}$. Summing currents at the inverting node:</p>
+            $$\\frac{0 - V_{\\text{in}}}{R_{\\text{in}}} + \\frac{0 - V_{\\text{out}}}{R_f} = 0 \\implies A_v = \\frac{V_{\\text{out}}}{V_{\\text{in}}} = -\\frac{R_f}{R_{\\text{in}}} = -\\frac{${Rf}}{${Rin}} = \\mathbf{${-(Rf/Rin)}}$$
+            <p><strong>2. Output Voltage $V_{\\text{out}}$:</strong></p>
+            $$\\mathbf{V_{\\text{out}}} = A_v V_{\\text{in}} = (${-(Rf/Rin)})(${Vin}\\text{ V}) = \\mathbf{${Vout.toFixed(2)}\\text{ V}}$$
+          `,
+          latex: `\\begin{circuitikz}[american]
+  \\draw (0,0) node[op amp] (opamp) {};
+  \\draw (opamp.-) to[R, l_=$\\SI{${Rin}}{\\kilo\\ohm}$] (-3, 0.5) node[left]{$V_{\\text{in}}=\\SI{${Vin}}{\\volt}$};
+  \\draw (opamp.+) -- (-1.5, -0.5) node[ground]{};
+  \\draw (opamp.-) -- ++(0, 1.5) to[R, l=$\\SI{${Rf}}{\\kilo\\ohm}$] ++(2.4, 0) -| (opamp.out);
+  \\draw (opamp.out) to[short, -o] ++(0.8, 0) node[right]{$V_{\\text{out}}$};
+\\end{circuitikz}`,
+          spice: `* Universal SPICE Netlist (LTspice & TINA-TI Compatible)
+Vin 1 0 DC ${Vin}
+Rin 1 2 ${Rin}K
+Rf 2 3 ${Rf}K
+E1 3 0 0 2 100K
+.OP
+.END`
+        };
+      }
+    }
+  ]
 };
 
-/* ============================================================================
-   STATE & NAVIGATION CONTROLLER
-   ============================================================================ */
-const MODES = ['DC', 'TH', 'AC', 'TR', 'RLC2', 'OP'];
-let currentMode = 'DC';
-let currentAnswer = 0;
-let currentUnit = '';
-
-// Track sub-topology index per mode so clicking "New Circuit" cycles cleanly through all available circuits!
-const topoIndex = { DC: 0, TH: 0, AC: 0, TR: 0, RLC2: 0, OP: 0 };
-const topoCounts = { DC: 4, TH: 3, AC: 3, TR: 2, RLC2: 3, OP: 3 };
-
-function randChoice(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-
-function renderMath() {
-    if (window.renderMathInElement) {
-        renderMathInElement(document.body, {
-            delimiters: [
-                {left: '$$', right: '$$', display: true},
-                {left: '$', right: '$', display: false}
-            ],
-            throwOnError: false
-        });
-    }
+function getFilteredList() {
+  const list = TOPOLOGIES[currentCat] || [];
+  if (currentDiff === 'all') return list;
+  const filtered = list.filter(item => item.level === currentDiff);
+  return filtered.length ? filtered : list;
 }
 
-function setMode(mode) {
-    currentMode = mode;
-    MODES.forEach(m => {
-        const btn = document.getElementById('tab-' + m);
-        btn.className = (m === mode) ? 'tab-btn tab-active' : 'tab-btn tab-inactive';
-    });
-    generateCircuit(false);
+function renderCurrent() {
+  const list = getFilteredList();
+  if (currentIndex >= list.length) currentIndex = 0;
+  const topo = list[currentIndex];
+  activeProblem = topo.generate();
+
+  document.getElementById('topoBadge').textContent = `Topology ${currentIndex + 1} of ${list.length}`;
+  document.getElementById('schemTitle').textContent = topo.title;
+  document.getElementById('schemLevel').textContent = `LEVEL: ${topo.level.toUpperCase()} • IEEE Y32.2`;
+  document.getElementById('svgContainer').innerHTML = activeProblem.svg;
+  document.getElementById('probSpec').innerHTML = activeProblem.spec;
+
+  document.getElementById('paramGrid').innerHTML = activeProblem.params
+    .map(p => `<div>${p}</div>`).join('');
+
+  document.getElementById('inputsContainer').innerHTML = activeProblem.questions
+    .map((q, idx) => `
+      <div class="q-row">
+        <label class="q-label">${q.label}</label>
+        <div class="input-group">
+          <input type="number" step="any" id="ans_${idx}" placeholder="Enter numerical value...">
+          <div class="unit-pill">${q.unit}</div>
+        </div>
+      </div>
+    `).join('');
+
+  document.getElementById('feedbackBox').className = 'feedback';
+  document.getElementById('derivationBox').style.display = 'none';
+  document.getElementById('derivationContent').innerHTML = activeProblem.derivation;
+
+  updateExportBox();
+  typesetMath();
 }
 
-function toggleDrawer(id) {
-    ['solution-drawer', 'spice-drawer', 'latex-drawer'].forEach(d => {
-        if (d !== id) document.getElementById(d).classList.add('hidden');
-    });
-    document.getElementById(id).classList.toggle('hidden');
+function updateExportBox() {
+  const codeBox = document.getElementById('exportCodeBox');
+  codeBox.textContent = currentExportMode === 'latex' ? activeProblem.latex : activeProblem.spice;
 }
 
-function copyCode(id, btn) {
-    navigator.clipboard.writeText(document.getElementById(id).innerText);
-    const orig = btn.innerText;
-    btn.innerText = '✓ Copied!';
-    setTimeout(() => btn.innerText = orig, 1500);
+function switchExport(mode) {
+  currentExportMode = mode;
+  document.getElementById('tabLatex').classList.toggle('active', mode === 'latex');
+  document.getElementById('tabSpice').classList.toggle('active', mode === 'spice');
+  updateExportBox();
 }
 
-function checkAnswer() {
-    const userVal = parseFloat(document.getElementById('user-answer').value);
-    const fb = document.getElementById('feedback-box');
-    fb.classList.remove('hidden');
-    if (isNaN(userVal)) {
-        fb.className = 'text-xs p-3 rounded-lg font-medium bg-amber-50 text-amber-900 border border-amber-300';
-        fb.innerText = 'Please enter a valid numerical value.';
-        return;
-    }
-    const tol = Math.max(Math.abs(currentAnswer * 0.025), 0.04);
-    if (Math.abs(userVal - currentAnswer) <= tol) {
-        fb.className = 'text-xs p-3 rounded-lg font-medium bg-emerald-50 text-emerald-900 border border-emerald-300';
-        fb.innerHTML = `✅ <b>Correct!</b> Exact theoretical value: <b>${currentAnswer.toFixed(3)} ${currentUnit}</b>`;
+function copyExportCode() {
+  const txt = currentExportMode === 'latex' ? activeProblem.latex : activeProblem.spice;
+  navigator.clipboard.writeText(txt);
+  const btn = document.getElementById('copyBtn');
+  btn.textContent = '✓ Copied!';
+  setTimeout(() => { btn.textContent = '📋 Copy Code'; }, 1500);
+}
+
+function downloadSpice() {
+  const blob = new Blob([activeProblem.spice], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `circuit_${currentCat}_${currentIndex + 1}.cir`;
+  a.click();
+}
+
+function selectCategory(cat, btn) {
+  currentCat = cat;
+  currentIndex = 0;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderCurrent();
+}
+
+function setDifficulty(diff, btn) {
+  currentDiff = diff;
+  currentIndex = 0;
+  document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCurrent();
+}
+
+function nextTopology() {
+  const list = getFilteredList();
+  currentIndex = (currentIndex + 1) % list.length;
+  renderCurrent();
+}
+
+function rerollValues() {
+  renderCurrent();
+}
+
+function verifyAnswers() {
+  const fb = document.getElementById('feedbackBox');
+  let allCorrect = true;
+  let results = [];
+
+  activeProblem.questions.forEach((q, idx) => {
+    const val = parseFloat(document.getElementById(`ans_${idx}`).value);
+    const tol = Math.max(Math.abs(q.ans * 0.025), 0.02);
+    if (isNaN(val) || Math.abs(val - q.ans) > tol) {
+      allCorrect = false;
+      results.push(`✗ ${q.label}: expected ${q.ans.toFixed(2)} ${q.unit}`);
     } else {
-        fb.className = 'text-xs p-3 rounded-lg font-medium bg-rose-50 text-rose-900 border border-rose-300';
-        fb.innerHTML = `❌ <b>Not quite.</b> Double-check your signs or click <b>Show Solution</b> to inspect the full derivation.`;
+      results.push(`✓ ${q.label}: Correct!`);
     }
+  });
+
+  fb.className = allCorrect ? 'feedback ok' : 'feedback err';
+  fb.innerHTML = results.join('<br>');
+  typesetMath();
 }
 
-function generateCircuit(advance = true) {
-    document.getElementById('user-answer').value = '';
-    document.getElementById('feedback-box').classList.add('hidden');
-    ['solution-drawer', 'spice-drawer', 'latex-drawer'].forEach(d => document.getElementById(d).classList.add('hidden'));
-
-    if (advance) {
-        topoIndex[currentMode] = (topoIndex[currentMode] + 1) % topoCounts[currentMode];
-    }
-    const idx = topoIndex[currentMode];
-    document.getElementById('topology-badge').innerText = `Topology ${idx + 1} of ${topoCounts[currentMode]}`;
-
-    if (currentMode === 'DC') genDC(idx);
-    else if (currentMode === 'TH') genTH(idx);
-    else if (currentMode === 'AC') genAC(idx);
-    else if (currentMode === 'TR') genTR(idx);
-    else if (currentMode === 'RLC2') genRLC2(idx);
-    else if (currentMode === 'OP') genOP(idx);
-
-    renderMath();
+function toggleDerivation() {
+  const box = document.getElementById('derivationBox');
+  box.style.display = box.style.display === 'block' ? 'none' : 'block';
+  typesetMath();
 }
 
-/* ============================================================================
-   1. DC NETWORKS (4 DISTINCT TOPOLOGIES)
-   ============================================================================ */
-function genDC(idx) {
-    if (idx === 0) {
-        // Topology 1: Two-Loop Mesh Analysis with Dual Voltage Sources
-        const V1 = randChoice([24, 30, 36, 48]);
-        const V2 = randChoice([12, 15, 18, 20]);
-        const R1 = randChoice([10, 20, 30, 40]);
-        const R2 = randChoice([20, 40, 50, 60]);
-        const R3 = randChoice([15, 25, 30, 50]);
-
-        // Nodal voltage VA at center top node: (VA - V1)/R1 + VA/R2 + (VA - V2)/R3 = 0
-        const G1 = 1/R1, G2 = 1/R2, G3 = 1/R3;
-        const VA = (V1*G1 + V2*G3) / (G1 + G2 + G3);
-        const I1 = (V1 - VA) / R1; // Mesh 1 current (clockwise)
-        const I2 = (VA - V2) / R3; // Mesh 2 current (clockwise)
-        const IR2 = VA / R2;
-
-        currentAnswer = IR2;
-        currentUnit = 'A';
-
-        document.getElementById('schematic-title').innerText = 'DC TOPOLOGY 1: TWO-LOOP MESH NETWORK (DUAL SOURCES)';
-        document.getElementById('problem-desc').innerHTML = `Use <b>Mesh Analysis</b> or <b>Nodal Analysis</b> to determine the downward branch current $I_{R2}$ flowing through the central resistor $R_2$.`;
-        document.getElementById('given-values').innerHTML = `
-            <div>V₁ = ${V1} V</div><div>V₂ = ${V2} V</div>
-            <div>R₁ = ${R1} Ω</div><div>R₂ = ${R2} Ω</div>
-            <div>R₃ = ${R3} Ω</div>
-        `;
-        document.getElementById('question-prompt').innerHTML = `Calculate Branch Current $I_{R2}$:`;
-        document.getElementById('unit-label').innerText = 'A';
-
-        document.getElementById('svg-container').innerHTML = `
-        <svg viewBox="0 0 620 300" class="tikz-svg">
-            ${TikZ.vsrcV(110, 60, 230, 'V₁', V1 + ' V', 'left')}
-            ${TikZ.resH(110, 310, 60, 'R₁', R1 + ' Ω', 'top')}
-            ${TikZ.resH(310, 510, 60, 'R₃', R3 + ' Ω', 'top')}
-            ${TikZ.resV(310, 60, 230, 'R₂', R2 + ' Ω', 'right')}
-            ${TikZ.vsrcV(510, 60, 230, 'V₂', V2 + ' V', 'right')}
-            ${TikZ.wire(110, 230, 510, 230)}
-            ${TikZ.dot(310, 60, 'V_A', 'top')}
-            ${TikZ.dot(310, 230)}
-            ${TikZ.gnd(310, 230)}
-        </svg>`;
-
-        document.getElementById('solution-drawer').innerHTML = `
-            <div class="font-bold text-indigo-950">Step-by-Step Mesh & Nodal Derivation:</div>
-            <div>1. Define clockwise mesh currents $I_1$ (left loop) and $I_2$ (right loop):</div>
-            <div class="pl-4">• <b>Mesh 1 KVL:</b> $-V_1 + R_1 I_1 + R_2(I_1 - I_2) = 0 \\implies (${R1}+${R2})I_1 - ${R2}I_2 = ${V1}$</div>
-            <div class="pl-4">• <b>Mesh 2 KVL:</b> $R_2(I_2 - I_1) + R_3 I_2 + V_2 = 0 \\implies -${R2}I_1 + (${R2}+${R3})I_2 = -${V2}$</div>
-            <div>2. Solving the $2 \\times 2$ linear system yields:</div>
-            <div class="pl-4">$I_1 = ${I1.toFixed(4)}\\text{ A}$, &nbsp; $I_2 = ${I2.toFixed(4)}\\text{ A}$</div>
-            <div>3. The downward current through $R_2$ is:</div>
-            <div class="pl-4">$I_{R2} = I_1 - I_2 = ${I1.toFixed(4)} - (${I2.toFixed(4)}) = \\mathbf{${IR2.toFixed(3)}\\text{ A}}$ &nbsp; (Nodal Voltage $V_A = ${VA.toFixed(2)}\\text{ V}$)</div>
-        `;
-
-        document.getElementById('spice-code').innerText = `* DC Two-Loop Mesh Network (LTspice)
-V1 1 0 DC ${V1}
-R1 1 A ${R1}
-R2 A 0 ${R2}
-R3 A 2 ${R3}
-V2 2 0 DC ${V2}
-.op
-.end`;
-
-        document.getElementById('latex-code').innerText = `\\begin{circuitikz}[american]
-  \\draw (0,0) to[V, l=$V_1=${V1}\\text{ V}$, invert] (0,3)
-        to[R, l=$R_1=${R1}\\,\\Omega$] (3,3) node[circ, label=above:$V_A$]{}
-        to[R, l=$R_3=${R3}\\,\\Omega$] (6,3)
-        to[V, l=$V_2=${V2}\\text{ V}$] (6,0) -- (0,0);
-  \\draw (3,3) to[R, l=$R_2=${R2}\\,\\Omega$] (3,0) node[ground]{};
-\\end{circuitikz}`;
-
-    } else if (idx === 1) {
-        // Topology 2: Mixed Voltage & Independent Current Source Nodal Network
-        const Vs = randChoice([20, 24, 36, 40]);
-        const Is = randChoice([1.5, 2.0, 2.5, 3.0]);
-        const R1 = randChoice([10, 20, 25]);
-        const R2 = randChoice([20, 40, 50]);
-        const R3 = randChoice([10, 20, 40]);
-
-        // Node A above R2, Node B above R3 (connected via R3? Wait: R1 from Vs to VA, R2 from VA to GND, R3 from VA to VB? No, let's make 1 super clean node or 2 nodes)
-        // Let's do: Vs + R1 on left branch to Node A; R2 center branch from Node A to GND; R3 + Is on right branch feeding Node A!
-        // KCL at Node A: (VA - Vs)/R1 + VA/R2 - Is = 0
-        const VA = (Vs / R1 + Is) / (1/R1 + 1/R2);
-        currentAnswer = VA;
-        currentUnit = 'V';
-
-        document.getElementById('schematic-title').innerText = 'DC TOPOLOGY 2: MIXED VOLTAGE & CURRENT SOURCE NETWORK';
-        document.getElementById('problem-desc').innerHTML = `Apply <b>Nodal Analysis (KCL)</b> or <b>Superposition</b> to determine the nodal voltage $V_A$ with respect to the reference ground.`;
-        document.getElementById('given-values').innerHTML = `
-            <div>V_S = ${Vs} V</div><div>I_S = ${Is} A (↑)</div>
-            <div>R₁ = ${R1} Ω</div><div>R₂ = ${R2} Ω</div>
-            <div>R₃ = ${R3} Ω (series w/ I_S)</div>
-        `;
-        document.getElementById('question-prompt').innerHTML = `Calculate Nodal Voltage $V_A$:`;
-        document.getElementById('unit-label').innerText = 'V';
-
-        document.getElementById('svg-container').innerHTML = `
-        <svg viewBox="0 0 620 300" class="tikz-svg">
-            ${TikZ.vsrcV(110, 60, 230, 'V_S', Vs + ' V', 'left')}
-            ${TikZ.resH(110, 310, 60, 'R₁', R1 + ' Ω', 'top')}
-            ${TikZ.resV(310, 60, 230, 'R₂', R2 + ' Ω', 'left')}
-            ${TikZ.resH(310, 510, 60, 'R₃', R3 + ' Ω', 'top')}
-            ${TikZ.isrcV(510, 60, 230, 'I_S', Is + ' A', 'up', 'right')}
-            ${TikZ.wire(110, 230, 510, 230)}
-            ${TikZ.dot(310, 60, 'V_A', 'top')}
-            ${TikZ.dot(310, 230)}
-            ${TikZ.gnd(310, 230)}
-        </svg>`;
-
-        document.getElementById('solution-drawer').innerHTML = `
-            <div class="font-bold text-indigo-950">Step-by-Step Nodal Analysis (KCL) Derivation:</div>
-            <div>1. Note that resistor $R_3 = ${R3}\\,\\Omega$ is in series with an ideal current source $I_S = ${Is}\\text{ A}$. Therefore, the right branch injects a fixed current of exactly $I_S = ${Is}\\text{ A}$ into Node $A$.</div>
-            <div>2. Write Kirchhoff's Current Law (KCL) at Node $A$:</div>
-            <div class="pl-4">$$\\frac{V_A - V_S}{R_1} + \\frac{V_A}{R_2} - I_S = 0$$</div>
-            <div>3. Substitute the given circuit parameters:</div>
-            <div class="pl-4">$$\\frac{V_A - ${Vs}}{${R1}} + \\frac{V_A}{${R2}} = ${Is}$$</div>
-            <div>4. Solve for $V_A$:</div>
-            <div class="pl-4">$$V_A = \\frac{${Vs}/${R1} + ${Is}}{1/${R1} + 1/${R2}} = \\mathbf{${VA.toFixed(2)}\\text{ V}}$$</div>
-        `;
-
-        document.getElementById('spice-code').innerText = `* DC Mixed Voltage & Current Source Network (LTspice)
-VS 1 0 DC ${Vs}
-R1 1 A ${R1}
-R2 A 0 ${R2}
-R3 A 2 ${R3}
-IS 0 2 DC ${Is}
-.op
-.end`;
-
-        document.getElementById('latex-code').innerText = `\\begin{circuitikz}[american]
-  \\draw (0,0) to[V, l=$V_S=${Vs}\\text{ V}$, invert] (0,3)
-        to[R, l=$R_1=${R1}\\,\\Omega$] (3,3) node[circ, label=above:$V_A$]{}
-        to[R, l=$R_2=${R2}\\,\\Omega$] (3,0) node[ground]{};
-  \\draw (3,3) to[R, l=$R_3=${R3}\\,\\Omega$] (6,3)
-        to[isource, l=$I_S=${Is}\\text{ A}$, invert] (6,0) -- (0,0);
-\\end{circuitikz}`;
-
-    } else if (idx === 2) {
-        // Topology 3: Dependent Source Circuit (Current-Controlled Voltage Source CCVS)
-        const Vs = randChoice([18, 24, 30, 36]);
-        const R1 = randChoice([10, 20, 30]);
-        const R2 = randChoice([20, 40, 60]);
-        const R3 = randChoice([10, 20, 30]);
-        const rm = randChoice([5, 10, 15]); // Transresistance gain r_m in V/A (Ohms)
-
-        // Branch current Ix flows downward through R2: Ix = VA / R2
-        // Dependent voltage source on right branch has value V_dep = rm * Ix (+ on top)
-        // KCL at Node A: (VA - Vs)/R1 + VA/R2 + (VA - rm*Ix)/R3 = 0
-        // Substitute Ix = VA / R2:
-        // VA * [ 1/R1 + 1/R2 + (1 - rm/R2)/R3 ] = Vs / R1
-        const denom = (1/R1) + (1/R2) + (1 - rm/R2)/R3;
-        const VA = (Vs / R1) / denom;
-        const Ix = VA / R2;
-
-        currentAnswer = VA;
-        currentUnit = 'V';
-
-        document.getElementById('schematic-title').innerText = 'DC TOPOLOGY 3: DEPENDENT SOURCE NETWORK (CCVS)';
-        document.getElementById('problem-desc').innerHTML = `This circuit contains a <b>Current-Controlled Voltage Source (CCVS)</b> of value $V_{dep} = ${rm} I_x$, where $I_x$ is the downward current through $R_2$. Calculate the nodal voltage $V_A$.`;
-        document.getElementById('given-values').innerHTML = `
-            <div>V_S = ${Vs} V</div><div>r_m = ${rm} Ω (V/A)</div>
-            <div>R₁ = ${R1} Ω</div><div>R₂ = ${R2} Ω</div>
-            <div>R₃ = ${R3} Ω</div>
-        `;
-        document.getElementById('question-prompt').innerHTML = `Calculate Nodal Voltage $V_A$:`;
-        document.getElementById('unit-label').innerText = 'V';
-
-        document.getElementById('svg-container').innerHTML = `
-        <svg viewBox="0 0 620 300" class="tikz-svg">
-            ${TikZ.vsrcV(110, 60, 230, 'V_S', Vs + ' V', 'left')}
-            ${TikZ.resH(110, 310, 60, 'R₁', R1 + ' Ω', 'top')}
-            ${TikZ.resV(310, 60, 230, 'R₂', R2 + ' Ω', 'left')}
-            ${TikZ.iArrowH(355, 60, '', 'right')}
-            <polygon points="310,92 305.5,82 314.5,82" fill="#b91c1c"/>
-            <text x="328" y="90" class="tikz-node-label">I_x</text>
-            ${TikZ.resH(310, 500, 60, 'R₃', R3 + ' Ω', 'top')}
-            ${TikZ.depsrcV(500, 60, 230, 'V_dep', rm + '·I_x', 'V', 'right')}
-            ${TikZ.wire(110, 230, 500, 230)}
-            ${TikZ.dot(310, 60, 'V_A', 'top')}
-            ${TikZ.dot(310, 230)}
-            ${TikZ.gnd(310, 230)}
-        </svg>`;
-
-        document.getElementById('solution-drawer').innerHTML = `
-            <div class="font-bold text-indigo-950">Step-by-Step Dependent Source Derivation:</div>
-            <div>1. Express the controlling variable $I_x$ in terms of the unknown nodal voltage $V_A$:</div>
-            <div class="pl-4">$$I_x = \\frac{V_A}{R_2} = \\frac{V_A}{${R2}}$$</div>
-            <div>2. Apply KCL at Node $A$:</div>
-            <div class="pl-4">$$\\frac{V_A - V_S}{R_1} + \\frac{V_A}{R_2} + \\frac{V_A - ${rm}I_x}{R_3} = 0$$</div>
-            <div>3. Substitute $I_x = V_A / ${R2}$ into the KCL equation:</div>
-            <div class="pl-4">$$V_A \\left( \\frac{1}{${R1}} + \\frac{1}{${R2}} + \\frac{1 - ${rm}/${R2}}{${R3}} \\right) = \\frac{${Vs}}{${R1}}$$</div>
-            <div>4. Solving for $V_A$ gives:</div>
-            <div class="pl-4">$$V_A = \\mathbf{${VA.toFixed(2)}\\text{ V}}, \\quad I_x = ${Ix.toFixed(3)}\\text{ A}$$</div>
-        `;
-
-        document.getElementById('spice-code').innerText = `* DC Dependent Source (CCVS) Network (LTspice)
-VS 1 0 DC ${Vs}
-R1 1 A ${R1}
-* Zero-volt dummy source VM measures controlling current Ix:
-R2 A 2 ${R2}
-VM 2 0 DC 0
-R3 A 3 ${R3}
-H1 3 0 VM ${rm}
-.op
-.end`;
-
-        document.getElementById('latex-code').innerText = `\\begin{circuitikz}[american]
-  \\draw (0,0) to[V, l=$V_S=${Vs}\\text{ V}$, invert] (0,3)
-        to[R, l=$R_1=${R1}\\,\\Omega$] (3,3) node[circ, label=above:$V_A$]{}
-        to[R, l=$R_2=${R2}\\,\\Omega$, i=$I_x$] (3,0) node[ground]{};
-  \\draw (3,3) to[R, l=$R_3=${R3}\\,\\Omega$] (6,3)
-        to[cV, l=$${rm}I_x$] (6,0) -- (0,0);
-\\end{circuitikz}`;
-
-    } else {
-        // Topology 4: Series-Parallel Ladder Network
-        const Vs = randChoice([12, 18, 24, 36, 48]);
-        const R1 = randChoice([100, 150, 220, 330]);
-        const R2 = randChoice([220, 330, 470, 680]);
-        const R3 = randChoice([220, 330, 470, 680]);
-
-        const Rp = (R2 * R3) / (R2 + R3);
-        const Rtot = R1 + Rp;
-        const VA = Vs * (Rp / Rtot);
-
-        currentAnswer = VA;
-        currentUnit = 'V';
-
-        document.getElementById('schematic-title').innerText = 'DC TOPOLOGY 4: SERIES-PARALLEL LADDER NETWORK';
-        document.getElementById('problem-desc').innerHTML = `Calculate the nodal voltage $V_A$ across the parallel resistor bank ($R_2 \\parallel R_3$) using resistor equivalence and voltage division.`;
-        document.getElementById('given-values').innerHTML = `
-            <div>V_S = ${Vs} V</div><div>R₁ = ${R1} Ω</div>
-            <div>R₂ = ${R2} Ω</div><div>R₃ = ${R3} Ω</div>
-        `;
-        document.getElementById('question-prompt').innerHTML = `Calculate Nodal Voltage $V_A$:`;
-        document.getElementById('unit-label').innerText = 'V';
-
-        document.getElementById('svg-container').innerHTML = `
-        <svg viewBox="0 0 620 300" class="tikz-svg">
-            ${TikZ.vsrcV(110, 60, 230, 'V_S', Vs + ' V', 'left')}
-            ${TikZ.resH(110, 320, 60, 'R₁', R1 + ' Ω', 'top')}
-            ${TikZ.wire(320, 60, 480, 60)}
-            ${TikZ.resV(320, 60, 230, 'R₂', R2 + ' Ω', 'left')}
-            ${TikZ.resV(480, 60, 230, 'R₃', R3 + ' Ω', 'right')}
-            ${TikZ.wire(110, 230, 480, 230)}
-            ${TikZ.dot(320, 60, 'V_A', 'top')}
-            ${TikZ.dot(320, 230)}
-            ${TikZ.gnd(320, 230)}
-        </svg>`;
-
-        document.getElementById('solution-drawer').innerHTML = `
-            <div class="font-bold text-indigo-950">Step-by-Step Series-Parallel Derivation:</div>
-            <div>1. Combine parallel resistors $R_2$ and $R_3$:</div>
-            <div class="pl-4">$$R_p = R_2 \\parallel R_3 = \\frac{${R2} \\times ${R3}}{${R2} + ${R3}} = ${Rp.toFixed(2)}\\,\\Omega$$</div>
-            <div>2. Total equivalent resistance seen by source $V_S$:</div>
-            <div class="pl-4">$$R_{tot} = R_1 + R_p = ${R1} + ${Rp.toFixed(2)} = ${Rtot.toFixed(2)}\\,\\Omega$$</div>
-            <div>3. Apply the Voltage Divider Rule:</div>
-            <div class="pl-4">$$V_A = V_S \\left(\\frac{R_p}{R_{tot}}\\right) = ${Vs} \\left(\\frac{${Rp.toFixed(2)}}{${Rtot.toFixed(2)}}\\right) = \\mathbf{${VA.toFixed(2)}\\text{ V}}$$</div>
-        `;
-
-        document.getElementById('spice-code').innerText = `* DC Series-Parallel Network (LTspice)
-VS 1 0 DC ${Vs}
-R1 1 A ${R1}
-R2 A 0 ${R2}
-R3 A 0 ${R3}
-.op
-.end`;
-
-        document.getElementById('latex-code').innerText = `\\begin{circuitikz}[american]
-  \\draw (0,0) to[V, l=$V_S=${Vs}\\text{ V}$, invert] (0,3)
-        to[R, l=$R_1=${R1}\\,\\Omega$] (3,3) node[circ, label=above:$V_A$]{}
-        to[R, l=$R_2=${R2}\\,\\Omega$] (3,0) node[ground]{};
-  \\draw (3,3) -- (5,3) to[R, l=$R_3=${R3}\\,\\Omega$] (5,0) -- (0,0);
-\\end{circuitikz}`;
-    }
-}
-
-/* ============================================================================
-   2. THÉVENIN & NORTON EQUIVALENTS (3 DISTINCT TOPOLOGIES)
-   ============================================================================ */
-function genTH(idx) {
-    if (idx === 0) {
-        // Topology 1: T-Network Thévenin Voltage or Resistance
-        const Vs = randChoice([18, 24, 30, 36, 48]);
-        const R1 = randChoice([100, 150, 200, 300]);
-        const R2 = randChoice([150, 200, 300, 600]);
-        const R3 = randChoice([50, 100, 150, 220]);
-
-        const Vth = Vs * (R2 / (R1 + R2));
-        const R12 = (R1 * R2) / (R1 + R2);
-        const Rth = R12 + R3;
-
-        const askVth = Math.random() < 0.5;
-        currentAnswer = askVth ? Vth : Rth;
-        currentUnit = askVth ? 'V' : 'Ω';
-
-        document.getElementById('schematic-title').innerText = 'THÉVENIN TOPOLOGY 1: RESISTIVE T-NETWORK';
-        document.getElementById('problem-desc').innerHTML = askVth
-            ? `Determine the open-circuit <b>Thévenin Equivalent Voltage ($V_{Th}$)</b> across output terminals $A$ and $B$.`
-            : `Determine the <b>Thévenin Equivalent Resistance ($R_{Th}$)</b> looking into output terminals $A$ and $B$.`;
-        document.getElementById('given-values').innerHTML = `
-            <div>V_S = ${Vs} V</div><div>R₁ = ${R1} Ω</div>
-            <div>R₂ = ${R2} Ω</div><div>R₃ = ${R3} Ω</div>
-        `;
-        document.getElementById('question-prompt').innerHTML = askVth ? `Calculate Thévenin Voltage $V_{Th}$:` : `Calculate Thévenin Resistance $R_{Th}$:`;
-        document.getElementById('unit-label').innerText = currentUnit;
-
-        document.getElementById('svg-container').innerHTML = `
-        <svg viewBox="0 0 620 300" class="tikz-svg">
-            ${TikZ.vsrcV(100, 60, 230, 'V_S', Vs + ' V', 'left')}
-            ${TikZ.resH(100, 290, 60, 'R₁', R1 + ' Ω', 'top')}
-            ${TikZ.resV(290, 60, 230, 'R₂', R2 + ' Ω', 'left')}
-            ${TikZ.resH(290, 480, 60, 'R₃', R3 + ' Ω', 'top')}
-            ${TikZ.wire(100, 230, 480, 230)}
-            ${TikZ.dot(290, 60)}
-            ${TikZ.dot(290, 230)}
-            ${TikZ.term(480, 60, 'A', 'right')}
-            ${TikZ.term(480, 230, 'B', 'right')}
-        </svg>`;
-
-        document.getElementById('solution-drawer').innerHTML = `
-            <div class="font-bold text-indigo-950">Step-by-Step Thévenin Equivalent Derivation:</div>
-            <div>1. <b>Open-Circuit Voltage ($V_{Th}$):</b> With terminals $A$–$B$ open, zero current flows through $R_3$. Thus $V_{Th}$ equals the voltage across $R_2$:</div>
-            <div class="pl-4">$$V_{Th} = V_S \\left(\\frac{R_2}{R_1 + R_2}\\right) = ${Vs}\\left(\\frac{${R2}}{${R1}+${R2}}\\right) = \\mathbf{${Vth.toFixed(2)}\\text{ V}}$$</div>
-            <div>2. <b>Thévenin Resistance ($R_{Th}$):</b> Deactivate independent voltage source $V_S$ (replace with a short circuit). Looking into $A$–$B$:</div>
-            <div class="pl-4">$$R_{Th} = (R_1 \\parallel R_2) + R_3 = \\frac{${R1}\\times ${R2}}{${R1}+${R2}} + ${R3} = ${R12.toFixed(2)} + ${R3} = \\mathbf{${Rth.toFixed(2)}\\,\\Omega}$$</div>
-        `;
-
-        document.getElementById('spice-code').innerText = `* Thevenin T-Network (LTspice)
-VS 1 0 DC ${Vs}
-R1 1 2 ${R1}
-R2 2 0 ${R2}
-R3 2 A ${R3}
-.tf V(A) VS
-.end`;
-
-        document.getElementById('latex-code').innerText = `\\begin{circuitikz}[american]
-  \\draw (0,0) to[V, l=$V_S=${Vs}\\text{ V}$, invert] (0,3)
-        to[R, l=$R_1=${R1}\\,\\Omega$] (3,3)
-        to[R, l=$R_2=${R2}\\,\\Omega$] (3,0) -- (0,0);
-  \\draw (3,3) to[R, l=$R_3=${R3}\\,\\Omega$, -o] (6,3) node[right]{$A$};
-  \\draw (3,0) to[short, -o] (6,0) node[right]{$B$};
-\\end{circuitikz}`;
-
-    } else if (idx === 1) {
-        // Topology 2: Mixed Source (Voltage + Current Source) Thévenin Equivalent
-        const Vs = randChoice([12, 20, 24, 30]);
-        const Is = randChoice([1, 2, 3]);
-        const R1 = randChoice([10, 20, 30]);
-        const R2 = randChoice([20, 30, 60]);
-
-        // Vs in series with R1, then parallel current source Is (pointing up) and parallel R2 across A-B
-        // Vth at node A: (Vth - Vs)/R1 - Is + Vth/R2 = 0 => Vth = (Vs/R1 + Is) * (R1 || R2)
-        const Rth = (R1 * R2) / (R1 + R2);
-        const Vth = (Vs / R1 + Is) * Rth;
-        const Inorton = Vth / Rth;
-
-        currentAnswer = Vth;
-        currentUnit = 'V';
-
-        document.getElementById('schematic-title').innerText = 'THÉVENIN TOPOLOGY 2: MIXED VOLTAGE & CURRENT SOURCE';
-        document.getElementById('problem-desc').innerHTML = `Find the open-circuit <b>Thévenin Voltage ($V_{Th}$)</b> across output terminals $A$ and $B$ for this dual-source network.`;
-        document.getElementById('given-values').innerHTML = `
-            <div>V_S = ${Vs} V</div><div>I_S = ${Is} A (↑)</div>
-            <div>R₁ = ${R1} Ω</div><div>R₂ = ${R2} Ω</div>
-        `;
-        document.getElementById('question-prompt').innerHTML = `Calculate Thévenin Voltage $V_{Th}$:`;
-        document.getElementById('unit-label').innerText = 'V';
-
-        document.getElementById('svg-container').innerHTML = `
-        <svg viewBox="0 0 620 300" class="tikz-svg">
-            ${TikZ.vsrcV(100, 60, 230, 'V_S', Vs + ' V', 'left')}
-            ${TikZ.resH(100, 270, 60, 'R₁', R1 + ' Ω', 'top')}
-            ${TikZ.isrcV(270, 60, 230, 'I_S', Is + ' A', 'up', 'left')}
-            ${TikZ.wire(270, 60, 410, 60)}
-            ${TikZ.resV(410, 60, 230, 'R₂', R2 + ' Ω', 'left')}
-            ${TikZ.wire(410, 60, 500, 60)}
-            ${TikZ.wire(100, 230, 500, 230)}
-            ${TikZ.dot(270, 60)}
-            ${TikZ.dot(410, 60)}
-            ${TikZ.dot(270, 230)}
-            ${TikZ.dot(410, 230)}
-            ${TikZ.term(500, 60, 'A', 'right')}
-            ${TikZ.term(500, 230, 'B', 'right')}
-        </svg>`;
-
-        document.getElementById('solution-drawer').innerHTML = `
-            <div class="font-bold text-indigo-950">Step-by-Step Source Transformation / Nodal Derivation:</div>
-            <div>1. Apply KCL at the top output node $V_{Th}$ (with terminals $A$–$B$ open):</div>
-            <div class="pl-4">$$\\frac{V_{Th} - V_S}{R_1} - I_S + \\frac{V_{Th}}{R_2} = 0$$</div>
-            <div>2. Compute Thévenin Resistance $R_{Th}$ (short $V_S$, open $I_S$):</div>
-            <div class="pl-4">$$R_{Th} = R_1 \\parallel R_2 = \\frac{${R1}\\times ${R2}}{${R1}+${R2}} = ${Rth.toFixed(2)}\\,\\Omega$$</div>
-            <div>3. Compute Norton Current $I_N$ and Thévenin Voltage $V_{Th}$:</div>
-            <div class="pl-4">$$I_N = \\frac{V_S}{R_1} + I_S = \\frac{${Vs}}{${R1}} + ${Is} = ${Inorton.toFixed(2)}\\text{ A}$$</div>
-            <div class="pl-4">$$V_{Th} = I_N \\times R_{Th} = \\mathbf{${Vth.toFixed(2)}\\text{ V}}$$</div>
-        `;
-
-        document.getElementById('spice-code').innerText = `* Mixed Source Thevenin Equivalent (LTspice)
-VS 1 0 DC ${Vs}
-R1 1 A ${R1}
-IS 0 A DC ${Is}
-R2 A 0 ${R2}
-.op
-.end`;
-
-        document.getElementById('latex-code').innerText = `\\begin{circuitikz}[american]
-  \\draw (0,0) to[V, l=$V_S=${Vs}\\text{ V}$, invert] (0,3)
-        to[R, l=$R_1=${R1}\\,\\Omega$] (2.8,3)
-        to[isource, l=$I_S=${Is}\\text{ A}$, invert] (2.8,0) -- (0,0);
-  \\draw (2.8,3) -- (4.8,3) to[R, l=$R_2=${R2}\\,\\Omega$] (4.8,0) -- (2.8,0);
-  \\draw (4.8,3) to[short, -o] (6,3) node[right]{$A$};
-  \\draw (4.8,0) to[short, -o] (6,0) node[right]{$B$};
-\\end{circuitikz}`;
-
-    } else {
-        // Topology 3: Norton Short-Circuit Current Problem
-        const Vs = randChoice([24, 36, 48, 60]);
-        const R1 = randChoice([10, 15, 20]);
-        const R2 = randChoice([20, 30, 40]);
-        const R3 = randChoice([10, 20, 30]);
-
-        const Vth = Vs * (R2 / (R1 + R2));
-        const Rth = ((R1 * R2) / (R1 + R2)) + R3;
-        const Inorton = Vth / Rth;
-
-        currentAnswer = Inorton;
-        currentUnit = 'A';
-
-        document.getElementById('schematic-title').innerText = 'THÉVENIN TOPOLOGY 3: NORTON SHORT-CIRCUIT CURRENT (I_N)';
-        document.getElementById('problem-desc').innerHTML = `Calculate the <b>Norton Equivalent Short-Circuit Current ($I_N$)</b> that would flow from terminal $A$ to terminal $B$ if a short circuit were placed across $A$–$B$.`;
-        document.getElementById('given-values').innerHTML = `
-            <div>V_S = ${Vs} V</div><div>R₁ = ${R1} Ω</div>
-            <div>R₂ = ${R2} Ω</div><div>R₃ = ${R3} Ω</div>
-        `;
-        document.getElementById('question-prompt').innerHTML = `Calculate Norton Current $I_N$:`;
-        document.getElementById('unit-label').innerText = 'A';
-
-        document.getElementById('svg-container').innerHTML = `
-        <svg viewBox="0 0 620 300" class="tikz-svg">
-            ${TikZ.vsrcV(100, 60, 230, 'V_S', Vs + ' V', 'left')}
-            ${TikZ.resH(100, 290, 60, 'R₁', R1 + ' Ω', 'top')}
-            ${TikZ.resV(290, 60, 230, 'R₂', R2 + ' Ω', 'left')}
-            ${TikZ.resH(290, 480, 60, 'R₃', R3 + ' Ω', 'top')}
-            ${TikZ.wire(100, 230, 480, 230)}
-            ${TikZ.dot(290, 60)}
-            ${TikZ.dot(290, 230)}
-            ${TikZ.term(480, 60, 'A', 'right')}
-            ${TikZ.term(480, 230, 'B', 'right')}
-        </svg>`;
-
-        document.getElementById('solution-drawer').innerHTML = `
-            <div class="font-bold text-indigo-950">Step-by-Step Norton Current Derivation:</div>
-            <div>1. Find $V_{Th}$ and $R_{Th}$ looking into terminals $A$–$B$:</div>
-            <div class="pl-4">$$V_{Th} = ${Vs}\\left(\\frac{${R2}}{${R1}+${R2}}\\right) = ${Vth.toFixed(2)}\\text{ V}$$</div>
-            <div class="pl-4">$$R_{Th} = (R_1 \\parallel R_2) + R_3 = ${Rth.toFixed(2)}\\,\\Omega$$</div>
-            <div>2. By Norton's Theorem, the short-circuit current from $A$ to $B$ is:</div>
-            <div class="pl-4">$$I_N = \\frac{V_{Th}}{R_{Th}} = \\frac{${Vth.toFixed(2)}}{${Rth.toFixed(2)}} = \\mathbf{${Inorton.toFixed(3)}\\text{ A}}$$</div>
-        `;
-
-        document.getElementById('spice-code').innerText = `* Norton Short-Circuit Current (LTspice)
-VS 1 0 DC ${Vs}
-R1 1 2 ${R1}
-R2 2 0 ${R2}
-R3 2 A ${R3}
-VSHORT A 0 DC 0
-.op
-.end`;
-
-        document.getElementById('latex-code').innerText = `\\begin{circuitikz}[american]
-  \\draw (0,0) to[V, l=$V_S=${Vs}\\text{ V}$, invert] (0,3)
-        to[R, l=$R_1=${R1}\\,\\Omega$] (3,3)
-        to[R, l=$R_2=${R2}\\,\\Omega$] (3,0) -- (0,0);
-  \\draw (3,3) to[R, l=$R_3=${R3}\\,\\Omega$, -o] (6,3) node[right]{$A$};
-  \\draw (3,0) to[short, -o] (6,0) node[right]{$B$};
-\\end{circuitikz}`;
-    }
-}
-
-/* ============================================================================
-   3. AC PHASOR NETWORKS (3 DISTINCT TOPOLOGIES)
-   ============================================================================ */
-function genAC(idx) {
-    if (idx === 0) {
-        // Topology 1: Series RLC Total Impedance Magnitude |Z|
-        const Vp = randChoice([10, 20, 24, 50]);
-        const f = randChoice([60, 100, 200, 500]);
-        const R = randChoice([50, 100, 150, 220]);
-        const L_mH = randChoice([30, 50, 80, 100]);
-        const C_uF = randChoice([15, 22, 47, 68]);
-
-        const w = 2 * Math.PI * f;
-        const XL = w * (L_mH / 1000);
-        const XC = 1 / (w * (C_uF / 1e6));
-        const Xnet = XL - XC;
-        const Zmag = Math.sqrt(R * R + Xnet * Xnet);
-        const Zang = Math.atan2(Xnet, R) * (180 / Math.PI);
-
-        currentAnswer = Zmag;
-        currentUnit = 'Ω';
-
-        document.getElementById('schematic-title').innerText = 'AC TOPOLOGY 1: SERIES RLC IMPEDANCE NETWORK';
-        document.getElementById('problem-desc').innerHTML = `Given sinusoidal source $v_S(t) = ${Vp}\\cos(2\\pi\\cdot ${f}t)\\text{ V}$, calculate the total equivalent impedance magnitude $|\\mathbf{Z}_{tot}|$ of the series RLC loop.`;
-        document.getElementById('given-values').innerHTML = `
-            <div>V_m = ${Vp} V, f = ${f} Hz</div><div>R = ${R} Ω</div>
-            <div>L = ${L_mH} mH</div><div>C = ${C_uF} µF</div>
-        `;
-        document.getElementById('question-prompt').innerHTML = `Calculate Impedance Magnitude $|\\mathbf{Z}_{tot}|$:`;
-        document.getElementById('unit-label').innerText = 'Ω';
-
-        document.getElementById('svg-container').innerHTML = `
-        <svg viewBox="0 0 620 300" class="tikz-svg">
-            ${TikZ.acsrcV(100, 60, 230, 'v_S(t)', Vp + 'V, ' + f + 'Hz', 'left')}
-            ${TikZ.resH(100, 290, 60, 'R', R + ' Ω', 'top')}
-            ${TikZ.indH(290, 490, 60, 'L', L_mH + ' mH', 'top')}
-            ${TikZ.capV(490, 60, 230, 'C', C_uF + ' µF', 'right')}
-            ${TikZ.wire(100, 230, 490, 230)}
-            ${TikZ.gnd(295, 230)}
-        </svg>`;
-
-        document.getElementById('solution-drawer').innerHTML = `
-            <div class="font-bold text-indigo-950">Step-by-Step AC Phasor Derivation:</div>
-            <div>1. Angular Frequency: $\\omega = 2\\pi f = 2\\pi(${f}) = ${w.toFixed(2)}\\text{ rad/s}$</div>
-            <div>2. Inductive Reactance: $X_L = \\omega L = ${w.toFixed(2)} \\times ${L_mH}\\times 10^{-3} = ${XL.toFixed(2)}\\,\\Omega$</div>
-            <div>3. Capacitive Reactance: $X_C = \\frac{1}{\\omega C} = \\frac{1}{${w.toFixed(2)} \\times ${C_uF}\\times 10^{-6}} = ${XC.toFixed(2)}\\,\\Omega$</div>
-            <div>4. Rectangular & Polar Impedance:</div>
-            <div class="pl-4">$$\\mathbf{Z}_{tot} = R + j(X_L - X_C) = ${R} + j(${Xnet.toFixed(2)})\\,\\Omega = \\mathbf{${Zmag.toFixed(2)}}\\angle ${Zang.toFixed(1)}^\\circ\\,\\Omega$$</div>
-        `;
-
-        document.getElementById('spice-code').innerText = `* Series RLC AC Phasor Network (LTspice)
-VS 1 0 AC ${Vp} 0
-R1 1 2 ${R}
-L1 2 3 ${L_mH}m
-C1 3 0 ${C_uF}u
-.ac lin 1 ${f} ${f}
-.end`;
-
-        document.getElementById('latex-code').innerText = `\\begin{circuitikz}[american]
-  \\draw (0,0) to[sV, l=$${Vp}\\angle 0^\\circ\\text{ V}$] (0,3)
-        to[R, l=$R=${R}\\,\\Omega$] (2.5,3)
-        to[L, l=$L=${L_mH}\\text{ mH}$] (5,3)
-        to[C, l=$C=${C_uF}\\,\\mu\\text{F}$] (5,0) -- (0,0);
-\\end{circuitikz}`;
-
-    } else if (idx === 1) {
-        // Topology 2: Parallel RL AC Branch Current Magnitude
-        const Vp = randChoice([24, 36, 48, 60]);
-        const w = randChoice([200, 400, 500, 1000]);
-        const R = randChoice([20, 30, 40, 60]);
-        const L_mH = randChoice([40, 50, 80, 100]);
-
-        const XL = w * (L_mH / 1000);
-        const IR = Vp / R;
-        const IL = Vp / XL;
-        const Itot = Math.sqrt(IR * IR + IL * IL);
-
-        currentAnswer = Itot;
-        currentUnit = 'A';
-
-        document.getElementById('schematic-title').innerText = 'AC TOPOLOGY 2: PARALLEL RL PHASOR ADMITTANCE';
-        document.getElementById('problem-desc').innerHTML = `Given source phasor $\\mathbf{V}_S = ${Vp}\\angle 0^\\circ\\text{ V}$ operating at angular frequency $\\omega = ${w}\\text{ rad/s}$, find the total source current magnitude $|\\mathbf{I}_S|$.`;
-        document.getElementById('given-values').innerHTML = `
-            <div>V_S = ${Vp}∠0° V</div><div>ω = ${w} rad/s</div>
-            <div>R = ${R} Ω</div><div>L = ${L_mH} mH</div>
-        `;
-        document.getElementById('question-prompt').innerHTML = `Calculate Source Current Magnitude $|\\mathbf{I}_S|$:`;
-        document.getElementById('unit-label').innerText = 'A';
-
-        document.getElementById('svg-container').innerHTML = `
-        <svg viewBox="0 0 620 300" class="tikz-svg">
-            ${TikZ.acsrcV(110, 60, 230, 'V_S', Vp + '∠0° V', 'left')}
-            ${TikZ.wire(110, 60, 470, 60)}
-            ${TikZ.iArrowH(200, 60, 'I_S', 'right')}
-            ${TikZ.resV(300, 60, 230, 'R', R + ' Ω', 'left')}
-            ${TikZ.indV(470, 60, 230, 'L', L_mH + ' mH', 'right')}
-            ${TikZ.wire(110, 230, 470, 230)}
-            ${TikZ.dot(300, 60)}
-            ${TikZ.dot(300, 230)}
-            ${TikZ.gnd(300, 230)}
-        </svg>`;
-
-        document.getElementById('solution-drawer').innerHTML = `
-            <div class="font-bold text-indigo-950">Step-by-Step Parallel AC Phasor Derivation:</div>
-            <div>1. Inductive Reactance: $X_L = \\omega L = ${w} \\times ${L_mH/1000} = ${XL.toFixed(2)}\\,\\Omega$</div>
-            <div>2. Orthogonal Branch Phasor Currents:</div>
-            <div class="pl-4">$$\\mathbf{I}_R = \\frac{${Vp}\\angle 0^\\circ}{${R}} = ${IR.toFixed(3)}\\text{ A}, \\quad \\mathbf{I}_L = \\frac{${Vp}\\angle 0^\\circ}{j${XL.toFixed(2)}} = -j${IL.toFixed(3)}\\text{ A}$$</div>
-            <div>3. Total Source Current Magnitude by KCL:</div>
-            <div class="pl-4">$$|\\mathbf{I}_S| = \\sqrt{I_R^2 + I_L^2} = \\sqrt{${IR.toFixed(3)}^2 + ${IL.toFixed(3)}^2} = \\mathbf{${Itot.toFixed(3)}\\text{ A}}$$</div>
-        `;
-
-        document.getElementById('spice-code').innerText = `* Parallel RL AC Network (LTspice)
-VS 1 0 AC ${Vp} 0
-R1 1 0 ${R}
-L1 1 0 ${L_mH}m
-.ac lin 1 ${(w/(2*Math.PI)).toFixed(2)} ${(w/(2*Math.PI)).toFixed(2)}
-.end`;
-
-        document.getElementById('latex-code').innerText = `\\begin{circuitikz}[american]
-  \\draw (0,0) to[sV, l=$\\mathbf{V}_S=${Vp}\\angle 0^\\circ\\text{ V}$] (0,3)
-        to[short, i=$\\mathbf{I}_S$] (3,3)
-        to[R, l=$R=${R}\\,\\Omega$] (3,0) -- (0,0);
-  \\draw (3,3) -- (5.5,3) to[L, l=$L=${L_mH}\\text{ mH}$] (5.5,0) -- (3,0);
-\\end{circuitikz}`;
-
-    } else {
-        // Topology 3: RC AC Voltage Divider (High-Pass / Low-Pass Filter Gain)
-        const Vs = randChoice([10, 12, 20, 24]);
-        const w = randChoice([500, 1000, 2000]);
-        const R = randChoice([100, 200, 250, 500]);
-        const C_uF = randChoice([2, 4, 5, 10]);
-
-        const XC = 1 / (w * (C_uF / 1e6));
-        const Zmag = Math.sqrt(R * R + XC * XC);
-        const Vout = Vs * (XC / Zmag);
-
-        currentAnswer = Vout;
-        currentUnit = 'V';
-
-        document.getElementById('schematic-title').innerText = 'AC TOPOLOGY 3: RC PHASOR VOLTAGE DIVIDER (FILTER)';
-        document.getElementById('problem-desc').innerHTML = `For the AC low-pass RC filter driven by $\\mathbf{V}_S = ${Vs}\\angle 0^\\circ\\text{ V}$ at $\\omega = ${w}\\text{ rad/s}$, calculate the output voltage magnitude $|\\mathbf{V}_{out}|$ across the capacitor.`;
-        document.getElementById('given-values').innerHTML = `
-            <div>V_S = ${Vs}∠0° V</div><div>ω = ${w} rad/s</div>
-            <div>R = ${R} Ω</div><div>C = ${C_uF} µF</div>
-        `;
-        document.getElementById('question-prompt').innerHTML = `Calculate Output Magnitude $|\\mathbf{V}_{out}|$:`;
-        document.getElementById('unit-label').innerText = 'V';
-
-        document.getElementById('svg-container').innerHTML = `
-        <svg viewBox="0 0 620 300" class="tikz-svg">
-            ${TikZ.acsrcV(110, 60, 230, 'V_S', Vs + '∠0° V', 'left')}
-            ${TikZ.resH(110, 350, 60, 'R', R + ' Ω', 'top')}
-            ${TikZ.capV(350, 60, 230, 'C', C_uF + ' µF', 'left')}
-            ${TikZ.wire(350, 60, 480, 60)}
-            ${TikZ.wire(110, 230, 480, 230)}
-            ${TikZ.dot(350, 60)}
-            ${TikZ.dot(350, 230)}
-            ${TikZ.term(480, 60, 'V_out', 'right')}
-            ${TikZ.term(480, 230, 'GND', 'right')}
-        </svg>`;
-
-        document.getElementById('solution-drawer').innerHTML = `
-            <div class="font-bold text-indigo-950">Step-by-Step AC Voltage Divider Derivation:</div>
-            <div>1. Capacitive Reactance: $X_C = \\frac{1}{\\omega C} = \\frac{1}{${w}\\times ${C_uF}\\times 10^{-6}} = ${XC.toFixed(2)}\\,\\Omega$</div>
-            <div>2. Magnitude of Transfer Function:</div>
-            <div class="pl-4">$$|\\mathbf{V}_{out}| = |\\mathbf{V}_S| \\frac{X_C}{\\sqrt{R^2 + X_C^2}} = ${Vs} \\frac{${XC.toFixed(2)}}{\\sqrt{${R}^2 + ${XC.toFixed(2)}^2}} = \\mathbf{${Vout.toFixed(2)}\\text{ V}}$$</div>
-        `;
-
-        document.getElementById('spice-code').innerText = `* RC AC Voltage Divider (LTspice)
-VS 1 0 AC ${Vs} 0
-R1 1 OUT ${R}
-C1 OUT 0 ${C_uF}u
-.ac lin 1 ${(w/(2*Math.PI)).toFixed(2)} ${(w/(2*Math.PI)).toFixed(2)}
-.end`;
-
-        document.getElementById('latex-code').innerText = `\\begin{circuitikz}[american]
-  \\draw (0,0) to[sV, l=$\\mathbf{V}_S=${Vs}\\angle 0^\\circ\\text{ V}$] (0,3)
-        to[R, l=$R=${R}\\,\\Omega$] (3.5,3)
-        to[C, l=$C=${C_uF}\\,\\mu\\text{F}$] (3.5,0) -- (0,0);
-  \\draw (3.5,3) to[short, -o] (5,3) node[right]{$\\mathbf{V}_{out}$};
-  \\draw (3.5,0) to[short, -o] (5,0);
-\\end{circuitikz}`;
-    }
-}
-
-/* ============================================================================
-   4. FIRST-ORDER TRANSIENTS (RC STEP & RL NATURAL DECAY)
-   ============================================================================ */
-function genTR(idx) {
-    if (idx === 0) {
-        // Topology 1: RC Step Response Charging
-        const Vs = randChoice([10, 12, 15, 20, 24]);
-        const R_k = randChoice([1, 2, 5, 10]);
-        const C_uF = randChoice([10, 20, 50, 100]);
-        const tau_ms = R_k * C_uF;
-        const t_ms = Math.round(tau_ms * randChoice([0.5, 0.8, 1.0, 1.5]));
-        const Vc = Vs * (1 - Math.exp(-t_ms / tau_ms));
-
-        currentAnswer = Vc;
-        currentUnit = 'V';
-
-        document.getElementById('schematic-title').innerText = '1ST-ORDER TOPOLOGY 1: RC STEP RESPONSE (CHARGING)';
-        document.getElementById('problem-desc').innerHTML = `The capacitor $C$ is initially uncharged ($v_C(0^-)=0\\text{ V}$). At $t = 0\\text{ s}$, the switch closes. Calculate the capacitor voltage $v_C(t)$ at $t = ${t_ms}\\text{ ms}$.`;
-        document.getElementById('given-values').innerHTML = `
-            <div>V_S = ${Vs} V</div><div>R = ${R_k} kΩ</div>
-            <div>C = ${C_uF} µF</div><div>t = ${t_ms} ms</div>
-        `;
-        document.getElementById('question-prompt').innerHTML = `Calculate $v_C(${t_ms}\\text{ ms})$:`;
-        document.getElementById('unit-label').innerText = 'V';
-
-        document.getElementById('svg-container').innerHTML = `
-        <svg viewBox="0 0 620 300" class="tikz-svg">
-            ${TikZ.vsrcV(100, 70, 230, 'V_S', Vs + ' V', 'left')}
-            ${TikZ.swH(100, 260, 70, 't = 0', 'close')}
-            ${TikZ.resH(260, 460, 70, 'R', R_k + ' kΩ', 'top')}
-            ${TikZ.capV(460, 70, 230, 'C', C_uF + ' µF', 'right')}
-            ${TikZ.wire(100, 230, 460, 230)}
-            ${TikZ.dot(460, 70, 'v_C(t)', 'top')}
-            ${TikZ.gnd(280, 230)}
-        </svg>`;
-
-        document.getElementById('solution-drawer').innerHTML = `
-            <div class="font-bold text-indigo-950">Step-by-Step 1st-Order RC Derivation:</div>
-            <div>1. Time Constant: $\\tau = R C = (${R_k}\\times 10^3)(${C_uF}\\times 10^{-6}) = ${tau_ms.toFixed(2)}\\text{ ms}$</div>
-            <div>2. General Step-Response Equation:</div>
-            <div class="pl-4">$$v_C(t) = v_C(\\infty) + [v_C(0^+) - v_C(\\infty)]e^{-t/\\tau} = ${Vs}\\left(1 - e^{-t/${tau_ms}}\\right)\\text{ V}$$</div>
-            <div>3. Evaluate at $t = ${t_ms}\\text{ ms}$:</div>
-            <div class="pl-4">$$v_C(${t_ms}\\text{ ms}) = ${Vs}\\left(1 - e^{-${t_ms}/${tau_ms}}\\right) = \\mathbf{${Vc.toFixed(2)}\\text{ V}}$$</div>
-        `;
-
-        document.getElementById('spice-code').innerText = `* 1st-Order RC Step Response (LTspice)
-VS 1 0 PULSE(0 ${Vs} 0 1n 1n 10 20)
-R1 1 VC ${R_k}k
-C1 VC 0 ${C_uF}u IC=0
-.tran ${(tau_ms*4/1000).toFixed(4)} uic
-.end`;
-
-        document.getElementById('latex-code').innerText = `\\begin{circuitikz}[american]
-  \\draw (0,0) to[V, l=$V_S=${Vs}\\text{ V}$, invert] (0,3)
-        to[closing switch, l=$t=0$] (2.2,3)
-        to[R, l=$R=${R_k}\\text{ k}\\Omega$] (4.8,3)
-        to[C, l=$C=${C_uF}\\,\\mu\\text{F}$] (4.8,0) -- (0,0);
-\\end{circuitikz}`;
-
-    } else {
-        // Topology 2: RL Step / Natural Response Current
-        const Vs = randChoice([12, 18, 24, 30]);
-        const R = randChoice([10, 20, 25, 50]);
-        const L_mH = randChoice([50, 100, 200, 250]);
-        const tau_ms = (L_mH / R); // since (mH / Ohm) = ms
-        const t_ms = Number((tau_ms * randChoice([0.5, 1.0, 1.5])).toFixed(2));
-        const Iinf = Vs / R;
-        const iL = Iinf * (1 - Math.exp(-t_ms / tau_ms));
-
-        currentAnswer = iL;
-        currentUnit = 'A';
-
-        document.getElementById('schematic-title').innerText = '1ST-ORDER TOPOLOGY 2: SERIES RL TRANSIENT RESPONSE';
-        document.getElementById('problem-desc').innerHTML = `The inductor has zero initial current ($i_L(0^-)=0\\text{ A}$). At $t = 0\\text{ s}$, the switch closes. Calculate the inductor current $i_L(t)$ at $t = ${t_ms}\\text{ ms}$.`;
-        document.getElementById('given-values').innerHTML = `
-            <div>V_S = ${Vs} V</div><div>R = ${R} Ω</div>
-            <div>L = ${L_mH} mH</div><div>t = ${t_ms} ms</div>
-        `;
-        document.getElementById('question-prompt').innerHTML = `Calculate $i_L(${t_ms}\\text{ ms})$:`;
-        document.getElementById('unit-label').innerText = 'A';
-
-        document.getElementById('svg-container').innerHTML = `
-        <svg viewBox="0 0 620 300" class="tikz-svg">
-            ${TikZ.vsrcV(100, 70, 230, 'V_S', Vs + ' V', 'left')}
-            ${TikZ.swH(100, 260, 70, 't = 0', 'close')}
-            ${TikZ.resH(260, 460, 70, 'R', R + ' Ω', 'top')}
-            ${TikZ.indV(460, 70, 230, 'L', L_mH + ' mH', 'right')}
-            ${TikZ.wire(100, 230, 460, 230)}
-            ${TikZ.iArrowH(445, 70, 'i_L(t)', 'right')}
-            ${TikZ.gnd(280, 230)}
-        </svg>`;
-
-        document.getElementById('solution-drawer').innerHTML = `
-            <div class="font-bold text-indigo-950">Step-by-Step 1st-Order RL Derivation:</div>
-            <div>1. Inductive Time Constant: $\\tau = \\frac{L}{R} = \\frac{${L_mH}\\text{ mH}}{${R}\\,\\Omega} = ${tau_ms.toFixed(2)}\\text{ ms}$</div>
-            <div>2. Steady-State Final Current: $i_L(\\infty) = \\frac{V_S}{R} = \\frac{${Vs}}{${R}} = ${Iinf.toFixed(3)}\\text{ A}$</div>
-            <div>3. Evaluate $i_L(t) = i_L(\\infty)(1 - e^{-t/\\tau})$ at $t = ${t_ms}\\text{ ms}$:</div>
-            <div class="pl-4">$$i_L(${t_ms}\\text{ ms}) = ${Iinf.toFixed(3)}\\left(1 - e^{-${t_ms}/${tau_ms.toFixed(2)}}\\right) = \\mathbf{${iL.toFixed(3)}\\text{ A}}$$</div>
-        `;
-
-        document.getElementById('spice-code').innerText = `* 1st-Order RL Step Response (LTspice)
-VS 1 0 PULSE(0 ${Vs} 0 1n 1n 1 2)
-R1 1 2 ${R}
-L1 2 0 ${L_mH}m IC=0
-.tran ${(tau_ms*4/1000).toFixed(4)} uic
-.end`;
-
-        document.getElementById('latex-code').innerText = `\\begin{circuitikz}[american]
-  \\draw (0,0) to[V, l=$V_S=${Vs}\\text{ V}$, invert] (0,3)
-        to[closing switch, l=$t=0$] (2.2,3)
-        to[R, l=$R=${R}\\,\\Omega$] (4.8,3)
-        to[L, l=$L=${L_mH}\\text{ mH}$, i=$i_L(t)$] (4.8,0) -- (0,0);
-\\end{circuitikz}`;
-    }
-}
-
-/* ============================================================================
-   5. SECOND-ORDER RLC TRANSIENTS (3 DAMPING REGIMES)
-   ============================================================================ */
-function genRLC2(idx) {
-    const presets = [
-        { Vs: 12, R: 16,  L_mH: 100, C_uF: 100, regime: 'Underdamped (α < ω₀)', ask: 'wd' },
-        { Vs: 20, R: 100, L_mH: 100, C_uF: 40,  regime: 'Critically Damped (α = ω₀)', ask: 'w0' },
-        { Vs: 24, R: 60,  L_mH: 50,  C_uF: 200, regime: 'Overdamped (α > ω₀)', ask: 'zeta' }
-    ];
-    const p = presets[idx];
-    const L = p.L_mH / 1000;
-    const C = p.C_uF / 1e6;
-    const alpha = p.R / (2 * L);
-    const w0 = 1 / Math.sqrt(L * C);
-    const zeta = alpha / w0;
-    const wd = alpha < w0 ? Math.sqrt(w0 * w0 - alpha * alpha) : 0;
-
-    if (p.ask === 'wd') {
-        currentAnswer = wd;
-        currentUnit = 'rad/s';
-        document.getElementById('problem-desc').innerHTML = `This series RLC network is <b>Underdamped</b> ($\\alpha < \\omega_0$). Calculate the <b>damped natural oscillation frequency ($\\omega_d = \\sqrt{\\omega_0^2 - \\alpha^2}$)</b>.`;
-        document.getElementById('question-prompt').innerHTML = `Calculate Damped Frequency $\\omega_d$:`;
-    } else if (p.ask === 'w0') {
-        currentAnswer = w0;
-        currentUnit = 'rad/s';
-        document.getElementById('problem-desc').innerHTML = `This series RLC network is <b>Critically Damped</b> ($\\alpha = \\omega_0$). Calculate the <b>undamped natural resonant frequency ($\\omega_0 = 1/\\sqrt{LC}$)</b>.`;
-        document.getElementById('question-prompt').innerHTML = `Calculate Natural Frequency $\\omega_0$:`;
-    } else {
-        currentAnswer = zeta;
-        currentUnit = '';
-        document.getElementById('problem-desc').innerHTML = `This series RLC network is <b>Overdamped</b> ($\\alpha > \\omega_0$). Calculate the dimensionless <b>damping ratio ($\\zeta = \\alpha / \\omega_0$)</b>.`;
-        document.getElementById('question-prompt').innerHTML = `Calculate Damping Ratio $\\zeta$:`;
-    }
-
-    document.getElementById('schematic-title').innerText = `2ND-ORDER RLC (${p.regime.toUpperCase()})`;
-    document.getElementById('given-values').innerHTML = `
-        <div>V_S = ${p.Vs} V</div><div>R = ${p.R} Ω</div>
-        <div>L = ${p.L_mH} mH</div><div>C = ${p.C_uF} µF</div>
-    `;
-    document.getElementById('unit-label').innerText = currentUnit || 'ratio';
-
-    document.getElementById('svg-container').innerHTML = `
-    <svg viewBox="0 0 620 300" class="tikz-svg">
-        ${TikZ.vsrcV(85, 70, 230, 'V_S', p.Vs + ' V', 'left')}
-        ${TikZ.swH(85, 215, 70, 't = 0', 'close')}
-        ${TikZ.resH(215, 365, 70, 'R', p.R + ' Ω', 'top')}
-        ${TikZ.indH(365, 515, 70, 'L', p.L_mH + ' mH', 'top')}
-        ${TikZ.capV(515, 70, 230, 'C', p.C_uF + ' µF', 'right')}
-        ${TikZ.wire(85, 230, 515, 230)}
-        ${TikZ.gnd(300, 230)}
-    </svg>`;
-
-    document.getElementById('solution-drawer').innerHTML = `
-        <div class="font-bold text-indigo-950">Step-by-Step 2nd-Order Series RLC Derivation:</div>
-        <div>1. <b>Neper Damping Frequency:</b> $\\alpha = \\frac{R}{2L} = \\frac{${p.R}}{2(${L})} = ${alpha.toFixed(2)}\\text{ Np/s}$</div>
-        <div>2. <b>Undamped Natural Frequency:</b> $\\omega_0 = \\frac{1}{\\sqrt{LC}} = \\frac{1}{\\sqrt{${L}\\times ${p.C_uF}\\times 10^{-6}}} = ${w0.toFixed(2)}\\text{ rad/s}$</div>
-        <div>3. <b>Damping Ratio:</b> $\\zeta = \\frac{\\alpha}{\\omega_0} = ${zeta.toFixed(3)}$ &nbsp; $\\implies$ <b>${p.regime}</b></div>
-        ${wd > 0 ? `<div>4. <b>Damped Oscillation Frequency:</b> $\\omega_d = \\sqrt{\\omega_0^2 - \\alpha^2} = \\mathbf{${wd.toFixed(2)}\\text{ rad/s}}$</div>` : ''}
-    `;
-
-    document.getElementById('spice-code').innerText = `* 2nd-Order Series RLC Step Response (LTspice)
-VS 1 0 PULSE(0 ${p.Vs} 0 1n 1n 1 2)
-R1 1 2 ${p.R}
-L1 2 3 ${p.L_mH}m IC=0
-C1 3 0 ${p.C_uF}u IC=0
-.tran 0.05 uic
-.end`;
-
-    document.getElementById('latex-code').innerText = `\\begin{circuitikz}[american]
-  \\draw (0,0) to[V, l=$V_S=${p.Vs}\\text{ V}$, invert] (0,3)
-        to[closing switch, l=$t=0$] (1.8,3)
-        to[R, l=$R=${p.R}\\,\\Omega$] (3.8,3)
-        to[L, l=$L=${p.L_mH}\\text{ mH}$] (5.8,3)
-        to[C, l=$C=${p.C_uF}\\,\\mu\\text{F}$] (5.8,0) -- (0,0);
-\\end{circuitikz}`;
-}
-
-/* ============================================================================
-   6. OPERATIONAL AMPLIFIERS (3 DISTINCT TOPOLOGIES)
-   ============================================================================ */
-function genOP(idx) {
-    if (idx === 0) {
-        // Topology 1: Inverting Amplifier
-        const Vin = randChoice([-2.0, -1.5, 0.5, 1.2, 1.5, 2.5]);
-        const Rin = randChoice([2, 4, 5, 10]);
-        const Rf = randChoice([10, 20, 40, 50]);
-        const Vout = -(Rf / Rin) * Vin;
-
-        currentAnswer = Vout;
-        currentUnit = 'V';
-
-        document.getElementById('schematic-title').innerText = 'OP-AMP TOPOLOGY 1: INVERTING AMPLIFIER';
-        document.getElementById('problem-desc').innerHTML = `Assuming an ideal operational amplifier operating in its linear region, calculate the closed-loop output voltage $V_{out}$.`;
-        document.getElementById('given-values').innerHTML = `
-            <div>V_in = ${Vin} V</div><div>R_in = ${Rin} kΩ</div>
-            <div>R_f = ${Rf} kΩ</div><div>Ideal Op-Amp</div>
-        `;
-        document.getElementById('question-prompt').innerHTML = `Calculate Output Voltage $V_{out}$:`;
-        document.getElementById('unit-label').innerText = 'V';
-
-        document.getElementById('svg-container').innerHTML = `
-        <svg viewBox="0 0 620 300" class="tikz-svg">
-            ${TikZ.term(75, 130, 'V_in=' + Vin + 'V', 'top')}
-            ${TikZ.resH(75, 240, 130, 'R_in', Rin + ' kΩ', 'top')}
-            ${TikZ.wire(240, 130, 300, 130)}
-            ${TikZ.dot(240, 130)}
-            <!-- Feedback Loop -->
-            ${TikZ.wire(240, 130, 240, 55)}
-            ${TikZ.resH(240, 455, 55, 'R_f', Rf + ' kΩ', 'top')}
-            ${TikZ.wire(455, 55, 455, 155)}
-            ${TikZ.dot(455, 155)}
-            <!-- Op-Amp Triangle -->
-            <polygon points="300,100 300,210 415,155" class="tikz-comp"/>
-            <text x="315" y="135" class="tikz-sign">−</text>
-            <text x="315" y="185" class="tikz-sign">+</text>
-            <!-- Non-inverting Ground -->
-            ${TikZ.wire(260, 180, 300, 180)}
-            ${TikZ.wire(260, 180, 260, 220)}
-            ${TikZ.gnd(260, 220)}
-            <!-- Output -->
-            ${TikZ.wire(415, 155, 520, 155)}
-            ${TikZ.term(520, 155, 'V_out', 'right')}
-        </svg>`;
-
-        document.getElementById('solution-drawer').innerHTML = `
-            <div class="font-bold text-indigo-950">Step-by-Step Inverting Op-Amp Derivation:</div>
-            <div>1. By virtual ground at the inverting input ($V_- = V_+ = 0\\text{ V}$), KCL at node $V_-$ yields:</div>
-            <div class="pl-4">$$\\frac{V_{in}}{R_{in}} + \\frac{V_{out}}{R_f} = 0$$</div>
-            <div>2. Solve for $V_{out}$:</div>
-            <div class="pl-4">$$V_{out} = -\\left(\\frac{R_f}{R_{in}}\\right) V_{in} = -\\left(\\frac{${Rf}\\text{ k}\\Omega}{${Rin}\\text{ k}\\Omega}\\right)(${Vin}\\text{ V}) = \\mathbf{${Vout.toFixed(2)}\\text{ V}}$$</div>
-        `;
-
-        document.getElementById('spice-code').innerText = `* Inverting Op-Amp (LTspice)
-VIN 1 0 DC ${Vin}
-RIN 1 2 ${Rin}k
-RF 2 OUT ${Rf}k
-E1 OUT 0 0 2 100k
-.op
-.end`;
-
-        document.getElementById('latex-code').innerText = `\\begin{circuitikz}[american]
-  \\draw (0,0) node[op amp] (opamp) {};
-  \\draw (opamp.-) to[R, l_=$R_{in}=${Rin}\\text{ k}\\Omega$, -o] (-3, 0.5) node[left]{$V_{in}=${Vin}\\text{ V}$};
-  \\draw (opamp.+) -- (-1.5, -0.5) node[ground]{};
-  \\draw (opamp.-) -- ++(0, 1.5) to[R, l=$R_f=${Rf}\\text{ k}\\Omega$] ++(2.4, 0) -| (opamp.out);
-  \\draw (opamp.out) to[short, -o] ++(1, 0) node[right]{$V_{out}$};
-\\end{circuitikz}`;
-
-    } else if (idx === 1) {
-        // Topology 2: Non-Inverting Amplifier
-        const Vin = randChoice([0.5, 1.0, 1.5, 2.0, 2.5]);
-        const R1 = randChoice([2, 5, 10]);
-        const Rf = randChoice([10, 20, 30, 40]);
-        const Gain = 1 + (Rf / R1);
-        const Vout = Gain * Vin;
-
-        currentAnswer = Vout;
-        currentUnit = 'V';
-
-        document.getElementById('schematic-title').innerText = 'OP-AMP TOPOLOGY 2: NON-INVERTING AMPLIFIER';
-        document.getElementById('problem-desc').innerHTML = `Calculate the output voltage $V_{out}$ of this ideal <b>Non-Inverting Operational Amplifier</b> circuit.`;
-        document.getElementById('given-values').innerHTML = `
-            <div>V_in = ${Vin} V</div><div>R₁ = ${R1} kΩ</div>
-            <div>R_f = ${Rf} kΩ</div><div>Ideal Op-Amp</div>
-        `;
-        document.getElementById('question-prompt').innerHTML = `Calculate Output Voltage $V_{out}$:`;
-        document.getElementById('unit-label').innerText = 'V';
-
-        document.getElementById('svg-container').innerHTML = `
-        <svg viewBox="0 0 620 300" class="tikz-svg">
-            ${TikZ.resH(95, 240, 130, 'R₁', R1 + ' kΩ', 'top')}
-            ${TikZ.wire(95, 130, 95, 210)}
-            ${TikZ.gnd(95, 210)}
-            ${TikZ.wire(240, 130, 300, 130)}
-            ${TikZ.dot(240, 130)}
-            <!-- Feedback Loop -->
-            ${TikZ.wire(240, 130, 240, 55)}
-            ${TikZ.resH(240, 455, 55, 'R_f', Rf + ' kΩ', 'top')}
-            ${TikZ.wire(455, 55, 455, 155)}
-            ${TikZ.dot(455, 155)}
-            <!-- Op-Amp Triangle -->
-            <polygon points="300,100 300,210 415,155" class="tikz-comp"/>
-            <text x="315" y="135" class="tikz-sign">−</text>
-            <text x="315" y="185" class="tikz-sign">+</text>
-            <!-- Non-inverting Input Vin -->
-            ${TikZ.wire(180, 180, 300, 180)}
-            ${TikZ.term(180, 180, 'V_in=' + Vin + 'V', 'bottom')}
-            <!-- Output -->
-            ${TikZ.wire(415, 155, 520, 155)}
-            ${TikZ.term(520, 155, 'V_out', 'right')}
-        </svg>`;
-
-        document.getElementById('solution-drawer').innerHTML = `
-            <div class="font-bold text-indigo-950">Step-by-Step Non-Inverting Op-Amp Derivation:</div>
-            <div>1. By virtual short across the input terminals, $V_- = V_+ = V_{in} = ${Vin}\\text{ V}$.</div>
-            <div>2. Non-inverting closed-loop voltage gain:</div>
-            <div class="pl-4">$$A_v = 1 + \\frac{R_f}{R_1} = 1 + \\frac{${Rf}}{${R1}} = ${Gain.toFixed(2)}\\text{ V/V}$$</div>
-            <div>3. Output Voltage:</div>
-            <div class="pl-4">$$V_{out} = A_v V_{in} = (${Gain.toFixed(2)})(${Vin}) = \\mathbf{${Vout.toFixed(2)}\\text{ V}}$$</div>
-        `;
-
-        document.getElementById('spice-code').innerText = `* Non-Inverting Op-Amp (LTspice)
-VIN PLUS 0 DC ${Vin}
-R1 MINUS 0 ${R1}k
-RF MINUS OUT ${Rf}k
-E1 OUT 0 PLUS MINUS 100k
-.op
-.end`;
-
-        document.getElementById('latex-code').innerText = `\\begin{circuitikz}[american]
-  \\draw (0,0) node[op amp] (opamp) {};
-  \\draw (opamp.+) to[short, -o] (-2, -0.5) node[left]{$V_{in}=${Vin}\\text{ V}$};
-  \\draw (opamp.-) to[R, l_=$R_1=${R1}\\text{ k}\\Omega$] (-3, 0.5) node[ground]{};
-  \\draw (opamp.-) -- ++(0, 1.5) to[R, l=$R_f=${Rf}\\text{ k}\\Omega$] ++(2.4, 0) -| (opamp.out);
-  \\draw (opamp.out) to[short, -o] ++(1, 0) node[right]{$V_{out}$};
-\\end{circuitikz}`;
-
-    } else {
-        // Topology 3: Two-Channel Summing Amplifier
-        const V1 = randChoice([1.0, 2.0, 3.0]);
-        const V2 = randChoice([1.5, 2.0, 4.0]);
-        const R1 = randChoice([5, 10]);
-        const R2 = randChoice([10, 20]);
-        const Rf = randChoice([20, 40]);
-
-        const Vout = -Rf * ((V1 / R1) + (V2 / R2));
-
-        currentAnswer = Vout;
-        currentUnit = 'V';
-
-        document.getElementById('schematic-title').innerText = 'OP-AMP TOPOLOGY 3: INVERTING SUMMING AMPLIFIER (DAC)';
-        document.getElementById('problem-desc').innerHTML = `Calculate the weighted output voltage $V_{out}$ for this two-input <b>Inverting Summing Amplifier</b>.`;
-        document.getElementById('given-values').innerHTML = `
-            <div>V₁ = ${V1} V, R₁ = ${R1} kΩ</div>
-            <div>V₂ = ${V2} V, R₂ = ${R2} kΩ</div>
-            <div>R_f = ${Rf} kΩ</div><div>Ideal Op-Amp</div>
-        `;
-        document.getElementById('question-prompt').innerHTML = `Calculate Output Voltage $V_{out}$:`;
-        document.getElementById('unit-label').innerText = 'V';
-
-        document.getElementById('svg-container').innerHTML = `
-        <svg viewBox="0 0 620 300" class="tikz-svg">
-            ${TikZ.term(65, 95, 'V₁=' + V1 + 'V', 'top')}
-            ${TikZ.resH(65, 230, 95, 'R₁', R1 + ' kΩ', 'top')}
-            ${TikZ.term(65, 165, 'V₂=' + V2 + 'V', 'bottom')}
-            ${TikZ.resH(65, 230, 165, 'R₂', R2 + ' kΩ', 'bottom')}
-            ${TikZ.wire(230, 95, 230, 165)}
-            ${TikZ.wire(230, 130, 310, 130)}
-            ${TikZ.dot(230, 130)}
-            ${TikZ.dot(265, 130)}
-            <!-- Feedback -->
-            ${TikZ.wire(265, 130, 265, 45)}
-            ${TikZ.resH(265, 465, 45, 'R_f', Rf + ' kΩ', 'top')}
-            ${TikZ.wire(465, 45, 465, 155)}
-            ${TikZ.dot(465, 155)}
-            <!-- Op-Amp -->
-            <polygon points="310,100 310,210 425,155" class="tikz-comp"/>
-            <text x="325" y="135" class="tikz-sign">−</text>
-            <text x="325" y="185" class="tikz-sign">+</text>
-            ${TikZ.wire(275, 180, 310, 180)}
-            ${TikZ.wire(275, 180, 275, 225)}
-            ${TikZ.gnd(275, 225)}
-            ${TikZ.wire(425, 155, 530, 155)}
-            ${TikZ.term(530, 155, 'V_out', 'right')}
-        </svg>`;
-
-        document.getElementById('solution-drawer').innerHTML = `
-            <div class="font-bold text-indigo-950">Step-by-Step Summing Amplifier Derivation:</div>
-            <div>1. Summing junction KCL at virtual ground ($V_- = 0\\text{ V}$):</div>
-            <div class="pl-4">$$\\frac{V_1}{R_1} + \\frac{V_2}{R_2} + \\frac{V_{out}}{R_f} = 0$$</div>
-            <div>2. Substitute the given values:</div>
-            <div class="pl-4">$$V_{out} = -R_f \\left(\\frac{V_1}{R_1} + \\frac{V_2}{R_2}\\right) = -${Rf}\\left(\\frac{${V1}}{${R1}} + \\frac{${V2}}{${R2}}\\right) = \\mathbf{${Vout.toFixed(2)}\\text{ V}}$$</div>
-        `;
-
-        document.getElementById('spice-code').innerText = `* Inverting Summing Op-Amp (LTspice)
-V1 1 0 DC ${V1}
-V2 2 0 DC ${V2}
-R1 1 SUM ${R1}k
-R2 2 SUM ${R2}k
-RF SUM OUT ${Rf}k
-E1 OUT 0 0 SUM 100k
-.op
-.end`;
-
-        document.getElementById('latex-code').innerText = `\\begin{circuitikz}[american]
-  \\draw (0,0) node[op amp] (opamp) {};
-  \\draw (opamp.-) -- (-1.5, 0.5) coordinate (sum);
-  \\draw (sum) -- ++(0, 0.8) to[R, l_=$R_1=${R1}\\text{ k}\\Omega$, -o] ++(-2.5, 0) node[left]{$V_1=${V1}\\text{ V}$};
-  \\draw (sum) -- ++(0, -0.8) to[R, l=$R_2=${R2}\\text{ k}\\Omega$, -o] ++(-2.5, 0) node[left]{$V_2=${V2}\\text{ V}$};
-  \\draw (opamp.+) -- (-1.2, -0.5) node[ground]{};
-  \\draw (opamp.-) -- ++(0, 1.8) to[R, l=$R_f=${Rf}\\text{ k}\\Omega$] ++(2.5, 0) -| (opamp.out);
-  \\draw (opamp.out) to[short, -o] ++(1, 0) node[right]{$V_{out}$};
-\\end{circuitikz}`;
-    }
-}
-
-// Initialize on load
-window.addEventListener('DOMContentLoaded', () => generateCircuit(false));
+window.onload = renderCurrent;
 </script>
 </body>
 </html>

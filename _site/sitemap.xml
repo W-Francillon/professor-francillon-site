@@ -1,36 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://professorfrancillon.com/reactance_calculator.html</loc>
-    <lastmod>2026-10-17T20:59:05.914Z</lastmod>
+    <loc>https://professorfrancillon.com/dual_polarity_power_supply.html</loc>
+    <lastmod>2026-11-01T23:39:47.708Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/mars_xrd_lab.html</loc>
-    <lastmod>2026-11-01T01:16:41.247Z</lastmod>
+    <loc>https://professorfrancillon.com/tide_predictor.html</loc>
+    <lastmod>2026-10-30T22:04:18.796Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/co2_emissions_regression.html</loc>
-    <lastmod>2026-11-01T00:39:48.274Z</lastmod>
+    <loc>https://professorfrancillon.com/circuit_breakout.html</loc>
+    <lastmod>2026-10-22T12:43:58.344Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/lecture_notes.html</loc>
-    <lastmod>2026-10-30T01:42:33.630Z</lastmod>
+    <loc>https://professorfrancillon.com/outreach_noaa_climate.html</loc>
+    <lastmod>2026-11-02T14:14:50.167Z</lastmod>
+  </url>
+  <url>
+    <loc>https://professorfrancillon.com/coming_soon.html</loc>
+    <lastmod>2026-11-08T23:03:12.998Z</lastmod>
+  </url>
+  <url>
+    <loc>https://professorfrancillon.com/usaf_1951.html</loc>
+    <lastmod>2026-10-24T17:29:23.655Z</lastmod>
   </url>
   <url>
     <loc>https://professorfrancillon.com/outreach.html</loc>
-    <lastmod>2026-11-01T13:38:22.264Z</lastmod>
+    <lastmod>2026-11-08T03:10:24.472Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/simulations.html</loc>
-    <lastmod>2026-10-24T17:14:57.803Z</lastmod>
+    <loc>https://professorfrancillon.com/web_scraping.html</loc>
+    <lastmod>2026-11-12T21:04:36.646Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/circuit_dashboard.html</loc>
-    <lastmod>2026-10-18T16:23:25.955Z</lastmod>
+    <loc>https://professorfrancillon.com/about.html</loc>
+    <lastmod>2026-10-17T20:19:09.730Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/projects.html</loc>
-    <lastmod>2026-10-30T01:12:22.974Z</lastmod>
+    <loc>https://professorfrancillon.com/index.html</loc>
+    <lastmod>2026-11-12T20:20:27.783Z</lastmod>
+  </url>
+  <url>
+    <loc>https://professorfrancillon.com/circuit_simulator.html</loc>
+    <lastmod>2026-11-07T23:30:10.956Z</lastmod>
   </url>
   <url>
     <loc>https://professorfrancillon.com/rf_foxhunt.html</loc>
@@ -42,19 +54,31 @@
   </url>
   <url>
     <loc>https://professorfrancillon.com/circuit_generator.html</loc>
-    <lastmod>2026-10-21T06:22:46.475Z</lastmod>
+    <lastmod>2026-11-11T03:14:56.463Z</lastmod>
   </url>
   <url>
     <loc>https://professorfrancillon.com/crystal_structures_part1.html</loc>
     <lastmod>2026-11-01T12:53:02.887Z</lastmod>
   </url>
   <url>
+    <loc>https://professorfrancillon.com/dynamics/iczv_dynamics.html</loc>
+    <lastmod>2026-11-18T00:24:54.544Z</lastmod>
+  </url>
+  <url>
+    <loc>https://professorfrancillon.com/circuit_analysis.html</loc>
+    <lastmod>2026-11-07T20:09:19.145Z</lastmod>
+  </url>
+  <url>
     <loc>https://professorfrancillon.com/teaching.html</loc>
     <lastmod>2026-10-30T01:42:16.576Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/circuit_analysis.html</loc>
-    <lastmod>2026-10-30T00:47:14.518Z</lastmod>
+    <loc>https://professorfrancillon.com/dynamics/dynamics/iczv_dynamics.html</loc>
+    <lastmod>2026-11-15T23:08:48.816Z</lastmod>
+  </url>
+  <url>
+    <loc>https://professorfrancillon.com/matlab_simulink_lab.html</loc>
+    <lastmod>2026-11-21T14:21:10.320Z</lastmod>
   </url>
   <url>
     <loc>https://professorfrancillon.com/outreach_data.html</loc>
@@ -69,35 +93,47 @@
     <lastmod>2026-10-20T02:17:18.615Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/circuit_simulator.html</loc>
-    <lastmod>2026-10-20T01:24:34.400Z</lastmod>
+    <loc>https://professorfrancillon.com/rss_feeds.html</loc>
+    <lastmod>2026-11-08T02:58:38.579Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/index.html</loc>
-    <lastmod>2026-10-18T18:40:00.915Z</lastmod>
+    <loc>https://professorfrancillon.com/projects.html</loc>
+    <lastmod>2026-10-30T01:12:22.974Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/about.html</loc>
-    <lastmod>2026-10-17T20:19:09.730Z</lastmod>
+    <loc>https://professorfrancillon.com/circuit_dashboard.html</loc>
+    <lastmod>2026-11-08T22:23:57.472Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/web_scraping.html</loc>
-    <lastmod>2026-10-20T02:29:48.066Z</lastmod>
+    <loc>https://professorfrancillon.com/simulations.html</loc>
+    <lastmod>2026-11-15T23:22:18.942Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/usaf_1951.html</loc>
-    <lastmod>2026-10-24T17:29:23.655Z</lastmod>
+    <loc>https://professorfrancillon.com/circuits_textbook/ch1_foundations.html</loc>
+    <lastmod>2026-11-18T02:00:35.629Z</lastmod>
+  </url>
+  <url>
+    <loc>https://professorfrancillon.com/simulations/op-amp-checker.html</loc>
+    <lastmod>2026-11-13T01:46:34.973Z</lastmod>
+  </url>
+  <url>
+    <loc>https://professorfrancillon.com/lecture_notes.html</loc>
+    <lastmod>2026-11-09T12:28:52.109Z</lastmod>
   </url>
   <url>
     <loc>https://professorfrancillon.com/lab_manuals.html</loc>
-    <lastmod>2026-10-30T02:05:04.521Z</lastmod>
+    <lastmod>2026-11-15T23:28:22.975Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/circuit_breakout.html</loc>
-    <lastmod>2026-10-22T12:43:58.344Z</lastmod>
+    <loc>https://professorfrancillon.com/co2_emissions_regression.html</loc>
+    <lastmod>2026-11-11T13:37:39.653Z</lastmod>
   </url>
   <url>
-    <loc>https://professorfrancillon.com/tide_predictor.html</loc>
-    <lastmod>2026-10-30T22:04:18.796Z</lastmod>
+    <loc>https://professorfrancillon.com/mars_xrd_lab.html</loc>
+    <lastmod>2026-11-01T01:16:41.247Z</lastmod>
+  </url>
+  <url>
+    <loc>https://professorfrancillon.com/reactance_calculator.html</loc>
+    <lastmod>2026-10-17T20:59:05.914Z</lastmod>
   </url>
 </urlset>

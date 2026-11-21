@@ -79,5 +79,20 @@
   },
   "crystal_structures_part1.qmd": {
     "crystal_structures_part1.html": "365e8e9f"
+  },
+  "op_amp_wiring.qmd": {
+    "op_amp_wiring.html": "c4fa5661"
+  },
+  "dual_polarity_power_supply.qmd": {
+    "dual_polarity_power_supply.html": "7d3f8c64"
+  },
+  "outreach_noaa_climate.qmd": {
+    "outreach_noaa_climate.html": "73bdb443"
+  },
+  "widgets/simulations/op-amp-checker.qmd": {
+    "op-amp-checker.html": "f5d32979"
+  },
+  "simulations/op-amp-checker.qmd": {
+    "op-amp-checker.html": "fa715997"
   }
 }

@@ -1,195 +1,233 @@
 ---
-title: "CIRCUIT ANALYSIS & INTERACTIVE LABS"
+title: ""
 page-layout: full
-jupyter: python3
+toc: false
 ---
 
-::: {.grid}
+<style>
+.hub-container {
+  max-width: 1220px;
+  margin: 1.5rem auto 4rem auto;
+  padding: 0 1rem;
+}
+.hub-header {
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #000000;
+  text-transform: uppercase;
+  margin: 0 0 0.35rem 0;
+}
+.hub-subtitle {
+  font-size: 1.08rem;
+  font-weight: 400;
+  color: #475569;
+  margin: 0 0 2rem 0;
+}
+.hub-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.75rem;
+}
+.hub-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+.hub-card:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.07);
+  transform: translateY(-2px);
+  border-color: #cbd5e1;
+}
+.hub-card-visual {
+  width: 100%;
+  height: 220px;
+  background: #ffffff;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 1.25rem;
+}
+.hub-card-visual svg {
+  width: 100%;
+  height: 100%;
+}
+.hub-card-body {
+  padding: 1.25rem 1.75rem 1.75rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.hub-tag {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.25rem 0.6rem;
+  border-radius: 3px;
+  margin-bottom: 0.75rem;
+  background: #f3e8ff;
+  color: #5b21b6;
+}
+.hub-card-title {
+  font-size: 1.18rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0 0 0.65rem 0;
+}
+.hub-card-desc {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #334155;
+  margin: 0 0 1.5rem 0;
+  flex-grow: 1;
+}
+.hub-btn {
+  display: inline-block;
+  align-self: flex-start;
+  background-color: #191326;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  font-size: 0.92rem;
+  font-weight: 500;
+  padding: 0.6rem 1.25rem;
+  border-radius: 2px;
+  transition: background-color 0.15s ease;
+}
+.hub-btn:hover {
+  background-color: #3b1d6e;
+  color: #ffffff !important;
+}
+</style>
 
-<!-- CARD 1: ELECTRICAL DASHBOARD -->
-::: {.g-col-12 .g-col-md-4}
-::: {.card .h-100}
-```{python}
-#| echo: false
-#| fig-height: 2.8
-import matplotlib.pyplot as plt
-import numpy as np
+<div class="hub-container">
+<h1 class="hub-header">CIRCUIT ANALYSIS &amp; INTERACTIVE LABS</h1>
+<p class="hub-subtitle">Electrical Telemetry Dashboards, Transient Simulators &amp; Network Analysis Tools</p>
+<div class="hub-card-grid">
 
-# Generate Polyphase AC Waveform Thumbnail
-t = np.linspace(0, 2*np.pi, 200)
-v1 = np.sin(t)
-v2 = np.sin(t - 2*np.pi/3)
-v3 = np.sin(t + 2*np.pi/3)
+<div class="hub-card">
+<div class="hub-card-visual">
+<svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+<path d="M 30 110 Q 75 35, 120 110 T 210 110 T 300 110" fill="none" stroke="#1e3a5f" stroke-width="2.6"/>
+<path d="M 30 110 Q 75 185, 120 110 T 210 110 T 300 110" fill="none" stroke="#e86c3a" stroke-width="2.2" stroke-dasharray="6,6"/>
+<circle cx="120" cy="110" r="5" fill="#6d28d9"/>
+<circle cx="210" cy="110" r="5" fill="#6d28d9"/>
+</svg>
+</div>
+<div class="hub-card-body">
+<span class="hub-tag">Network Telemetry</span>
+<h3 class="hub-card-title">Electrical Dashboard</h3>
+<p class="hub-card-desc">
+Interactive telemetry and parameter visualization for analyzing voltage, current, and power relationships across complex electrical systems.
+</p>
+<a href="circuit_dashboard.html" class="hub-btn">Open Dashboard</a>
+</div>
+</div>
 
-fig, ax = plt.subplots(figsize=(5, 2.8))
-ax.plot(t, v1, color='#1c528b', linewidth=2.5)
-ax.plot(t, v2, color='#ed7953', linewidth=2.5, linestyle='--')
-ax.plot(t, v3, color='#10b981', linewidth=2.5, linestyle=':')
-ax.axis('off')
-plt.tight_layout(pad=0)
-plt.show()
-```
-::: {.card-body}
-<h5 class="card-title">Electrical Dashboard</h5>
-<p class="card-text">Interactive telemetry and parameter visualization for analyzing voltage, current, and power relationships in electrical systems.</p>
-<a href="circuit_dashboard.qmd" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">Open Dashboard</a>
-:::
-:::
-:::
+<div class="hub-card">
+<div class="hub-card-visual">
+<svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+<path d="M 30 150 L 90 150 L 105 70 L 120 170 L 135 90 L 150 150 L 290 150" fill="none" stroke="#1e3a5f" stroke-width="2.8"/>
+<line x1="30" y1="150" x2="290" y2="150" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+<circle cx="105" cy="70" r="4.5" fill="#e86c3a"/>
+<circle cx="135" cy="90" r="4.5" fill="#e86c3a"/>
+</svg>
+</div>
+<div class="hub-card-body">
+<span class="hub-tag">Transient &amp; AC Response</span>
+<h3 class="hub-card-title">Live Circuit Simulator</h3>
+<p class="hub-card-desc">
+Build, modify, and probe live schematic networks in real time with virtual oscilloscope traces and interactive component parameters.
+</p>
+<a href="circuit_simulator.html" class="hub-btn">Launch Simulator</a>
+</div>
+</div>
 
-<!-- CARD 2: LIVE CIRCUIT SIMULATOR -->
-::: {.g-col-12 .g-col-md-4}
-::: {.card .h-100}
-```{python}
-#| echo: false
-#| fig-height: 2.8
-import matplotlib.pyplot as plt
-import numpy as np
+<div class="hub-card">
+<div class="hub-card-visual">
+<svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+<path d="M 40 160 Q 140 20, 280 140" fill="none" stroke="#6d28d9" stroke-width="2.6"/>
+<path d="M 40 60 Q 140 180, 280 100" fill="none" stroke="#0ea5e9" stroke-width="2.4"/>
+<circle cx="152" cy="110" r="6" fill="#e86c3a"/>
+<line x1="152" y1="30" x2="152" y2="190" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+</svg>
+</div>
+<div class="hub-card-body">
+<span class="hub-tag">AC Networks</span>
+<h3 class="hub-card-title">Reactance Calculator</h3>
+<p class="hub-card-desc">
+Compute inductive reactance ($X_L$), capacitive reactance ($X_C$), total impedance ($|Z|$), and resonant frequency across frequency sweeps.
+</p>
+<a href="reactance_calculator.html" class="hub-btn">Open Calculator</a>
+</div>
+</div>
 
-# Generate Square-Wave & RC Transient Response Thumbnail
-t = np.linspace(0, 4, 300)
-sq = np.where((t % 2) < 1, 1.0, 0.0)
-rc = np.zeros_like(t)
-for i in range(1, len(t)):
-    dt = t[i] - t[i-1]
-    rc[i] = rc[i-1] + (sq[i] - rc[i-1]) * (dt / 0.25)
+<div class="hub-card">
+<div class="hub-card-visual">
+<svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+<rect x="60" y="60" width="200" height="100" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" rx="4"/>
+<polygon points="120,80 120,140 180,110" fill="#ffffff" stroke="#1e3a5f" stroke-width="2.5"/>
+<text x="132" y="103" fill="#1e3a5f" font-size="14" font-weight="bold">−</text>
+<text x="132" y="125" fill="#1e3a5f" font-size="14" font-weight="bold">+</text>
+<line x1="60" y1="110" x2="120" y2="110" stroke="#1e3a5f" stroke-width="2"/>
+<line x1="180" y1="110" x2="260" y2="110" stroke="#1e3a5f" stroke-width="2.5"/>
+</svg>
+</div>
+<div class="hub-card-body">
+<span class="hub-tag">Operational Amplifiers</span>
+<h3 class="hub-card-title">Op-Amp Golden Rule Checker</h3>
+<p class="hub-card-desc">
+Interactive nodal analysis solver and virtual oscilloscope evaluating ideal op-amp configurations, virtual short-circuits, and DC rail saturation.
+</p>
+<a href="simulations/op-amp-checker.html" class="hub-btn">Launch Studio</a>
+</div>
+</div>
 
-fig, ax = plt.subplots(figsize=(5, 2.8))
-ax.plot(t, sq, color='#94a3b8', linewidth=1.8, linestyle='--')
-ax.plot(t, rc, color='#1c528b', linewidth=2.8)
-ax.fill_between(t, rc, color='#1c528b', alpha=0.12)
-ax.axis('off')
-plt.tight_layout(pad=0)
-plt.show()
-```
-::: {.card-body}
-<h5 class="card-title">Live Circuit Simulator</h5>
-<p class="card-text">Build, modify, and probe live schematic networks in real time with virtual oscilloscope traces and interactive components.</p>
-<a href="circuit_simulator.qmd" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">Launch Simulator</a>
-:::
-:::
-:::
+<div class="hub-card">
+<div class="hub-card-visual">
+<svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+<path d="M 30 175 Q 115 170, 145 75 Q 160 28, 175 75 Q 205 170, 290 175 Z" fill="#dbeafe" opacity="0.5"/>
+<path d="M 30 175 Q 115 170, 145 75 Q 160 28, 175 75 Q 205 170, 290 175" fill="none" stroke="#1e3a5f" stroke-width="2.6"/>
+<circle cx="160" cy="52" r="6.5" fill="#e86c3a"/>
+<line x1="160" y1="25" x2="160" y2="185" stroke="#e86c3a" stroke-width="1.5" stroke-dasharray="4,4"/>
+</svg>
+</div>
+<div class="hub-card-body">
+<span class="hub-tag">Interactive Game</span>
+<h3 class="hub-card-title">Resonance Defender Game</h3>
+<p class="hub-card-desc">
+Gamified RLC tuning simulation where players dynamically adjust inductance and capacitance to lock onto incoming signal frequencies.
+</p>
+<a href="resonance_game.html" class="hub-btn">Play Game</a>
+</div>
+</div>
 
-<!-- CARD 3: REACTANCE CALCULATOR -->
-::: {.g-col-12 .g-col-md-4}
-::: {.card .h-100}
-```{python}
-#| echo: false
-#| fig-height: 2.8
-import matplotlib.pyplot as plt
-import numpy as np
+<div class="hub-card">
+<div class="hub-card-visual">
+<svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+<rect x="45" y="40" width="65" height="22" fill="#1e3a5f" rx="2"/>
+<rect x="125" y="40" width="65" height="22" fill="#e86c3a" rx="2"/>
+<rect x="205" y="40" width="65" height="22" fill="#1e3a5f" rx="2"/>
+<polyline points="90,175 158,96 220,155" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4,4"/>
+<circle cx="158" cy="96" r="6" fill="#e86c3a"/>
+</svg>
+</div>
+<div class="hub-card-body">
+<span class="hub-tag">Interactive Game</span>
+<h3 class="hub-card-title">Impedance Breaker Game</h3>
+<p class="hub-card-desc">
+Arcade-style engineering challenge combining brick-breaker physics with passive component identification and impedance matching.
+</p>
+<a href="circuit_breakout.html" class="hub-btn">Play Game</a>
+</div>
+</div>
 
-# Generate XL vs XC Reactance Crossover Thumbnail
-f = np.linspace(15, 100, 200)
-xl = 0.8 * f
-xc = 2500 / f
-
-fig, ax = plt.subplots(figsize=(5, 2.8))
-ax.plot(f, xl, color='#06b6d4', linewidth=2.5)
-ax.plot(f, xc, color='#a855f7', linewidth=2.5)
-ax.scatter([55.9], [44.7], color='#ed7953', s=80, zorder=5)
-ax.axis('off')
-plt.tight_layout(pad=0)
-plt.show()
-```
-::: {.card-body}
-<h5 class="card-title">Reactance Calculator</h5>
-<p class="card-text">Compute inductive reactance ($X_L$), capacitive reactance ($X_C$), total impedance ($|Z|$), and resonant frequency across AC sweeps.</p>
-<a href="reactance_calculator.qmd" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">Open Calculator</a>
-:::
-:::
-:::
-
-<!-- CARD 4: CIRCUIT PROBLEM GENERATOR -->
-::: {.g-col-12 .g-col-md-4}
-::: {.card .h-100}
-```{python}
-#| echo: false
-#| fig-height: 2.8
-import matplotlib.pyplot as plt
-import numpy as np
-
-# Generate 2nd-Order Underdamped RLC Step Response Thumbnail
-t = np.linspace(0, 6, 300)
-y = 1 - np.exp(-0.6*t) * (np.cos(3.5*t) + (0.6/3.5)*np.sin(3.5*t))
-
-fig, ax = plt.subplots(figsize=(5, 2.8))
-ax.axhline(1.0, color='#94a3b8', linestyle='--', linewidth=1.5)
-ax.plot(t, y, color='#10b981', linewidth=2.8)
-ax.fill_between(t, 1.0, y, color='#10b981', alpha=0.12)
-ax.axis('off')
-plt.tight_layout(pad=0)
-plt.show()
-```
-::: {.card-body}
-<h5 class="card-title">Circuit Problem Generator</h5>
-<p class="card-text">Procedural problem engine for DC networks, Thévenin equivalents, AC phasors, 1st/2nd-order transients, and Op-Amps with SPICE & LaTeX export.</p>
-<a href="circuit_generator.qmd" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">Generate Problems</a>
-:::
-:::
-:::
-
-<!-- CARD 5: RESONANCE DEFENDER GAME -->
-::: {.g-col-12 .g-col-md-4}
-::: {.card .h-100}
-```{python}
-#| echo: false
-#| fig-height: 2.8
-import matplotlib.pyplot as plt
-import numpy as np
-
-# Generate Oscilloscope Target Lock Waveform Thumbnail
-t = np.linspace(0, 4*np.pi, 200)
-y1 = np.sin(t)
-y2 = 0.85 * np.sin(t + 0.35)
-
-fig, ax = plt.subplots(figsize=(5, 2.8))
-ax.plot(t, y1, color='#10b981', linewidth=2.5)
-ax.plot(t, y2, color='#ef4444', linewidth=2.5, linestyle='--')
-ax.axis('off')
-plt.tight_layout(pad=0)
-plt.show()
-```
-::: {.card-body}
-<h5 class="card-title">Resonance Defender Game</h5>
-<p class="card-text">Tune your series RLC circuit's inductance ($L$) and capacitance ($C$) in real time to lock onto incoming AC sine waves and achieve resonance.</p>
-<a href="resonance_game.qmd" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">Play Game</a>
-:::
-:::
-:::
-
-<!-- CARD 6: IMPEDANCE BREAKER GAME -->
-::: {.g-col-12 .g-col-md-4}
-::: {.card .h-100}
-```{python}
-#| echo: false
-#| fig-height: 2.8
-import matplotlib.pyplot as plt
-import matplotlib.patches as patches
-
-# Generate Breakout Component Brick Matrix Thumbnail
-fig, ax = plt.subplots(figsize=(5, 2.8))
-colors = ['#a855f7', '#f59e0b', '#06b6d4', '#10b981']
-for r in range(3):
-    for c in range(5):
-        rect = patches.FancyBboxPatch((c*1.0, 2.0 - r*0.55), 0.85, 0.38, boxstyle="round,pad=0.03", facecolor=colors[(r+c)%4], edgecolor='none')
-        ax.add_patch(rect)
-# Paddle & Ball
-paddle = patches.FancyBboxPatch((1.6, 0.15), 1.6, 0.2, boxstyle="round,pad=0.03", facecolor='#10b981', edgecolor='none')
-ax.add_patch(paddle)
-ax.scatter([2.4], [0.65], color='#1c528b', s=70, zorder=5)
-ax.set_xlim(-0.2, 5.0)
-ax.set_ylim(0, 2.6)
-ax.axis('off')
-plt.tight_layout(pad=0)
-plt.show()
-```
-::: {.card-body}
-<h5 class="card-title">Impedance Breaker Game</h5>
-<p class="card-text">Pilot the copper busbar paddle to shatter passive R, L, and C component arrays and solve IC Gate engineering override challenges.</p>
-<a href="circuit_breakout.qmd" class="btn btn-primary" style="background-color: #1a0b2e; border: none;">Play Arcade</a>
-:::
-:::
-:::
-
-:::
+</div>
+</div>
