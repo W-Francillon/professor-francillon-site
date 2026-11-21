@@ -1,0 +1,56 @@
+/* E-Book Typography & Layout */
+.ebook-objectives {
+background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+border-left: 5px solid #102a43;
+padding: 1.25rem 1.5rem;
+border-radius: 0 8px 8px 0;
+margin-bottom: 2rem;
+}
+.problem-card {
+border: 1px solid #cbd5e1;
+border-radius: 8px;
+padding: 1.5rem;
+margin: 1.75rem 0;
+background-color: #ffffff;
+box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+}
+.problem-header {
+font-weight: 700;
+color: #0f172a;
+font-size: 1.1rem;
+border-bottom: 2px solid #e2e8f0;
+padding-bottom: 0.5rem;
+margin-bottom: 1rem;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.badge-difficulty {
+font-size: 0.75rem;
+padding: 0.2rem 0.6rem;
+border-radius: 12px;
+background-color: #e0f2fe;
+color: #0369a1;
+font-weight: 600;
+}
+/* Interactive Answer Checker */
+.check-box-container {
+display: flex;
+flex-wrap: wrap;
+gap: 0.75rem;
+align-items: center;
+margin-top: 1rem;
+padding: 0.75rem;
+background-color: #f8fafc;
+border-radius: 6px;
+}
+.check-input {
+padding: 0.4rem 0.6rem;
+border: 1px solid #94a3b8;
+border-radius: 4px;
+width: 140px;
+font-family: monospace;
+}
+.check-btn {
+background-color: #0284c7;
+Quarto E-Book Setup Guide

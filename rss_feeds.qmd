@@ -1,0 +1,128 @@
+---
+title: "Automated Engineering Wire: RSS Telemetry & Python Syndication Lab"
+author: "Dr. Wesley Francillon"
+date: "2026-11-07"
+categories: [K-12 Outreach, Data Science, Python Automation, Interactive Tools]
+description: "Interactive multi-discipline engineering RSS reader, raw XML schema inspector, and Python feedparser data-harvesting laboratory."
+format:
+  html:
+    toc: true
+    code-fold: false
+    html-math-method: katex
+---
+
+## Overview: Why Engineers Use RSS Syndication Instead of HTML Scraping
+
+When data scientists and engineers monitor technical breakthroughs—such as new **IEEE semiconductor research**, **NASA rover telemetry dispatches**, or **clean-energy materials preprints**—scraping visual HTML web pages is fragile and inefficient. Website layouts change constantly, and HTML markup is cluttered with styling tags (`<div>`, `<nav>`, `<script>`).
+
+**RSS (Really Simple Syndication)** solves this by broadcasting a standardized, machine-readable **XML (eXtensible Markup Language)** data stream. Every time a journal or agency publishes an article, its server updates an XML feed where each story is encapsulated inside a clean `<item>` node:
+
+1. **Deterministic Schema:** Every article is guaranteed to expose standard keys (`<title>`, `<link>`, `<pubDate>`, and `<description>`), eliminating broken HTML selectors.
+2. **Low Bandwidth & High Speed:** A single Python script can poll $N$ engineering journals in milliseconds, parsing raw XML into structured **Pandas DataFrames** with throughput efficiency:
+   $$\mathbf{R_{\text{parse}} = \frac{\sum_{i=1}^{N} \text{Items}_i}{\Delta t_{\text{network}} + \Delta t_{\text{XML}}}}$$
+
+---
+
+## Part 1: Live Multi-Discipline Engineering Wire & XML Inspector
+
+Use the interactive telemetry bench below to filter live syndicated feeds across **Electrical Engineering**, **Mechanical & Aerospace**, and **STEM / Materials Science**. Click any article card on the left to inspect its raw `<item>` XML node and corresponding Python dictionary structure on the right.
+
+<iframe src="/widgets/rss_feed_studio.html?mode=wire" width="100%" height="585px" style="border: 1px solid #d4d4d8; border-radius: 12px; background: #f4f4f6; box-shadow: 0 4px 15px rgba(0,0,0,0.06);"></iframe>
+
+---
+
+## Comparison: Raw HTML DOM Scraping vs. RSS XML Syndication
+
+Before building your automated Python keyword harvester in Part 2, compare the structural trade-offs between HTML scraping (`BeautifulSoup`) and XML syndication (`feedparser`):
+
+| Feature | Raw HTML Web Scraping (`BeautifulSoup`) | RSS / Atom XML Syndication (`feedparser`) |
+| :--- | :--- | :--- |
+| **Data Structure** | Unstructured visual DOM (`<div class="card-xyz">`) | Strict hierarchical XML (`<channel>` $\to$ `<item>`) |
+| **Parser Reliability** | Breaks whenever a website updates its CSS theme | Standardized across IEEE, NASA, Nature, and ArXiv |
+| **Metadata Precision** | Requires regex to extract dates and authors | Native `<pubDate>`, `<author>`, and `<category>` tags |
+| **Python Library** | `requests` + `bs4.BeautifulSoup` | `feedparser` + `pandas` |
+| **Server Load & Ethics** | High bandwidth; frequently blocked by firewalls | Explicitly published for automated syndication |
+
+---
+
+## Part 2: Interactive Python `feedparser` Pipeline & Keyword Challenge Lab
+
+In the second half of the studio below, configure an automated Python harvester. Select a target engineering discipline, enter a search keyword (such as `semiconductor`, `rover`, or `battery`), and watch the studio dynamically generate the **executable Python script** and **filtered Pandas DataFrame** in real time. Complete all **5 interactive data pipeline challenges** and export your `.csv` dataset or `.py` script.
+
+<iframe src="/widgets/rss_feed_studio.html?mode=pipeline" width="100%" height="560px" style="border: 1px solid #d4d4d8; border-radius: 12px; background: #f4f4f6; box-shadow: 0 4px 15px rgba(0,0,0,0.06);"></iframe>
+
+---
+
+## Complete Standalone Python Script for Local Execution
+
+To run this engineering RSS harvester on your own computer in VS Code or JupyterLab, install `feedparser` and `pandas` in your terminal:
+
+```bash
+pip install feedparser pandas
+```
+
+Then save and run the following complete Python script (`engineering_wire_harvester.py`):
+
+```python
+import feedparser
+import pandas as pd
+from datetime import datetime
+
+# 1. Define Curated Engineering & STEM RSS Endpoints
+ENGINEERING_FEEDS = {
+    "Electrical | IEEE Spectrum": "https://spectrum.ieee.org/feeds/feed.rss",
+    "Electrical | Hackaday": "https://hackaday.com/feed/",
+    "Aerospace  | NASA Breaking": "https://www.nasa.gov/news-release/feed/",
+    "Mechanical | ASME News": "https://www.asme.org/rss/news",
+    "Materials  | Phys.org": "https://phys.org/rss-feed/",
+    "STEM       | Nature": "https://www.nature.com/nature.rss"
+}
+
+def harvest_engineering_feeds(feeds_dict, keywords=None, max_per_source=10):
+    """
+    Polls multiple RSS XML feeds, filters entries by optional keywords,
+    and returns a structured Pandas DataFrame.
+    """
+    records = []
+
+    for label, url in feeds_dict.items():
+        discipline, source = [part.strip() for part in label.split("|")]
+        print(f"Polling XML stream: {source} ({url})...")
+        
+        feed = feedparser.parse(url)
+        
+        for entry in feed.entries[:max_per_source]:
+            title = entry.get("title", "Untitled")
+            summary = entry.get("summary", "")
+            link = entry.get("link", "")
+            published = entry.get("published", datetime.utcnow().strftime("%Y-%m-%d"))
+
+            # Keyword filtering (case-insensitive)
+            searchable_text = f"{title} {summary}".lower()
+            if keywords:
+                if not any(kw.lower() in searchable_text for kw in keywords):
+                    continue
+
+            records.append({
+                "Discipline": discipline,
+                "Source": source,
+                "Title": title,
+                "Published": published,
+                "URL": link
+            })
+
+    return pd.DataFrame(records)
+
+if __name__ == "__main__":
+    # Example: Filter across all feeds for clean-tech, circuit, or rover keywords
+    target_keywords = ["semiconductor", "battery", "rover", "solar", "quantum", "circuit"]
+    
+    df_wire = harvest_engineering_feeds(ENGINEERING_FEEDS, keywords=target_keywords)
+    
+    print(f"\nMatched {len(df_wire)} engineering dispatches:")
+    print(df_wire[["Discipline", "Source", "Title"]].head(10).to_string(index=False))
+    
+    # Export clean dataset for downstream analysis
+    df_wire.to_csv("daily_engineering_wire.csv", index=False)
+    print("\nSaved structured telemetry to 'daily_engineering_wire.csv'")
+```

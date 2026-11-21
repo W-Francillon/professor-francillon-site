@@ -1,10 +1,49 @@
 ---
 title: "Interactive Circuit Generator"
 subtitle: "Procedural DC, AC Phasor, Transient, Thévenin & Op-Amp Problem Engine"
+description: "Free interactive electrical engineering circuit problem generator with step-by-step LaTeX derivations, Beginner/Intermediate/Advanced tiers, first-order RC/RL switching transients, second-order series and parallel RLC responses, LTspice/TINA-TI netlists, and Overleaf CircuiTikZ code."
 page-layout: full
-toc: false
+format:
+  html:
+    toc: false
+    include-in-header:
+      - text: |
+          <script type="application/ld+json">
+          {
+            "@context": "https://schema.org",
+            "@type": ["WebApplication", "LearningResource"],
+            "name": "Interactive Electrical Circuit Problem Generator",
+            "url": "https://professorfrancillon.com/circuit_generator.html",
+            "applicationCategory": "EducationalApplication",
+            "educationalLevel": "Undergraduate Engineering",
+            "learningResourceType": ["Interactive Simulation", "Practice Problem Generator", "Assessment Tool"],
+            "about": [
+              "Electrical Engineering",
+              "Circuit Analysis",
+              "Thevenin and Norton Equivalents",
+              "First-Order RC and RL Transients",
+              "Second-Order Series and Parallel RLC Circuits",
+              "AC Sinusoidal Steady-State Phasors",
+              "Operational Amplifiers"
+            ],
+            "author": {
+              "@type": "Person",
+              "name": "Wesley Francillon, PhD",
+              "url": "https://professorfrancillon.com"
+            },
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            }
+          }
+          </script>
 ---
 
-Use this interactive problem engine to practice circuit analysis across **DC Networks (Mesh, Nodal & Dependent Sources)**, **Thévenin & Norton Equivalents**, **AC Sinusoidal Steady-State (Phasors)**, **First-Order RC & RL Transients**, **Second-Order RLC Transients**, and **Operational Amplifiers**. Click **New Circuit Topology** within any category to cycle through different circuit schematics, complete with step-by-step mathematical derivations, **LTspice netlists**, and **Overleaf LaTeX (`circuitikz`)** code.
+Use this interactive problem engine to practice and master circuit analysis across **Thévenin & Norton Equivalents**, **First-Order $RC$ & $RL$ Switching Transients (Charging & Discharging)**, **Second-Order Series & Parallel $RLC$ Transients**, **DC Networks (Mesh, Nodal & Dependent Sources)**, **AC Sinusoidal Steady-State (Phasors)**, and **Operational Amplifiers**. 
 
-<iframe src="circuit_app.html" style="width: 100%; height: 860px; border: none; display: block; background: transparent;" scrolling="yes"></iframe>
+Select your **Difficulty Tier (Beginner, Intermediate, or Advanced)**, verify your numerical calculation using the built-in self-checker, and export ready-to-run **LTspice / TINA-TI netlists** or **Overleaf LaTeX (`circuitikz`)** schematics.
+
+```{=html}
+<iframe src="circuit_app.html" style="width: 100%; height: 920px; border: none; display: block; background: transparent;" scrolling="yes" title="Interactive Electrical Engineering Circuit Problem Generator">
+</iframe>

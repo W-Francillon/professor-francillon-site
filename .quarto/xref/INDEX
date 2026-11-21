@@ -94,5 +94,35 @@
   },
   "simulations/op-amp-checker.qmd": {
     "op-amp-checker.html": "fa715997"
+  },
+  "widgets/rss_feeds.qmd": {
+    "rss_feeds.html": "fddcc71a"
+  },
+  "rss_feeds.qmd": {
+    "rss_feeds.html": "039d3214"
+  },
+  "coming_soon.qmd": {
+    "coming_soon.html": "0516ea2a"
+  },
+  "matlab_simulink_lab.qmd": {
+    "matlab_simulink_lab.html": "bcc90c7a"
+  },
+  "resources/dynamcs/dynamics/iczv_lab.qmd": {
+    "iczv_lab.html": "3b864dac"
+  },
+  "dynamcs/dynamics/iczv_lab.qmd": {
+    "iczv_lab.html": "78fca16f"
+  },
+  "dynamcs/iczv_lab.qmd": {
+    "iczv_lab.html": "e37d8296"
+  },
+  "dynamics/dynamics/iczv_dynamics.qmd": {
+    "iczv_dynamics.html": "c586e381"
+  },
+  "dynamics/iczv_dynamics.qmd": {
+    "iczv_dynamics.html": "c84c02b7"
+  },
+  "circuits_textbook/ch1_foundations.qmd": {
+    "ch1_foundations.html": "8e3f61c3"
   }
 }

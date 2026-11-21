@@ -13,16 +13,16 @@ jupyter: python3
 
 ## Project Overview
 
-Welcome to the **Environmental Compliance Agency (ECA)**. An auto manufacturer is claiming their new fleet of vehicles has an ultra-low carbon footprint. Your team's job is to audit their specifications using historical fleet data. We will fetch a live dataset directly from the web, visualize the distributions, overlay regulatory thresholds, and train a **Linear Regression** machine learning model to verify their emission claims.
+Welcome to the **Environmental Compliance Agency (ECA)**. An auto manufacturer is claiming their new fleet of vehicles has an ultra-low carbon footprint. Your team's job is to audit their specifications using historical fleet data. We will ingest a dataset, visualize the distributions, overlay regulatory thresholds, and train a **Linear Regression** machine learning model to verify their emission claims.
 
 *Data Attribution: This dataset and core regression concept originate from the [IBM Developer Skills Network / Cognitive Class](https://cognitiveclass.ai/) Machine Learning with Python curriculum.*
 
 ```{=html}
 <div style="text-align: center; margin: 30px 0;">
-  <svg width="100%" max-width="700" height="220" viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg">
+  <svg width="100%" max-width="700" height="220" viewBox="0 0 700 220" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
     <rect width="700" height="220" fill="#f8f9fa" rx="10" stroke="#e0e0e0" stroke-width="1"/>
     <rect x="40" y="80" width="120" height="60" rx="5" fill="#007acc" stroke="#005999" stroke-width="2"/>
-    <text x="100" y="108" font-family="sans-serif" font-size="14" fill="white" text-anchor="middle" font-weight="bold">IBM Web Data</text>
+    <text x="100" y="108" font-family="sans-serif" font-size="14" fill="white" text-anchor="middle" font-weight="bold">Local CSV Data</text>
     <text x="100" y="125" font-family="sans-serif" font-size="11" fill="white" text-anchor="middle">(pd.read_csv)</text>
     <path d="M 160 110 L 220 110" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
     <text x="190" y="100" font-family="sans-serif" font-size="12" fill="#555" text-anchor="middle">EDA</text>
@@ -43,123 +43,3 @@ Welcome to the **Environmental Compliance Agency (ECA)**. An auto manufacturer i
     </defs>
   </svg>
 </div>
-```
-
-<br>
-
-::: {.panel-tabset}
-
-### Student Guide
-
-#### Step 1: Dynamic Data Ingestion
-Modern data pipelines fetch data directly from web servers using code. We will use Pandas to download the IBM dataset.
-
-```{python}
-#| warning: false
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn import linear_model
-
-# Ingest data directly from a public URL
-url = "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-ML0101EN-SkillsNetwork/labs/Module%202/data/FuelConsumptionCo2.csv"
-df = pd.read_csv(url)
-
-# Select the features we want to investigate
-cdf = df[['ENGINESIZE', 'CYLINDERS', 'FUELCONSUMPTION_COMB', 'CO2EMISSIONS']]
-print(cdf.head())
-```
-
-#### Step 2: Exploratory Data Analysis (EDA) Histograms
-Let's view the distribution of our features to understand what kind of cars are in this dataset.
-
-```{python}
-#| warning: false
-cdf.hist(figsize=(10, 6), color="#007acc", edgecolor="white")
-plt.suptitle("Feature Distributions (Histogram Overview)", fontsize=14, fontweight='bold')
-plt.tight_layout()
-plt.subplots_adjust(top=0.9)
-plt.show()
-```
-
-#### Step 3: Correlation Scatter Plots
-Before building an AI model, we must prove a relationship exists. Let's map Fuel Consumption vs. CO2 Emissions.
-
-```{python}
-#| warning: false
-plt.figure(figsize=(8, 5))
-plt.scatter(cdf.FUELCONSUMPTION_COMB, cdf.CO2EMISSIONS, color='#ff8c00', alpha=0.6, edgecolors='w')
-plt.title("Fuel Consumption vs CO2 Emissions", fontsize=14, fontweight='bold', pad=12)
-plt.xlabel("Combined Fuel Consumption (L/100km)", fontsize=12)
-plt.ylabel("CO2 Emissions (g/km)", fontsize=12)
-plt.grid(True, linestyle="--", alpha=0.5)
-plt.tight_layout()
-plt.show()
-```
-
-#### Step 4: The Regulatory Eco-Audit 
-The EPA has issued a strict emissions threshold of **250 g/km**. Let's plot Engine Size vs. CO2 Emissions and overlay the regulatory red line. How many vehicles are failing the audit?
-
-```{python}
-#| warning: false
-plt.figure(figsize=(8, 5))
-plt.scatter(cdf.ENGINESIZE, cdf.CO2EMISSIONS, color='#007acc', alpha=0.6, edgecolors='w', label="Vehicle Fleet")
-plt.axhline(y=250, color='r', linestyle='-', linewidth=2, label="EPA Threshold (250 g/km)")
-plt.title("Eco-Audit: Engine Size vs Regulatory Threshold", fontsize=14, fontweight='bold', pad=12)
-plt.xlabel("Engine Size (Liters)", fontsize=12)
-plt.ylabel("CO2 Emissions (g/km)", fontsize=12)
-plt.legend()
-plt.grid(True, linestyle="--", alpha=0.5)
-plt.tight_layout()
-plt.show()
-```
-
-#### Step 5: Training the Linear Regression Model
-We split our data (80% for training, 20% for testing) to prevent the AI from memorizing the answers, then fit our regression model.
-
-```{python}
-#| warning: false
-# 80/20 Train/Test Split
-msk = np.random.rand(len(df)) < 0.8
-train = cdf[msk]
-test = cdf[~msk]
-
-# Train the Simple Linear Regression Model
-regr = linear_model.LinearRegression()
-train_x = np.asanyarray(train[['ENGINESIZE']])
-train_y = np.asanyarray(train[['CO2EMISSIONS']])
-regr.fit(train_x, train_y)
-
-print('Coefficient (Slope): ', regr.coef_[0][0])
-print('Intercept: ', regr.intercept_[0])
-```
-
-#### Step 6: Visualizing the Model & EV Disruption
-The solid line represents our AI's learning ($y = mx + b$). What happens if we release an Electric Vehicle (EV) with an Engine Size of 0.0L and 0 CO2 emissions? Does the model predict zero, or is there an intercept error?
-
-```{python}
-#| warning: false
-plt.figure(figsize=(8, 5))
-plt.scatter(train.ENGINESIZE, train.CO2EMISSIONS, color='#10b981', alpha=0.5, edgecolors='w', label="ICE Vehicles")
-plt.plot(train_x, regr.coef_[0][0]*train_x + regr.intercept_[0], '-k', linewidth=2, label="Regression Line (AI Model)")
-
-# EV Disruption Data Point
-plt.scatter([0], [0], color='#ef4444', s=150, zorder=5, edgecolors='black', label="Zero-Emission EV (0L, 0g/km)")
-
-plt.title("Machine Learning Fit & EV Disruption", fontsize=14, fontweight='bold', pad=12)
-plt.xlabel("Engine Size (Liters)", fontsize=12)
-plt.ylabel("CO2 Emissions (g/km)", fontsize=12)
-plt.legend(loc="upper left")
-plt.grid(True, linestyle="--", alpha=0.5)
-plt.tight_layout()
-plt.show()
-```
-
-### Instructor Guide
-
-#### Pedagogical Goals & Extension Ideas
-* **Data Literacy:** Ensure students understand the difference between a histogram (data spread) and a scatter plot (variable relationship).
-* **The "What-If" Intercept Lesson:** The final plot is a crucial talking point. The `regr.intercept_` is around 125. Ask students: *If an EV has a 0-liter engine, our math (y = mx + 125) says it emits 125g of CO2. Why is the AI wrong?* This highlights the danger of out-of-distribution prediction.
-* **Challenge Activity:** Have advanced students rewrite the `scikit-learn` code to perform **Multiple Linear Regression** by feeding it `train[['ENGINESIZE', 'CYLINDERS', 'FUELCONSUMPTION_COMB']]` to see if the error improves compared to using just engine size.
-
-:::

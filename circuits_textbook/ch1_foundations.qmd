@@ -1,0 +1,524 @@
+---
+title: "Chapter 1: Foundations of DC Circuit Analysis"
+subtitle: "ELT 112 / ENS 233 — Department of Engineering Science"
+author: "Wesley Francillon, PhD"
+sidebar: false
+page-layout: full
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    css: ebook.css
+    html-math-method: mathjax
+---
+
+```{=html}
+<script>
+function checkNumericAnswer(inputId, correctVal, tolerance, feedbackId, unitStr) {
+  const userVal = parseFloat(document.getElementById(inputId).value);
+  const fb = document.getElementById(feedbackId);
+  if (isNaN(userVal)) {
+    fb.innerHTML = "⚠️ Please enter a numeric value.";
+    fb.style.color = "#b45309";
+    return;
+  }
+  if (Math.abs(userVal - correctVal) <= tolerance) {
+    fb.innerHTML = "✅ Correct! (" + correctVal + " " + unitStr + ")";
+    fb.style.color = "#15803d";
+  } else {
+    fb.innerHTML = "❌ Not quite. Check your polarity and signs, or review the step-by-step solution below.";
+    fb.style.color = "#b91c1c";
+  }
+}
+</script>
+```
+
+<div class="ebook-objectives">
+### 🎯 Chapter Learning Objectives
+By the end of this chapter, you will be able to:
+
+1. **Define and quantify** electric charge ($q$), current ($i$), voltage ($v$), resistance ($R$), and power ($P$) in DC networks using proper SI units and engineering prefixes.
+2. **Apply the Passive Sign Convention (PSC)** to determine whether a circuit element is absorbing or supplying electrical power.
+3. **Distinguish between ideal and non-ideal (practical) sources** and model the impact of internal source resistance on terminal voltage under load.
+4. **Formulate Kirchhoff’s Voltage Law (KVL) and Kirchhoff’s Current Law (KCL)** equations for single-loop and single-node-pair circuits.
+5. **Analyze series resistive circuits** and apply the Voltage Divider Rule (VDR).
+</div>
+
+---
+
+## What is an Electrical Circuit?
+
+An **electrical circuit** is a mathematical and physical interconnection of electrical elements arranged in one or more closed paths to perform a desired function—whether that function is delivering bulk power to an industrial motor, conditioning a microvolt sensor signal, or illuminating navigation lights on a vessel.
+
+For steady Direct Current (DC) to flow, two fundamental physical conditions must be met:
+1. **A Driving Potential (Source):** An electromotive force (EMF) or voltage source must establish a potential energy difference across the system.
+2. **A Complete Closed Path (Loop):** Charge carriers must have an uninterrupted conductive path leaving one terminal of the source, passing through the load, and returning to the opposite terminal of the source.
+
+* **Closed Circuit:** An uninterrupted conductive loop allowing current $i > 0$ to flow.
+* **Open Circuit:** A break in the conductive path ($R \to \infty$), resulting in zero current flow ($i = 0\text{ A}$), though a nonzero potential difference ($v \neq 0\text{ V}$) can exist across the open terminals.
+* **Short Circuit:** A direct, near-zero resistance connection ($R \approx 0\ \Omega$) between two points, resulting in zero voltage drop ($v = 0\text{ V}$) across the short and potentially hazardous overcurrent if unmitigated by a fuse or circuit breaker.
+
+---
+
+## Fundamental Electrical Quantities
+
+### Electric Charge ($q$) and Current ($i$)
+
+At the atomic level, all electrical phenomena arise from **electric charge ($q$)**, measured in **Coulombs ($\text{C}$)**. A single electron carries a negative charge of $-e = -1.602 \times 10^{-19}\text{ C}$, meaning it takes approximately $6.24 \times 10^{18}$ electrons to accumulate $1\text{ C}$ of charge.
+
+When charge carriers are forced to move through a conductor cross-section, their time rate of flow defines **electric current ($i$)**:
+
+$$i(t) = \frac{dq(t)}{dt} \quad \left[\text{Amperes, A} = \frac{\text{Coulombs}}{\text{second}}\right]$$
+
+For steady Direct Current (DC), where the rate of charge flow is constant over time ($I$), this simplifies to:
+
+$$I = \frac{Q}{t} \iff Q = I \cdot t$$
+
+::: {.callout-important}
+#### Conventional Current vs. Electron Flow
+In engineering circuit analysis, we universally use **Conventional Current Flow**, defined as the net flow of *positive* charge. In metallic conductors (like copper wire), negative electrons physically drift from the negative terminal toward the positive terminal, meaning **conventional current flows from positive ($+$) to negative ($-$)** outside the source—opposite to physical electron drift. Always draw and solve your schematics using conventional current!
+:::
+
+### Voltage ($v$) — Potential Difference
+
+Charge will not move systematically without an external force doing work on it. **Voltage ($v_{ab}$)**, also called electromotive force or potential difference, is the energy (work $w$, in Joules) required to move a unit positive charge ($1\text{ C}$) between two points $a$ and $b$:
+
+$$v_{ab} = \frac{dw}{dq} \quad \left[\text{Volts, V} = \frac{\text{Joules}}{\text{Coulomb}}\right]$$
+
+Mathematically, $v_{ab} = v_a - v_b$ represents the potential of terminal $a$ with respect to terminal $b$. If $v_{ab} = +12\text{ V}$, terminal $a$ is $12\text{ V}$ higher in potential than terminal $b$, and therefore $v_{ba} = -v_{ab} = -12\text{ V}$.
+
+### Resistance ($R$) and Ohm's Law
+
+As charge carriers move through a material, they collide with the atomic lattice, impeding their flow and converting electrical energy into thermal energy (heat). This physical opposition to current is **Resistance ($R$)**, measured in **Ohms ($\Omega$)**.
+
+For a uniform cylindrical or rectangular conductor of length $\ell$ and cross-sectional area $A$, physical resistance is governed by the material's **resistivity ($\rho$, in $\Omega\cdot\text{m}$)**:
+
+$$R = \rho \frac{\ell}{A}$$
+
+In 1827, Georg Simon Ohm established that for linear conductive materials at constant temperature, the voltage across a resistor is directly proportional to the current flowing through it:
+
+$$v = i \cdot R \quad \Longleftrightarrow \quad i = \frac{v}{R} \quad \Longleftrightarrow \quad R = \frac{v}{i}$$
+
+The reciprocal of resistance is **Conductance ($G$)**, which measures how easily a material conducts current, expressed in **Siemens ($\text{S}$)**:
+
+$$G = \frac{1}{R} = \frac{i}{v} \quad [\text{S} \text{ or } \Omega^{-1}]$$
+
+### Electrical Power ($P$) and the Passive Sign Convention
+
+**Power ($p$)** is the time rate of expending or absorbing energy, measured in **Watts ($\text{W}$)**. By applying the chain rule to our definitions of voltage and current:
+
+$$p = \frac{dw}{dt} = \left(\frac{dw}{dq}\right) \cdot \left(\frac{dq}{dt}\right) = v \cdot i \quad \left[\text{Watts, W} = \frac{\text{Joules}}{\text{second}}\right]$$
+
+For a purely resistive element ($v = iR$), we can substitute Ohm's Law into the power equation to yield the three forms of **Joule's Law** (always positive for a positive resistor $R$):
+
+$$P = V \cdot I = I^2 R = \frac{V^2}{R}$$
+
+#### The Passive Sign Convention (PSC)
+How do we know whether an element (like a battery or voltage source) is *absorbing* power (charging/dissipating) or *supplying* power (discharging) to the rest of the circuit? We use the **Passive Sign Convention**:
+
+* **Case 1 (Passive Alignment):** If the reference current arrow $i$ **enters the positive ($+$) terminal** of an element, calculate $P = +v \cdot i$.
+* **Case 2 (Active Alignment):** If the reference current arrow $i$ **enters the negative ($-$) terminal** (exits the $+$ terminal), calculate $P = -v \cdot i$.
+
+Once computed with the proper sign:
+* If $P > 0$: The element is **absorbing (dissipating)** power.
+* If $P < 0$: The element is **supplying (delivering)** power to the circuit.
+
+In any closed electrical circuit, Conservation of Energy dictates that the algebraic sum of power across all elements is strictly zero:
+
+$$\sum P_{\text{absorbed}} + \sum P_{\text{supplied}} = 0$$
+
+---
+
+### 🛑 Concept Check 1.1: Physical Sizing, Power & Marine DC Wiring
+
+::: {.callout-note icon=false}
+#### 🚤 Real-World Engineering Application: Marine Auxiliary Bus Wiring
+Suppose you are wiring a pair of LED spreader lights mounted on the T-top of a 22-foot center-console boat. The spreader lights draw a steady total current of $I = 4.0\text{ A}$ from a $12.8\text{ V}$ $\text{LiFePO}_4$ auxiliary battery located in the center console. 
+
+To reach the T-top and return to the negative ground bus, the total round-trip length of 14 AWG marine tinned copper wire is $\ell = 6.0\text{ m}$ ($3.0\text{ m}$ positive run + $3.0\text{ m}$ negative return). The cross-sectional area of 14 AWG wire is $A = 2.08 \times 10^{-6}\text{ m}^2$, and the resistivity of copper is $\rho = 1.72 \times 10^{-8}\ \Omega\cdot\text{m}$.
+:::
+
+<div class="problem-card">
+<div class="problem-header">
+<span>Interactive Self-Check 1.1: Wire Voltage Drop & Lamp Power</span>
+<span class="badge-difficulty">Foundational</span>
+</div>
+
+1. Calculate the total round-trip resistance $R_{\text{wire}}$ of the 14 AWG copper cable in **milliohms ($\text{m}\Omega$)**.
+2. Calculate the voltage drop $V_{\text{drop}}$ across the wiring harness in **Volts ($\text{V}$)**.
+3. What is the actual terminal voltage $V_{\text{load}}$ delivered across the LED spreader lights?
+
+<div class="check-box-container">
+<label>1. $R_{\text{wire}}$ ($\text{m}\Omega$):</label>
+<input type="number" step="any" id="ans1_1a" class="check-input" placeholder="e.g. 49.6">
+<button class="check-btn" onclick="checkNumericAnswer('ans1_1a', 49.6, 0.5, 'fb1_1a', 'mΩ')">Check</button>
+<span id="fb1_1a" class="feedback-msg"></span>
+</div>
+
+<div class="check-box-container">
+<label>2. $V_{\text{drop}}$ ($\text{V}$):</label>
+<input type="number" step="any" id="ans1_1b" class="check-input" placeholder="e.g. 0.198">
+<button class="check-btn" onclick="checkNumericAnswer('ans1_1b', 0.198, 0.01, 'fb1_1b', 'V')">Check</button>
+<span id="fb1_1b" class="feedback-msg"></span>
+</div>
+
+<div class="check-box-container">
+<label>3. $V_{\text{load}}$ ($\text{V}$):</label>
+<input type="number" step="any" id="ans1_1c" class="check-input" placeholder="e.g. 12.60">
+<button class="check-btn" onclick="checkNumericAnswer('ans1_1c', 12.602, 0.02, 'fb1_1c', 'V')">Check</button>
+<span id="fb1_1c" class="feedback-msg"></span>
+</div>
+
+<details class="solution-box">
+<summary>💡 Click to View Step-by-Step Worked Solution</summary>
+<div class="solution-content">
+
+**Step 1: Compute the total wire resistance ($R_{\text{wire}}$)**
+Using the physical resistance equation $R = \rho \frac{\ell}{A}$:
+$$R_{\text{wire}} = \left(1.72 \times 10^{-8}\ \Omega\cdot\text{m}\right) \frac{6.0\text{ m}}{2.08 \times 10^{-6}\text{ m}^2} = 0.0496\ \Omega = \mathbf{49.6\text{ m}\Omega}$$
+
+**Step 2: Compute the line voltage drop ($V_{\text{drop}}$)**
+By Ohm's Law, the $4.0\text{ A}$ current flowing through $R_{\text{wire}}$ drops:
+$$V_{\text{drop}} = I \cdot R_{\text{wire}} = (4.0\text{ A})(0.0496\ \Omega) = \mathbf{0.198\text{ V}}$$
+
+**Step 3: Compute the voltage remaining at the spreader lights ($V_{\text{load}}$)**
+$$V_{\text{load}} = V_{\text{battery}} - V_{\text{drop}} = 12.8\text{ V} - 0.198\text{ V} = \mathbf{12.60\text{ V}}$$
+*(Note: Because $0.198\text{ V} / 12.8\text{ V} = 1.55\%$, this is well below the ABYC 3% marine voltage drop limit for critical lighting!)*
+
+</div>
+</details>
+</div>
+
+---
+
+## Ideal vs. Practical (Non-Ideal) Sources
+
+In circuit schematics, we distinguish between **ideal sources** (theoretical constructs that maintain fixed voltage or current regardless of load) and **practical (non-ideal) sources** (real physical supplies like lab bench supplies, batteries, and solar arrays that exhibit internal losses).
+
+### Ideal vs. Practical Voltage Sources
+* **Ideal Voltage Source ($V_s$):** Maintains a fixed terminal voltage $V_T = V_s$ regardless of the current $I_L$ drawn from it. Its internal resistance is strictly zero ($R_s = 0\ \Omega$).
+* **Practical Voltage Source:** Modeled as an ideal voltage source $V_s$ **in series with an internal resistance $R_s$**. When a load resistor $R_L$ is connected across its terminals, internal voltage drop occurs:
+
+$$V_T = V_s - I_L R_s = V_s \left(\frac{R_L}{R_s + R_L}\right)$$
+
+As the load demands more current ($R_L$ decreases), the terminal voltage $V_T$ droops.
+
+### Ideal vs. Practical Current Sources
+* **Ideal Current Source ($I_s$):** Supplies a fixed current $I_L = I_s$ regardless of the voltage across its terminals. Its internal resistance is infinite ($R_p \to \infty$).
+* **Practical Current Source:** Modeled as an ideal current source $I_s$ **in parallel with an internal shunt resistance $R_p$**. Some current leaks internally through $R_p$, reducing the current delivered to the load:
+
+$$I_L = I_s - \frac{V_T}{R_p} = I_s \left(\frac{R_p}{R_p + R_L}\right)$$
+
+---
+
+## Kirchhoff's Laws & Series Circuits
+
+To solve any linear circuit systematically, we rely on two foundational conservation laws published by Gustav Kirchhoff in 1845.
+
+### Definitions of Circuit Topology
+* **Branch:** A single two-terminal circuit element (such as a voltage source or a resistor).
+* **Node:** A point of connection between two or more branches. Every point along an ideal wire (with no components in between) belongs to the **exact same node**.
+* **Loop:** Any closed path in a circuit that starts at a node, passes through a set of nodes without visiting any intermediate node more than once, and returns to the starting node.
+
+### Kirchhoff's Current Law (KCL)
+Based on the **Conservation of Electric Charge**, KCL states that the algebraic sum of all currents entering and leaving any node (or closed boundary) at any instant is zero:
+
+$$\sum_{n=1}^{N} i_n = 0 \quad \Longleftrightarrow \quad \sum I_{\text{entering}} = \sum I_{\text{leaving}}$$
+
+### Kirchhoff's Voltage Law (KVL)
+Based on the **Conservation of Energy**, KVL states that the algebraic sum of all voltages around any closed loop in a circuit is zero:
+
+$$\sum_{m=1}^{M} v_m = 0 \quad \Longleftrightarrow \quad \sum V_{\text{rises}} = \sum V_{\text{drops}}$$
+
+::: {.callout-tip}
+#### 🧭 Sign Convention for Walking a KVL Loop
+Choose a starting corner (usually the bottom-left ground reference) and walk around the loop (typically **clockwise**). Each time you encounter a component, record the **first polarity sign ($+$ or $-$)** you hit as you enter that component:
+* If you enter the **$-$ terminal** and exit the **$+$ terminal**, it is a **voltage rise** ($-v$ if summing drops, or $+v$ if summing rises).
+* If you enter the **$+$ terminal** and exit the **$-$ terminal**, it is a **voltage drop**.
+* Standard convention: **Add (+) whenever you hit a $+$ sign first; subtract ($-$) whenever you hit a $-$ sign first**, and set the sum equal to $0$.
+:::
+
+### Series Resistors and Voltage Division
+Two or more elements are in **series** if they share a single common node that has **no other branching paths**, forcing the exact same current $i$ to flow through every element in sequence:
+
+$$R_{\text{eq}} = R_1 + R_2 + \dots + R_N = \sum_{k=1}^{N} R_k$$
+
+For $N$ resistors in series connected across a net source voltage $V_T$, the voltage across any individual resistor $R_k$ is given directly by the **Voltage Divider Rule (VDR)**:
+
+$$V_k = V_T \left(\frac{R_k}{R_{\text{eq}}}\right)$$
+
+---
+
+## 🛑 Section Problem Set: Series Circuits & KVL (ELT 112 / ENS 233 Exam Standard)
+
+Work through the following three problems on paper first. Pay strict attention to **source polarities** and the **direction of the reference current arrow**. Then enter your numeric answers to verify your work!
+
+---
+
+### Problem 1.1: Dual-Source Series Loop with Reference Polarity
+
+<div class="problem-card">
+<div class="problem-header">
+<span>Problem 1.1: Find $i_x$ and $v_x$</span>
+<span class="badge-difficulty">ELT 112 Exam 1 — Part I</span>
+</div>
+
+Find the current $i_x$ (in $\text{mA}$) and the voltage $v_x$ (in $\text{V}$) in the circuit below. Pay careful attention to the polarity of the $5\text{ V}$ and $7\text{ V}$ sources!
+
+```{=html}
+<div style="text-align: center; margin: 1.5rem 0;">
+<svg width="360" height="240" viewBox="0 0 360 240" xmlns="http://www.w3.org/2000/svg" style="background:#fff; max-width:100%;">
+  <line x1="60" y1="190" x2="60" y2="135" stroke="#000" stroke-width="2"/>
+  <line x1="60" y1="95" x2="60" y2="50" stroke="#000" stroke-width="2"/>
+  <line x1="60" y1="50" x2="145" y2="50" stroke="#000" stroke-width="2"/>
+  <line x1="185" y1="50" x2="270" y2="50" stroke="#000" stroke-width="2"/>
+  <line x1="270" y1="50" x2="270" y2="85" stroke="#000" stroke-width="2"/>
+  <line x1="270" y1="155" x2="270" y2="190" stroke="#000" stroke-width="2"/>
+  <line x1="270" y1="190" x2="60" y2="190" stroke="#000" stroke-width="2"/>
+
+  <circle cx="60" cy="115" r="20" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="60" y="110" font-family="serif" font-size="16" text-anchor="middle" font-weight="bold">−</text>
+  <text x="60" y="128" font-family="serif" font-size="16" text-anchor="middle" font-weight="bold">+</text>
+  <text x="22" y="120" font-family="serif" font-size="16" text-anchor="middle">5 V</text>
+
+  <circle cx="165" cy="50" r="20" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="155" y="55" font-family="serif" font-size="16" text-anchor="middle" font-weight="bold">+</text>
+  <text x="175" y="55" font-family="serif" font-size="16" text-anchor="middle" font-weight="bold">−</text>
+  <text x="165" y="20" font-family="serif" font-size="16" text-anchor="middle">7 V</text>
+
+  <polyline points="270,85 280,91 260,103 280,115 260,127 280,139 260,149 270,155" fill="none" stroke="#000" stroke-width="2"/>
+  <text x="312" y="125" font-family="serif" font-size="16">100 Ω</text>
+  <text x="242" y="92" font-family="serif" font-size="15" font-weight="bold">+</text>
+  <text x="242" y="130" font-family="serif" font-size="16" font-style="italic">v<tspan dy="4" font-size="12">x</tspan></text>
+  <text x="242" y="160" font-family="serif" font-size="15" font-weight="bold">−</text>
+
+  <path d="M 135 145 A 30 30 0 1 1 185 115" fill="none" stroke="#d946ef" stroke-width="2.5"/>
+  <polygon points="185,122 192,108 177,111" fill="#d946ef"/>
+  <text x="160" y="130" font-family="serif" font-size="17" font-style="italic" fill="#d946ef" font-weight="bold">i<tspan dy="4" font-size="12">x</tspan></text>
+</svg>
+</div>
+```
+
+<div class="check-box-container">
+<label>$i_x$ ($\text{mA}$):</label>
+<input type="number" step="any" id="ans_p1_i" class="check-input" placeholder="e.g. -120">
+<button class="check-btn" onclick="checkNumericAnswer('ans_p1_i', -120, 0.5, 'fb_p1_i', 'mA')">Check $i_x$</button>
+<span id="fb_p1_i" class="feedback-msg"></span>
+</div>
+
+<div class="check-box-container">
+<label>$v_x$ ($\text{V}$):</label>
+<input type="number" step="any" id="ans_p1_v" class="check-input" placeholder="e.g. -12">
+<button class="check-btn" onclick="checkNumericAnswer('ans_p1_v', -12, 0.1, 'fb_p1_v', 'V')">Check $v_x$</button>
+<span id="fb_p1_v" class="feedback-msg"></span>
+</div>
+
+<details class="solution-box">
+<summary>💡 Click to View Step-by-Step Worked Solution & Circuitikz Code</summary>
+<div class="solution-content">
+
+**Step 1: Apply KVL around the clockwise loop ($i_x$)**
+Starting at the bottom-left corner and walking clockwise in the direction of $i_x$:
+* Passing upward through the $5\text{ V}$ source, we enter the $+$ terminal and exit the $-$ terminal: $+5\text{ V}$.
+* Passing left-to-right through the $7\text{ V}$ source, we enter the $+$ terminal and exit the $-$ terminal: $+7\text{ V}$.
+* Passing downward through the $100\ \Omega$ resistor, we enter the $+$ terminal of $v_x$: $+v_x$.
+
+$$\text{KVL: } +5\text{ V} + 7\text{ V} + v_x = 0 \implies v_x = \mathbf{-12\text{ V}}$$
+
+**Step 2: Apply Ohm's Law to find $i_x$**
+Since the reference arrow $i_x$ enters the positive ($+$) terminal of $v_x$, the Passive Sign Convention gives:
+$$i_x = \frac{v_x}{100\ \Omega} = \frac{-12\text{ V}}{100\ \Omega} = -0.12\text{ A} = \mathbf{-120\text{ mA}}$$
+*(Physical interpretation: Because both sources have their positive terminals oriented to push current counter-clockwise, actual conventional current of $120\text{ mA}$ flows counter-clockwise, opposite to $i_x$.)*
+
+**Original Overleaf `circuitikz` Code:**
+```latex
+\begin{circuitikz}[scale=1.2]
+    \draw (0,0) to[V, l=5V] (0,3) 
+          to[V, l=7V] (3,3) 
+          to[R, l=$100\ \Omega$, v=$v_x$] (3,0) -- (0,0);
+    \draw[->, thick, magenta] (1.5, 1.0) arc (-90:170:0.5) node[anchor=north west] {$i_x$};
+\end{circuitikz}
+```
+</div>
+</details>
+</div>
+
+---
+
+### Problem 1.2: Multi-Source, Multi-Resistor Series Loop
+
+<div class="problem-card">
+<div class="problem-header">
+<span>Problem 1.2: Find the current $i$</span>
+<span class="badge-difficulty">ELT 112 Exam 1 — Part I</span>
+</div>
+
+Find the current $i$ (in $\text{mA}$) in the following series circuit. Note the magenta reference arrow for $i$ pointing to the **left** across the $25\ \Omega$ resistor!
+
+```{=html}
+<div style="text-align: center; margin: 1.5rem 0;">
+<svg width="480" height="240" viewBox="0 0 480 240" xmlns="http://www.w3.org/2000/svg" style="background:#fff; max-width:100%;">
+  <line x1="50" y1="190" x2="50" y2="140" stroke="#000" stroke-width="2"/>
+  <line x1="50" y1="100" x2="50" y2="50" stroke="#000" stroke-width="2"/>
+  <circle cx="50" cy="120" r="20" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="50" y="115" font-family="serif" font-size="16" text-anchor="middle" font-weight="bold">−</text>
+  <text x="50" y="133" font-family="serif" font-size="16" text-anchor="middle" font-weight="bold">+</text>
+  <text x="18" y="125" font-family="serif" font-size="15" text-anchor="middle">5 V</text>
+
+  <line x1="50" y1="50" x2="95" y2="50" stroke="#000" stroke-width="2"/>
+  <circle cx="115" cy="50" r="20" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="106" y="55" font-family="serif" font-size="16" text-anchor="middle" font-weight="bold">+</text>
+  <text x="124" y="55" font-family="serif" font-size="16" text-anchor="middle" font-weight="bold">−</text>
+  <text x="115" y="22" font-family="serif" font-size="15" text-anchor="middle">5 V</text>
+  <line x1="135" y1="50" x2="175" y2="50" stroke="#000" stroke-width="2"/>
+
+  <polyline points="175,50 181,40 193,60 205,40 217,60 229,40 239,60 245,50" fill="none" stroke="#000" stroke-width="2"/>
+  <text x="210" y="25" font-family="serif" font-size="15" text-anchor="middle">15 Ω</text>
+  <line x1="245" y1="50" x2="305" y2="50" stroke="#000" stroke-width="2"/>
+
+  <polyline points="305,50 311,40 323,60 335,40 347,60 359,40 369,60 375,50" fill="none" stroke="#d946ef" stroke-width="2"/>
+  <text x="340" y="25" font-family="serif" font-size="15" fill="#d946ef" text-anchor="middle">25 Ω</text>
+  <polygon points="275,50 288,44 288,56" fill="#d946ef"/>
+  <text x="282" y="36" font-family="serif" font-size="16" font-style="italic" fill="#d946ef" font-weight="bold">i</text>
+  <line x1="375" y1="50" x2="420" y2="50" stroke="#000" stroke-width="2"/>
+
+  <line x1="420" y1="50" x2="420" y2="100" stroke="#000" stroke-width="2"/>
+  <circle cx="420" cy="120" r="20" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="420" y="115" font-family="serif" font-size="16" text-anchor="middle" font-weight="bold">+</text>
+  <text x="420" y="133" font-family="serif" font-size="16" text-anchor="middle" font-weight="bold">−</text>
+  <text x="452" y="125" font-family="serif" font-size="15" text-anchor="middle">5 V</text>
+  <line x1="420" y1="140" x2="420" y2="190" stroke="#000" stroke-width="2"/>
+
+  <line x1="420" y1="190" x2="270" y2="190" stroke="#000" stroke-width="2"/>
+  <polyline points="270,190 264,200 252,180 240,200 228,180 216,200 206,180 200,190" fill="none" stroke="#000" stroke-width="2"/>
+  <text x="235" y="220" font-family="serif" font-size="15" text-anchor="middle">5 Ω</text>
+  <line x1="200" y1="190" x2="50" y2="190" stroke="#000" stroke-width="2"/>
+</svg>
+</div>
+```
+
+<div class="check-box-container">
+<label>Current $i$ ($\text{mA}$):</label>
+<input type="number" step="any" id="ans_p2_i" class="check-input" placeholder="e.g. 333.3">
+<button class="check-btn" onclick="checkNumericAnswer('ans_p2_i', 333.3, 1.5, 'fb_p2_i', 'mA')">Check $i$</button>
+<span id="fb_p2_i" class="feedback-msg"></span>
+</div>
+
+<details class="solution-box">
+<summary>💡 Click to View Step-by-Step Worked Solution & Circuitikz Code</summary>
+<div class="solution-content">
+
+**Step 1: Find Total Series Equivalent Resistance ($R_T$)**
+Since this is a single-loop series circuit, all three resistors carry the exact same current:
+$$R_T = 15\ \Omega + 25\ \Omega + 5\ \Omega = 45\ \Omega$$
+
+**Step 2: Apply KVL in the direction of current $i$ (Counter-Clockwise)**
+Notice that the reference arrow $i$ points **to the left** along the top branch (counter-clockwise). Let's sum the voltage rises/drops walking counter-clockwise starting from the top-right corner:
+* Going right-to-left across $25\ \Omega$ and $15\ \Omega$: $+i(25\ \Omega + 15\ \Omega)$
+* Going right-to-left across the top $5\text{ V}$ source (entering $-$ and exiting $+$): $-5\text{ V}$
+* Going top-to-bottom across the left $5\text{ V}$ source (entering $-$ and exiting $+$): $-5\text{ V}$
+* Going left-to-right across the bottom $5\ \Omega$ resistor: $+i(5\ \Omega)$
+* Going bottom-to-top across the right $5\text{ V}$ source (entering $-$ and exiting $+$): $-5\text{ V}$
+
+$$i(15 + 25 + 5) - 5\text{ V} - 5\text{ V} - 5\text{ V} = 0$$
+$$45\,i = 15\text{ V} \implies i = \frac{15\text{ V}}{45\ \Omega} = \frac{1}{3}\text{ A} = \mathbf{333.33\text{ mA}}$$
+
+**Original Overleaf `circuitikz` Code:**
+```latex
+\begin{circuitikz}[scale=1.2]
+    \draw (0,0) to[V, l=5V] (0,3) 
+          to[V, l=5V] (2,3) 
+          to[R, l=$15\ \Omega$] (4,3) 
+          to[R, l=$25\ \Omega$, i<=$i$, color=magenta] (6,3) 
+          to[V, l_=5V] (6,0) 
+          to[R, l=$5\ \Omega$] (0,0);
+\end{circuitikz}
+```
+</div>
+</details>
+</div>
+
+---
+
+### Problem 1.3: Voltage Division in a Series Loop
+
+<div class="problem-card">
+<div class="problem-header">
+<span>Problem 1.3: Voltage Divider Rule</span>
+<span class="badge-difficulty">ELT 112 Exam 1 — Part I</span>
+</div>
+
+Calculate the magnitude of the voltage across the $20\ \Omega$ resistor ($V_{20}$) using the **Voltage Divider Rule**.
+
+```{=html}
+<div style="text-align: center; margin: 1.5rem 0;">
+<svg width="420" height="230" viewBox="0 0 420 230" xmlns="http://www.w3.org/2000/svg" style="background:#fff; max-width:100%;">
+  <line x1="60" y1="185" x2="60" y2="135" stroke="#000" stroke-width="2"/>
+  <line x1="60" y1="95" x2="60" y2="45" stroke="#000" stroke-width="2"/>
+  <circle cx="60" cy="115" r="20" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="60" y="110" font-family="serif" font-size="16" text-anchor="middle" font-weight="bold">+</text>
+  <text x="60" y="128" font-family="serif" font-size="16" text-anchor="middle" font-weight="bold">−</text>
+  <text x="23" y="120" font-family="serif" font-size="15" text-anchor="middle">12 V</text>
+
+  <line x1="60" y1="45" x2="115" y2="45" stroke="#000" stroke-width="2"/>
+  <polyline points="115,45 121,35 133,55 145,35 157,55 169,35 179,55 185,45" fill="none" stroke="#000" stroke-width="2"/>
+  <text x="150" y="22" font-family="serif" font-size="15" text-anchor="middle">10 Ω</text>
+  <line x1="185" y1="45" x2="245" y2="45" stroke="#000" stroke-width="2"/>
+
+  <polyline points="245,45 251,35 263,55 275,35 287,55 299,35 309,55 315,45" fill="none" stroke="#000" stroke-width="2"/>
+  <text x="280" y="22" font-family="serif" font-size="15" text-anchor="middle">20 Ω</text>
+  <line x1="315" y1="45" x2="370" y2="45" stroke="#000" stroke-width="2"/>
+
+  <line x1="370" y1="45" x2="370" y2="185" stroke="#000" stroke-width="2"/>
+
+  <line x1="370" y1="185" x2="250" y2="185" stroke="#000" stroke-width="2"/>
+  <polyline points="250,185 244,195 232,175 220,195 208,175 196,195 186,175 180,185" fill="none" stroke="#000" stroke-width="2"/>
+  <text x="215" y="215" font-family="serif" font-size="15" text-anchor="middle">30 Ω</text>
+  <line x1="180" y1="185" x2="60" y2="185" stroke="#000" stroke-width="2"/>
+</svg>
+</div>
+```
+
+<div class="check-box-container">
+<label>$V_{20}$ ($\text{V}$):</label>
+<input type="number" step="any" id="ans_p3_v" class="check-input" placeholder="e.g. 4.0">
+<button class="check-btn" onclick="checkNumericAnswer('ans_p3_v', 4.0, 0.05, 'fb_p3_v', 'V')">Check $V_{20}$</button>
+<span id="fb_p3_v" class="feedback-msg"></span>
+</div>
+
+<details class="solution-box">
+<summary>💡 Click to View Step-by-Step Worked Solution & Circuitikz Code</summary>
+<div class="solution-content">
+
+**Step 1: Compute the Total Series Resistance ($R_{\text{eq}}$)**
+All three resistors ($10\ \Omega$, $20\ \Omega$, and $30\ \Omega$) are connected in a single series loop:
+$$R_{\text{eq}} = 10\ \Omega + 20\ \Omega + 30\ \Omega = 60\ \Omega$$
+
+**Step 2: Apply the Voltage Divider Rule**
+$$V_{20} = V_s \left(\frac{R_{20}}{R_{\text{eq}}}\right) = 12\text{ V} \left(\frac{20\ \Omega}{60\ \Omega}\right) = 12\text{ V} \left(\frac{1}{3}\right) = \mathbf{4.0\text{ V}}$$
+
+**Original Overleaf `circuitikz` Code:**
+```latex
+\begin{circuitikz}[scale=1.2]
+    \draw (0,0) to[V, invert, l=12V] (0,3) 
+          to[R, l=$10\ \Omega$] (3,3) 
+          to[R, l=$20\ \Omega$] (6,3) 
+          -- (6,0) 
+          to[R, l=$30\ \Omega$] (0,0);
+\end{circuitikz}
+```
+</div>
+</details>
+</div>
+
+---
+
+## 💻 Laboratory & Simulation Corner: Verifying Series Circuits in LTspice
+
+Before moving to Chapter 2 (Series-Parallel Networks & Current Division), let's connect the theory above to your virtual and hardware lab workflow:
+
+1. **Ground Reference ($0\text{ V}$) Requirement:** Every SPICE simulator (LTspice and TINA-TI) solves circuits using a Nodal Analysis matrix. If you draw **Problem 1.3** in LTspice without placing a **GND (`G`)** symbol on the bottom wire, SPICE will throw a `Singular Matrix: Check node...` error because node voltages are undefined without a $0\text{ V}$ reference!
+2. **Measuring Differential Voltage ($V_{20}$):** In both LTspice and on your bench **Siglent SDS2204X Plus oscilloscope**, nodal probes measure voltage *with respect to ground*. Notice that in Problem 1.3, neither terminal of the $20\ \Omega$ resistor is connected directly to the bottom ground wire (the $30\ \Omega$ resistor sits in between). 
+   * **In LTspice:** Click and **hold** on the node between the $10\ \Omega$ and $20\ \Omega$ resistors (red probe), drag to the node between the $20\ \Omega$ and $30\ \Omega$ resistors (black probe), and release.
+   * **On the Bench DMM:** Connect the red `V/Ω` lead to the left lead of the $20\ \Omega$ resistor and the black `COM` lead to the right lead of the $20\ \Omega$ resistor (since a handheld or benchtop DMM has floating inputs, unlike a grounded-BNC oscilloscope).

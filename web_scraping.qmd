@@ -1,6 +1,6 @@
 ---
-title: "Project 2: Automating the Web"
-subtitle: "Introduction to Web Scraping with Python"
+title: "Automating the Web: Web Scraping Projects"
+subtitle: "HTML Parsing, Binary Downloads, and Data Extraction with Python"
 author: "Dr. Wesley Francillon"
 format:
   html:
@@ -12,79 +12,18 @@ format:
 jupyter: python3
 ---
 
-Welcome to the **Papillon Engineering K-12 Outreach Hub**. This project introduces students to the fundamentals of web scraping and automation. By automating the process of navigating web pages, locating specific HTML elements, and downloading binary files, students learn how Python scripts interact with the modern web.
+::: {.callout-note icon=false appearance="simple"}
+## 🚀 Welcome to the Papillon Engineering K-12 Outreach Hub
+This module introduces students to the fundamentals of web scraping and automation. By automating the process of navigating web pages, locating specific HTML elements, downloading binary files, and parsing text into logic, you will learn how Python scripts interact with the modern web.
+:::
+
+---
+
+# Project 1: The Automated Webcomic Downloader
+
+This project challenges you to build a functional web scraper that navigates the popular webcomic XKCD, extracts the daily comic, downloads the image file, and repeats the process automatically.
 
 ::: {.panel-tabset}
-
-## 👨‍🏫 Instructor Facilitation Guide
-
-### 1. Module Overview & Learning Objectives
-This project challenges students to build a functional web scraper that navigates the popular webcomic XKCD, extracts the daily comic, downloads the image file, and repeats the process automatically.
-
-**Core Learning Objectives:**
-* **Network Requests:** Use the `requests` library to fetch HTML from a live URL.
-* **HTML Parsing:** Use `BeautifulSoup` (`bs4`) to navigate the Document Object Model (DOM) and extract specific elements using CSS selectors.
-* **File I/O:** Learn how to create directories and write binary data in chunks to save images locally.
-* **Algorithmic Loops:** Implement a `while` loop that dynamically updates its target URL to navigate backward through web pages.
-
----
-
-### 2. Materials & Prerequisites
-* **Software Environment:** Python 3.x installed with the `requests` and `beautifulsoup4` packages.
-* **Platform:** Quarto-rendered web pages hosted via Papillon Engineering or local Jupyter Notebooks.
-* **Prior Knowledge:** Basic understanding of HTML tags (`<img>`, `<a>`, `id`, `href`), Python `while` loops, and file paths.
-
----
-
-### 3. Common Pitfalls & Instructor Key
-If students attempt to run the original loop without updating the `url` variable at the end of the block, they will trigger an **infinite loop**, locking up their Python environment by downloading the same comic continuously. 
-
-Additionally, downloading all 3,000+ XKCD comics on a school network could trigger bandwidth throttles. The solution below includes a `comics_to_download` safety counter.
-
-**The Completed Solution Code:**
-```{python}
-#| eval: false
-import requests, os, bs4
-
-url = 'https://xkcd.com'               
-os.makedirs('xkcd', exist_ok=True)    
-
-comics_to_download = 5 # Safety limit for the classroom
-count = 0
-
-while not url.endswith('#') and count < comics_to_download:
-    # 1. Download the page
-    print(f'Downloading page {url}...')
-    res = requests.get(url)
-    res.raise_for_status()
-    soup = bs4.BeautifulSoup(res.text, 'html.parser')
-
-    # 2. Find the URL of the comic image
-    comicElem = soup.select('#comic img')
-    if comicElem == []:
-        print('Could not find comic image.')
-    else:
-        comicUrl = 'https:' + comicElem[0].get('src')
-        
-        # 3. Download the image
-        print(f'Downloading image {comicUrl}...')
-        res = requests.get(comicUrl)
-        res.raise_for_status()
-
-        # 4. Save the image to ./xkcd
-        imageFile = open(os.path.join('xkcd', os.path.basename(comicUrl)), 'wb')
-        for chunk in res.iter_content(100000):
-            imageFile.write(chunk)
-        imageFile.close()
-
-    # 5. Get the Prev button's url to update the loop
-    prevLink = soup.select('a[rel="prev"]')[0]
-    url = 'https://xkcd.com' + prevLink.get('href')
-    count += 1
-
-print('Done! Check your /xkcd folder.')
-```
-
 
 ## 💻 Student Interactive Workbook
 
@@ -93,15 +32,16 @@ Imagine you want to download a picture from a website. You right-click, select "
 
 Today, you are going to write a Python script that acts like an automated robot. It will visit the popular webcomic **XKCD**, find the daily comic, download it, click the "Previous" button, and do it all over again automatically. 
 
-Here is a classic XKCD comic about Python to show what we are grabbing:  
-![XKCD Python Comic](https://imgs.xkcd.com/comics/python.png)
-
----
+```{=html}
+<div style="text-align: center; margin: 2rem 0;">
+  <img src="https://imgs.xkcd.com/comics/python.png" alt="XKCD Python Comic" style="border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 100%; border: 1px solid #e2e8f0;">
+</div>
+```
 
 ### Step 1: Setting up our Robot
 We need three special tools for this job: `requests` (to browse the web), `bs4` / BeautifulSoup (to read the website's code), and `os` (to create folders on your computer).
 
-```{python}
+```python
 #| eval: false
 import requests, os, bs4
 
@@ -109,12 +49,10 @@ url = 'https://xkcd.com'               # The starting URL
 os.makedirs('xkcd', exist_ok=True)     # Create a folder called 'xkcd' to store our images
 ```
 
----
-
 ### Step 2: Fetching the Web Page
 We will use a `while` loop to tell our robot to keep working. For this practice run, we will limit it to downloading just 5 comics so we don't overload our network!
 
-```{python}
+```python
 #| eval: false
 comics_to_download = 5
 count = 0
@@ -128,12 +66,10 @@ while not url.endswith('#') and count < comics_to_download:
     soup = bs4.BeautifulSoup(res.text, 'html.parser')
 ```
 
----
-
 ### Step 3: Finding the Image
 A web page is full of code. We need to tell our robot exactly where the comic is. If you right-click and "Inspect" the XKCD website, you will see the comic is always inside an HTML ID called `comic`, inside an `img` tag.
 
-```{python}
+```python
 #| eval: false
     # Locate the image using a CSS Selector
     comicElem = soup.select('#comic img')
@@ -150,12 +86,10 @@ A web page is full of code. We need to tell our robot exactly where the comic is
         res.raise_for_status()
 ```
 
----
-
 ### Step 4: Saving the File (Binary Data)
 Images aren't text; they are "binary" data (1s and 0s). We need to open a file in "write binary" (`wb`) mode and save the image in small chunks so we don't crash our computer's memory.
 
-```{python}
+```python
 #| eval: false
         # Create the file on your hard drive
         imageFile = open(os.path.join('xkcd', os.path.basename(comicUrl)), 'wb')
@@ -166,12 +100,10 @@ Images aren't text; they are "binary" data (1s and 0s). We need to open a file i
         imageFile.close()
 ```
 
----
-
 ### Step 5: Traveling Back in Time
 If we stop here, our robot will just download today's comic over and over forever! We need to find the "Prev" (Previous) button on the webpage, grab its link, and tell our robot to go there next.
 
-```{python}
+```python
 #| eval: false
     # Find the "Previous" button link
     prevLink = soup.select('a[rel="prev"]')[0]
@@ -184,16 +116,190 @@ If we stop here, our robot will just download today's comic over and over foreve
 print('Done! Check the new /xkcd folder on your computer.')
 ```
 
----
-
-### 🚀 Project Challenge: Make it Your Own!
+::: {.callout-tip}
+## 🚀 Project Challenge: Make it Your Own!
 You just built a fully functional web scraper. But XKCD is just the beginning. How can you turn this script into your own unique project?
 
-**Brainstorming Ideas:**
-1. **The Wallpaper Bot:** Change the URL and CSS selectors to point to a high-res photography site (like Unsplash) and automatically download new desktop wallpapers.
-2. **The Weather Watcher:** Set up a scraper to download the daily radar map image from a weather website to create a time-lapse of a storm.
-3. **The Sports Stat Tracker:** Instead of finding an `img` tag, search for a `<table>` tag on a sports website to download your favorite player's statistics into a text file.
+*   **The Wallpaper Bot:** Change the URL and CSS selectors to point to a high-res photography site and automatically download new desktop wallpapers.
+*   **The Weather Watcher:** Set up a scraper to download the daily radar map image from a weather website to create a time-lapse of a storm.
+:::
 
-**Your Turn:** Pick a website you visit often. Right-click, select "Inspect", and see if you can figure out the CSS selectors for the data you care about. Then, adapt the code above to grab it!
+
+## 👨‍🏫 Instructor Facilitation Guide
+
+### 1. Module Overview & Learning Objectives
+**Core Learning Objectives:**
+- **Network Requests:** Use the `requests` library to fetch HTML from a live URL.
+- **HTML Parsing:** Use `BeautifulSoup` (`bs4`) to navigate the Document Object Model (DOM) and extract specific elements using CSS selectors.
+- **File I/O:** Learn how to create directories and write binary data in chunks to save images locally.
+- **Algorithmic Loops:** Implement a `while` loop that dynamically updates its target URL to navigate backward through web pages.
+
+### 2. Materials & Prerequisites
+- **Software Environment:** Python 3.x installed with the `requests` and `beautifulsoup4` packages.
+- **Platform:** Quarto-rendered web pages hosted via Papillon Engineering or local Jupyter Notebooks.
+- **Prior Knowledge:** Basic understanding of HTML tags (`<img>`, `<a>`, `id`, `href`), Python `while` loops, and file paths.
+
+### 3. Common Pitfalls & Instructor Key
+If students attempt to run the original loop without updating the `url` variable at the end of the block, they will trigger an **infinite loop**, locking up their Python environment by downloading the same comic continuously. 
+
+Additionally, downloading all 3,000+ XKCD comics on a school network could trigger bandwidth throttles. The solution below includes a `comics_to_download` safety counter.
+
+**The Completed Solution Code:**
+```python
+#| eval: false
+import requests, os, bs4
+
+url = 'https://xkcd.com'               
+os.makedirs('xkcd', exist_ok=True)    
+
+comics_to_download = 5 # Safety limit for the classroom
+count = 0
+
+while not url.endswith('#') and count < comics_to_download:
+    print(f'Downloading page {url}...')
+    res = requests.get(url)
+    res.raise_for_status()
+    soup = bs4.BeautifulSoup(res.text, 'html.parser')
+
+    comicElem = soup.select('#comic img')
+    if comicElem == []:
+        print('Could not find comic image.')
+    else:
+        comicUrl = 'https:' + comicElem[0].get('src')
+        print(f'Downloading image {comicUrl}...')
+        res = requests.get(comicUrl)
+        res.raise_for_status()
+
+        imageFile = open(os.path.join('xkcd', os.path.basename(comicUrl)), 'wb')
+        for chunk in res.iter_content(100000):
+            imageFile.write(chunk)
+        imageFile.close()
+
+    prevLink = soup.select('a[rel="prev"]')[0]
+    url = 'https://xkcd.com' + prevLink.get('href')
+    count += 1
+
+print('Done! Check your /xkcd folder.')
+```
+
+:::
+
+<br>
+<hr>
+<br>
+
+# Project 2: Automated Hardware Price Tracker
+
+While the XKCD bot downloads files, many engineers use web scraping to monitor data that changes constantly—like the price of a graphics card, micro-controller, or 3D printer. 
+
+In this project, we use `BeautifulSoup` to scrape a product page, locate the exact HTML `<span>` containing the price, convert that text into a math-ready number, and write logic to alert us if the price drops below our budget!
+
+```{=html}
+<div style="text-align: center; margin: 2rem 0;">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 280" width="100%" height="250" style="background:#f8fafc; border-radius:12px; border:1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.05); max-width: 800px;">
+    <!-- Grid Lines -->
+    <path d="M 60 230 L 760 230" stroke="#cbd5e1" stroke-width="2"/>
+    <path d="M 60 230 L 60 40" stroke="#cbd5e1" stroke-width="2"/>
+    <!-- Target Budget Line -->
+    <path d="M 60 160 L 760 160" stroke="#10b981" stroke-width="3" stroke-dasharray="8 8"/>
+    <rect x="580" y="130" width="170" height="26" fill="#d1fae5" rx="4"/>
+    <text x="665" y="148" font-family="sans-serif" font-size="14" font-weight="bold" fill="#047857" text-anchor="middle">Target Budget ($65)</text>
+    <!-- Price Trend Line -->
+    <path d="M 60 60 L 220 85 L 380 135 L 540 120 L 700 200 L 760 195" stroke="#4338ca" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Data Nodes -->
+    <circle cx="220" cy="85" r="6" fill="#4338ca"/>
+    <circle cx="380" cy="135" r="6" fill="#4338ca"/>
+    <circle cx="540" cy="120" r="6" fill="#4338ca"/>
+    <!-- Drop Point Alert -->
+    <circle cx="700" cy="200" r="10" fill="#ef4444"/>
+    <circle cx="700" cy="200" r="16" fill="none" stroke="#ef4444" stroke-width="3" opacity="0.4"/>
+    <rect x="625" y="215" width="150" height="30" fill="#fee2e2" rx="6" stroke="#fca5a5" stroke-width="1"/>
+    <text x="700" y="235" font-family="sans-serif" font-size="14" font-weight="bold" fill="#b91c1c" text-anchor="middle">🚨 DEAL ALERT!</text>
+    <!-- Floating Price Tag Graphic -->
+    <g transform="translate(100, 30)">
+       <path d="M0 10 L30 10 L45 25 L30 40 L0 40 Z" fill="#f59e0b"/>
+       <circle cx="8" cy="25" r="3" fill="#fff"/>
+       <text x="22" y="30" font-family="sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">$</text>
+    </g>
+  </svg>
+</div>
+```
+
+::: {.panel-tabset}
+
+## ⚙️ How to Take it Further
+
+Right now, the script (see next tab) runs once and stops. How can you make it a true automated tracker?
+
+::: {.callout-warning}
+### 1. The Infinite Loop (with a pause)
+Wrap the `check_price` function in a `while True:` loop, but add `time.sleep(86400)` so the script waits 24 hours between checks instead of spamming the server.
+:::
+
+::: {.callout-tip}
+### 2. Email Alerts
+Research the Python `smtplib` library. You can program your script to automatically send an email to your phone the second the price drops below your budget!
+:::
+
+::: {.callout-note}
+### 3. Transitioning to RSS Feeds
+HTML scraping breaks easily if the store updates its website design or changes its CSS classes. For a more robust, professional way to gather data, proceed to the **[Automated Engineering Wire Lab](rss_feeds.html)** to learn how data engineers use XML Syndication (RSS) instead of HTML scraping!
+:::
+
+## 💻 The Price Tracker Script
+
+For this example, we will simulate scraping an electronics storefront for a Raspberry Pi 5. Websites often hide prices inside specific CSS classes, like `<span class="price-display">$79.99</span>`.
+
+```python
+#| eval: false
+import requests
+import bs4
+import time
+
+def check_price(url, target_price):
+    print(f"Scanning {url}...")
+    
+    # 1. Fetch the webpage
+    # Note: Many stores block Python scripts. Adding 'headers' makes us look like a real browser!
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    }
+    res = requests.get(url, headers=headers)
+    res.raise_for_status()
+    
+    # 2. Parse the HTML
+    soup = bs4.BeautifulSoup(res.text, 'html.parser')
+    
+    # 3. Locate the price element
+    # (You would find this exact CSS selector by right-clicking and Inspecting the store page)
+    price_element = soup.select('.price-display, .a-price-whole')
+    
+    if not price_element:
+        print("Error: Could not locate the price on the page.")
+        return
+        
+    # 4. Clean the data (Convert "$79.99" to 79.99)
+    raw_price_text = price_element[0].get_text()
+    
+    # Strip out the dollar sign and any commas
+    clean_text = raw_price_text.replace('$', '').replace(',', '').strip()
+    current_price = float(clean_text)
+    
+    print(f"Current Price: ${current_price:.2f}")
+    
+    # 5. Logic Check
+    if current_price <= target_price:
+        print("🚨 DEAL ALERT! The price has dropped below your budget! Buy it now!")
+        # In a real app, you could add code here to send yourself an email or SMS
+    else:
+        print(f"Still too expensive. It needs to drop by ${current_price - target_price:.2f}.")
+
+if __name__ == "__main__":
+    PRODUCT_URL = "https://example-electronics-store.com/raspberry-pi-5"
+    MY_BUDGET = 65.00
+    
+    # Run the scanner
+    check_price(PRODUCT_URL, MY_BUDGET)
+```
 
 :::

@@ -1,0 +1,1314 @@
+---
+title: "Planar Kinematics of Rigid Bodies & the Instantaneous Center of Zero Velocity"
+subtitle: "Interactive Vector Geometry & Multi-Mechanism Laboratory for Engineering Dynamics"
+author: "Dr. Wesley Francillon, PhD"
+format:
+  html:
+    toc: true
+    toc-title: "Module Architecture"
+    toc-depth: 3
+    code-fold: false
+    theme: ../custom.scss
+    html-math-method: katex
+---
+
+```{=html}
+<!-- Load Computer Modern / Latin Modern Font for Authentic LaTeX Typography -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css">
+
+<style>
+.latex-prose, .kin-card-body {
+  font-family: "Computer Modern Serif", "Latin Modern Roman", Georgia, serif;
+  font-size: 1.03rem;
+  line-height: 1.65;
+  color: #0f172a;
+}
+.pillar-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin: 22px 0 30px 0;
+}
+.rule-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin: 22px 0 30px 0;
+}
+.kin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin: 24px 0 34px 0;
+}
+.example-split {
+  display: grid;
+  grid-template-columns: minmax(280px, 1.35fr) minmax(240px, 1fr);
+  gap: 22px;
+  align-items: center;
+  margin: 16px 0 24px 0;
+}
+.svg-frame {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+  overflow: hidden;
+}
+@media (max-width: 900px) {
+  .pillar-grid, .rule-grid, .example-split { grid-template-columns: 1fr; }
+}
+.pillar-card {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 20px 22px;
+  box-shadow: 0 3px 8px rgba(15, 23, 42, 0.05);
+}
+.pillar-tag {
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+.pillar-title {
+  font-weight: 800;
+  color: #0f172a;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+.kin-card {
+  background: #ffffff;
+  border: 2px solid #1e1b4b;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.07);
+  display: flex;
+  flex-direction: column;
+}
+.kin-card-header {
+  background: #1e1b4b;
+  color: #ffffff;
+  padding: 11px 16px;
+  font-weight: 800;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.kin-svg-box {
+  padding: 14px;
+  background: #ffffff;
+  background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+  background-size: 14px 14px;
+  border-bottom: 1px solid #cbd5e1;
+  text-align: center;
+}
+.kin-card-body {
+  padding: 16px 18px;
+  background: #f8fafc;
+  flex-grow: 1;
+}
+.thought-box {
+  background: #eef2ff;
+  border-left: 5px solid #4338ca;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 18px 0;
+}
+.tikz-svg text {
+  font-family: "Computer Modern Serif", "Latin Modern Roman", "Times New Roman", serif;
+}
+.method-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.96rem;
+}
+.method-table th {
+  background: #1e1b4b;
+  color: #ffffff;
+  padding: 12px 14px;
+  text-align: left;
+}
+.method-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #cbd5e1;
+  vertical-align: top;
+}
+.method-table tr:nth-child(even) {
+  background: #f8fafc;
+}
+</style>
+
+<div style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 60%, #4338ca 100%); color: #ffffff; padding: 36px 32px; border-radius: 14px; margin-bottom: 32px; box-shadow: 0 12px 28px rgba(30, 27, 75, 0.18);">
+<span style="display: block; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: #c7d2fe !important; margin-bottom: 8px;">Papillon Engineering Curriculum Series • Engineering Mechanics: Dynamics</span>
+<h2 style="color: #ffffff !important; font-size: 1.85rem; font-weight: 800; margin: 0 0 12px 0; border: none; padding: 0;">Rigid-Body Planar Kinematics &amp; the Instantaneous Center of Zero Velocity</h2>
+<p style="color: #e0e7ff !important; font-size: 1.02rem; line-height: 1.65; margin: 0 0 22px 0; max-width: 880px;">From pure translation and fixed-axis rotation to general planar motion, any rigid body moving in a plane can be modeled at a given instant as rotating purely about a unique stationary pivot called the <strong>Instantaneous Center of Zero Velocity (<em>ICZV</em>)</strong>. Explore the mathematical proofs, test four classic engineering mechanisms in real time, and verify your mastery with interactive problem challenges.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px;">
+<a href="#iczv-simulator" style="background: #ffffff; color: #1e1b4b !important; padding: 10px 18px; border-radius: 7px; font-weight: 800; font-size: 0.88rem; text-decoration: none; display: inline-block;">🎯 Launch 4-Mechanism ICZV Bench</a>
+<a href="#worked-examples" style="background: rgba(255,255,255,0.16); color: #ffffff !important; border: 1px solid rgba(255,255,255,0.4); padding: 10px 18px; border-radius: 7px; font-weight: 700; font-size: 0.88rem; text-decoration: none; display: inline-block;">📐 Worked Examples (With Schematics)</a>
+<a href="#student-challenges" style="background: #f59e0b; color: #0f172a !important; padding: 10px 18px; border-radius: 7px; font-weight: 800; font-size: 0.88rem; text-decoration: none; display: inline-block;">🧩 Student Group Challenges</a>
+</div>
+</div>
+```
+
+## 1. Classification of Rigid-Body Planar Motion
+
+A **rigid body** is an idealized solid in which the distance between any two points remains strictly constant ($\|\mathbf{r}_{B/A}\| = \text{constant}$) regardless of the forces or moments applied. Planar (2D) rigid-body motion is classified into three foundational regimes:
+
+:::: {.pillar-grid}
+
+::: {.pillar-card style="border-top: 4px solid #2563eb;"}
+[Regime 1 • Zero Rotation ($\omega = 0$)]{.pillar-tag style="color: #2563eb;"}
+
+[Pure Translation]{.pillar-title}
+
+Every line segment on the body remains parallel to its original orientation. Because $\mathbf{r}_{B/A}$ is constant in both magnitude and direction, $\dfrac{d\mathbf{r}_{B/A}}{dt} = \mathbf{0}$, so **every point shares the exact same velocity and acceleration**:
+$$\mathbf{v}_B = \mathbf{v}_A, \qquad \mathbf{a}_B = \mathbf{a}_A$$
+:::
+
+::: {.pillar-card style="border-top: 4px solid #059669;"}
+[Regime 2 • Fixed Pivot ($O$)]{.pillar-tag style="color: #059669;"}
+
+[Pure Rotation About a Fixed Axis]{.pillar-title}
+
+Every point $P$ at radial distance $r$ from fixed pin $O$ sweeps a circular arc $s = r\theta$. Linear speed scales with radius ($v = \omega r$), while acceleration splits into tangential (speed change) and normal (centripetal) components:
+$$a_t = \alpha r, \qquad a_n = \omega^2 r = \frac{v^2}{r}$$
+:::
+
+::: {.pillar-card style="border-top: 4px solid #4338ca;"}
+[Regime 3 • Translation + Rotation]{.pillar-tag style="color: #4338ca;"}
+
+[General Planar Motion]{.pillar-title}
+
+The body simultaneously translates and rotates (such as a connecting rod, sliding ladder, or rolling wheel). We analyze velocity via **Vector Superposition** ($\mathbf{v}_B = \mathbf{v}_A + \boldsymbol{\omega}\times\mathbf{r}_{B/A}$) or via the **Instantaneous Center ($IC$)**.
+:::
+
+::::
+
+:::: {.thought-box}
+:::: {.example-split}
+::: {}
+**💡 Thought Experiment: Sliding a Box Across a Lab Bench (Pure Translation)**
+
+Imagine a heavy wooden box resting on a flat, horizontal lab bench. You mark Point $A$ at the top-left corner and Point $B$ at the bottom-right corner, then push the box straight across the table without tipping.
+
+Because the box is rigid and does not rotate, the relative position vector $\mathbf{r}_{B/A}$ has constant magnitude and constant angle. Taking the time derivative of $\mathbf{r}_B = \mathbf{r}_A + \mathbf{r}_{B/A}$ yields $\mathbf{v}_B = \mathbf{v}_A + \mathbf{0}$ and $\mathbf{a}_B = \mathbf{a}_A$. Every point on a translating body shares the exact same kinematics!
+:::
+
+::: {.svg-frame}
+```{=html}
+<svg class="tikz-svg" viewBox="0 0 380 140" width="100%" height="125" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="arrB" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+<path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#2563eb"/>
+</marker>
+<marker id="arrK" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+<path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#0f172a"/>
+</marker>
+<marker id="arrR" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+<path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#dc2626"/>
+</marker>
+<marker id="arrP" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+<path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#7c3aed"/>
+</marker>
+</defs>
+<rect x="20" y="105" width="340" height="12" fill="#e2e8f0" stroke="#0f172a" stroke-width="1.5"/>
+<rect x="45" y="40" width="95" height="65" fill="#ffedd5" stroke="#0f172a" stroke-width="2"/>
+<rect x="225" y="40" width="95" height="65" fill="#ffedd5" fill-opacity="0.5" stroke="#0f172a" stroke-width="1.8" stroke-dasharray="6 4"/>
+<line x1="45" y1="40" x2="218" y2="40" stroke="#2563eb" stroke-width="2.2" marker-end="url(#arrB)"/>
+<line x1="140" y1="105" x2="313" y2="105" stroke="#2563eb" stroke-width="2.2" marker-end="url(#arrB)"/>
+<circle cx="45" cy="40" r="4" fill="#0f172a"/>
+<circle cx="140" cy="105" r="4" fill="#0f172a"/>
+<circle cx="225" cy="40" r="4" fill="#0f172a"/>
+<circle cx="320" cy="105" r="4" fill="#0f172a"/>
+<text x="35" y="34" font-size="13" font-style="italic" font-weight="bold">A</text>
+<text x="145" y="128" font-size="13" font-style="italic" font-weight="bold">B</text>
+<text x="218" y="34" font-size="13" font-style="italic" font-weight="bold">A'</text>
+<text x="324" y="128" font-size="13" font-style="italic" font-weight="bold">B'</text>
+<text x="135" y="32" font-size="13" font-style="italic" font-weight="bold" fill="#2563eb" text-anchor="middle">v<tspan dy="3" font-size="9.5" font-style="normal">A</tspan></text>
+<text x="230" y="96" font-size="13" font-style="italic" font-weight="bold" fill="#2563eb" text-anchor="middle">v<tspan dy="3" font-size="9.5" font-style="normal">B</tspan><tspan dy="-3" font-style="normal"> = </tspan>v<tspan dy="3" font-size="9.5" font-style="normal">A</tspan></text>
+</svg>
+```
+:::
+::::
+::::
+
+---
+
+## 2. General Planar Motion: Algebraic Vector Method vs. Geometric ICZV Method
+
+By **Chasles' Theorem**, any rigid body undergoing general planar motion can be treated at a specific microsecond as rotating purely about an invisible, temporary stationary point called the **Instantaneous Center of Zero Velocity ($IC$ or $ICZV$)** where $\mathbf{v}_{IC} = \mathbf{0}$.
+
+```{=html}
+<table class="method-table">
+<thead>
+<tr>
+<th style="width: 18%;">Feature</th>
+<th style="width: 41%;">Method 1: Relative Velocity Equation (Algebraic / Vector)</th>
+<th style="width: 41%;">Method 2: Instantaneous Center of Zero Velocity (Geometric / ICZV)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Core Principle</strong></td>
+<td>Superposition of translation of reference point <em>A</em> plus pure rotation of <em>B</em> relative to <em>A</em>.</td>
+<td>Pure rotation of the entire rigid body about a temporary stationary pivot point <em>IC</em> where <strong>v</strong><sub>IC</sub> = <strong>0</strong>.</td>
+</tr>
+<tr>
+<td><strong>Governing Equation</strong></td>
+<td><strong>v</strong><sub>B</sub> = <strong>v</strong><sub>A</sub> + (<strong>&omega;</strong> &times; <strong>r</strong><sub>B/A</sub>)</td>
+<td><em>v<sub>A</sub> = &omega; &middot; r<sub>A/IC</sub></em> &nbsp;and&nbsp; <em>v<sub>B</sub> = &omega; &middot; r<sub>B/IC</sub></em> &nbsp;(Scalar)</td>
+</tr>
+<tr>
+<td><strong>Primary Strengths</strong></td>
+<td>Systematic, purely algebraic, extends directly to 3D kinematics and relative acceleration equations.</td>
+<td>Fast, visual, bypasses cross-product sign errors, and reveals velocity distributions across linkages immediately.</td>
+</tr>
+<tr>
+<td><strong>Key Limitations</strong></td>
+<td>Cross products with <strong>i</strong>, <strong>j</strong>, <strong>k</strong> unit vectors require careful bookkeeping of signs and quadrant angles.</td>
+<td><strong>Strictly valid for velocity only!</strong> Because <strong>a</strong><sub>IC</sub> &ne; <strong>0</strong> in general, <em>IC</em> cannot be used for accelerations.</td>
+</tr>
+</tbody>
+</table>
+```
+
+### Four Geometric Rules for Locating the Instantaneous Center ($IC$)
+
+:::: {.rule-grid}
+
+::: {.pillar-card style="border-top: 4px solid #4338ca;"}
+[Case 1 • Non-Parallel Velocity Directions]{.pillar-tag style="color: #4338ca;"}
+
+[Intersection of Perpendiculars]{.pillar-title}
+
+Because every point moves tangent to a circle centered at $IC$, the radius vector $\mathbf{r}_{P/IC}$ is always perpendicular to $\mathbf{v}_P$. Draw a line $\perp$ to $\mathbf{v}_A$ through $A$ and a line $\perp$ to $\mathbf{v}_B$ through $B$; their intersection is $IC$.
+:::
+
+::: {.pillar-card style="border-top: 4px solid #0284c7;"}
+[Case 2 • Known Velocity $\mathbf{v}_A$ & Angular Speed $\omega$]{.pillar-tag style="color: #0284c7;"}
+
+[Radial Distance Along the Normal]{.pillar-title}
+
+If you know the velocity vector $\mathbf{v}_A$ of a single point and the body's angular velocity $\omega$, construct a line perpendicular to $\mathbf{v}_A$ at $A$ and measure distance $r_{A/IC} = \dfrac{v_A}{\omega}$ toward the side that produces the correct rotational sense.
+:::
+
+::: {.pillar-card style="border-top: 4px solid #059669;"}
+[Case 3 • No-Slip Contact (Wheels, Gears, Cords)]{.pillar-tag style="color: #059669;"}
+
+[Point of Tangency is $IC$]{.pillar-title}
+
+When a rigid wheel rolls without slipping on a stationary ground (or unwinds from a taut, stationary vertical cord), the point of contact $C$ (or tangency $E$) has zero instantaneous velocity ($\mathbf{v}_{IC} = \mathbf{0}$).
+:::
+
+::: {.pillar-card style="border-top: 4px solid #d97706;"}
+[Case 4 • Parallel Velocities ($\mathbf{v}_A \parallel \mathbf{v}_B$)]{.pillar-tag style="color: #d97706;"}
+
+[Similar Triangles Construction]{.pillar-title}
+
+When $\mathbf{v}_A$ and $\mathbf{v}_B$ are parallel and perpendicular to line $AB$, $IC$ lies on line $AB$ at the intersection with the line joining the tips of $\mathbf{v}_A$ and $\mathbf{v}_B$: $\omega = \dfrac{|v_A - v_B|}{d_{AB}}$ (same sense) or $\omega = \dfrac{v_A + v_B}{d_{AB}}$ (opposite sense).
+:::
+
+::::
+
+---
+
+## 3. Four-Mechanism Interactive ICZV Telemetry Lab {#iczv-simulator}
+
+Select any of the **four classic engineering mechanisms** below and click **▶ Play Motion** (or drag the sliders) to observe how the Instantaneous Center ($IC$) and velocity vectors evolve in real time:
+
+1. **Slider-Crank Piston Engine (Horizontal $x$-Motion):** Crank $OA$ rotates at constant speed $\omega_{OA}$, driving connecting rod $AB$ and forcing piston $B$ to reciprocate horizontally along the cylinder axis. At $\theta = 90^\circ$ and $270^\circ$ the two perpendiculars become parallel ($IC \to \infty$), placing rod $AB$ in **instantaneous pure translation** ($\omega_{AB} = 0$)!
+2. **Constrained Sliding Ladder / Bar ($AB$):** Top collar $A$ slides vertically down the wall while bottom end $B$ slides horizontally along the floor, with $ICZV$ tracing a circular arc of radius $L$ in the first quadrant.
+3. **Rolling Wheel Without Slipping:** The ground contact point serves as $IC$, doubling the speed at the top crown ($v_T = 2v_G$).
+4. **Unwinding Disk on a Taut Cord:** The disk unwinds downward along the vertical rope fixed at $D$ while rotating counter-clockwise about tangency point $E$ ($IC$), with roving rim point $P(\phi)$ and spokes visibly rotating and translating downward.
+
+```{=html}
+<div style="background: #ffffff; border: 2px solid #1e1b4b; border-radius: 12px; padding: 20px; margin: 24px 0; box-shadow: 0 8px 20px rgba(0,0,0,0.06);">
+<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border-bottom: 1px solid #e2e8f0; padding-bottom: 14px; margin-bottom: 16px;">
+<div>
+<span style="font-size: 0.75rem; font-weight: 800; color: #4338ca; text-transform: uppercase; letter-spacing: 0.06em;">Interactive Kinematics Telemetry Bench</span>
+<h4 style="margin: 2px 0 0 0; color: #0f172a; font-weight: 800;">Multi-Mechanism Instantaneous Center of Zero Velocity (ICZV) Explorer</h4>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px;">
+<button type="button" onclick="setICMode('piston')" id="btnModePiston" style="background: #1e1b4b; color: #fff; border: none; padding: 7px 12px; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">1. Slider-Crank Piston</button>
+<button type="button" onclick="setICMode('bar')" id="btnModeBar" style="background: #e2e8f0; color: #1e293b; border: none; padding: 7px 12px; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">2. Sliding Ladder AB</button>
+<button type="button" onclick="setICMode('wheel')" id="btnModeWheel" style="background: #e2e8f0; color: #1e293b; border: none; padding: 7px 12px; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">3. Rolling Wheel</button>
+<button type="button" onclick="setICMode('spool')" id="btnModeSpool" style="background: #e2e8f0; color: #1e293b; border: none; padding: 7px 12px; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">4. Unwinding Disk</button>
+<button type="button" onclick="toggleICAnim()" id="btnAnim" style="background: #059669; color: #fff; border: none; padding: 7px 14px; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">▶ Play Motion</button>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; background: #f8fafc; padding: 14px 16px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 18px;">
+<div>
+<label style="font-size: 0.8rem; font-weight: 700; color: #334155; display: flex; justify-content: space-between;">
+<span id="lblParam1Title">Crank Radius r_OA:</span> <span id="lblParam1Val" style="color: #1e1b4b;">0.15 m</span>
+</label>
+<input type="range" id="slParam1" min="0.10" max="0.22" step="0.01" value="0.15" oninput="syncFromSliders()" style="width: 100%; margin-top: 4px;">
+</div>
+<div>
+<label style="font-size: 0.8rem; font-weight: 700; color: #334155; display: flex; justify-content: space-between;">
+<span id="lblParam2Title">Crank Speed ω_OA:</span> <span id="lblParam2Val" style="color: #2563eb;">10.0 rad/s</span>
+</label>
+<input type="range" id="slParam2" min="2" max="25" step="1" value="10" oninput="syncFromSliders()" style="width: 100%; margin-top: 4px;">
+</div>
+<div>
+<label style="font-size: 0.8rem; font-weight: 700; color: #334155; display: flex; justify-content: space-between;">
+<span id="lblParam3Title">Crank Angle θ:</span> <span id="lblParam3Val" style="color: #dc2626;">45°</span>
+</label>
+<input type="range" id="slParam3" min="0" max="360" step="1" value="45" oninput="syncFromSliders()" style="width: 100%; margin-top: 4px;">
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: minmax(300px, 2.2fr) minmax(240px, 1fr); gap: 16px; align-items: stretch;">
+<div style="text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px;">
+<canvas id="cvICZV" width="580" height="350" style="width: 100%; max-width: 580px; height: auto; background: #ffffff; border-radius: 6px; border: 1px solid #cbd5e1;"></canvas>
+</div>
+
+<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; font-size: 0.84rem;">
+<div>
+<div style="font-weight: 800; color: #1e1b4b; border-bottom: 1px solid #cbd5e1; padding-bottom: 6px; margin-bottom: 10px;">GEOMETRIC VECTOR KEY</div>
+<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+<span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #dc2626;"></span>
+<span><strong>IC (Zero Velocity):</strong> Instantaneous pivot where <strong>v</strong><sub>IC</sub> = <strong>0</strong></span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+<span style="display: inline-block; width: 18px; height: 3px; border-top: 2px dashed #4338ca;"></span>
+<span><strong>Normal Rays r<sub>P/IC</sub>:</strong> Drawn &perp; to velocity vectors</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+<span style="display: inline-block; width: 18px; height: 3px; background: #2563eb;"></span>
+<span><strong>Input / Reference Velocity:</strong> <strong>v</strong><sub>A</sub> or <strong>v</strong><sub>O</sub></span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+<span style="display: inline-block; width: 18px; height: 3px; background: #059669;"></span>
+<span><strong>Output Velocity:</strong> Piston <strong>v</strong><sub>B</sub> or Rim <strong>v</strong><sub>P</sub></span>
+</div>
+</div>
+<div id="icInsightBox" style="background: #eef2ff; border-left: 4px solid #4338ca; padding: 10px; border-radius: 4px; color: #1e1b4b; font-size: 0.81rem; line-height: 1.45; overflow-wrap: break-word; word-break: break-word;"></div>
+</div>
+</div>
+
+<div id="icReadout" style="margin-top: 14px; background: #0f172a; color: #f8fafc; padding: 12px 16px; border-radius: 8px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.81rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: 8px;"></div>
+</div>
+
+<script>
+let icMode = 'piston';
+let icAnimId = null;
+let isPlaying = false;
+let animAngle = 45;
+let wheelXOffset = 0;
+let spoolYOffset = 0;
+
+function syncFromSliders() {
+  animAngle = parseFloat(document.getElementById('slParam3').value);
+  drawICCanvas();
+}
+
+function setICMode(mode) {
+  icMode = mode;
+  const modes = ['piston', 'bar', 'wheel', 'spool'];
+  const ids = {piston: 'btnModePiston', bar: 'btnModeBar', wheel: 'btnModeWheel', spool: 'btnModeSpool'};
+  modes.forEach(m => {
+    const el = document.getElementById(ids[m]);
+    if (el) {
+      el.style.background = (m === mode) ? '#1e1b4b' : '#e2e8f0';
+      el.style.color = (m === mode) ? '#fff' : '#1e293b';
+    }
+  });
+
+  const sl1 = document.getElementById('slParam1');
+  const sl2 = document.getElementById('slParam2');
+  const sl3 = document.getElementById('slParam3');
+
+  if (mode === 'piston') {
+    document.getElementById('lblParam1Title').textContent = 'Crank Radius r_OA:';
+    sl1.min = 0.10; sl1.max = 0.22; sl1.step = 0.01; sl1.value = 0.15;
+    document.getElementById('lblParam2Title').textContent = 'Crank Speed ω_OA:';
+    sl2.min = 2; sl2.max = 25; sl2.step = 1; sl2.value = 10;
+    document.getElementById('lblParam3Title').textContent = 'Crank Angle θ:';
+    sl3.min = 0; sl3.max = 360; sl3.step = 1; sl3.value = 45;
+    animAngle = 45;
+  } else if (mode === 'bar') {
+    document.getElementById('lblParam1Title').textContent = 'Ladder Length L:';
+    sl1.min = 4.0; sl1.max = 12.0; sl1.step = 0.5; sl1.value = 10.0;
+    document.getElementById('lblParam2Title').textContent = 'Top Slide Speed v_A (↓):';
+    sl2.min = 1.0; sl2.max = 6.0; sl2.step = 0.5; sl2.value = 3.0;
+    document.getElementById('lblParam3Title').textContent = 'Floor Angle θ:';
+    sl3.min = 18; sl3.max = 78; sl3.step = 1; sl3.value = 60;
+    animAngle = 60;
+  } else if (mode === 'wheel') {
+    document.getElementById('lblParam1Title').textContent = 'Wheel Radius R:';
+    sl1.min = 0.20; sl1.max = 0.80; sl1.step = 0.05; sl1.value = 0.40;
+    document.getElementById('lblParam2Title').textContent = 'Center Speed v_G:';
+    sl2.min = 0.50; sl2.max = 5.00; sl2.step = 0.25; sl2.value = 2.00;
+    document.getElementById('lblParam3Title').textContent = 'Rim Angle θ (from Top):';
+    sl3.min = 0; sl3.max = 360; sl3.step = 1; sl3.value = 60;
+    animAngle = 60;
+    wheelXOffset = 0;
+  } else if (mode === 'spool') {
+    document.getElementById('lblParam1Title').textContent = 'Disk Radius r:';
+    sl1.min = 3.0; sl1.max = 10.0; sl1.step = 0.5; sl1.value = 6.0;
+    document.getElementById('lblParam2Title').textContent = 'Unwind Speed ω_d:';
+    sl2.min = 5; sl2.max = 30; sl2.step = 1; sl2.value = 20;
+    document.getElementById('lblParam3Title').textContent = 'Rotation Angle φ:';
+    sl3.min = 0; sl3.max = 360; sl3.step = 1; sl3.value = 45;
+    animAngle = 45;
+    spoolYOffset = 0;
+  }
+  drawICCanvas();
+}
+
+function toggleICAnim() {
+  isPlaying = !isPlaying;
+  const btn = document.getElementById('btnAnim');
+  if (isPlaying) {
+    btn.textContent = '⏸ Pause Motion';
+    btn.style.background = '#d97706';
+    animAngle = parseFloat(document.getElementById('slParam3').value);
+    let lastTime = performance.now();
+    function step(now) {
+      if (!isPlaying) return;
+      const dt = Math.min((now - lastTime) / 1000, 0.08);
+      lastTime = now;
+      const sl3 = document.getElementById('slParam3');
+      if (icMode === 'piston') {
+        const w = parseFloat(document.getElementById('slParam2').value);
+        animAngle = (animAngle + w * dt * 10) % 360;
+        sl3.value = Math.round(animAngle);
+      } else if (icMode === 'bar') {
+        const vA = parseFloat(document.getElementById('slParam2').value);
+        animAngle = animAngle - (10 + vA * 4) * dt;
+        if (animAngle < 18) animAngle = 78;
+        sl3.value = Math.round(animAngle);
+      } else if (icMode === 'wheel') {
+        const R = parseFloat(document.getElementById('slParam1').value);
+        const vG = parseFloat(document.getElementById('slParam2').value);
+        const omega = vG / R;
+        wheelXOffset = (wheelXOffset + vG * dt * 38) % 220;
+        animAngle = (animAngle + (omega * dt * 180 / Math.PI) * 0.55) % 360;
+        sl3.value = Math.round(animAngle);
+      } else if (icMode === 'spool') {
+        const wd = parseFloat(document.getElementById('slParam2').value);
+        animAngle = (animAngle + wd * dt * 4.5) % 360;
+        spoolYOffset = (spoolYOffset + wd * dt * 2.2) % 95;
+        sl3.value = Math.round(animAngle);
+      }
+      drawICCanvas();
+      icAnimId = requestAnimationFrame(step);
+    }
+    icAnimId = requestAnimationFrame(step);
+  } else {
+    btn.textContent = '▶ Play Motion';
+    btn.style.background = '#059669';
+    if (icAnimId) cancelAnimationFrame(icAnimId);
+  }
+}
+
+function drawVec(ctx, x1, y1, x2, y2, color, label, offsetX=8, offsetY=-6) {
+  const dx = x2 - x1, dy = y2 - y1;
+  const len = Math.hypot(dx, dy);
+  if (len < 2) return;
+  const angle = Math.atan2(dy, dx);
+  const head = 9;
+  ctx.save();
+  ctx.strokeStyle = color;
+  ctx.fillStyle = color;
+  ctx.lineWidth = 2.6;
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(x2, y2);
+  ctx.lineTo(x2 - head * Math.cos(angle - Math.PI / 6), y2 - head * Math.sin(angle - Math.PI / 6));
+  ctx.lineTo(x2 - head * Math.cos(angle + Math.PI / 6), y2 - head * Math.sin(angle + Math.PI / 6));
+  ctx.closePath();
+  ctx.fill();
+
+  if (label) {
+    ctx.font = 'bold 12px "Computer Modern Serif", Georgia, serif';
+    ctx.fillText(label, x2 + offsetX, y2 + offsetY);
+  }
+  ctx.restore();
+}
+
+function drawICCanvas() {
+  const cv = document.getElementById('cvICZV');
+  if (!cv) return;
+  const ctx = cv.getContext('2d');
+  ctx.clearRect(0, 0, cv.width, cv.height);
+
+  ctx.strokeStyle = '#f1f5f9';
+  ctx.lineWidth = 1;
+  for (let x = 20; x < cv.width; x += 20) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, cv.height); ctx.stroke();
+  }
+  for (let y = 20; y < cv.height; y += 20) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(cv.width, y); ctx.stroke();
+  }
+
+  const p1 = parseFloat(document.getElementById('slParam1').value);
+  const p2 = parseFloat(document.getElementById('slParam2').value);
+  const p3 = isPlaying ? animAngle : parseFloat(document.getElementById('slParam3').value);
+
+  if (icMode === 'piston') {
+    const r = p1;
+    const L = 0.45;
+    const wOA = p2;
+    const thetaDeg = Math.round(p3);
+    const theta = p3 * Math.PI / 180;
+
+    document.getElementById('lblParam1Val').textContent = r.toFixed(2) + ' m';
+    document.getElementById('lblParam2Val').textContent = wOA.toFixed(1) + ' rad/s';
+    document.getElementById('lblParam3Val').textContent = thetaDeg + '°';
+
+    // Positioned so IC fits cleanly inside the canvas for most angles
+    const ox = 115, oy = 185;
+    const scale = 285;
+
+    const ax = ox + r * Math.cos(theta) * scale;
+    const ay = oy - r * Math.sin(theta) * scale;
+
+    const sinBeta = (r / L) * Math.sin(theta);
+    const cosBeta = Math.sqrt(1 - sinBeta * sinBeta);
+    const xB = r * Math.cos(theta) + L * cosBeta;
+    const bx = ox + xB * scale;
+    const by = oy;
+
+    ctx.strokeStyle = '#64748b';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(ox + 75, oy - 22); ctx.lineTo(540, oy - 22);
+    ctx.moveTo(ox + 75, oy + 22); ctx.lineTo(540, oy + 22);
+    ctx.stroke();
+
+    ctx.save();
+    ctx.strokeStyle = '#cbd5e1';
+    ctx.setLineDash([8, 4]);
+    ctx.beginPath(); ctx.moveTo(35, oy); ctx.lineTo(550, oy); ctx.stroke();
+    ctx.restore();
+
+    ctx.save();
+    ctx.strokeStyle = '#cbd5e1';
+    ctx.lineWidth = 1.4;
+    ctx.beginPath(); ctx.arc(ox, oy, r * scale, 0, 2 * Math.PI); ctx.stroke();
+    ctx.restore();
+
+    const vA = wOA * r;
+    const tanTheta = Math.tan(theta);
+    const cosTheta = Math.cos(theta);
+    const sinTheta = Math.sin(theta);
+
+    const wAB = -(wOA * r * cosTheta) / (L * cosBeta);
+    const vB = -wOA * r * sinTheta + wAB * L * sinBeta;
+
+    const yIC_phys = xB * tanTheta;
+    const icX = bx;
+    const icY = oy - yIC_phys * scale;
+
+    if (Math.abs(cosTheta) > 0.08) {
+      ctx.save();
+      ctx.strokeStyle = '#4338ca';
+      ctx.lineWidth = 1.7;
+      ctx.setLineDash([5, 4]);
+      const clampedIcY = Math.max(18, Math.min(332, icY));
+      ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(icX, clampedIcY); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(icX, clampedIcY); ctx.stroke();
+      ctx.restore();
+
+      ctx.fillStyle = '#dc2626';
+      ctx.beginPath(); ctx.arc(icX, clampedIcY, 5.5, 0, 2 * Math.PI); ctx.fill();
+      ctx.font = 'bold 12px "Computer Modern Serif", Georgia, serif';
+      const icLabel = (icY >= 18 && icY <= 332) ? 'IC (Rod AB)' : 'IC (To ∞)';
+      ctx.fillText(icLabel, icX - 38, clampedIcY < oy ? clampedIcY - 8 : clampedIcY + 15);
+    }
+
+    ctx.fillStyle = '#dbeafe';
+    ctx.strokeStyle = '#1e3a8a';
+    ctx.lineWidth = 2;
+    ctx.fillRect(bx - 24, by - 17, 48, 34);
+    ctx.strokeRect(bx - 24, by - 17, 48, 34);
+
+    ctx.strokeStyle = '#312e81';
+    ctx.lineWidth = 6;
+    ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(ax, ay); ctx.stroke();
+
+    ctx.strokeStyle = '#1e1b4b';
+    ctx.lineWidth = 5;
+    ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
+
+    ctx.fillStyle = '#0f172a';
+    ctx.beginPath(); ctx.arc(ox, oy, 5, 0, 2 * Math.PI); ctx.fill();
+    ctx.fillStyle = '#2563eb';
+    ctx.beginPath(); ctx.arc(ax, ay, 5, 0, 2 * Math.PI); ctx.fill();
+    ctx.fillStyle = '#059669';
+    ctx.beginPath(); ctx.arc(bx, by, 5, 0, 2 * Math.PI); ctx.fill();
+
+    ctx.font = 'bold 12px "Computer Modern Serif", Georgia, serif';
+    ctx.fillStyle = '#0f172a';
+    ctx.fillText('O', ox - 16, oy + 15);
+    ctx.fillText('A', ax - 14, ay - 8);
+    ctx.fillText('B', bx - 5, by + 33);
+
+    const vScale = 24;
+    const vAx = -vA * sinTheta, vAy = -vA * cosTheta;
+    drawVec(ctx, ax, ay, ax + vAx * vScale, ay + vAy * vScale, '#2563eb', `vA = ${vA.toFixed(2)} m/s`, 6, -6);
+    if (Math.abs(vB) > 0.03) {
+      drawVec(ctx, bx, by, bx + vB * vScale, by, '#059669', `vB = ${Math.abs(vB).toFixed(2)} m/s`, -22, -22);
+    }
+
+    const rAIC = Math.hypot(xB - r * cosTheta, yIC_phys - r * sinTheta);
+    const rBIC = Math.abs(yIC_phys);
+
+    document.getElementById('icInsightBox').innerHTML =
+      `<strong>Horizontal Piston Kinematics:</strong> Since <strong>v</strong><sub>A</sub> &perp; <em>OA</em>, the normal ray at <em>A</em> is the extension of crank line <em>OA</em>. The normal to horizontal piston velocity <strong>v</strong><sub>B</sub> is a vertical line at <em>B</em>. At <em>&theta; = 90&deg;, 270&deg;</em>, the normals are parallel (<em>&omega;<sub>AB</sub> = 0</em>).`;
+
+    document.getElementById('icReadout').innerHTML = `
+      <div><span style="color:#94a3b8;">Crank Pin v_A:</span> <strong>${vA.toFixed(2)} m/s</strong></div>
+      <div><span style="color:#c4b5fd;">Rod ω_AB:</span> <strong>${Math.abs(wAB).toFixed(2)} rad/s</strong></div>
+      <div><span style="color:#6ee7b7;">Piston v_B (x-dir):</span> <strong>${vB.toFixed(2)} m/s</strong></div>
+      <div><span style="color:#fcd34d;">Radii r_A / r_B:</span> <strong>${(rAIC > 9 ? '∞' : rAIC.toFixed(2)+'m')} / ${(rBIC > 9 ? '∞' : rBIC.toFixed(2)+'m')}</strong></div>
+    `;
+  } else if (icMode === 'bar') {
+    const L = p1;
+    const vA = p2;
+    const phiDeg = Math.round(p3);
+    const phi = p3 * Math.PI / 180;
+
+    document.getElementById('lblParam1Val').textContent = L.toFixed(1) + ' ft';
+    document.getElementById('lblParam2Val').textContent = vA.toFixed(1) + ' ft/s';
+    document.getElementById('lblParam3Val').textContent = phiDeg + '°';
+
+    const wallX = 115;
+    const floorY = 295;
+    const pxL = 130 + L * 8;
+
+    const ax = wallX;
+    const ay = floorY - pxL * Math.sin(phi);
+    const bx = wallX + pxL * Math.cos(phi);
+    const by = floorY;
+    const icX = bx;
+    const icY = ay;
+
+    ctx.save();
+    ctx.strokeStyle = '#e2e8f0';
+    ctx.lineWidth = 1.6;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.arc(wallX, floorY, pxL, -Math.PI/2, 0);
+    ctx.stroke();
+    ctx.restore();
+
+    ctx.strokeStyle = '#0f172a';
+    ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(wallX, 30); ctx.lineTo(wallX, floorY); ctx.lineTo(500, floorY); ctx.stroke();
+
+    ctx.save();
+    ctx.strokeStyle = '#4338ca';
+    ctx.lineWidth = 1.8;
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(icX, icY); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(icX, icY); ctx.stroke();
+    ctx.restore();
+
+    ctx.strokeStyle = '#1e1b4b';
+    ctx.lineWidth = 6;
+    ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
+
+    const rAIC = L * Math.cos(phi);
+    const rBIC = L * Math.sin(phi);
+    const omega = vA / rAIC;
+    const vB = omega * rBIC;
+
+    const vScale = 14;
+    drawVec(ctx, ax, ay, ax, ay + vA * vScale, '#2563eb', `vA = ${vA.toFixed(2)} ft/s`, -92, 12);
+    drawVec(ctx, bx, by, bx + vB * vScale, by, '#059669', `vB = ${vB.toFixed(2)} ft/s`, 8, -8);
+
+    ctx.fillStyle = '#2563eb';
+    ctx.beginPath(); ctx.arc(ax, ay, 5, 0, 2 * Math.PI); ctx.fill();
+    ctx.fillText('A', ax - 18, ay + 4);
+
+    ctx.fillStyle = '#059669';
+    ctx.beginPath(); ctx.arc(bx, by, 5, 0, 2 * Math.PI); ctx.fill();
+    ctx.fillText('B', bx - 4, by + 18);
+
+    ctx.fillStyle = '#dc2626';
+    ctx.beginPath(); ctx.arc(icX, icY, 5.5, 0, 2 * Math.PI); ctx.fill();
+    ctx.fillText('ICZV (v = 0)', icX + 10, icY + 4);
+
+    document.getElementById('icInsightBox').innerHTML =
+      `<strong>Sliding Ladder Geometry:</strong> With floor angle <em>&theta; = ${phiDeg}&deg;</em>, horizontal distance <em>r<sub>A/IC</sub> = L cos &theta; = ${rAIC.toFixed(2)} ft</em> and vertical distance <em>r<sub>B/IC</sub> = L sin &theta; = ${rBIC.toFixed(2)} ft</em>.`;
+
+    document.getElementById('icReadout').innerHTML = `
+      <div><span style="color:#94a3b8;">Angular Speed ω:</span> <strong>${omega.toFixed(2)} rad/s (CCW)</strong></div>
+      <div><span style="color:#c4b5fd;">r_(A/IC) / r_(B/IC):</span> <strong>${rAIC.toFixed(2)} / ${rBIC.toFixed(2)} ft</strong></div>
+      <div><span style="color:#93c5fd;">Wall Speed v_A:</span> <strong>${vA.toFixed(2)} ft/s (↓)</strong></div>
+      <div><span style="color:#6ee7b7;">Floor Speed v_B:</span> <strong>${vB.toFixed(2)} ft/s (→)</strong></div>
+    `;
+  } else if (icMode === 'wheel') {
+    const R = p1;
+    const vG = p2;
+    const thetaDeg = Math.round(p3);
+    const theta = p3 * Math.PI / 180;
+    const omega = vG / R;
+
+    document.getElementById('lblParam1Val').textContent = R.toFixed(2) + ' m';
+    document.getElementById('lblParam2Val').textContent = vG.toFixed(2) + ' m/s';
+    document.getElementById('lblParam3Val').textContent = thetaDeg + '°';
+
+    const groundY = 290;
+    const pxRadius = 55 + R * 75;
+    const cx = 165 + wheelXOffset;
+    const cy = groundY - pxRadius;
+
+    ctx.strokeStyle = '#0f172a';
+    ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(30, groundY); ctx.lineTo(540, groundY); ctx.stroke();
+
+    ctx.fillStyle = 'rgba(238, 242, 255, 0.85)';
+    ctx.strokeStyle = '#1e1b4b';
+    ctx.lineWidth = 2.6;
+    ctx.beginPath(); ctx.arc(cx, cy, pxRadius, 0, 2 * Math.PI); ctx.fill(); ctx.stroke();
+
+    ctx.strokeStyle = '#cbd5e1';
+    ctx.lineWidth = 1.4;
+    for (let s = 0; s < 4; s++) {
+      const ang = theta + s * Math.PI / 2;
+      ctx.beginPath();
+      ctx.moveTo(cx - pxRadius * Math.sin(ang), cy + pxRadius * Math.cos(ang));
+      ctx.lineTo(cx + pxRadius * Math.sin(ang), cy - pxRadius * Math.cos(ang));
+      ctx.stroke();
+    }
+
+    const icX = cx, icY = groundY;
+    const pX = cx + pxRadius * Math.sin(theta);
+    const pY = cy - pxRadius * Math.cos(theta);
+
+    ctx.save();
+    ctx.strokeStyle = '#4338ca';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath(); ctx.moveTo(icX, icY); ctx.lineTo(pX, pY); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(icX, icY); ctx.lineTo(cx, cy); ctx.stroke();
+    ctx.restore();
+
+    const rPIC = 2 * R * Math.cos(theta / 2);
+    const vP = omega * Math.abs(rPIC);
+    const vScale = 22;
+    drawVec(ctx, cx, cy, cx + vG * vScale, cy, '#2563eb', `vG = ${vG.toFixed(2)} m/s`, 8, -6);
+
+    const rx = pX - icX, ry = pY - icY;
+    const rLen = Math.hypot(rx, ry);
+    if (rLen > 2) {
+      const ux = -ry / rLen, uy = rx / rLen;
+      drawVec(ctx, pX, pY, pX + ux * vP * vScale, pY + uy * vP * vScale, '#059669', `vP = ${vP.toFixed(2)} m/s`, 8, -6);
+    }
+
+    ctx.fillStyle = '#dc2626';
+    ctx.beginPath(); ctx.arc(icX, icY, 5.5, 0, 2 * Math.PI); ctx.fill();
+    ctx.font = 'bold 12px "Computer Modern Serif", Georgia, serif';
+    ctx.fillText('IC (v = 0)', icX - 24, icY + 22);
+
+    ctx.fillStyle = '#059669';
+    ctx.beginPath(); ctx.arc(pX, pY, 4.5, 0, 2 * Math.PI); ctx.fill();
+    ctx.fillText('P', pX - 14, pY - 6);
+
+    document.getElementById('icInsightBox').innerHTML =
+      `<strong>No-Slip Rolling Wheel:</strong> Ground contact point has <strong>v</strong><sub>IC</sub> = <strong>0</strong>, so <em>&omega; = v<sub>G</sub> / R</em> and any rim point moves perpendicular to chord <em>IC&ndash;P</em>.`;
+
+    document.getElementById('icReadout').innerHTML = `
+      <div><span style="color:#94a3b8;">Angular Speed ω:</span> <strong>${omega.toFixed(2)} rad/s (CW)</strong></div>
+      <div><span style="color:#c4b5fd;">Chord r_(P/IC):</span> <strong>${Math.abs(rPIC).toFixed(3)} m</strong></div>
+      <div><span style="color:#93c5fd;">Center v_G:</span> <strong>${vG.toFixed(2)} m/s</strong></div>
+      <div><span style="color:#6ee7b7;">Rim Speed v_P:</span> <strong>${vP.toFixed(2)} m/s</strong></div>
+    `;
+  } else if (icMode === 'spool') {
+    const r_in = p1;
+    const r_ft = r_in / 12.0;
+    const wd = p2;
+    const phiDeg = Math.round(p3);
+    const phi = p3 * Math.PI / 180;
+
+    document.getElementById('lblParam1Val').textContent = r_in.toFixed(1) + ' in.';
+    document.getElementById('lblParam2Val').textContent = wd.toFixed(0) + ' rad/s';
+    document.getElementById('lblParam3Val').textContent = phiDeg + '°';
+
+    const pxR = 45 + r_in * 5;
+    const cx = 250;
+    const cy = 135 + spoolYOffset;
+    const ex = cx + pxR, ey = cy;
+
+    ctx.fillStyle = '#cbd5e1';
+    ctx.fillRect(ex - 35, 16, 70, 14);
+    ctx.strokeStyle = '#0f172a';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(ex - 35, 16, 70, 14);
+
+    ctx.strokeStyle = '#92400e';
+    ctx.lineWidth = 4;
+    ctx.beginPath(); ctx.moveTo(ex, 30); ctx.lineTo(ex, ey); ctx.stroke();
+
+    ctx.fillStyle = '#eef2ff';
+    ctx.strokeStyle = '#1e1b4b';
+    ctx.lineWidth = 2.6;
+    ctx.beginPath(); ctx.arc(cx, cy, pxR, 0, 2 * Math.PI); ctx.fill(); ctx.stroke();
+
+    ctx.strokeStyle = '#94a3b8';
+    ctx.lineWidth = 1.6;
+    for (let s = 0; s < 4; s++) {
+      const ang = -phi + s * Math.PI / 2;
+      ctx.beginPath();
+      ctx.moveTo(cx - pxR * Math.cos(ang), cy + pxR * Math.sin(ang));
+      ctx.lineTo(cx + pxR * Math.cos(ang), cy - pxR * Math.sin(ang));
+      ctx.stroke();
+    }
+
+    ctx.fillStyle = '#ffffff';
+    ctx.strokeStyle = '#1e1b4b';
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(cx, cy, 18, 0, 2 * Math.PI); ctx.fill(); ctx.stroke();
+
+    const ax = cx, ay = cy - pxR;
+    const bx = cx - pxR, by = cy;
+    const c_x = cx, c_y = cy + pxR;
+
+    const px = cx + pxR * Math.cos(phi);
+    const py = cy - pxR * Math.sin(phi);
+
+    ctx.save();
+    ctx.strokeStyle = '#4338ca';
+    ctx.lineWidth = 1.6;
+    ctx.setLineDash([5, 4]);
+    ctx.beginPath();
+    ctx.moveTo(ex, ey); ctx.lineTo(ax, ay);
+    ctx.moveTo(ex, ey); ctx.lineTo(bx, by);
+    ctx.moveTo(ex, ey); ctx.lineTo(px, py);
+    ctx.stroke();
+    ctx.restore();
+
+    const vO = wd * r_ft;
+    const vB = wd * (2 * r_ft);
+    const vAC = wd * (Math.SQRT2 * r_ft);
+
+    drawVec(ctx, cx, cy, cx, cy + 44, '#2563eb', `vO = ${vO.toFixed(1)} ft/s`, -85, 15);
+    drawVec(ctx, bx, by, bx, by + 76, '#059669', `vB = ${vB.toFixed(1)} ft/s`, -88, 12);
+    drawVec(ctx, ax, ay, ax - 36, ay + 36, '#d97706', `|vA| = ${vAC.toFixed(1)} ft/s`, -95, -6);
+
+    ctx.fillStyle = '#7c3aed';
+    ctx.beginPath(); ctx.arc(px, py, 5, 0, 2 * Math.PI); ctx.fill();
+
+    ctx.fillStyle = '#dc2626';
+    ctx.beginPath(); ctx.arc(ex, ey, 6, 0, 2 * Math.PI); ctx.fill();
+    ctx.font = 'bold 12px "Computer Modern Serif", Georgia, serif';
+    ctx.fillText('E = IC (v = 0)', ex + 10, ey + 4);
+    ctx.fillStyle = '#0f172a';
+    ctx.fillText('D (Fixed)', ex + 10, 44);
+    ctx.fillText('O', cx - 15, cy - 6);
+    ctx.fillText('A', ax - 5, ay - 10);
+    ctx.fillText('B', bx - 18, by - 6);
+    ctx.fillText('C', c_x - 16, c_y + 18);
+
+    document.getElementById('icInsightBox').innerHTML =
+      `<strong>Unwinding Disk on Stationary Rope:</strong> Because rope <em>DE</em> is attached to fixed support <em>D</em>, tangency point <em>E</em> has <strong>v</strong><sub>E</sub> = <strong>0</strong> (<em>IC</em>). Thus <em>r<sub>O/E</sub> = r</em>, <em>r<sub>B/E</sub> = 2r</em>, and <em>r<sub>A/E</sub> = r<sub>C/E</sub> = &radic;2 r</em>.`;
+
+    document.getElementById('icReadout').innerHTML = `
+      <div><span style="color:#94a3b8;">Center v_O:</span> <strong>-${vO.toFixed(2)} j ft/s</strong></div>
+      <div><span style="color:#6ee7b7;">Left Rim v_B:</span> <strong>-${vB.toFixed(2)} j ft/s</strong></div>
+      <div><span style="color:#fcd34d;">Top Rim v_A:</span> <strong>-${vO.toFixed(1)}i - ${vO.toFixed(1)}j ft/s</strong></div>
+      <div><span style="color:#c4b5fd;">Bottom Rim v_C:</span> <strong>+${vO.toFixed(1)}i - ${vO.toFixed(1)}j ft/s</strong></div>
+    `;
+  }
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', drawICCanvas);
+} else {
+  drawICCanvas();
+}
+</script>
+```
+
+---
+
+## 4. Comprehensive Worked Examples {#worked-examples}
+
+::: {.panel-tabset}
+
+## ⚙️ Example 1: Fixed-Axis Disk Rotation (Variable & Constant $\alpha$)
+
+:::: {.example-split}
+::: {}
+#### Problem 1A: Variable Angular Velocity
+
+The angular velocity of a disk of radius $r = 0.8\text{ m}$ is defined by $\omega(t) = (5t^2 + 2)\text{ rad/s}$, where $t$ is in seconds. Determine the magnitudes of the velocity and total acceleration of point $A$ on the outer edge of the disk when $t = 0.5\text{ s}$.
+:::
+
+::: {.svg-frame}
+```{=html}
+<svg class="tikz-svg" viewBox="0 0 260 190" width="100%" height="165" xmlns="http://www.w3.org/2000/svg">
+<circle cx="115" cy="95" r="68" fill="#ffedd5" stroke="#0f172a" stroke-width="2"/>
+<circle cx="115" cy="95" r="9" fill="#d6d3d1" stroke="#0f172a" stroke-width="1.5"/>
+<line x1="115" y1="95" x2="165" y2="49" stroke="#0f172a" stroke-width="2" marker-end="url(#arrK)"/>
+<circle cx="165" cy="49" r="4" fill="#0f172a"/>
+<text x="160" y="38" font-size="14" font-style="italic" font-weight="bold">A</text>
+<rect x="132" y="69" width="38" height="16" rx="2" fill="#ffedd5"/>
+<text x="151" y="81" font-size="12.5" font-weight="bold" text-anchor="middle">0.8 m</text>
+<path d="M 192 128 A 78 78 0 0 0 192 62" fill="none" stroke="#0284c7" stroke-width="2.2" marker-end="url(#arrB)"/>
+<text x="200" y="99" font-size="13" font-style="italic" font-weight="bold" fill="#0284c7">ω(t)</text>
+</svg>
+```
+:::
+::::
+
+1. **Evaluate $\omega$ and $\alpha = \dfrac{d\omega}{dt}$ at $t = 0.5\text{ s}$:**
+   $$\omega(0.5) = 5(0.5)^2 + 2 = \mathbf{3.25\text{ rad/s}}, \qquad \alpha(0.5) = \frac{d}{dt}(5t^2+2)\Big|_{t=0.5} = 10(0.5) = \mathbf{5.00\text{ rad/s}^2}$$
+2. **Linear Speed and Orthogonal Acceleration Components:**
+   $$v_A = \omega r = (3.25)(0.8) = \mathbf{2.60\text{ m/s}}$$
+   $$a_t = \alpha r = (5.00)(0.8) = 4.00\text{ m/s}^2, \qquad a_n = \omega^2 r = (3.25)^2(0.8) = 8.45\text{ m/s}^2$$
+   $$a_A = \sqrt{a_t^2 + a_n^2} = \sqrt{(4.00)^2 + (8.45)^2} = \mathbf{9.35\text{ m/s}^2}$$
+
+---
+
+:::: {.example-split}
+::: {}
+#### Problem 1B: Constant Angular Acceleration (Points $A$ & $B$)
+
+A disk is originally rotating at $\omega_0 = 8\text{ rad/s}$ and is subjected to a constant angular acceleration $\alpha = 6\text{ rad/s}^2$:
+
+* **Part (i):** Find the velocity and normal/tangential acceleration components of outer point $A$ ($r_A = 2\text{ ft}$) at $t = 0.5\text{ s}$.
+* **Part (ii):** Find the velocity and acceleration components of inner point $B$ ($r_B = 1.5\text{ ft}$) just after the wheel undergoes 2 complete revolutions ($\Delta\theta = 4\pi\text{ rad}$).
+:::
+
+::: {.svg-frame}
+```{=html}
+<svg class="tikz-svg" viewBox="0 0 280 200" width="100%" height="175" xmlns="http://www.w3.org/2000/svg">
+<circle cx="122" cy="108" r="68" fill="#ccfbf1" stroke="#0f172a" stroke-width="2"/>
+<polygon points="110,128 122,108 134,128" fill="#dbeafe" stroke="#0f172a" stroke-width="1.5"/>
+<rect x="94" y="128" width="56" height="8" fill="#dbeafe" stroke="#0f172a" stroke-width="1.5"/>
+<line x1="82" y1="136" x2="162" y2="136" stroke="#0f172a" stroke-width="2"/>
+<line x1="122" y1="108" x2="190" y2="108" stroke="#0f172a" stroke-width="2" marker-end="url(#arrK)"/>
+<circle cx="190" cy="108" r="4" fill="#0f172a"/>
+<text x="198" y="112" font-size="13" font-style="italic" font-weight="bold">A</text>
+<rect x="143" y="90" width="28" height="14" rx="2" fill="#ccfbf1"/>
+<text x="157" y="101" font-size="11.5" font-weight="bold" text-anchor="middle">2 ft</text>
+<line x1="122" y1="108" x2="86" y2="72" stroke="#0f172a" stroke-width="2" marker-end="url(#arrK)"/>
+<circle cx="86" cy="72" r="4" fill="#0f172a"/>
+<text x="74" y="67" font-size="13" font-style="italic" font-weight="bold">B</text>
+<rect x="68" y="86" width="34" height="15" rx="2" fill="#ccfbf1"/>
+<text x="85" y="97" font-size="11.5" font-weight="bold" text-anchor="middle">1.5 ft</text>
+<path d="M 140 31 A 78 78 0 0 1 186 62" fill="none" stroke="#0284c7" stroke-width="2.2" marker-end="url(#arrB)"/>
+<text x="176" y="27" font-size="12" font-style="italic" font-weight="bold" fill="#0f172a">ω<tspan dy="3" font-size="8.5" font-style="normal">0</tspan><tspan dy="-3" font-style="normal"> = 8 rad/s</tspan></text>
+</svg>
+```
+:::
+::::
+
+* **Part (i) Point $A$ at $t = 0.5\text{ s}$:**
+  $$\begin{aligned}
+  \omega &= \omega_0 + \alpha t = 8 + 6(0.5) = \mathbf{11.0\text{ rad/s}} \\
+  v_A &= \omega r_A = (11)(2) = \mathbf{22.0\text{ ft/s}} \\
+  (a_A)_t &= \alpha r_A = (6)(2) = \mathbf{12.0\text{ ft/s}^2}, \qquad (a_A)_n = \omega^2 r_A = (11)^2(2) = \mathbf{242\text{ ft/s}^2}
+  \end{aligned}$$
+
+* **Part (ii) Point $B$ after $\Delta\theta = 2\text{ rev} = 4\pi\text{ rad}$:**
+  $$\begin{aligned}
+  \omega^2 &= \omega_0^2 + 2\alpha\Delta\theta = 8^2 + 2(6)(4\pi) = 214.80 \implies \omega = \mathbf{14.66\text{ rad/s}} \\
+  v_B &= \omega r_B = (14.66)(1.5) = \mathbf{22.0\text{ ft/s}} \\
+  (a_B)_t &= \alpha r_B = \mathbf{9.00\text{ ft/s}^2}, \qquad (a_B)_n = \omega^2 r_B = \mathbf{322\text{ ft/s}^2}
+  \end{aligned}$$
+
+## 🪜 Example 2: The Sliding Ladder (ICZV vs. Vector Algebra)
+
+:::: {.example-split}
+::: {}
+#### Problem Statement
+
+A $L = 10\text{ ft}$ ladder rests against a vertical wall. The top of the ladder (Point $A$) slides straight down the wall at a constant velocity of $v_A = 3\text{ ft/s}$. At the instant shown, the ladder makes a $\theta = 60^\circ$ angle with the horizontal floor. Determine the velocity $v_B$ of the bottom of the ladder and the angular velocity $\omega$ using both methods.
+:::
+
+::: {.svg-frame}
+```{=html}
+<svg class="tikz-svg" viewBox="0 0 280 210" width="100%" height="180" xmlns="http://www.w3.org/2000/svg">
+<polyline points="55,20 55,175 245,175" fill="none" stroke="#0f172a" stroke-width="2.5"/>
+<line x1="55" y1="45" x2="145" y2="45" stroke="#64748b" stroke-width="1.6" stroke-dasharray="5 4"/>
+<line x1="145" y1="175" x2="145" y2="45" stroke="#64748b" stroke-width="1.6" stroke-dasharray="5 4"/>
+<line x1="55" y1="45" x2="145" y2="175" stroke="#92400e" stroke-width="5" stroke-linecap="round"/>
+<line x1="55" y1="45" x2="55" y2="95" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrB)"/>
+<line x1="145" y1="175" x2="205" y2="175" stroke="#dc2626" stroke-width="2.5" marker-end="url(#arrR)"/>
+<circle cx="55" cy="45" r="4" fill="#0f172a"/>
+<circle cx="145" cy="175" r="4" fill="#0f172a"/>
+<circle cx="145" cy="45" r="4.5" fill="#dc2626"/>
+<text x="42" y="48" font-size="13" font-style="italic" font-weight="bold">A</text>
+<text x="145" y="193" font-size="13" font-style="italic" font-weight="bold">B</text>
+<text x="153" y="42" font-size="12" font-weight="bold" fill="#dc2626">ICZV</text>
+<text x="62" y="92" font-size="11.5" font-style="italic" font-weight="bold" fill="#2563eb">v<tspan dy="3" font-size="8.5" font-style="normal">A</tspan><tspan dy="-3" font-style="normal"> = 3 ft/s</tspan></text>
+<text x="185" y="166" font-size="12" font-style="italic" font-weight="bold" fill="#dc2626">v<tspan dy="3" font-size="8.5" font-style="normal">B</tspan></text>
+<text x="115" y="168" font-size="12" font-weight="bold">60°</text>
+<text x="100" y="36" font-size="11.5" font-style="italic" font-weight="bold" text-anchor="middle">r<tspan dy="3" font-size="8.5" font-style="normal">A/IC</tspan></text>
+<text x="154" y="115" font-size="11.5" font-style="italic" font-weight="bold">r<tspan dy="3" font-size="8.5" font-style="normal">B/IC</tspan></text>
+</svg>
+```
+:::
+::::
+
+#### Method A: Instantaneous Center (Geometric)
+1. **Locate $ICZV$:** Draw a horizontal line $\perp$ to $\mathbf{v}_A$ from $A$ and a vertical line $\perp$ to $\mathbf{v}_B$ from $B$.
+2. **Radial Distances from $ICZV$:**
+   $$r_{A/IC} = 10\cos(60^\circ) = 5.00\text{ ft}, \qquad r_{B/IC} = 10\sin(60^\circ) = 8.66\text{ ft}$$
+3. **Solve for $\omega$ and $v_B$:**
+   $$\omega = \frac{v_A}{r_{A/IC}} = \frac{3\text{ ft/s}}{5.00\text{ ft}} = \mathbf{0.60\text{ rad/s}\ (\text{CCW})}, \qquad v_B = \omega r_{B/IC} = (0.60)(8.66) = \mathbf{5.20\text{ ft/s}\ (\rightarrow)}$$
+
+#### Method B: Relative Velocity Equation (Vector Algebra)
+1. **Express Vectors:** $\mathbf{v}_A = -3\hat{\mathbf{j}}\text{ ft/s}$, $\mathbf{v}_B = v_B\hat{\mathbf{i}}$, $\boldsymbol{\omega} = \omega\hat{\mathbf{k}}$, and $\mathbf{r}_{B/A} = 5\hat{\mathbf{i}} - 8.66\hat{\mathbf{j}}\text{ ft}$.
+2. **Substitute into $\mathbf{v}_B = \mathbf{v}_A + \boldsymbol{\omega} \times \mathbf{r}_{B/A}$:**
+   $$v_B\hat{\mathbf{i}} = -3\hat{\mathbf{j}} + (\omega\hat{\mathbf{k}}) \times (5\hat{\mathbf{i}} - 8.66\hat{\mathbf{j}}) = 8.66\omega\hat{\mathbf{i}} + (5\omega - 3)\hat{\mathbf{j}}$$
+3. **Equate Components:** $5\omega - 3 = 0 \implies \mathbf{\omega = 0.60\text{ rad/s}}$ and $v_B = 8.66(0.60) = \mathbf{5.20\text{ ft/s}}$.
+
+## 🚗 Example 3: Horizontal Slider-Crank Piston Mechanism
+
+:::: {.example-split}
+::: {}
+#### Problem Statement
+
+In an internal combustion engine, crank $OA$ of length $r = 0.15\text{ m}$ rotates counter-clockwise at $\omega_{OA} = 10\text{ rad/s}$ at the instant $\theta = 45^\circ$. Connecting rod $AB$ has length $L = 0.45\text{ m}$, and piston $B$ is constrained to move horizontally along the $x$-axis. Determine the angular velocity $\omega_{AB}$ of the connecting rod and the horizontal velocity $v_B$ of the piston.
+:::
+
+::: {.svg-frame}
+```{=html}
+<svg class="tikz-svg" viewBox="0 0 300 200" width="100%" height="175" xmlns="http://www.w3.org/2000/svg">
+<line x1="25" y1="155" x2="280" y2="155" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="6 4"/>
+<line x1="50" y1="155" x2="215" y2="25" stroke="#4338ca" stroke-width="1.5" stroke-dasharray="5 4"/>
+<line x1="215" y1="155" x2="215" y2="25" stroke="#4338ca" stroke-width="1.5" stroke-dasharray="5 4"/>
+<rect x="193" y="141" width="44" height="28" fill="#dbeafe" stroke="#1e3a8a" stroke-width="2"/>
+<line x1="50" y1="155" x2="95" y2="119" stroke="#312e81" stroke-width="5" stroke-linecap="round"/>
+<line x1="95" y1="119" x2="215" y2="155" stroke="#1e1b4b" stroke-width="4.5" stroke-linecap="round"/>
+<circle cx="50" cy="155" r="4" fill="#0f172a"/>
+<circle cx="95" cy="119" r="4" fill="#2563eb"/>
+<circle cx="215" cy="155" r="4" fill="#059669"/>
+<circle cx="215" cy="25" r="5" fill="#dc2626"/>
+<text x="42" y="172" font-size="12" font-weight="bold">O</text>
+<text x="82" y="112" font-size="12" font-weight="bold" fill="#2563eb">A</text>
+<text x="212" y="184" font-size="12" font-weight="bold" fill="#059669">B (Piston)</text>
+<text x="155" y="24" font-size="12" font-weight="bold" fill="#dc2626">IC (Rod AB)</text>
+<text x="72" y="150" font-size="11" font-weight="bold">45°</text>
+</svg>
+```
+:::
+::::
+
+1. **Crank Pin Velocity at $A$:**
+   $$v_A = \omega_{OA} r = (10\text{ rad/s})(0.15\text{ m}) = \mathbf{1.50\text{ m/s}} \quad (\perp \text{to crank } OA)$$
+2. **Connecting Rod Angle $\beta$ (Law of Sines):**
+   $$\sin\beta = \frac{r\sin(45^\circ)}{L} = \frac{0.15(0.7071)}{0.45} = 0.2357 \implies \beta = 13.63^\circ, \quad \cos\beta = 0.9718$$
+3. **Locate $IC$ of Connecting Rod $AB$:**
+   * The line $\perp$ to $\mathbf{v}_A$ is the extension of crank $OA$ (at $45^\circ$).
+   * The line $\perp$ to horizontal piston velocity $\mathbf{v}_B$ is a vertical line passing through $B$ at horizontal coordinate $x_B = r\cos(45^\circ) + L\cos\beta = 0.1061 + 0.4373 = 0.5434\text{ m}$.
+   * Because the $OA$ line has slope $\tan(45^\circ) = 1$, the vertical coordinate of $IC$ is $y_{IC} = x_B \tan(45^\circ) = 0.5434\text{ m}$.
+4. **Distances from $IC$ and Final Velocities:**
+   $$r_{B/IC} = y_{IC} = 0.5434\text{ m}, \qquad r_{A/IC} = \sqrt{(0.5434 - 0.1061)^2 + (0.5434 - 0.1061)^2} = 0.6184\text{ m}$$
+   $$\omega_{AB} = \frac{v_A}{r_{A/IC}} = \frac{1.50}{0.6184} = \mathbf{2.43\text{ rad/s}\ (\text{CW})}, \qquad v_B = \omega_{AB} r_{B/IC} = (2.425)(0.5434) = \mathbf{1.32\text{ m/s}\ (\leftarrow)}$$
+
+:::
+
+---
+
+## 5. Student Group Challenge & Interactive Answer Verifier {#student-challenges}
+
+Work through the three planar kinematics challenge problems below. Each card includes its dedicated schematic right above the problem statement. Enter your numerical answers into the verification boxes to check your work, or expand the **Step-by-Step Vector & ICZV Solution** dropdowns after your group finishes.
+
+:::: {.kin-grid}
+
+::: {.kin-card}
+```{=html}
+<div class="kin-card-header">
+<span>CHALLENGE 1: THE UNWINDING DISK</span>
+<span style="color: #93c5fd;">No-Slip Cord Tangency</span>
+</div>
+<div class="kin-svg-box">
+<svg class="tikz-svg" viewBox="0 0 320 210" width="100%" height="180" xmlns="http://www.w3.org/2000/svg">
+<rect x="195" y="12" width="40" height="10" fill="#cbd5e1" stroke="#0f172a" stroke-width="1.5"/>
+<line x1="215" y1="22" x2="215" y2="115" stroke="#92400e" stroke-width="3.5"/>
+<circle cx="150" cy="115" r="65" fill="#eef2ff" stroke="#1e1b4b" stroke-width="2.2"/>
+<circle cx="150" cy="115" r="20" fill="#ffffff" stroke="#1e1b4b" stroke-width="1.5"/>
+<circle cx="150" cy="115" r="3.5" fill="#0f172a"/>
+<circle cx="150" cy="50" r="4" fill="#2563eb"/>
+<circle cx="85" cy="115" r="4" fill="#059669"/>
+<circle cx="150" cy="180" r="4" fill="#d97706"/>
+<circle cx="215" cy="115" r="5" fill="#dc2626"/>
+<text x="136" y="120" font-size="12" font-weight="bold">O</text>
+<text x="150" y="42" font-size="12" font-weight="bold" text-anchor="middle">A</text>
+<text x="72" y="119" font-size="12" font-weight="bold">B</text>
+<text x="150" y="196" font-size="12" font-weight="bold" text-anchor="middle">C</text>
+<text x="225" y="119" font-size="12" font-weight="bold" fill="#dc2626">E (IC)</text>
+<text x="223" y="34" font-size="12" font-weight="bold">D</text>
+<path d="M 185 155 A 45 45 0 0 0 195 95" fill="none" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrP)"/>
+<text x="222" y="155" font-size="12" font-style="italic" font-weight="bold" fill="#7c3aed">ω<tspan dy="3" font-size="8.5" font-style="normal">d</tspan><tspan dy="-3" font-style="normal"> = 20 rad/s</tspan></text>
+</svg>
+</div>
+```
+::: {.kin-card-body}
+**Problem 1:** A disk of radius $r = 6\text{ in.}$ ($0.5\text{ ft}$) unwinds from an inextensible vertical rope fixed at $D$ with angular speed $\omega_d = 20\text{ rad/s}$ (CCW). Determine the speeds (in $\text{ft/s}$) of points $B$ (left rim) and $A$ (top rim).
+
+```{=html}
+<div style="margin-top: 10px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+<input type="number" id="ansP1B" placeholder="Speed |v_B| (ft/s)" step="0.1" style="padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px; width: 135px; font-size: 0.85rem;">
+<input type="number" id="ansP1A" placeholder="Speed |v_A| (ft/s)" step="0.1" style="padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px; width: 135px; font-size: 0.85rem;">
+<button type="button" onclick="checkP1()" style="background: #1e1b4b; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">Check</button>
+<span id="resP1" style="font-size: 0.82rem; font-weight: 700;"></span>
+</div>
+<details style="margin-top: 10px; font-size: 0.86rem;">
+<summary style="cursor: pointer; font-weight: 700; color: #4338ca;">Show Symbolic &amp; Numerical Solution</summary>
+<div style="padding-top: 8px; color: #334155;">
+Because rope <em>DE</em> is stationary, tangency point <em>E</em> is the <em>ICZV</em> (<strong>v</strong><sub>E</sub> = <strong>0</strong>):<br>
+&bull; <strong>Center O:</strong> <strong>v</strong><sub>O</sub> = &minus;&omega;<sub>d</sub>r <strong>j</strong> = &minus;(20)(0.5)<strong>j</strong> = <strong>&minus;10 ft/s j</strong><br>
+&bull; <strong>Point B:</strong> Distance from <em>E</em> is 2<em>r</em> &rarr; <strong>v</strong><sub>B</sub> = &minus;2&omega;<sub>d</sub>r <strong>j</strong> = <strong>&minus;20.0 ft/s j</strong> (|v<sub>B</sub>| = 20 ft/s)<br>
+&bull; <strong>Point A:</strong> <strong>r</strong><sub>A/E</sub> = &minus;r<strong>i</strong> + r<strong>j</strong> &rarr; <strong>v</strong><sub>A</sub> = &minus;&omega;<sub>d</sub>r <strong>i</strong> &minus; &omega;<sub>d</sub>r <strong>j</strong> = &minus;10<strong>i</strong> &minus; 10<strong>j</strong> ft/s (|v<sub>A</sub>| = 10&radic;2 = <strong>14.14 ft/s</strong>)<br>
+&bull; <strong>Point C:</strong> <strong>v</strong><sub>C</sub> = +10<strong>i</strong> &minus; 10<strong>j</strong> ft/s (|v<sub>C</sub>| = <strong>14.14 ft/s</strong>)
+</div>
+</details>
+```
+:::
+:::
+
+::: {.kin-card}
+```{=html}
+<div class="kin-card-header">
+<span>CHALLENGE 2: THE RUSTY GATE</span>
+<span style="color: #6ee7b7;">Sliding Contact Constraint</span>
+</div>
+<div class="kin-svg-box">
+<svg class="tikz-svg" viewBox="0 0 320 210" width="100%" height="180" xmlns="http://www.w3.org/2000/svg">
+<rect x="25" y="135" width="28" height="24" fill="#dbeafe" stroke="#1e3a8a" stroke-width="1.8"/>
+<line x1="39" y1="147" x2="290" y2="147" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5 4"/>
+<line x1="39" y1="147" x2="275" y2="62" stroke="#1e1b4b" stroke-width="7" stroke-linecap="round"/>
+<circle cx="39" cy="147" r="4" fill="#0f172a"/>
+<circle cx="215" cy="84" r="4.5" fill="#dc2626"/>
+<line x1="215" y1="30" x2="215" y2="74" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#arrP)"/>
+<line x1="215" y1="84" x2="215" y2="147" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="4 3"/>
+<text x="25" y="175" font-size="12" font-weight="bold">Pin O</text>
+<text x="195" y="76" font-size="12" font-weight="bold" fill="#dc2626">A</text>
+<text x="223" y="52" font-size="12" font-style="italic" font-weight="bold" fill="#7c3aed">v<tspan dy="3" font-size="8.5" font-style="normal">A</tspan><tspan dy="-3" font-style="normal"> = 1.2 m/s (↓)</tspan></text>
+<text x="115" y="140" font-size="12" font-style="italic" font-weight="bold">θ<tspan font-style="normal"> = 15°</tspan></text>
+<text x="125" y="168" font-size="12" font-style="italic" font-weight="bold">w<tspan font-style="normal"> = 24 m</tspan></text>
+</svg>
+</div>
+```
+::: {.kin-card-body}
+**Problem 2:** A heavy gate hinged at $O$ is pushed closed by car bumper $A$ at a constant horizontal distance $w = 24\text{ m}$ from $O$. If the car moves straight downward ($\downarrow$) at $v_A = 1.2\text{ m/s}$, find the angular speed $\omega$ ($\text{rad/s}$) of the gate when $\theta = 15^\circ$.
+
+```{=html}
+<div style="margin-top: 10px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+<input type="number" id="ansP2" placeholder="ω_gate (rad/s)" step="0.001" style="padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px; width: 155px; font-size: 0.85rem;">
+<button type="button" onclick="checkP2()" style="background: #1e1b4b; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">Check</button>
+<span id="resP2" style="font-size: 0.82rem; font-weight: 700;"></span>
+</div>
+<details style="margin-top: 10px; font-size: 0.86rem;">
+<summary style="cursor: pointer; font-weight: 700; color: #4338ca;">Show Geometric &amp; Calculus Solution</summary>
+<div style="padding-top: 8px; color: #334155;">
+The car contact point stays at constant horizontal distance <em>w = 24 m</em>, so its vertical position is <em>y<sub>A</sub> = w tan &theta;</em>.<br>
+Differentiating with respect to time:<br>
+<em>&dot;y<sub>A</sub> = w sec<sup>2</sup>(&theta;) &middot; &dot;&theta; &implies; &omega; = (v<sub>A</sub> cos<sup>2</sup>&theta;) / w</em><br>
+At <em>&theta; = 15&deg;</em>: <em>&omega; = 1.2 &times; cos<sup>2</sup>(15&deg;) / 24 = (1.2 &times; 0.9330) / 24 = <strong>0.0467 rad/s (CW)</strong></em>.
+</div>
+</details>
+```
+:::
+:::
+
+::: {.kin-card}
+```{=html}
+<div class="kin-card-header">
+<span>CHALLENGE 3: WHEEL &amp; SLIDER BAR</span>
+<span style="color: #fcd34d;">Orthogonal ICZV</span>
+</div>
+<div class="kin-svg-box">
+<svg class="tikz-svg" viewBox="0 0 320 210" width="100%" height="180" xmlns="http://www.w3.org/2000/svg">
+<line x1="25" y1="180" x2="295" y2="180" stroke="#0f172a" stroke-width="2.5"/>
+<rect x="45" y="20" width="14" height="140" fill="#e2e8f0" stroke="#0f172a" stroke-width="1.5"/>
+<rect x="40" y="42" width="24" height="28" fill="#93c5fd" stroke="#1e3a8a" stroke-width="1.8"/>
+<circle cx="220" cy="145" r="35" fill="#eef2ff" stroke="#1e1b4b" stroke-width="2.2"/>
+<line x1="52" y1="56" x2="220" y2="145" stroke="#1e1b4b" stroke-width="5" stroke-linecap="round"/>
+<circle cx="52" cy="56" r="4" fill="#2563eb"/>
+<circle cx="220" cy="145" r="4" fill="#059669"/>
+<line x1="220" y1="145" x2="275" y2="145" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrB)"/>
+<text x="24" y="60" font-size="12" font-weight="bold">A</text>
+<text x="208" y="165" font-size="12" font-weight="bold">B</text>
+<text x="232" y="135" font-size="11.5" font-style="italic" font-weight="bold" fill="#2563eb">v<tspan dy="3" font-size="8.5" font-style="normal">B</tspan><tspan dy="-3" font-style="normal"> = 7 ft/s</tspan></text>
+<text x="150" y="140" font-size="11.5" font-style="italic" font-weight="bold">θ<tspan font-style="normal"> = 72°</tspan></text>
+<text x="135" y="88" font-size="12" font-style="italic" font-weight="bold">L<tspan font-style="normal"> = 40 in.</tspan></text>
+</svg>
+</div>
+```
+::: {.kin-card-body}
+**Problem 3:** A wheel ($R = 14\text{ in.}$) rolls right with center speed $v_B = 7\text{ ft/s}$ ($84\text{ in./s}$). Bar $AB$ ($L = 40\text{ in.}$) connects center $B$ to vertical slider $A$. When $\theta = 72^\circ$, find $\omega_{AB}$ ($\text{rad/s}$) and slider speed $v_A$ ($\text{ft/s}$).
+
+```{=html}
+<div style="margin-top: 10px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+<input type="number" id="ansP3W" placeholder="ω_AB (rad/s)" step="0.01" style="padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px; width: 130px; font-size: 0.85rem;">
+<input type="number" id="ansP3V" placeholder="Speed |v_A| (ft/s)" step="0.1" style="padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px; width: 135px; font-size: 0.85rem;">
+<button type="button" onclick="checkP3()" style="background: #1e1b4b; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">Check</button>
+<span id="resP3" style="font-size: 0.82rem; font-weight: 700;"></span>
+</div>
+<details style="margin-top: 10px; font-size: 0.86rem;">
+<summary style="cursor: pointer; font-weight: 700; color: #4338ca;">Show ICZV &amp; Vector Solution</summary>
+<div style="padding-top: 8px; color: #334155;">
+Slider <em>A</em> moves vertically (&perp; ray is horizontal) and wheel center <em>B</em> moves horizontally (&perp; ray is vertical).<br>
+&bull; <em>r<sub>B/IC</sub> = L sin(72&deg;) = 40(0.9511) = 38.04 in. = 3.170 ft</em><br>
+&bull; <em>r<sub>A/IC</sub> = L cos(72&deg;) = 40(0.3090) = 12.36 in. = 1.030 ft</em><br>
+&bull; <em>&omega;<sub>AB</sub> = v<sub>B</sub> / r<sub>B/IC</sub> = 7 ft/s / 3.170 ft = <strong>2.21 rad/s (CCW)</strong></em><br>
+&bull; <em>v<sub>A</sub> = &omega;<sub>AB</sub> &middot; r<sub>A/IC</sub> = (2.208)(1.030) = <strong>2.27 ft/s (&darr;)</strong></em>
+</div>
+</details>
+```
+:::
+:::
+
+::::
+
+```{=html}
+<script>
+function checkP1() {
+  const vb = parseFloat(document.getElementById('ansP1B').value);
+  const va = parseFloat(document.getElementById('ansP1A').value);
+  const res = document.getElementById('resP1');
+  if (Math.abs(vb - 20) <= 0.3 && Math.abs(va - 14.14) <= 0.3) {
+    res.style.color = '#059669';
+    res.textContent = '✓ Correct! |v_B| = 20 ft/s, |v_A| = 14.14 ft/s';
+  } else {
+    res.style.color = '#dc2626';
+    res.textContent = '✗ Hint: E is ICZV! r_B/E = 2r (1 ft) and r_A/E = √2 r.';
+  }
+}
+function checkP2() {
+  const w = parseFloat(document.getElementById('ansP2').value);
+  const res = document.getElementById('resP2');
+  if (Math.abs(w - 0.0467) <= 0.003) {
+    res.style.color = '#059669';
+    res.textContent = '✓ Correct! ω = 0.0467 rad/s (CW)';
+  } else {
+    res.style.color = '#dc2626';
+    res.textContent = '✗ Hint: Use y_A = w tan(θ) → v_A = w sec²(θ) ω.';
+  }
+}
+function checkP3() {
+  const w = parseFloat(document.getElementById('ansP3W').value);
+  const va = parseFloat(document.getElementById('ansP3V').value);
+  const res = document.getElementById('resP3');
+  if (Math.abs(w - 2.21) <= 0.08 && Math.abs(va - 2.27) <= 0.08) {
+    res.style.color = '#059669';
+    res.textContent = '✓ Correct! ω_AB = 2.21 rad/s, v_A = 2.27 ft/s';
+  } else {
+    res.style.color = '#dc2626';
+    res.textContent = '✗ Hint: r_(B/IC) = L sin(72°) and r_(A/IC) = L cos(72°).';
+  }
+}
+</script>
+```
