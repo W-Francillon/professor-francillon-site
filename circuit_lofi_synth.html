@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Interactive Web Audio API synthesizer and live oscilloscope demonstrating 1st-order RC low-pass warmth filters and 2nd-order RLC resonant bandpass filters.">
+<meta name="description" content="Interactive Web Audio API synthesizer, live oscilloscope, and breadboardable LM386 hardware schematics demonstrating 1st-order RC low-pass warmth filters and 2nd-order RLC resonant bandpass filters.">
 
 <title>Neon Lo-Fi Circuit Café: Interactive RC &amp; RLC Audio Synthesizer | Dr.&nbsp;Wesley Francillon – Wesley Francillon, PhD</title>
 <style>
@@ -311,7 +311,7 @@ window.Quarto = {
 
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css">
+<link rel="stylesheet" href="[https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css](https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css)">
 
 <style>
   /* --- Neon Lo-Fi Studio Theme --- */
@@ -370,7 +370,6 @@ window.Quarto = {
     color: #94a3b8;
   }
 
-  /* Power & Transport Controls */
   .transport-row {
     display: flex;
     gap: 10px;
@@ -412,7 +411,6 @@ window.Quarto = {
     box-shadow: 0 0 20px rgba(236, 72, 153, 0.55);
   }
 
-  /* Visualizer Deck */
   .scope-grid {
     display: grid;
     grid-template-columns: 1.2fr 1fr;
@@ -450,7 +448,6 @@ window.Quarto = {
     background: #03050a;
   }
 
-  /* Interactive Chord Pads */
   .pad-bar {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -497,7 +494,6 @@ window.Quarto = {
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   }
 
-  /* Circuit Control Modules */
   .rack-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -607,20 +603,484 @@ window.Quarto = {
     background: rgba(99, 102, 241, 0.4);
     border-color: #818cf8;
   }
+</style>
 
-  /* --- LaTeX / Computer Modern Theory & Hardware Schematics --- */
+<div class="neon-studio-wrap">
+  <div class="neon-shell">
+
+    <!-- Header & Transport -->
+    <div class="neon-header">
+      <div>
+        <div class="neon-badge">Papillon Engineering • Analog Audio Lab</div>
+        <h1 class="neon-title">NEON LO-FI CIRCUIT CAFÉ</h1>
+        <p class="neon-sub">Synthesize relaxing coffee-shop soundscapes in real time using 1st-order RC warmth filters &amp; 2nd-order RLC rain tanks.</p>
+      </div>
+      <div class="transport-row">
+        <button type="button" id="btnPower" class="neon-btn" onclick="toggleAudioEngine()">▶ Play Lo-Fi Loop</button>
+        <button type="button" id="btnRain" class="neon-btn" onclick="toggleRain()">🌧️ Café Rain: OFF</button>
+      </div>
+    </div>
+
+    <!-- Live Oscilloscope & FFT Spectrum -->
+    <div class="scope-grid">
+      <div class="scope-card">
+        <div class="scope-label">
+          <span style="color:#38bdf8;">⚡ Time-Domain Oscilloscope v_out(t)</span>
+          <span id="scopeStatus" style="color:#64748b;">STANDBY</span>
+        </div>
+        <canvas id="cvScope" class="scope-canvas" width="600" height="165"></canvas>
+      </div>
+      <div class="scope-card">
+        <div class="scope-label">
+          <span style="color:#f472b6;">📊 Live Frequency Spectrum &amp; Cutoff f_c</span>
+          <span id="fcBadge" style="color:#38bdf8;">f_c = 1.59 kHz</span>
+        </div>
+        <canvas id="cvFFT" class="scope-canvas" width="500" height="165"></canvas>
+      </div>
+    </div>
+
+    <!-- Interactive Jazz Chord Pads -->
+    <div class="pad-bar">
+      <div class="chord-pad" id="pad0" onclick="triggerChordPad(0)">
+        <div class="pad-name">Fmaj7</div>
+        <div class="pad-notes">F3 • A3 • C4 • E4</div>
+      </div>
+      <div class="chord-pad" id="pad1" onclick="triggerChordPad(1)">
+        <div class="pad-name">Em7</div>
+        <div class="pad-notes">E3 • G3 • B3 • D4</div>
+      </div>
+      <div class="chord-pad" id="pad2" onclick="triggerChordPad(2)">
+        <div class="pad-name">Dm7</div>
+        <div class="pad-notes">D3 • F3 • A3 • C4</div>
+      </div>
+      <div class="chord-pad" id="pad3" onclick="triggerChordPad(3)">
+        <div class="pad-name">Cmaj7</div>
+        <div class="pad-notes">C3 • E3 • G3 • B3</div>
+      </div>
+    </div>
+
+    <!-- Dual Circuit Rack: RC Warmth + RLC Rain -->
+    <div class="rack-grid">
+
+      <!-- Module 1: 1st-Order RC Low-Pass Filter -->
+      <div class="rack-module rc-mod">
+        <div class="mod-header">
+          <h3 class="mod-title anchored">Stage 1: 1st-Order RC "Warmth" Filter</h3>
+          <span class="mod-eq" style="color:#38bdf8;">f_c = 1 / (2πRC)</span>
+        </div>
+
+        <div class="neon-slider-group">
+          <label><span>Resistance R:</span> <span id="lblRcR" style="color:#38bdf8;">10.0 kΩ</span></label>
+          <input type="range" class="rc-range" id="slRcR" min="1" max="100" step="0.5" value="10" oninput="updateCircuitParams()">
+        </div>
+
+        <div class="neon-slider-group">
+          <label><span>Capacitance C:</span> <span id="lblRcC" style="color:#38bdf8;">10 nF</span></label>
+          <input type="range" class="rc-range" id="slRcC" min="2" max="100" step="1" value="10" oninput="updateCircuitParams()">
+        </div>
+
+        <div class="neon-slider-group">
+          <label><span>Tempo (Op-Amp Clock):</span> <span id="lblBpm" style="color:#c084fc;">72 BPM</span></label>
+          <input type="range" class="rc-range" id="slBpm" min="52" max="96" step="2" value="72" oninput="updateCircuitParams()">
+        </div>
+
+        <div class="readout-pill-row">
+          <div class="readout-pill"><span style="color:#94a3b8;">Cutoff f_c:</span> <strong id="outFc" style="color:#38bdf8;">1.59 kHz</strong></div>
+          <div class="readout-pill"><span style="color:#94a3b8;">Time Const τ:</span> <strong id="outTau" style="color:#e2e8f0;">0.10 ms</strong></div>
+        </div>
+      </div>
+
+      <!-- Module 2: 2nd-Order Series RLC Rain & Ambiance Tank -->
+      <div class="rack-module rlc-mod">
+        <div class="mod-header">
+          <h3 class="mod-title anchored">Stage 2: 2nd-Order RLC Rain Sculptor</h3>
+          <span class="mod-eq" style="color:#f472b6;">f_0 = 1 / (2π√LC)</span>
+        </div>
+
+        <div class="neon-slider-group">
+          <label><span>Damping Resistance R (Controls Q):</span> <span id="lblRlcR" style="color:#f472b6;">450 Ω</span></label>
+          <input type="range" class="rlc-range" id="slRlcR" min="100" max="1500" step="25" value="450" oninput="updateCircuitParams()">
+        </div>
+
+        <div class="neon-slider-group">
+          <label><span>Inductance L:</span> <span id="lblRlcL" style="color:#f472b6;">100 mH</span></label>
+          <input type="range" class="rlc-range" id="slRlcL" min="10" max="250" step="5" value="100" oninput="updateCircuitParams()">
+        </div>
+
+        <div class="neon-slider-group">
+          <label><span>Capacitance C:</span> <span id="lblRlcC" style="color:#f472b6;">220 nF</span></label>
+          <input type="range" class="rlc-range" id="slRlcC" min="20" max="800" step="10" value="220" oninput="updateCircuitParams()">
+        </div>
+
+        <div class="readout-pill-row">
+          <div class="readout-pill"><span style="color:#94a3b8;">Resonance f_0:</span> <strong id="outF0" style="color:#f472b6;">1.07 kHz</strong></div>
+          <div class="readout-pill"><span style="color:#94a3b8;">Quality Factor Q:</span> <strong id="outQ" style="color:#fbbf24;">1.50</strong></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Quick Café Vibe Presets -->
+    <div class="preset-strip">
+      <span style="font-size:0.78rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.06em;">Café Presets:</span>
+      <button type="button" class="preset-chip" onclick="applyPreset('midnight')">🌙 Midnight Espresso (Deep Warmth)</button>
+      <button type="button" class="preset-chip" onclick="applyPreset('rainy')">☔ Rainy Window Study (Balanced)</button>
+      <button type="button" class="preset-chip" onclick="applyPreset('bright')">☀️ Morning Sun (Bright Synth)</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// --- Web Audio API Synthesizer Engine ---
+let audioCtx = null;
+let isPlaying = false;
+let rainEnabled = false;
+let loopTimer = null;
+let chordIdx = 0;
+
+let masterGain = null;
+let rcFilter = null;
+let rlcRainFilter = null;
+let rainGain = null;
+let analyser = null;
+let rainNode = null;
+
+// Relaxing Coffee-Shop Jazz Chords (Hz)
+const CHORDS = [
+  [174.61, 220.00, 261.63, 329.63], // Fmaj7
+  [164.81, 196.00, 246.94, 293.66], // Em7
+  [146.83, 174.61, 220.00, 261.63], // Dm7
+  [130.81, 164.81, 196.00, 246.94]  // Cmaj7
+];
+
+function initAudio() {
+  if (audioCtx) return;
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+  audioCtx = new AudioContextClass();
+
+  masterGain = audioCtx.createGain();
+  masterGain.gain.value = 0.45;
+
+  // Stage 1: 1st-Order RC Low-Pass Filter
+  rcFilter = audioCtx.createBiquadFilter();
+  rcFilter.type = 'lowpass';
+  rcFilter.Q.value = 0.707;
+
+  // Stage 2: 2nd-Order RLC Bandpass Filter for Café Rain
+  rlcRainFilter = audioCtx.createBiquadFilter();
+  rlcRainFilter.type = 'bandpass';
+
+  rainGain = audioCtx.createGain();
+  rainGain.gain.value = 0.0;
+
+  // Boosted Pink-ish Noise Buffer for Audible RLC Rain Sculpting
+  const bufferSize = 2 * audioCtx.sampleRate;
+  const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+  const output = noiseBuffer.getChannelData(0);
+  let b0 = 0, b1 = 0, b2 = 0;
+  for (let i = 0; i < bufferSize; i++) {
+    const white = Math.random() * 2 - 1;
+    b0 = 0.99765 * b0 + white * 0.0990460;
+    b1 = 0.96300 * b1 + white * 0.2965164;
+    b2 = 0.57000 * b2 + white * 1.0526913;
+    output[i] = (b0 + b1 + b2 + white * 0.1848) * 0.25;
+  }
+
+  rainNode = audioCtx.createBufferSource();
+  rainNode.buffer = noiseBuffer;
+  rainNode.loop = true;
+  rainNode.connect(rlcRainFilter);
+  rlcRainFilter.connect(rainGain);
+  rainGain.connect(masterGain);
+
+  // Analyser for Neon Scopes
+  analyser = audioCtx.createAnalyser();
+  analyser.fftSize = 1024;
+
+  rcFilter.connect(masterGain);
+  masterGain.connect(analyser);
+  analyser.connect(audioCtx.destination);
+
+  rainNode.start();
+  updateCircuitParams();
+  drawScopes();
+}
+
+function playChord(index, durationSec = 3.2) {
+  if (!audioCtx) initAudio();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+
+  for (let i = 0; i < 4; i++) {
+    document.getElementById('pad' + i).classList.toggle('active-chord', i === index);
+  }
+
+  const now = audioCtx.currentTime;
+  const notes = CHORDS[index];
+
+  notes.forEach((freq, idx) => {
+    const osc1 = audioCtx.createOscillator();
+    const osc2 = audioCtx.createOscillator();
+    const noteGain = audioCtx.createGain();
+
+    // Rich harmonic blend (sawtooth + triangle) so RC filter sweeps are immediately audible
+    osc1.type = 'sawtooth';
+    osc2.type = 'triangle';
+    osc1.frequency.setValueAtTime(freq, now);
+    osc2.frequency.setValueAtTime(freq * 1.003, now);
+
+    noteGain.gain.setValueAtTime(0.0001, now);
+    noteGain.gain.linearRampToValueAtTime(0.12 / notes.length * 2.0, now + 0.08 + idx * 0.03);
+    noteGain.gain.exponentialRampToValueAtTime(0.0008, now + durationSec);
+
+    osc1.connect(noteGain);
+    osc2.connect(noteGain);
+    noteGain.connect(rcFilter);
+
+    osc1.start(now + idx * 0.025);
+    osc2.start(now + idx * 0.025);
+    osc1.stop(now + durationSec + 0.05);
+    osc2.stop(now + durationSec + 0.05);
+  });
+}
+
+function triggerChordPad(index) {
+  playChord(index, 2.8);
+}
+
+function toggleAudioEngine() {
+  initAudio();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+
+  const btn = document.getElementById('btnPower');
+  const status = document.getElementById('scopeStatus');
+
+  if (!isPlaying) {
+    isPlaying = true;
+    btn.classList.add('power-on');
+    btn.textContent = '⏹ Stop Lo-Fi Loop';
+    status.textContent = 'LIVE AUDIO';
+    status.style.color = '#34d399';
+    scheduleLoop();
+  } else {
+    isPlaying = false;
+    clearTimeout(loopTimer);
+    btn.classList.remove('power-on');
+    btn.textContent = '▶ Play Lo-Fi Loop';
+    status.textContent = 'STANDBY';
+    status.style.color = '#64748b';
+    for (let i = 0; i < 4; i++) document.getElementById('pad' + i).classList.remove('active-chord');
+  }
+}
+
+function scheduleLoop() {
+  if (!isPlaying) return;
+  const bpm = parseFloat(document.getElementById('slBpm').value);
+  const barSec = (60 / bpm) * 4;
+  playChord(chordIdx, barSec * 1.05);
+  chordIdx = (chordIdx + 1) % CHORDS.length;
+  loopTimer = setTimeout(scheduleLoop, barSec * 1000);
+}
+
+function toggleRain() {
+  initAudio();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  rainEnabled = !rainEnabled;
+  const btn = document.getElementById('btnRain');
+  const now = audioCtx.currentTime;
+  if (rainEnabled) {
+    rainGain.gain.cancelScheduledValues(now);
+    rainGain.gain.linearRampToValueAtTime(0.35, now + 0.4);
+    btn.classList.add('rain-on');
+    btn.textContent = '🌧️ Café Rain: ON';
+  } else {
+    rainGain.gain.cancelScheduledValues(now);
+    rainGain.gain.linearRampToValueAtTime(0.0, now + 0.4);
+    btn.classList.remove('rain-on');
+    btn.textContent = '🌧️ Café Rain: OFF';
+  }
+}
+
+function fmtHz(f) {
+  return f >= 1000 ? (f / 1000).toFixed(2) + ' kHz' : f.toFixed(0) + ' Hz';
+}
+
+let currentFc = 1591;
+
+function updateCircuitParams() {
+  // Stage 1: RC
+  const R_k = parseFloat(document.getElementById('slRcR').value);
+  const C_nF = parseFloat(document.getElementById('slRcC').value);
+  const bpm = parseFloat(document.getElementById('slBpm').value);
+
+  const R = R_k * 1e3;
+  const C = C_nF * 1e-9;
+  const tau = R * C;
+  const fc = 1 / (2 * Math.PI * tau);
+  currentFc = fc;
+
+  document.getElementById('lblRcR').textContent = R_k.toFixed(1) + ' kΩ';
+  document.getElementById('lblRcC').textContent = C_nF + ' nF';
+  document.getElementById('lblBpm').textContent = bpm + ' BPM';
+  document.getElementById('outFc').textContent = fmtHz(fc);
+  document.getElementById('outTau').textContent = (tau * 1e3).toFixed(2) + ' ms';
+  document.getElementById('fcBadge').textContent = 'f_c = ' + fmtHz(fc);
+
+  // Stage 2: RLC
+  const R_rlc = parseFloat(document.getElementById('slRlcR').value);
+  const L_mH = parseFloat(document.getElementById('slRlcL').value);
+  const C_rlc_nF = parseFloat(document.getElementById('slRlcC').value);
+
+  const L = L_mH * 1e-3;
+  const C_rlc = C_rlc_nF * 1e-9;
+  const f0 = 1 / (2 * Math.PI * Math.sqrt(L * C_rlc));
+  const Q = (1 / R_rlc) * Math.sqrt(L / C_rlc);
+
+  document.getElementById('lblRlcR').textContent = R_rlc + ' Ω';
+  document.getElementById('lblRlcL').textContent = L_mH + ' mH';
+  document.getElementById('lblRlcC').textContent = C_rlc_nF + ' nF';
+  document.getElementById('outF0').textContent = fmtHz(f0);
+  document.getElementById('outQ').textContent = Q.toFixed(2);
+
+  if (audioCtx && rcFilter && rlcRainFilter) {
+    const now = audioCtx.currentTime;
+    rcFilter.frequency.setTargetAtTime(Math.max(120, Math.min(fc, 16000)), now, 0.04);
+    rlcRainFilter.frequency.setTargetAtTime(Math.max(150, Math.min(f0, 8000)), now, 0.05);
+    rlcRainFilter.Q.setTargetAtTime(Math.max(0.4, Math.min(Q, 12)), now, 0.05);
+  }
+}
+
+function applyPreset(name) {
+  if (name === 'midnight') {
+    document.getElementById('slRcR').value = 45;
+    document.getElementById('slRcC').value = 25;
+    document.getElementById('slBpm').value = 64;
+    document.getElementById('slRlcR').value = 650;
+    document.getElementById('slRlcL').value = 150;
+    document.getElementById('slRlcC').value = 350;
+  } else if (name === 'rainy') {
+    document.getElementById('slRcR').value = 18;
+    document.getElementById('slRcC').value = 15;
+    document.getElementById('slBpm').value = 72;
+    document.getElementById('slRlcR').value = 450;
+    document.getElementById('slRlcL').value = 100;
+    document.getElementById('slRlcC').value = 220;
+  } else {
+    document.getElementById('slRcR').value = 3.5;
+    document.getElementById('slRcC').value = 6;
+    document.getElementById('slBpm').value = 82;
+    document.getElementById('slRlcR').value = 300;
+    document.getElementById('slRlcL').value = 60;
+    document.getElementById('slRlcC').value = 120;
+  }
+  updateCircuitParams();
+}
+
+function drawScopes() {
+  requestAnimationFrame(drawScopes);
+  if (!analyser) return;
+
+  // 1. Time-Domain Oscilloscope
+  const cvS = document.getElementById('cvScope');
+  const ctxS = cvS.getContext('2d');
+  const bufLen = analyser.fftSize;
+  const timeData = new Uint8Array(bufLen);
+  analyser.getByteTimeDomainData(timeData);
+
+  ctxS.fillStyle = '#03050a';
+  ctxS.fillRect(0, 0, cvS.width, cvS.height);
+
+  ctxS.strokeStyle = 'rgba(56, 189, 248, 0.12)';
+  ctxS.lineWidth = 1;
+  ctxS.beginPath();
+  ctxS.moveTo(0, cvS.height / 2);
+  ctxS.lineTo(cvS.width, cvS.height / 2);
+  ctxS.stroke();
+
+  ctxS.lineWidth = 2.4;
+  ctxS.strokeStyle = '#38bdf8';
+  ctxS.shadowColor = '#38bdf8';
+  ctxS.shadowBlur = 10;
+  ctxS.beginPath();
+
+  const sliceW = cvS.width / bufLen;
+  let x = 0;
+  for (let i = 0; i < bufLen; i++) {
+    const v = timeData[i] / 128.0;
+    const y = (v * cvS.height) / 2;
+    if (i === 0) ctxS.moveTo(x, y);
+    else ctxS.lineTo(x, y);
+    x += sliceW;
+  }
+  ctxS.stroke();
+  ctxS.shadowBlur = 0;
+
+  // 2. Frequency-Domain FFT Spectrum
+  const cvF = document.getElementById('cvFFT');
+  const ctxF = cvF.getContext('2d');
+  const freqLen = analyser.frequencyBinCount;
+  const freqData = new Uint8Array(freqLen);
+  analyser.getByteFrequencyData(freqData);
+
+  ctxF.fillStyle = '#03050a';
+  ctxF.fillRect(0, 0, cvF.width, cvF.height);
+
+  const visibleBins = 110;
+  const barW = cvF.width / visibleBins;
+
+  for (let i = 0; i < visibleBins; i++) {
+    const h = (freqData[i] / 255) * (cvF.height - 16);
+    const grad = ctxF.createLinearGradient(0, cvF.height, 0, cvF.height - h);
+    grad.addColorStop(0, '#6366f1');
+    grad.addColorStop(0.6, '#c084fc');
+    grad.addColorStop(1, '#f472b6');
+    ctxF.fillStyle = grad;
+    ctxF.fillRect(i * barW, cvF.height - h, barW - 1.2, h);
+  }
+
+  // Glowing Vertical Cutoff f_c Line
+  const nyquist = audioCtx.sampleRate / 2;
+  const maxDispFreq = (visibleBins / freqLen) * nyquist;
+  const fcX = Math.min(cvF.width - 4, Math.max(4, (currentFc / maxDispFreq) * cvF.width));
+
+  ctxF.save();
+  ctxF.strokeStyle = '#38bdf8';
+  ctxF.lineWidth = 2;
+  ctxF.setLineDash([4, 4]);
+  ctxF.shadowColor = '#38bdf8';
+  ctxF.shadowBlur = 8;
+  ctxF.beginPath();
+  ctxF.moveTo(fcX, 0);
+  ctxF.lineTo(fcX, cvF.height);
+  ctxF.stroke();
+  ctxF.restore();
+}
+
+document.addEventListener('DOMContentLoaded', updateCircuitParams);
+</script>
+
+<style>
+  /* --- Computer Modern (LaTeX) Theory & Hardware Build Section --- */
   .latex-section {
     max-width: 1240px;
-    margin: 0 auto 3.5rem auto;
+    margin: 0 auto 4rem auto;
     padding: 0 1rem;
     font-family: "Computer Modern Serif", "Latin Modern Roman", Georgia, serif;
     color: #0f172a;
+  }
+  .latex-section h3 {
+    font-family: "Computer Modern Serif", "Latin Modern Roman", Georgia, serif;
+    font-weight: 700;
+    color: #1e1b4b;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 6px;
+    margin-top: 2rem;
   }
   .latex-theory-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
     gap: 18px;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
   }
   .latex-card {
     background: #ffffff;
@@ -691,615 +1151,294 @@ window.Quarto = {
   .tikz-svg text {
     font-family: "Computer Modern Serif", "Latin Modern Roman", "Times New Roman", serif;
   }
+  .bom-table-wrap table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 14px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    font-size: 0.96rem;
+  }
+  .bom-table-wrap th {
+    background: #1e1b4b;
+    color: #ffffff;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 700;
+  }
+  .bom-table-wrap td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #e2e8f0;
+    color: #1e293b;
+  }
+  .bom-table-wrap tr:nth-child(even) td {
+    background: #f8fafc;
+  }
 </style>
-
-<div class="neon-studio-wrap">
-  <div class="neon-shell">
-
-    <!-- Header & Transport -->
-    <div class="neon-header">
-      <div>
-        <div class="neon-badge">Papillon Engineering • Analog Audio Lab</div>
-        <h1 class="neon-title">NEON LO-FI CIRCUIT CAFÉ</h1>
-        <p class="neon-sub">Synthesize relaxing coffee-shop soundscapes in real time using 1st-order RC warmth filters &amp; 2nd-order RLC rain tanks.</p>
-      </div>
-      <div class="transport-row">
-        <button type="button" id="btnPower" class="neon-btn" onclick="toggleAudioEngine()">▶ Play Lo-Fi Loop</button>
-        <button type="button" id="btnRain" class="neon-btn" onclick="toggleRain()">🌧️ Café Rain: OFF</button>
-      </div>
-    </div>
-
-    <!-- Live Oscilloscope & FFT Spectrum -->
-    <div class="scope-grid">
-      <div class="scope-card">
-        <div class="scope-label">
-          <span style="color:#38bdf8;">⚡ Time-Domain Oscilloscope v_out(t)</span>
-          <span id="scopeStatus" style="color:#64748b;">STANDBY</span>
-        </div>
-        <canvas id="cvScope" class="scope-canvas" width="600" height="165"></canvas>
-      </div>
-      <div class="scope-card">
-        <div class="scope-label">
-          <span style="color:#f472b6;">📊 Live Frequency Spectrum &amp; Cutoff f_c</span>
-          <span id="fcBadge" style="color:#38bdf8;">f_c = 1.59 kHz</span>
-        </div>
-        <canvas id="cvFFT" class="scope-canvas" width="500" height="165"></canvas>
-      </div>
-    </div>
-
-    <!-- Interactive Jazz Chord Pads -->
-    <div class="pad-bar">
-      <div class="chord-pad" id="pad0" onclick="triggerChordPad(0)">
-        <div class="pad-name">Fmaj7</div>
-        <div class="pad-notes">F3 • A3 • C4 • E4</div>
-      </div>
-      <div class="chord-pad" id="pad1" onclick="triggerChordPad(1)">
-        <div class="pad-name">Em7</div>
-        <div class="pad-notes">E3 • G3 • B3 • D4</div>
-      </div>
-      <div class="chord-pad" id="pad2" onclick="triggerChordPad(2)">
-        <div class="pad-name">Dm7</div>
-        <div class="pad-notes">D3 • F3 • A3 • C4</div>
-      </div>
-      <div class="chord-pad" id="pad3" onclick="triggerChordPad(3)">
-        <div class="pad-name">Cmaj7</div>
-        <div class="pad-notes">C3 • E3 • G3 • B3</div>
-      </div>
-    </div>
-
-    <!-- Dual Circuit Rack: RC Warmth + RLC Rain -->
-    <div class="rack-grid">
-
-      <!-- Module 1: 1st-Order RC Low-Pass Filter -->
-      <div class="rack-module rc-mod">
-        <div class="mod-header">
-          <h3 class="mod-title anchored">Stage 1: 1st-Order RC "Warmth" Filter</h3>
-          <span class="mod-eq" style="color:#38bdf8;">f_c = 1 / (2πRC)</span>
-        </div>
-
-        <div class="neon-slider-group">
-          <label><span>Resistance R:</span> <span id="lblRcR" style="color:#38bdf8;">10.0 kΩ</span></label>
-          <input type="range" class="rc-range" id="slRcR" min="1" max="50" step="0.5" value="10" oninput="updateCircuitParams()">
-        </div>
-
-        <div class="neon-slider-group">
-          <label><span>Capacitance C:</span> <span id="lblRcC" style="color:#38bdf8;">10 nF</span></label>
-          <input type="range" class="rc-range" id="slRcC" min="2" max="100" step="1" value="10" oninput="updateCircuitParams()">
-        </div>
-
-        <div class="neon-slider-group">
-          <label><span>Tempo (Op-Amp Clock):</span> <span id="lblBpm" style="color:#c084fc;">72 BPM</span></label>
-          <input type="range" class="rc-range" id="slBpm" min="52" max="96" step="2" value="72" oninput="updateCircuitParams()">
-        </div>
-
-        <div class="readout-pill-row">
-          <div class="readout-pill"><span style="color:#94a3b8;">Cutoff f_c:</span> <strong id="outFc" style="color:#38bdf8;">1.59 kHz</strong></div>
-          <div class="readout-pill"><span style="color:#94a3b8;">Time Const τ:</span> <strong id="outTau" style="color:#e2e8f0;">0.10 ms</strong></div>
-        </div>
-      </div>
-
-      <!-- Module 2: 2nd-Order Series RLC Rain & Ambiance Tank -->
-      <div class="rack-module rlc-mod">
-        <div class="mod-header">
-          <h3 class="mod-title anchored">Stage 2: 2nd-Order RLC Rain Sculptor</h3>
-          <span class="mod-eq" style="color:#f472b6;">f_0 = 1 / (2π√LC)</span>
-        </div>
-
-        <div class="neon-slider-group">
-          <label><span>Damping Resistance R (Controls Q):</span> <span id="lblRlcR" style="color:#f472b6;">450 Ω</span></label>
-          <input type="range" class="rlc-range" id="slRlcR" min="100" max="1500" step="25" value="450" oninput="updateCircuitParams()">
-        </div>
-
-        <div class="neon-slider-group">
-          <label><span>Inductance L:</span> <span id="lblRlcL" style="color:#f472b6;">100 mH</span></label>
-          <input type="range" class="rlc-range" id="slRlcL" min="10" max="250" step="5" value="100" oninput="updateCircuitParams()">
-        </div>
-
-        <div class="neon-slider-group">
-          <label><span>Capacitance C:</span> <span id="lblRlcC" style="color:#f472b6;">220 nF</span></label>
-          <input type="range" class="rlc-range" id="slRlcC" min="20" max="800" step="10" value="220" oninput="updateCircuitParams()">
-        </div>
-
-        <div class="readout-pill-row">
-          <div class="readout-pill"><span style="color:#94a3b8;">Resonance f_0:</span> <strong id="outF0" style="color:#f472b6;">1.07 kHz</strong></div>
-          <div class="readout-pill"><span style="color:#94a3b8;">Quality Factor Q:</span> <strong id="outQ" style="color:#fbbf24;">1.50</strong></div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Quick Café Vibe Presets -->
-    <div class="preset-strip">
-      <span style="font-size:0.78rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.06em;">Café Presets:</span>
-      <button type="button" class="preset-chip" onclick="applyPreset('midnight')">🌙 Midnight Espresso (Deep Warmth)</button>
-      <button type="button" class="preset-chip" onclick="applyPreset('rainy')">☔ Rainy Window Study (Balanced)</button>
-      <button type="button" class="preset-chip" onclick="applyPreset('bright')">☀️ Morning Sun (Bright Rhodes)</button>
-    </div>
-
-  </div>
-</div>
-
-<script>
-// --- Web Audio API Synthesizer Engine ---
-let audioCtx = null;
-let isPlaying = false;
-let rainEnabled = false;
-let loopTimer = null;
-let chordIdx = 0;
-
-let masterGain = null;
-let rcFilter = null;
-let rlcRainFilter = null;
-let rainGain = null;
-let analyser = null;
-let rainNode = null;
-
-// Relaxing Coffee-Shop Jazz Chords (Hz)
-const CHORDS = [
-  [174.61, 220.00, 261.63, 329.63], // Fmaj7
-  [164.81, 196.00, 246.94, 293.66], // Em7
-  [146.83, 174.61, 220.00, 261.63], // Dm7
-  [130.81, 164.81, 196.00, 246.94]  // Cmaj7
-];
-
-function initAudio() {
-  if (audioCtx) return;
-  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-  audioCtx = new AudioContextClass();
-
-  masterGain = audioCtx.createGain();
-  masterGain.gain.value = 0.45;
-
-  // Stage 1: 1st-Order RC Low-Pass Filter
-  rcFilter = audioCtx.createBiquadFilter();
-  rcFilter.type = 'lowpass';
-  rcFilter.Q.value = 0.707;
-
-  // Stage 2: 2nd-Order RLC Bandpass Filter for Café Rain
-  rlcRainFilter = audioCtx.createBiquadFilter();
-  rlcRainFilter.type = 'bandpass';
-
-  rainGain = audioCtx.createGain();
-  rainGain.gain.value = 0.0;
-
-  // Pink-ish Noise Buffer for Rain
-  const bufferSize = 2 * audioCtx.sampleRate;
-  const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-  const output = noiseBuffer.getChannelData(0);
-  let b0 = 0, b1 = 0, b2 = 0;
-  for (let i = 0; i < bufferSize; i++) {
-    const white = Math.random() * 2 - 1;
-    b0 = 0.99765 * b0 + white * 0.0990460;
-    b1 = 0.96300 * b1 + white * 0.2965164;
-    b2 = 0.57000 * b2 + white * 1.0526913;
-    output[i] = (b0 + b1 + b2 + white * 0.1848) * 0.06;
-  }
-
-  rainNode = audioCtx.createBufferSource();
-  rainNode.buffer = noiseBuffer;
-  rainNode.loop = true;
-  rainNode.connect(rlcRainFilter);
-  rlcRainFilter.connect(rainGain);
-  rainGain.connect(masterGain);
-
-  // Analyser for Neon Scopes
-  analyser = audioCtx.createAnalyser();
-  analyser.fftSize = 1024;
-
-  rcFilter.connect(masterGain);
-  masterGain.connect(analyser);
-  analyser.connect(audioCtx.destination);
-
-  rainNode.start();
-  updateCircuitParams();
-  drawScopes();
-}
-
-function playChord(index, durationSec = 3.2) {
-  if (!audioCtx) initAudio();
-  if (audioCtx.state === 'suspended') audioCtx.resume();
-
-  for (let i = 0; i < 4; i++) {
-    document.getElementById('pad' + i).classList.toggle('active-chord', i === index);
-  }
-
-  const now = audioCtx.currentTime;
-  const notes = CHORDS[index];
-
-  notes.forEach((freq, idx) => {
-    const osc1 = audioCtx.createOscillator();
-    const osc2 = audioCtx.createOscillator();
-    const noteGain = audioCtx.createGain();
-
-    osc1.type = 'triangle';
-    osc2.type = 'sine';
-    osc1.frequency.setValueAtTime(freq, now);
-    osc2.frequency.setValueAtTime(freq * 1.003, now);
-
-    noteGain.gain.setValueAtTime(0.0001, now);
-    noteGain.gain.linearRampToValueAtTime(0.14 / notes.length * 2.2, now + 0.08 + idx * 0.03);
-    noteGain.gain.exponentialRampToValueAtTime(0.0008, now + durationSec);
-
-    osc1.connect(noteGain);
-    osc2.connect(noteGain);
-    noteGain.connect(rcFilter);
-
-    osc1.start(now + idx * 0.025);
-    osc2.start(now + idx * 0.025);
-    osc1.stop(now + durationSec + 0.05);
-    osc2.stop(now + durationSec + 0.05);
-  });
-}
-
-function triggerChordPad(index) {
-  playChord(index, 2.8);
-}
-
-function toggleAudioEngine() {
-  initAudio();
-  if (audioCtx.state === 'suspended') audioCtx.resume();
-
-  const btn = document.getElementById('btnPower');
-  const status = document.getElementById('scopeStatus');
-
-  if (!isPlaying) {
-    isPlaying = true;
-    btn.classList.add('power-on');
-    btn.textContent = '⏹ Stop Lo-Fi Loop';
-    status.textContent = 'LIVE AUDIO';
-    status.style.color = '#34d399';
-    scheduleLoop();
-  } else {
-    isPlaying = false;
-    clearTimeout(loopTimer);
-    btn.classList.remove('power-on');
-    btn.textContent = '▶ Play Lo-Fi Loop';
-    status.textContent = 'STANDBY';
-    status.style.color = '#64748b';
-    for (let i = 0; i < 4; i++) document.getElementById('pad' + i).classList.remove('active-chord');
-  }
-}
-
-function scheduleLoop() {
-  if (!isPlaying) return;
-  const bpm = parseFloat(document.getElementById('slBpm').value);
-  const barSec = (60 / bpm) * 4;
-  playChord(chordIdx, barSec * 1.05);
-  chordIdx = (chordIdx + 1) % CHORDS.length;
-  loopTimer = setTimeout(scheduleLoop, barSec * 1000);
-}
-
-function toggleRain() {
-  initAudio();
-  if (audioCtx.state === 'suspended') audioCtx.resume();
-  rainEnabled = !rainEnabled;
-  const btn = document.getElementById('btnRain');
-  const now = audioCtx.currentTime;
-  if (rainEnabled) {
-    rainGain.gain.cancelScheduledValues(now);
-    rainGain.gain.linearRampToValueAtTime(0.32, now + 0.4);
-    btn.classList.add('rain-on');
-    btn.textContent = '🌧️ Café Rain: ON';
-  } else {
-    rainGain.gain.cancelScheduledValues(now);
-    rainGain.gain.linearRampToValueAtTime(0.0, now + 0.4);
-    btn.classList.remove('rain-on');
-    btn.textContent = '🌧️ Café Rain: OFF';
-  }
-}
-
-function fmtHz(f) {
-  return f >= 1000 ? (f / 1000).toFixed(2) + ' kHz' : f.toFixed(0) + ' Hz';
-}
-
-let currentFc = 1591;
-
-function updateCircuitParams() {
-  const R_k = parseFloat(document.getElementById('slRcR').value);
-  const C_nF = parseFloat(document.getElementById('slRcC').value);
-  const bpm = parseFloat(document.getElementById('slBpm').value);
-
-  const R = R_k * 1e3;
-  const C = C_nF * 1e-9;
-  const tau = R * C;
-  const fc = 1 / (2 * Math.PI * tau);
-  currentFc = fc;
-
-  document.getElementById('lblRcR').textContent = R_k.toFixed(1) + ' kΩ';
-  document.getElementById('lblRcC').textContent = C_nF + ' nF';
-  document.getElementById('lblBpm').textContent = bpm + ' BPM';
-  document.getElementById('outFc').textContent = fmtHz(fc);
-  document.getElementById('outTau').textContent = (tau * 1e3).toFixed(2) + ' ms';
-  document.getElementById('fcBadge').textContent = 'f_c = ' + fmtHz(fc);
-
-  const R_rlc = parseFloat(document.getElementById('slRlcR').value);
-  const L_mH = parseFloat(document.getElementById('slRlcL').value);
-  const C_rlc_nF = parseFloat(document.getElementById('slRlcC').value);
-
-  const L = L_mH * 1e-3;
-  const C_rlc = C_rlc_nF * 1e-9;
-  const f0 = 1 / (2 * Math.PI * Math.sqrt(L * C_rlc));
-  const Q = (1 / R_rlc) * Math.sqrt(L / C_rlc);
-
-  document.getElementById('lblRlcR').textContent = R_rlc + ' Ω';
-  document.getElementById('lblRlcL').textContent = L_mH + ' mH';
-  document.getElementById('lblRlcC').textContent = C_rlc_nF + ' nF';
-  document.getElementById('outF0').textContent = fmtHz(f0);
-  document.getElementById('outQ').textContent = Q.toFixed(2);
-
-  if (audioCtx && rcFilter && rlcRainFilter) {
-    const now = audioCtx.currentTime;
-    rcFilter.frequency.setTargetAtTime(Math.max(120, Math.min(fc, 16000)), now, 0.04);
-    rlcRainFilter.frequency.setTargetAtTime(Math.max(150, Math.min(f0, 8000)), now, 0.05);
-    rlcRainFilter.Q.setTargetAtTime(Math.max(0.4, Math.min(Q, 12)), now, 0.05);
-  }
-}
-
-function applyPreset(name) {
-  if (name === 'midnight') {
-    document.getElementById('slRcR').value = 22;
-    document.getElementById('slRcC').value = 18;
-    document.getElementById('slBpm').value = 64;
-    document.getElementById('slRlcR').value = 650;
-    document.getElementById('slRlcL').value = 150;
-    document.getElementById('slRlcC').value = 350;
-  } else if (name === 'rainy') {
-    document.getElementById('slRcR').value = 12;
-    document.getElementById('slRcC').value = 12;
-    document.getElementById('slBpm').value = 72;
-    document.getElementById('slRlcR').value = 450;
-    document.getElementById('slRlcL').value = 100;
-    document.getElementById('slRlcC').value = 220;
-  } else {
-    document.getElementById('slRcR').value = 3.5;
-    document.getElementById('slRcC').value = 6;
-    document.getElementById('slBpm').value = 82;
-    document.getElementById('slRlcR').value = 300;
-    document.getElementById('slRlcL').value = 60;
-    document.getElementById('slRlcC').value = 120;
-  }
-  updateCircuitParams();
-}
-
-function drawScopes() {
-  requestAnimationFrame(drawScopes);
-  if (!analyser) return;
-
-  const cvS = document.getElementById('cvScope');
-  const ctxS = cvS.getContext('2d');
-  const bufLen = analyser.fftSize;
-  const timeData = new Uint8Array(bufLen);
-  analyser.getByteTimeDomainData(timeData);
-
-  ctxS.fillStyle = '#03050a';
-  ctxS.fillRect(0, 0, cvS.width, cvS.height);
-
-  ctxS.strokeStyle = 'rgba(56, 189, 248, 0.12)';
-  ctxS.lineWidth = 1;
-  ctxS.beginPath();
-  ctxS.moveTo(0, cvS.height / 2);
-  ctxS.lineTo(cvS.width, cvS.height / 2);
-  ctxS.stroke();
-
-  ctxS.lineWidth = 2.4;
-  ctxS.strokeStyle = '#38bdf8';
-  ctxS.shadowColor = '#38bdf8';
-  ctxS.shadowBlur = 10;
-  ctxS.beginPath();
-
-  const sliceW = cvS.width / bufLen;
-  let x = 0;
-  for (let i = 0; i < bufLen; i++) {
-    const v = timeData[i] / 128.0;
-    const y = (v * cvS.height) / 2;
-    if (i === 0) ctxS.moveTo(x, y);
-    else ctxS.lineTo(x, y);
-    x += sliceW;
-  }
-  ctxS.stroke();
-  ctxS.shadowBlur = 0;
-
-  const cvF = document.getElementById('cvFFT');
-  const ctxF = cvF.getContext('2d');
-  const freqLen = analyser.frequencyBinCount;
-  const freqData = new Uint8Array(freqLen);
-  analyser.getByteFrequencyData(freqData);
-
-  ctxF.fillStyle = '#03050a';
-  ctxF.fillRect(0, 0, cvF.width, cvF.height);
-
-  const visibleBins = 110;
-  const barW = cvF.width / visibleBins;
-
-  for (let i = 0; i < visibleBins; i++) {
-    const h = (freqData[i] / 255) * (cvF.height - 16);
-    const grad = ctxF.createLinearGradient(0, cvF.height, 0, cvF.height - h);
-    grad.addColorStop(0, '#6366f1');
-    grad.addColorStop(0.6, '#c084fc');
-    grad.addColorStop(1, '#f472b6');
-    ctxF.fillStyle = grad;
-    ctxF.fillRect(i * barW, cvF.height - h, barW - 1.2, h);
-  }
-
-  const nyquist = audioCtx.sampleRate / 2;
-  const maxDispFreq = (visibleBins / freqLen) * nyquist;
-  const fcX = Math.min(cvF.width - 4, Math.max(4, (currentFc / maxDispFreq) * cvF.width));
-
-  ctxF.save();
-  ctxF.strokeStyle = '#38bdf8';
-  ctxF.lineWidth = 2;
-  ctxF.setLineDash([4, 4]);
-  ctxF.shadowColor = '#38bdf8';
-  ctxF.shadowBlur = 8;
-  ctxF.beginPath();
-  ctxF.moveTo(fcX, 0);
-  ctxF.lineTo(fcX, cvF.height);
-  ctxF.stroke();
-  ctxF.restore();
-}
-
-document.addEventListener('DOMContentLoaded', updateCircuitParams);
-</script>
 <div class="latex-section">
 <div class="latex-theory-grid">
 <section id="why-lo-fi-sounds-warm-1st-order-rc" class="level4 latex-card">
 <h4 class="anchored" data-anchor-id="why-lo-fi-sounds-warm-1st-order-rc">1. Why Lo-Fi Sounds “Warm” (1st-Order <span class="math inline">RC</span>)</h4>
-<p>Raw triangle and square waves contain sharp high-frequency harmonics. Increasing <span class="math inline">R</span> or <span class="math inline">C</span> lowers the cutoff frequency <span class="math inline">f_c = \dfrac{1}{2\pi RC}</span>, attenuating those upper harmonics at <span class="math inline">-20\text{ dB/decade}</span> and rounding the oscilloscope waveform into mellow café warmth.</p>
+<p>Raw sawtooth and triangle waves contain sharp high-frequency harmonics. Increasing <span class="math inline">R</span> or <span class="math inline">C</span> lowers the cutoff frequency <span class="math inline">f_c = \dfrac{1}{2\pi RC}</span>, attenuating those upper harmonics at <span class="math inline">-20\text{ dB/decade}</span> and rounding the oscilloscope waveform into mellow café warmth.</p>
 </section>
 <section id="sculpting-rain-with-a-2nd-order-rlc-tank" class="level4 latex-card">
 <h4 class="anchored" data-anchor-id="sculpting-rain-with-a-2nd-order-rlc-tank">2. Sculpting Rain with a 2nd-Order <span class="math inline">RLC</span> Tank</h4>
-<p>White noise contains equal energy at all frequencies. Passing it through a series <span class="math inline">RLC</span> bandpass filter centers the rain texture at <span class="math inline">f_0 = \dfrac{1}{2\pi\sqrt{LC}}</span>. Lowering <span class="math inline">R</span> raises the Quality Factor <span class="math inline">Q = \dfrac{1}{R}\sqrt{\dfrac{L}{C}}</span>, turning soft rain into a resonant wind-tunnel whistle.</p>
+<p>Pink noise contains continuous energy across the audio band. Passing it through a series <span class="math inline">RLC</span> bandpass filter centers the rain texture at <span class="math inline">f_0 = \dfrac{1}{2\pi\sqrt{LC}}</span>. Lowering <span class="math inline">R</span> raises the Quality Factor <span class="math inline">Q = \dfrac{1}{R}\sqrt{\dfrac{L}{C}}</span>, turning soft rain into a resonant wind-tunnel whistle.</p>
 </section>
 <section id="try-this-experiment" class="level4 latex-card">
 <h4 class="anchored" data-anchor-id="try-this-experiment">3. Try This Experiment</h4>
-<p>Hit <strong>Play Lo-Fi Loop</strong>, turn on <strong>Café Rain</strong>, and slowly drag the Stage 1 capacitor <span class="math inline">C</span> from <span class="math inline">5\text{ nF}</span> up to <span class="math inline">80\text{ nF}</span>. Watch the cyan cutoff line sweep left across the pink FFT spectrum as the high-frequency sparkle vanishes.</p>
+<p>Hit <strong>Play Lo-Fi Loop</strong>, turn on <strong>Café Rain</strong>, and slowly drag the Stage 1 resistor <span class="math inline">R</span> from <span class="math inline">1\text{ k}\Omega</span> up to <span class="math inline">80\text{ k}\Omega</span>. Watch the cyan cutoff line sweep left across the pink FFT spectrum as the bright sawtooth harmonics melt into lo-fi warmth.</p>
 </section>
 </div>
-<section id="real-world-analog-hardware-schematics-input-to-filter-to-speaker" class="level3">
-<h3 class="anchored" data-anchor-id="real-world-analog-hardware-schematics-input-to-filter-to-speaker">Real-World Analog Hardware Schematics (Input <span class="math inline">\to</span> Filter <span class="math inline">\to</span> Speaker)</h3>
-<p>To build these exact audio stages on a physical breadboard, each passive filter must be isolated from the low-impedance speaker (<span class="math inline">8\text{ }\Omega</span>) using a <strong>unity-gain op-amp buffer</strong> so the speaker does not load down the filter and shift <span class="math inline">f_c</span> or <span class="math inline">f_0</span>.</p>
+<section id="breadboard-ready-hardware-schematics-3.5mm-aux-input-to-filter-to-lm386-speaker-amp" class="level3">
+<h3 class="anchored" data-anchor-id="breadboard-ready-hardware-schematics-3.5mm-aux-input-to-filter-to-lm386-speaker-amp">Breadboard-Ready Hardware Schematics (3.5mm Aux Input <span class="math inline">\to</span> Filter <span class="math inline">\to</span> <code>LM386</code> Speaker Amp)</h3>
+<p>To build these exact filters on a physical breadboard, each passive stage feeds into an <strong><code>LM386N-1</code></strong> low-voltage audio power amplifier (powered by a single <span class="math inline">9\text{ V}</span> battery). The <code>LM386</code> provides a high input impedance (<span class="math inline">50\text{ k}\Omega</span> at Pin 3) so it does not load down the filter, while delivering enough current through a <span class="math inline">220\text{ }\mu\text{F}</span> DC-blocking capacitor to drive an <span class="math inline">8\text{ }\Omega</span> speaker cleanly.</p>
 <div class="hw-grid">
 <div class="hw-card">
 <div class="hw-hdr">
-  <span>STAGE 1: 1ST-ORDER RC LOW-PASS FILTER</span>
-  <span style="color:#93c5fd; font-size:0.82rem;">Chord Warmth Stage</span>
+  <span>STAGE 1: 1ST-ORDER RC LOW-PASS + LM386 AMP</span>
+  <span style="color:#93c5fd; font-size:0.82rem;">Chord Warmth Build</span>
 </div>
 <div class="hw-svg-box">
-  <svg class="tikz-svg" viewbox="0 0 460 195" width="100%" height="185" xmlns="http://www.w3.org/2000/svg">
-    <!-- Vertical AC Audio Input Source (+ on top) -->
-    <line x1="48" y1="150" x2="48" y2="112" stroke="#0f172a" stroke-width="2"></line>
-    <circle cx="48" cy="92" r="20" fill="#ffffff" stroke="#0f172a" stroke-width="2"></circle>
-    <text x="48" y="83" font-size="12" font-weight="bold" text-anchor="middle">+</text>
-    <path d="M 36 95 C 40 87, 44 87, 48 95 C 52 103, 56 103, 60 95" stroke="#0f172a" stroke-width="1.8" fill="none"></path>
-    <line x1="48" y1="72" x2="48" y2="45" stroke="#0f172a" stroke-width="2"></line>
-    <text x="22" y="90" font-size="13" font-style="italic" text-anchor="end">v<tspan dy="3" font-size="9">in</tspan><tspan dy="-3">(t)</tspan></text>
-    <text x="48" y="168" font-size="11" fill="#475569" text-anchor="middle">Chords</text>
+  <svg class="tikz-svg" viewbox="0 0 500 215" width="100%" height="200" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+    <!-- 3.5mm Audio Input Jack -->
+    <rect x="14" y="42" width="38" height="32" rx="4" fill="#f1f5f9" stroke="#0f172a" stroke-width="1.8"></rect>
+    <text x="33" y="62" font-size="10.5" font-weight="bold" text-anchor="middle">3.5mm</text>
+    <text x="33" y="34" font-size="10.5" font-style="italic" text-anchor="middle">Aux In</text>
+    <line x1="33" y1="74" x2="33" y2="170" stroke="#0f172a" stroke-width="1.8"></line>
 
-    <!-- Top Wire & IEEE Resistor R -->
-    <line x1="48" y1="45" x2="92" y2="45" stroke="#0f172a" stroke-width="2"></line>
-    <path d="M 92 45 L 98 34 L 108 56 L 118 34 L 128 56 L 138 34 L 148 56 L 154 45" stroke="#0f172a" stroke-width="2" fill="none"></path>
-    <text x="123" y="24" font-size="13" font-style="italic" font-weight="bold" text-anchor="middle">R (1–50 kΩ)</text>
-    <line x1="154" y1="45" x2="262" y2="45" stroke="#0f172a" stroke-width="2"></line>
+    <!-- Top Wire & 50k Potentiometer R -->
+    <line x1="52" y1="58" x2="78" y2="58" stroke="#0f172a" stroke-width="2"></line>
+    <path d="M 78 58 L 84 47 L 94 69 L 104 47 L 114 69 L 124 47 L 134 69 L 140 58" stroke="#0f172a" stroke-width="2" fill="none"></path>
+    <!-- Potentiometer Wiper Arrow -->
+    <line x1="109" y1="30" x2="109" y2="44" stroke="#0284c7" stroke-width="1.8"></line>
+    <polygon points="105,42 113,42 109,49" fill="#0284c7"></polygon>
+    <text x="109" y="22" font-size="12" font-weight="bold" fill="#0284c7" text-anchor="middle">R (50 kΩ Pot)</text>
+    <line x1="140" y1="58" x2="232" y2="58" stroke="#0f172a" stroke-width="2"></line>
 
-    <!-- Shunt Capacitor C -->
-    <circle cx="195" cy="45" r="3.2" fill="#0f172a"></circle>
-    <line x1="195" y1="45" x2="195" y2="88" stroke="#0f172a" stroke-width="2"></line>
-    <line x1="176" y1="88" x2="214" y2="88" stroke="#2563eb" stroke-width="2.6"></line>
-    <line x1="176" y1="102" x2="214" y2="102" stroke="#2563eb" stroke-width="2.6"></line>
-    <text x="219" y="99" font-size="12.5" font-style="italic" font-weight="bold" fill="#2563eb">C</text>
-    <line x1="195" y1="102" x2="195" y2="150" stroke="#0f172a" stroke-width="2"></line>
+    <!-- Shunt Capacitor C (10 nF) -->
+    <circle cx="176" cy="58" r="3.2" fill="#0f172a"></circle>
+    <line x1="176" y1="58" x2="176" y2="102" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="158" y1="102" x2="194" y2="102" stroke="#2563eb" stroke-width="2.6"></line>
+    <line x1="158" y1="115" x2="194" y2="115" stroke="#2563eb" stroke-width="2.6"></line>
+    <text x="199" y="112" font-size="11.5" font-weight="bold" fill="#2563eb">10 nF</text>
+    <line x1="176" y1="115" x2="176" y2="170" stroke="#0f172a" stroke-width="2"></line>
 
-    <!-- Unity-Gain Op-Amp Buffer -->
-    <polygon points="262,32 262,92 322,62" fill="#eef2ff" stroke="#1e1b4b" stroke-width="2"></polygon>
-    <text x="270" y="51" font-size="12" font-weight="bold">+</text>
-    <text x="270" y="81" font-size="12" font-weight="bold">−</text>
-    <line x1="262" y1="76" x2="246" y2="76" stroke="#0f172a" stroke-width="1.6"></line>
-    <line x1="246" y1="76" x2="246" y2="112" stroke="#0f172a" stroke-width="1.6"></line>
-    <line x1="246" y1="112" x2="342" y2="112" stroke="#0f172a" stroke-width="1.6"></line>
-    <line x1="342" y1="112" x2="342" y2="62" stroke="#0f172a" stroke-width="1.6"></line>
-    <circle cx="342" cy="62" r="3" fill="#0f172a"></circle>
-    <text x="292" y="23" font-size="11" font-weight="bold" fill="#4338ca" text-anchor="middle">Buffer</text>
+    <!-- LM386 Audio Power Amp IC -->
+    <polygon points="232,42 232,126 312,84" fill="#eef2ff" stroke="#1e1b4b" stroke-width="2.2"></polygon>
+    <text x="240" y="63" font-size="11.5" font-weight="bold">+ (3)</text>
+    <text x="240" y="111" font-size="11.5" font-weight="bold">− (2)</text>
+    <text x="272" y="88" font-size="10.5" font-weight="bold" fill="#1e1b4b" text-anchor="middle">LM386</text>
+    <!-- Pin 6 (+9V Supply) -->
+    <line x1="272" y1="63" x2="272" y2="28" stroke="#dc2626" stroke-width="1.8"></line>
+    <text x="272" y="21" font-size="11" font-weight="bold" fill="#dc2626" text-anchor="middle">+9V (Pin 6)</text>
+    <!-- Pin 2 & Pin 4 to Ground -->
+    <line x1="232" y1="107" x2="218" y2="107" stroke="#0f172a" stroke-width="1.6"></line>
+    <line x1="218" y1="107" x2="218" y2="170" stroke="#0f172a" stroke-width="1.6"></line>
+    <line x1="272" y1="105" x2="272" y2="170" stroke="#0f172a" stroke-width="1.6"></line>
+    <text x="276" y="142" font-size="9.5" fill="#475569">Pin 4</text>
 
-    <!-- Output Wire to Speaker -->
-    <line x1="322" y1="62" x2="385" y2="62" stroke="#0f172a" stroke-width="2"></line>
-    <line x1="385" y1="62" x2="385" y2="84" stroke="#0f172a" stroke-width="2"></line>
-    <rect x="373" y="84" width="12" height="24" fill="#ffffff" stroke="#0f172a" stroke-width="2"></rect>
-    <polygon points="385,84 408,70 408,122 385,108" fill="#f1f5f9" stroke="#0f172a" stroke-width="2"></polygon>
-    <path d="M 416 86 Q 424 96 416 106" stroke="#0284c7" stroke-width="1.8" fill="none"></path>
-    <path d="M 423 80 Q 434 96 423 112" stroke="#0284c7" stroke-width="1.8" fill="none"></path>
-    <text x="415" y="136" font-size="11.5" font-weight="bold" fill="#0f172a" text-anchor="middle">8 Ω Speaker</text>
-    <line x1="385" y1="108" x2="385" y2="150" stroke="#0f172a" stroke-width="2"></line>
+    <!-- Pin 5 Output -> 220 uF DC Blocking Cap -> Speaker -->
+    <line x1="312" y1="84" x2="352" y2="84" stroke="#0f172a" stroke-width="2"></line>
+    <text x="328" y="76" font-size="9.5" fill="#475569">Pin 5</text>
+    <line x1="352" y1="69" x2="352" y2="99" stroke="#0f172a" stroke-width="2.4"></line>
+    <path d="M 364 69 Q 357 84 364 99" stroke="#0f172a" stroke-width="2.2" fill="none"></path>
+    <text x="358" y="61" font-size="11" font-weight="bold" text-anchor="middle">220 µF</text>
+    <line x1="361" y1="84" x2="412" y2="84" stroke="#0f172a" stroke-width="2"></line>
+
+    <!-- Speaker Symbol -->
+    <line x1="412" y1="84" x2="412" y2="104" stroke="#0f172a" stroke-width="2"></line>
+    <rect x="400" y="104" width="12" height="24" fill="#ffffff" stroke="#0f172a" stroke-width="2"></rect>
+    <polygon points="412,104 435,90 435,142 412,128" fill="#f1f5f9" stroke="#0f172a" stroke-width="2"></polygon>
+    <path d="M 443 106 Q 451 116 443 126" stroke="#0284c7" stroke-width="1.8" fill="none"></path>
+    <path d="M 450 100 Q 461 116 450 132" stroke="#0284c7" stroke-width="1.8" fill="none"></path>
+    <text x="442" y="156" font-size="11" font-weight="bold" fill="#0f172a" text-anchor="middle">8 Ω Speaker</text>
+    <line x1="412" y1="128" x2="412" y2="170" stroke="#0f172a" stroke-width="2"></line>
 
     <!-- Shared Ground Rail & Ground Symbol -->
-    <line x1="48" y1="150" x2="385" y2="150" stroke="#0f172a" stroke-width="2"></line>
-    <circle cx="195" cy="150" r="3.2" fill="#0f172a"></circle>
-    <line x1="195" y1="150" x2="195" y2="164" stroke="#0f172a" stroke-width="2"></line>
-    <line x1="181" y1="164" x2="209" y2="164" stroke="#0f172a" stroke-width="2"></line>
-    <line x1="186" y1="170" x2="204" y2="170" stroke="#0f172a" stroke-width="2"></line>
-    <line x1="191" y1="176" x2="199" y2="176" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="33" y1="170" x2="412" y2="170" stroke="#0f172a" stroke-width="2"></line>
+    <circle cx="176" cy="170" r="3.2" fill="#0f172a"></circle>
+    <line x1="176" y1="170" x2="176" y2="184" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="162" y1="184" x2="190" y2="184" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="167" y1="190" x2="185" y2="190" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="172" y1="196" x2="180" y2="196" stroke="#0f172a" stroke-width="2"></line>
   </svg>
 </div>
 <div class="hw-body">
 <ul>
-<li><strong>Required Input:</strong> Polyphonic audio waveform <span class="math inline">v_{\text{in}}(t)</span> (triangle + sine chord oscillator, <span class="math inline">\approx 130\text{–}330\text{ Hz}</span> fundamentals plus upper harmonics).</li>
-<li><strong>How It Behaves:</strong> At low frequencies, <span class="math inline">X_C = \frac{1}{2\pi f C}</span> is very large (open circuit), so the fundamental chord notes pass cleanly to the speaker. Above <span class="math inline">f_c = \frac{1}{2\pi RC}</span>, <span class="math inline">X_C</span> drops and shunts harsh high-frequency harmonics directly to ground.</li>
-<li><strong>Speaker Interface:</strong> The unity-gain op-amp buffer provides high input impedance (<span class="math inline">Z_{\text{in}} \to \infty</span>) so the <span class="math inline">8\text{ }\Omega</span> speaker voice coil does not draw current from the <span class="math inline">RC</span> node.</li>
+<li><strong>Required Input:</strong> Connect a phone or laptop via a <strong>3.5mm TRS breakout</strong> playing a synth track or raw square/sawtooth tone.</li>
+<li><strong>How It Behaves:</strong> Turning the <span class="math inline">50\text{ k}\Omega</span> potentiometer sweeps <span class="math inline">f_c = \frac{1}{2\pi RC}</span> down into the hundreds of Hertz, shunting upper harmonics through the <span class="math inline">10\text{ nF}</span> capacitor to ground.</li>
+<li><strong>Why the <span class="math inline">220\text{ }\mu\text{F}</span> Cap Matters:</strong> Because the <code>LM386</code> runs on a single <span class="math inline">+9\text{ V}</span> supply, Pin 5 sits at <span class="math inline">+4.5\text{ V}</span> DC. The <span class="math inline">220\text{ }\mu\text{F}</span> electrolytic capacitor blocks DC while passing the AC audio signal to the <span class="math inline">8\text{ }\Omega</span> speaker.</li>
 </ul>
 </div>
 </div>
 <div class="hw-card">
 <div class="hw-hdr">
-  <span>STAGE 2: 2ND-ORDER SERIES RLC BANDPASS</span>
-  <span style="color:#f9a8d4; font-size:0.82rem;">Café Rain Stage</span>
+  <span>STAGE 2: SERIES RLC BANDPASS + LM386 AMP</span>
+  <span style="color:#f9a8d4; font-size:0.82rem;">Café Rain Build</span>
 </div>
 <div class="hw-svg-box">
-  <svg class="tikz-svg" viewbox="0 0 460 195" width="100%" height="185" xmlns="http://www.w3.org/2000/svg">
-    <!-- Vertical Noise Source (+ on top) -->
-    <line x1="44" y1="150" x2="44" y2="112" stroke="#0f172a" stroke-width="2"></line>
-    <circle cx="44" cy="92" r="20" fill="#ffffff" stroke="#0f172a" stroke-width="2"></circle>
-    <text x="44" y="83" font-size="12" font-weight="bold" text-anchor="middle">+</text>
-    <polyline points="32,96 36,89 40,101 44,87 48,100 52,90 56,96" stroke="#dc2626" stroke-width="1.6" fill="none"></polyline>
-    <line x1="44" y1="72" x2="44" y2="45" stroke="#0f172a" stroke-width="2"></line>
-    <text x="19" y="90" font-size="12.5" font-style="italic" text-anchor="end">v<tspan dy="3" font-size="9">noise</tspan></text>
-    <text x="44" y="168" font-size="11" fill="#475569" text-anchor="middle">Pink Noise</text>
+  <svg class="tikz-svg" viewbox="0 0 500 215" width="100%" height="200" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+    <!-- 3.5mm Noise Input Jack -->
+    <rect x="14" y="42" width="38" height="32" rx="4" fill="#fdf2f8" stroke="#0f172a" stroke-width="1.8"></rect>
+    <text x="33" y="62" font-size="10.5" font-weight="bold" text-anchor="middle">3.5mm</text>
+    <text x="33" y="34" font-size="10.5" font-style="italic" text-anchor="middle">Noise In</text>
+    <line x1="33" y1="74" x2="33" y2="170" stroke="#0f172a" stroke-width="1.8"></line>
 
-    <!-- Top Wire: Series Inductor L -->
-    <line x1="44" y1="45" x2="72" y2="45" stroke="#0f172a" stroke-width="2"></line>
-    <path d="M 72 45 A 8 9 0 0 1 88 45 A 8 9 0 0 1 104 45 A 8 9 0 0 1 120 45 A 8 9 0 0 1 136 45" stroke="#db2777" stroke-width="2.2" fill="none"></path>
-    <text x="104" y="25" font-size="13" font-style="italic" font-weight="bold" fill="#db2777" text-anchor="middle">L</text>
+    <!-- Series Inductor L (100 mH) -->
+    <line x1="52" y1="58" x2="70" y2="58" stroke="#0f172a" stroke-width="2"></line>
+    <path d="M 70 58 A 7.5 8.5 0 0 1 85 58 A 7.5 8.5 0 0 1 100 58 A 7.5 8.5 0 0 1 115 58 A 7.5 8.5 0 0 1 130 58" stroke="#db2777" stroke-width="2.2" fill="none"></path>
+    <text x="100" y="38" font-size="11.5" font-weight="bold" fill="#db2777" text-anchor="middle">100 mH</text>
 
-    <!-- Series Capacitor C -->
-    <line x1="136" y1="45" x2="162" y2="45" stroke="#0f172a" stroke-width="2"></line>
-    <line x1="162" y1="29" x2="162" y2="61" stroke="#2563eb" stroke-width="2.6"></line>
-    <line x1="174" y1="29" x2="174" y2="61" stroke="#2563eb" stroke-width="2.6"></line>
-    <text x="168" y="20" font-size="13" font-style="italic" font-weight="bold" fill="#2563eb" text-anchor="middle">C</text>
-    <line x1="174" y1="45" x2="262" y2="45" stroke="#0f172a" stroke-width="2"></line>
+    <!-- Series Capacitor C (220 nF) -->
+    <line x1="130" y1="58" x2="152" y2="58" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="152" y1="43" x2="152" y2="73" stroke="#2563eb" stroke-width="2.6"></line>
+    <line x1="163" y1="43" x2="163" y2="73" stroke="#2563eb" stroke-width="2.6"></line>
+    <text x="158" y="35" font-size="11.5" font-weight="bold" fill="#2563eb" text-anchor="middle">220 nF</text>
+    <line x1="163" y1="58" x2="232" y2="58" stroke="#0f172a" stroke-width="2"></line>
 
-    <!-- Shunt Damping Resistor R -->
-    <circle cx="212" cy="45" r="3.2" fill="#0f172a"></circle>
-    <line x1="212" y1="45" x2="212" y2="68" stroke="#0f172a" stroke-width="2"></line>
-    <path d="M 212 68 L 201 74 L 223 83 L 201 92 L 223 101 L 201 110 L 223 119 L 212 125" stroke="#0f172a" stroke-width="2" fill="none"></path>
-    <text x="196" y="101" font-size="13" font-style="italic" font-weight="bold" text-anchor="end">R</text>
-    <line x1="212" y1="125" x2="212" y2="150" stroke="#0f172a" stroke-width="2"></line>
+    <!-- Shunt 1 kOhm Damping Potentiometer R -->
+    <circle cx="196" cy="58" r="3.2" fill="#0f172a"></circle>
+    <line x1="196" y1="58" x2="196" y2="82" stroke="#0f172a" stroke-width="2"></line>
+    <path d="M 196 82 L 185 88 L 207 97 L 185 106 L 207 115 L 185 124 L 207 133 L 196 139" stroke="#0f172a" stroke-width="2" fill="none"></path>
+    <text x="180" y="114" font-size="11" font-weight="bold" text-anchor="end">1 kΩ Pot</text>
+    <line x1="196" y1="139" x2="196" y2="170" stroke="#0f172a" stroke-width="2"></line>
 
-    <!-- Unity-Gain Op-Amp Buffer -->
-    <polygon points="262,32 262,92 322,62" fill="#fdf2f8" stroke="#1e1b4b" stroke-width="2"></polygon>
-    <text x="270" y="51" font-size="12" font-weight="bold">+</text>
-    <text x="270" y="81" font-size="12" font-weight="bold">−</text>
-    <line x1="262" y1="76" x2="246" y2="76" stroke="#0f172a" stroke-width="1.6"></line>
-    <line x1="246" y1="76" x2="246" y2="112" stroke="#0f172a" stroke-width="1.6"></line>
-    <line x1="246" y1="112" x2="342" y2="112" stroke="#0f172a" stroke-width="1.6"></line>
-    <line x1="342" y1="112" x2="342" y2="62" stroke="#0f172a" stroke-width="1.6"></line>
-    <circle cx="342" cy="62" r="3" fill="#0f172a"></circle>
-    <text x="292" y="23" font-size="11" font-weight="bold" fill="#be185d" text-anchor="middle">Buffer</text>
+    <!-- LM386 Audio Power Amp IC -->
+    <polygon points="232,42 232,126 312,84" fill="#fdf2f8" stroke="#1e1b4b" stroke-width="2.2"></polygon>
+    <text x="240" y="63" font-size="11.5" font-weight="bold">+ (3)</text>
+    <text x="240" y="111" font-size="11.5" font-weight="bold">− (2)</text>
+    <text x="272" y="88" font-size="10.5" font-weight="bold" fill="#1e1b4b" text-anchor="middle">LM386</text>
+    <line x1="272" y1="63" x2="272" y2="28" stroke="#dc2626" stroke-width="1.8"></line>
+    <text x="272" y="21" font-size="11" font-weight="bold" fill="#dc2626" text-anchor="middle">+9V (Pin 6)</text>
+    <line x1="232" y1="107" x2="218" y2="107" stroke="#0f172a" stroke-width="1.6"></line>
+    <line x1="218" y1="107" x2="218" y2="170" stroke="#0f172a" stroke-width="1.6"></line>
+    <line x1="272" y1="105" x2="272" y2="170" stroke="#0f172a" stroke-width="1.6"></line>
+    <text x="276" y="142" font-size="9.5" fill="#475569">Pin 4</text>
 
-    <!-- Output Wire to Speaker -->
-    <line x1="322" y1="62" x2="385" y2="62" stroke="#0f172a" stroke-width="2"></line>
-    <line x1="385" y1="62" x2="385" y2="84" stroke="#0f172a" stroke-width="2"></line>
-    <rect x="373" y="84" width="12" height="24" fill="#ffffff" stroke="#0f172a" stroke-width="2"></rect>
-    <polygon points="385,84 408,70 408,122 385,108" fill="#f1f5f9" stroke="#0f172a" stroke-width="2"></polygon>
-    <path d="M 416 86 Q 424 96 416 106" stroke="#db2777" stroke-width="1.8" fill="none"></path>
-    <path d="M 423 80 Q 434 96 423 112" stroke="#db2777" stroke-width="1.8" fill="none"></path>
-    <text x="415" y="136" font-size="11.5" font-weight="bold" fill="#0f172a" text-anchor="middle">8 Ω Speaker</text>
-    <line x1="385" y1="108" x2="385" y2="150" stroke="#0f172a" stroke-width="2"></line>
+    <!-- Pin 5 Output -> 220 uF DC Blocking Cap -> Speaker -->
+    <line x1="312" y1="84" x2="352" y2="84" stroke="#0f172a" stroke-width="2"></line>
+    <text x="328" y="76" font-size="9.5" fill="#475569">Pin 5</text>
+    <line x1="352" y1="69" x2="352" y2="99" stroke="#0f172a" stroke-width="2.4"></line>
+    <path d="M 364 69 Q 357 84 364 99" stroke="#0f172a" stroke-width="2.2" fill="none"></path>
+    <text x="358" y="61" font-size="11" font-weight="bold" text-anchor="middle">220 µF</text>
+    <line x1="361" y1="84" x2="412" y2="84" stroke="#0f172a" stroke-width="2"></line>
+
+    <!-- Speaker Symbol -->
+    <line x1="412" y1="84" x2="412" y2="104" stroke="#0f172a" stroke-width="2"></line>
+    <rect x="400" y="104" width="12" height="24" fill="#ffffff" stroke="#0f172a" stroke-width="2"></rect>
+    <polygon points="412,104 435,90 435,142 412,128" fill="#f1f5f9" stroke="#0f172a" stroke-width="2"></polygon>
+    <path d="M 443 106 Q 451 116 443 126" stroke="#db2777" stroke-width="1.8" fill="none"></path>
+    <path d="M 450 100 Q 461 116 450 132" stroke="#db2777" stroke-width="1.8" fill="none"></path>
+    <text x="442" y="156" font-size="11" font-weight="bold" fill="#0f172a" text-anchor="middle">8 Ω Speaker</text>
+    <line x1="412" y1="128" x2="412" y2="170" stroke="#0f172a" stroke-width="2"></line>
 
     <!-- Shared Ground Rail & Ground Symbol -->
-    <line x1="44" y1="150" x2="385" y2="150" stroke="#0f172a" stroke-width="2"></line>
-    <circle cx="212" cy="150" r="3.2" fill="#0f172a"></circle>
-    <line x1="212" y1="150" x2="212" y2="164" stroke="#0f172a" stroke-width="2"></line>
-    <line x1="198" y1="164" x2="226" y2="164" stroke="#0f172a" stroke-width="2"></line>
-    <line x1="203" y1="170" x2="221" y2="170" stroke="#0f172a" stroke-width="2"></line>
-    <line x1="208" y1="176" x2="216" y2="176" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="33" y1="170" x2="412" y2="170" stroke="#0f172a" stroke-width="2"></line>
+    <circle cx="196" cy="170" r="3.2" fill="#0f172a"></circle>
+    <line x1="196" y1="170" x2="196" y2="184" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="182" y1="184" x2="210" y2="184" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="187" y1="190" x2="205" y2="190" stroke="#0f172a" stroke-width="2"></line>
+    <line x1="192" y1="196" x2="200" y2="196" stroke="#0f172a" stroke-width="2"></line>
   </svg>
 </div>
 <div class="hw-body">
 <ul>
-<li><strong>Required Input:</strong> Broadband pink/white noise source <span class="math inline">v_{\text{noise}}(t)</span> containing continuous energy across the entire audible spectrum (<span class="math inline">20\text{ Hz} \to 20\text{ kHz}</span>).</li>
-<li><strong>How It Behaves:</strong> At resonance (<span class="math inline">f_0 = \frac{1}{2\pi\sqrt{LC}}</span>), inductive reactance <span class="math inline">+jX_L</span> and capacitive reactance <span class="math inline">-jX_C</span> cancel out (<span class="math inline">Z_{LC} = 0</span>), allowing maximum voltage across <span class="math inline">R</span> to reach the speaker. Frequencies far above or below <span class="math inline">f_0</span> are blocked by <span class="math inline">L</span> or <span class="math inline">C</span>.</li>
-<li><strong>Tuning the Rain:</strong> Lowering <span class="math inline">R</span> narrows the passband bandwidth (<span class="math inline">BW = f_0 / Q</span>), shifting the audio from wide, soft rain into a sharp resonant whistle.</li>
+<li><strong>Required Input:</strong> Feed broadband white or pink noise from a phone/laptop into the 3.5mm jack.</li>
+<li><strong>How It Behaves:</strong> At <span class="math inline">f_0 = \frac{1}{2\pi\sqrt{(100\text{ mH})(220\text{ nF})}} \approx 1.07\text{ kHz}</span>, the reactances <span class="math inline">+jX_L</span> and <span class="math inline">-jX_C</span> cancel out, letting the rain band pass across the <span class="math inline">1\text{ k}\Omega</span> potentiometer into Pin 3 of the <code>LM386</code>.</li>
+<li><strong>Tuning the Rain:</strong> Sweeping the <span class="math inline">1\text{ k}\Omega</span> pot adjusts <span class="math inline">Q = \frac{1}{R}\sqrt{\frac{L}{C}}</span> live—turning wide café rain into a narrow resonant whistle.</li>
 </ul>
 </div>
 </div>
+</div>
+</section>
+<section id="breadboard-parts-list-bill-of-materials" class="level3">
+<h3 class="anchored" data-anchor-id="breadboard-parts-list-bill-of-materials">Breadboard Parts List (Bill of Materials)</h3>
+<div class="bom-table-wrap">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Qty</th>
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Value / Part Number</th>
+<th style="text-align: left;">Role in the Circuit</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: left;"><strong>Audio Power Amp IC</strong></td>
+<td style="text-align: left;"><code>LM386N-1</code> (8-pin DIP)</td>
+<td style="text-align: left;">Drives the <span class="math inline">8\text{ }\Omega</span> speaker cleanly without loading the filter</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td style="text-align: left;"><strong>Potentiometer (Stage 1)</strong></td>
+<td style="text-align: left;"><span class="math inline">50\text{ k}\Omega</span> linear (<code>B50K</code>)</td>
+<td style="text-align: left;">Variable <span class="math inline">R</span> to sweep the <span class="math inline">RC</span> cutoff frequency <span class="math inline">f_c</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: left;"><strong>Potentiometer (Stage 2)</strong></td>
+<td style="text-align: left;"><span class="math inline">1\text{ k}\Omega</span> linear (<code>B1K</code>)</td>
+<td style="text-align: left;">Variable damping <span class="math inline">R</span> to control the <span class="math inline">RLC</span> Quality Factor <span class="math inline">Q</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td style="text-align: left;"><strong>Film / Ceramic Capacitor</strong></td>
+<td style="text-align: left;"><span class="math inline">10\text{ nF}</span> (<code>103</code>)</td>
+<td style="text-align: left;">Stage 1 <span class="math inline">RC</span> warmth low-pass filter capacitor</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: left;"><strong>Radial Inductor</strong></td>
+<td style="text-align: left;"><span class="math inline">100\text{ mH}</span> choke</td>
+<td style="text-align: left;">Stage 2 <span class="math inline">RLC</span> resonant bandpass tank inductor</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td style="text-align: left;"><strong>Film / Ceramic Capacitor</strong></td>
+<td style="text-align: left;"><span class="math inline">220\text{ nF}</span> (<code>224</code>)</td>
+<td style="text-align: left;">Stage 2 <span class="math inline">RLC</span> resonant bandpass tank capacitor</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: left;"><strong>Electrolytic Capacitor</strong></td>
+<td style="text-align: left;"><span class="math inline">220\text{ }\mu\text{F}</span> (<span class="math inline">16\text{ V+}</span>)</td>
+<td style="text-align: left;">Output DC-blocking capacitor between <code>LM386</code> Pin 5 and speaker</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td style="text-align: left;"><strong>Electrolytic Capacitor</strong></td>
+<td style="text-align: left;"><span class="math inline">100\text{ }\mu\text{F}</span> (<span class="math inline">16\text{ V+}</span>)</td>
+<td style="text-align: left;">Power-rail decoupling capacitor across <span class="math inline">+9\text{ V}</span> (Pin 6) and GND</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: left;"><strong>3.5mm Audio Jack</strong></td>
+<td style="text-align: left;">Breadboard TRS breakout</td>
+<td style="text-align: left;">Feeds audio or pink noise from a phone/laptop into the filter</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td style="text-align: left;"><strong>Speaker</strong></td>
+<td style="text-align: left;"><span class="math inline">8\text{ }\Omega</span>, <span class="math inline">0.5\text{ W}</span>–<span class="math inline">1\text{ W}</span></td>
+<td style="text-align: left;">Physical audio transducer output</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: left;"><strong>Power Supply</strong></td>
+<td style="text-align: left;"><span class="math inline">9\text{ V}</span> battery + snap clip</td>
+<td style="text-align: left;">Single-supply power rail for the <code>LM386</code></td>
+</tr>
+</tbody>
+</table>
 </div>
 </section>
 </div>
