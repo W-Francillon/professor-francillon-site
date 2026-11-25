@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Wesley Francillon, PhD">
+
+<title>The Scientific Method: Questions &amp; Hypotheses – Wesley Francillon, PhD</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a24a4402a48cd8560abd59411f39e8d3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-2P04N7WV2H"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-2P04N7WV2H', { 'anonymize_ip': true});
+</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./papillon.png" alt="Papillon Engineering" class="navbar-logo light-content">
+    <img src="./papillon.png" alt="Papillon Engineering" class="navbar-logo dark-content">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-teaching" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Teaching</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-teaching">    
+        <li>
+    <a class="dropdown-item" href="./teaching.html">
+ <span class="dropdown-text">Teaching Statement</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lecture_notes.html">
+ <span class="dropdown-text">Lecture Notes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lab_manuals.html">
+ <span class="dropdown-text">Interactive Lab Manuals Hub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lab_studio.html">
+ <span class="dropdown-text">Lab Report &amp; Schematic Studio</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuits_textbook/ch1_foundations.html">
+ <span class="dropdown-text">Circuit Analysis E-Book</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-circuit-analysis" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Circuit Analysis</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-circuit-analysis">    
+        <li>
+    <a class="dropdown-item" href="./circuit_analysis.html">
+ <span class="dropdown-text">Circuit Analysis Hub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_dashboard.html">
+ <span class="dropdown-text">Electrical Dashboard</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_simulator.html">
+ <span class="dropdown-text">Live Circuit Simulator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lab_studio.html">
+ <span class="dropdown-text">Lab Report &amp; Schematic Studio</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./bode_filter_designer.html">
+ <span class="dropdown-text">Bode Plot &amp; Active Filter Designer</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./simulations/op-amp-checker.html">
+ <span class="dropdown-text">Op-Amp Golden Rule Checker</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_generator.html">
+ <span class="dropdown-text">Circuit Problem Generator</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-simulations" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Simulations</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-simulations">    
+        <li>
+    <a class="dropdown-item" href="./simulations.html">
+ <span class="dropdown-text">Simulations Hub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lab_studio.html">
+ <span class="dropdown-text">Lab Report &amp; Schematic Studio</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./dynamics/iczv_dynamics.html">
+ <span class="dropdown-text">ICZV &amp; Planar Kinematics (ENS 119)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./bode_filter_designer.html">
+ <span class="dropdown-text">Bode Plot &amp; Active Filter Designer</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./simulations/op-amp-checker.html">
+ <span class="dropdown-text">Op-Amp Golden Rule Checker</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./usaf_1951.html">
+ <span class="dropdown-text">1951 USAF Optical Resolution Analyzer</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_simulator.html">
+ <span class="dropdown-text">Live Circuit Simulator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_generator.html">
+ <span class="dropdown-text">Circuit Problem Generator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_lofi_synth.html">
+ <span class="dropdown-text">Neon Lo-Fi Circuit Café</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_breakout.html">
+ <span class="dropdown-text">Impedance Breaker Game</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-outreach" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Outreach</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-outreach">    
+        <li>
+    <a class="dropdown-item" href="./outreach.html">
+ <span class="dropdown-text">K-12 Outreach Hub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./scientific_method.html">
+ <span class="dropdown-text">The Scientific Method &amp; Hypotheses</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./rss_feeds.html">
+ <span class="dropdown-text">Automated RSS Engineering Wire</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./linear_regression.html">
+ <span class="dropdown-text">Linear Regression</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./outreach_data.html">
+ <span class="dropdown-text">API Data Challenge</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./web_scraping.html">
+ <span class="dropdown-text">Web Scraping</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_lofi_synth.html">
+ <span class="dropdown-text">Neon Lo-Fi Circuit Café</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./circuit_breakout.html">
+ <span class="dropdown-text">Impedance Breaker Game</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./rf_foxhunt.html">
+ <span class="dropdown-text">RF Fox Hunt Lab</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page…</h2>
+   
+  <ul>
+  <li><a href="#part-1-the-big-picture-the-scientific-method" id="toc-part-1-the-big-picture-the-scientific-method" class="nav-link active" data-scroll-target="#part-1-the-big-picture-the-scientific-method">Part 1: The Big Picture (The Scientific Method)</a></li>
+  <li><a href="#part-2-deep-dive-questions-hypotheses" id="toc-part-2-deep-dive-questions-hypotheses" class="nav-link" data-scroll-target="#part-2-deep-dive-questions-hypotheses">Part 2: Deep Dive — Questions &amp; Hypotheses</a>
+  <ul class="collapse">
+  <li><a href="#broad-topic-vs.-focused-question" id="toc-broad-topic-vs.-focused-question" class="nav-link" data-scroll-target="#broad-topic-vs.-focused-question">1. Broad Topic vs.&nbsp;Focused Question</a></li>
+  <li><a href="#isolating-variables-the-golden-rule" id="toc-isolating-variables-the-golden-rule" class="nav-link" data-scroll-target="#isolating-variables-the-golden-rule">2. Isolating Variables &amp; The Golden Rule</a></li>
+  <li><a href="#formulating-a-testable-hypothesis" id="toc-formulating-a-testable-hypothesis" class="nav-link" data-scroll-target="#formulating-a-testable-hypothesis">3. Formulating a Testable Hypothesis</a></li>
+  <li><a href="#real-world-case-studies" id="toc-real-world-case-studies" class="nav-link" data-scroll-target="#real-world-case-studies">4. Real-World Case Studies</a></li>
+  <li><a href="#pre-experiment-checklist" id="toc-pre-experiment-checklist" class="nav-link" data-scroll-target="#pre-experiment-checklist">5. Pre-Experiment Checklist</a></li>
+  <li><a href="#for-educators-club-advisors-program-mentors" id="toc-for-educators-club-advisors-program-mentors" class="nav-link" data-scroll-target="#for-educators-club-advisors-program-mentors">For Educators, Club Advisors &amp; Program Mentors</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">The Scientific Method: Questions &amp; Hypotheses</h1>
+<p class="subtitle lead">A Step-by-Step Guide to Student Research | K–12 STEM Outreach</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Wesley Francillon, PhD </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><a href="./outreach.html">← Back to K–12 Outreach</a></p>
+<style>
+:root {
+  --navy: #1A365D;
+  --amber: #C67D0A;
+  --slate: #4A5568;
+  --card-bg: #F8FAFC;
+}
+.pipeline-card {
+  background: var(--card-bg);
+  border-top: 4px solid var(--navy);
+  border-radius: 6px;
+  padding: 1rem;
+  height: 100%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.pipeline-card.highlight {
+  border-top-color: var(--amber);
+  background: #FFFBEB;
+}
+.step-num {
+  display: inline-block;
+  background: var(--navy);
+  color: white;
+  font-weight: bold;
+  font-size: 0.75rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: 4px;
+  margin-bottom: 0.4rem;
+}
+.pipeline-card.highlight .step-num {
+  background: var(--amber);
+}
+</style>
+<section id="part-1-the-big-picture-the-scientific-method" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-the-big-picture-the-scientific-method">Part 1: The Big Picture (The Scientific Method)</h2>
+<p>Science isn’t just memorizing facts from a textbook—it is a structured way of testing ideas against reality. Whether you are building a science fair project, competing in a STEM challenge, or participating in an enrichment program such as STEP, every investigation follows the same six-step cycle.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A["1. Observation"] --&gt; B["2. Research Question"]
+    B --&gt; C["3. Hypothesis"]
+    C --&gt; D["4. Experiment"]
+    D --&gt; E["5. Data &amp; Analysis"]
+    E --&gt; F["6. Conclusion &amp; Share"]
+    E -.-&gt;|"If hypothesis is rejected,&lt;br/&gt;refine &amp; re-test"| B
+
+    style A fill:#F8FAFC,stroke:#1A365D,stroke-width:2px,color:#1A365D
+    style B fill:#FFFBEB,stroke:#C67D0A,stroke-width:3px,color:#1A365D
+    style C fill:#FFFBEB,stroke:#C67D0A,stroke-width:3px,color:#1A365D
+    style D fill:#F8FAFC,stroke:#1A365D,stroke-width:2px,color:#1A365D
+    style E fill:#F8FAFC,stroke:#1A365D,stroke-width:2px,color:#1A365D
+    style F fill:#F8FAFC,stroke:#1A365D,stroke-width:2px,color:#1A365D
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="grid">
+<div class="g-col-12 g-col-md-4">
+<div class="pipeline-card">
+<p><span class="step-num">Step 1</span> <strong>Observation &amp; Background</strong> Notice a pattern, problem, or gap in existing knowledge and read what others have already discovered.</p>
+</div>
+</div>
+<div class="g-col-12 g-col-md-4">
+<div class="pipeline-card highlight">
+<p><span class="step-num">Step 2 • Focus Below</span> <strong>Research Question</strong> Narrow a broad curiosity into one clear, focused, and measurable question.</p>
+</div>
+</div>
+<div class="g-col-12 g-col-md-4">
+<div class="pipeline-card highlight">
+<p><span class="step-num">Step 3 • Focus Below</span> <strong>Testable Hypothesis</strong> Make an educated, falsifiable <strong>If–Then</strong> prediction <em>before</em> collecting any data.</p>
+</div>
+</div>
+<div class="g-col-12 g-col-md-4">
+<div class="pipeline-card">
+<p><span class="step-num">Step 4</span> <strong>Controlled Experiment</strong> Change <strong>only one</strong> variable at a time while holding all other conditions constant.</p>
+</div>
+</div>
+<div class="g-col-12 g-col-md-4">
+<div class="pipeline-card">
+<p><span class="step-num">Step 5</span> <strong>Data &amp; Analysis</strong> Organize measurements into graphs and tables to see whether the evidence supports or rejects your prediction.</p>
+</div>
+</div>
+<div class="g-col-12 g-col-md-4">
+<div class="pipeline-card">
+<p><span class="step-num">Step 6</span> <strong>Conclusion &amp; Share</strong> Communicate your findings through a poster, report, or presentation—even if your hypothesis was disproven.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Key Takeaway for Student Researchers
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Being “wrong” about your hypothesis does <strong>not</strong> mean your experiment failed. In science, disproving a hypothesis eliminates a dead end and moves knowledge forward—as long as your experiment was fair and controlled.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="part-2-deep-dive-questions-hypotheses" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-deep-dive-questions-hypotheses">Part 2: Deep Dive — Questions &amp; Hypotheses</h2>
+<p>The hardest part of any project is moving from a broad topic to a testable hypothesis. Great research follows a <strong>4-stage narrowing pipeline</strong>:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    S1["&lt;b&gt;Stage 1: Topic&lt;/b&gt;&lt;br/&gt;Broad Subject&lt;br/&gt;&lt;i&gt;Identify a knowledge gap&lt;/i&gt;"] --&gt; S2["&lt;b&gt;Stage 2: Variables&lt;/b&gt;&lt;br/&gt;Isolate 2 Factors&lt;br/&gt;&lt;i&gt;Independent (X) &amp; Dependent (Y)&lt;/i&gt;"]
+    S2 --&gt; S3["&lt;b&gt;Stage 3: Question&lt;/b&gt;&lt;br/&gt;How does X affect Y?&lt;br/&gt;&lt;i&gt;Clear, concise, open-ended&lt;/i&gt;"]
+    S3 --&gt; S4["&lt;b&gt;Stage 4: Prediction&lt;/b&gt;&lt;br/&gt;If X changes, Y will...&lt;br/&gt;&lt;i&gt;Testable hypothesis&lt;/i&gt;"]
+
+    style S1 fill:#F8FAFC,stroke:#1A365D,stroke-width:2px
+    style S2 fill:#F8FAFC,stroke:#1A365D,stroke-width:2px
+    style S3 fill:#F8FAFC,stroke:#1A365D,stroke-width:2px
+    style S4 fill:#FFFBEB,stroke:#C67D0A,stroke-width:2px
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="watermarked_STEP_Image.jpg" class="img-fluid figure-img" style="width:85.0%"></p>
+<figcaption>Visualizing the Research Process</figcaption>
+</figure>
+</div>
+<hr>
+<section id="broad-topic-vs.-focused-question" class="level3">
+<h3 class="anchored" data-anchor-id="broad-topic-vs.-focused-question">1. Broad Topic vs.&nbsp;Focused Question</h3>
+<p>A common mistake in student projects is picking a question that is too huge to test in a single semester—or one that can be answered with a simple “yes” or “no.”</p>
+<div class="grid">
+<div class="g-col-12 g-col-md-6">
+<div class="callout callout-style-simple callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common Pitfalls to Avoid
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Too Broad:</strong> Covers an entire field without limits (e.g., <em>“How does the environment affect people?”</em>).</li>
+<li><strong>Wordy &amp; Tangled:</strong> Mixes multiple problems into one messy question.</li>
+<li><strong>Binary (Yes/No):</strong> Stops deep thinking (e.g., <em>“Is tool X good?”</em>).</li>
+<li><strong>Leading / Biased:</strong> Assumes the answer before you even test it.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="g-col-12 g-col-md-6">
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Criteria for an Effective Question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Clear:</strong> Every term is defined—no vague words like “better” or “healthier.”</li>
+<li><strong>Concise:</strong> Focuses on <strong>one central issue</strong>.</li>
+<li><strong>Open-Ended:</strong> Starts with <strong>“How”</strong> or <strong>“Why”</strong> to explore relationships.</li>
+<li><strong>Addresses a Deficit:</strong> Targets something we don’t fully know yet.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<section id="checking-your-question-the-finer-framework" class="level4">
+<h4 class="anchored" data-anchor-id="checking-your-question-the-finer-framework">Checking Your Question: The FINER Framework</h4>
+<p>Before spending time or money on equipment, test your question against these five criteria:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 38%">
+<col style="width: 30%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Letter</th>
+<th style="text-align: left;">Criterion</th>
+<th style="text-align: left;">What to Ask Yourself</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><strong>F</strong></td>
+<td style="text-align: left;"><strong>Feasible</strong></td>
+<td style="text-align: left;">Do I have enough subjects, time, equipment, and budget to actually finish this?</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><strong>I</strong></td>
+<td style="text-align: left;"><strong>Interesting</strong></td>
+<td style="text-align: left;">Will the answer genuinely intrigue you, your peers, and science fair judges?</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: left;"><strong>Novel</strong></td>
+<td style="text-align: left;">Does this confirm, challenge, or extend what we already know?</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><strong>E</strong></td>
+<td style="text-align: left;"><strong>Ethical</strong></td>
+<td style="text-align: left;">Is this completely safe and ethical for humans, animals, and the environment?</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><strong>R</strong></td>
+<td style="text-align: left;"><strong>Relevant</strong></td>
+<td style="text-align: left;">Does the answer matter to real-world science, engineering, or health?</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>High School / Advanced Track: The PICOT Structure
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>If you are designing a health, sports science, or behavioral comparison study, researchers use <strong>PICOT</strong> to lock down every detail:</p>
+<ul>
+<li><strong>P – Population:</strong> Who is your exact test group? <em>(e.g., high school varsity runners)</em></li>
+<li><strong>I – Intervention:</strong> What new treatment or factor are you testing? <em>(e.g., 10 minutes of dynamic stretching)</em></li>
+<li><strong>C – Comparison:</strong> What are you comparing it against? <em>(e.g., static stretching or no warm-up)</em></li>
+<li><strong>O – Outcome:</strong> What exact number will you measure? <em>(e.g., 100-meter sprint time in seconds)</em></li>
+<li><strong>T – Time Frame:</strong> How long will the study run? <em>(e.g., over 4 weeks)</em></li>
+</ul>
+<p><strong>Example Question:</strong> <em>“How does daily dynamic stretching (I) compare with static stretching (C) in reducing 100m sprint times (O) among high school track athletes (P) over 4 weeks (T)?”</em></p>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="isolating-variables-the-golden-rule" class="level3">
+<h3 class="anchored" data-anchor-id="isolating-variables-the-golden-rule">2. Isolating Variables &amp; The Golden Rule</h3>
+<p>A strong experiment isolates the exact cause-and-effect relationship between two factors:</p>
+<ul>
+<li><strong>Independent Variable (<span class="math inline">X</span>):</strong> The <strong>cause</strong>—the single condition you deliberately change or test.</li>
+<li><strong>Dependent Variable (<span class="math inline">Y</span>):</strong> The <strong>effect</strong>—the outcome metric you measure during the experiment.</li>
+<li><strong>Controlled Variables:</strong> Everything else you keep <strong>100% identical</strong> across all test groups so outside factors don’t ruin your results.</li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>The Golden Rule of Experimentation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Manipulate only ONE variable at a time.</strong></p>
+<p>If you change two things at once (for example, changing both fertilizer <em>and</em> sunlight on a plant), you will never know which one actually caused the plant to grow taller.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="formulating-a-testable-hypothesis" class="level3">
+<h3 class="anchored" data-anchor-id="formulating-a-testable-hypothesis">3. Formulating a Testable Hypothesis</h3>
+<p>A hypothesis is a formal, educated prediction written <strong>before</strong> you collect a single piece of data.</p>
+<div style="background-color: #F8FAFC; border-left: 5px solid #C67D0A; padding: 1.2rem; margin: 1rem 0; border-radius: 4px;">
+<p><strong>The Standard “If–Then” Format:</strong></p>
+<blockquote class="blockquote">
+<p><strong>“If [Independent Variable <span class="math inline">X</span> is changed in a specific way], then [Dependent Variable <span class="math inline">Y</span> will respond in a predicted way].”</strong></p>
+</blockquote>
+</div>
+<ul>
+<li><strong>Directional:</strong> It states <em>how</em> you expect <span class="math inline">Y</span> to change (increase, decrease, react faster).</li>
+<li><strong>Prospective:</strong> Writing it beforehand prevents “cherry-picking” patterns after looking at your data.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>High School / AP Statistics Track: Null (<span class="math inline">H_0</span>) vs.&nbsp;Alternative (<span class="math inline">H_A</span>) Hypotheses
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>When scientists run statistical tests on their data, they split their prediction into two competing statements:</p>
+<ul>
+<li><strong>Null Hypothesis (<span class="math inline">H_0</span>):</strong> Assumes <strong>no real difference</strong> exists between your test groups (<span class="math inline">H_0: \mu_{\text{exp}} = \mu_{\text{ctrl}}</span>). Any variation you see is just random luck.</li>
+<li><strong>Alternative Hypothesis (<span class="math inline">H_A</span>):</strong> Assumes your change <strong>did</strong> make a real, systematic difference (<span class="math inline">H_A: \mu_{\text{exp}} \neq \mu_{\text{ctrl}}</span>).</li>
+</ul>
+<p>Your goal in an experiment is to gather enough evidence to see if you can reject <span class="math inline">H_0</span>.</p>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="real-world-case-studies" class="level3">
+<h3 class="anchored" data-anchor-id="real-world-case-studies">4. Real-World Case Studies</h3>
+<p>Explore how famous scientists and student researchers turned broad curiosities into testable hypotheses:</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Video Games &amp; Reflexes (Student Lab)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Genetics: Gregor Mendel (1865)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Astrochemistry: Cecilia Payne-Gaposchkin (1925)</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<ul>
+<li><strong>Broad Topic:</strong> Do video games improve reflexes?</li>
+<li><strong>Refined Question:</strong> <em>How does routine weekly action video gameplay affect physical reaction latency during a standardized dropped-ruler catch task?</em></li>
+<li><strong>Variables:</strong>
+<ul>
+<li><strong>Independent (<span class="math inline">X</span>):</strong> Weekly action gameplay (<span class="math inline">\ge 5\text{ hrs/week}</span> vs.&nbsp;<span class="math inline">0\text{ hrs/week}</span>).</li>
+<li><strong>Dependent (<span class="math inline">Y</span>):</strong> Reaction latency measured in milliseconds (<span class="math inline">\text{ms}</span>).</li>
+<li><strong>Controls:</strong> Identical drop height, ruler weight, starting hand position, and testing time of day.</li>
+</ul></li>
+<li><strong>If–Then Hypothesis:</strong> <em>“If students play <span class="math inline">\ge 5</span> hours of action video games weekly, then they will catch a dropped ruler in fewer milliseconds than non-gamers.”</em></li>
+<li><strong>Statistical Framing:</strong>
+<ul>
+<li><span class="math inline">H_0</span>: <span class="math inline">\mu_{\text{gamer}} = \mu_{\text{non-gamer}}</span> (no difference in reaction time)</li>
+<li><span class="math inline">H_A</span>: <span class="math inline">\mu_{\text{gamer}} &lt; \mu_{\text{non-gamer}}</span> (gamers have shorter latency)</li>
+</ul></li>
+</ul>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<ul>
+<li><strong>Broad Topic:</strong> How are physical traits passed from parents to offspring?</li>
+<li><strong>Refined Question:</strong> <em>What is the exact mathematical ratio of discrete traits in the second-generation (<span class="math inline">F_2</span>) offspring of cross-pollinated pea plants?</em></li>
+<li><strong>Variables:</strong>
+<ul>
+<li><strong>Independent (<span class="math inline">X</span>):</strong> Controlled parent cross-pollination pairs (purebred dominant vs.&nbsp;recessive lines).</li>
+<li><strong>Dependent (<span class="math inline">Y</span>):</strong> Countable ratio of visible traits (e.g., tall vs.&nbsp;short stems) in <span class="math inline">F_2</span> plants.</li>
+<li><strong>Controls:</strong> Identical soil, water, sunlight, and species (<em>Pisum sativum</em>).</li>
+</ul></li>
+<li><strong>Hypothesis &amp; Breakthrough:</strong> Mendel rejected the vague idea of “blended traits” and predicted that discrete factors segregate independently—yielding a predictable <strong>3:1 trait ratio</strong> in the second generation.</li>
+</ul>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<ul>
+<li><strong>Broad Topic:</strong> What are stars made of?</li>
+<li><strong>Refined Question:</strong> <em>Does the relative abundance of chemical elements in stellar atmospheres—calculated from spectral lines—differ from Earth’s crust?</em></li>
+<li><strong>Variables:</strong>
+<ul>
+<li><strong>Independent (<span class="math inline">X</span>):</strong> Thermal ionization states modeled from starlight absorption spectra (Saha ionization equation).</li>
+<li><strong>Dependent (<span class="math inline">Y</span>):</strong> Calculated percentage of each element in the star’s atmosphere.</li>
+</ul></li>
+<li><strong>Hypothesis &amp; Breakthrough:</strong> While senior astronomers assumed stars had the same rock-forming elements as Earth, Payne-Gaposchkin’s calculations predicted and proved that stars are <strong>over <span class="math inline">98\%</span> hydrogen and helium</strong>.</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="pre-experiment-checklist" class="level3">
+<h3 class="anchored" data-anchor-id="pre-experiment-checklist">5. Pre-Experiment Checklist</h3>
+<p>Before you start collecting data for your research project, verify all five checkpoints:</p>
+<ul class="task-list">
+<li><label><input type="checkbox"><strong>1. Boundary Check:</strong> Does my question address something we don’t already know?</label></li>
+<li><label><input type="checkbox"><strong>2. FINER Audit:</strong> Do I have the time, tools, and safety clearance to finish this?</label></li>
+<li><label><input type="checkbox"><strong>3. Single-Variable Rule:</strong> Am I changing <strong>only one</strong> variable (<span class="math inline">X</span>) while keeping everything else constant?</label></li>
+<li><label><input type="checkbox"><strong>4. Prospective Prediction:</strong> Have I written down my <em>If–Then</em> hypothesis <strong>before</strong> looking at any results?</label></li>
+<li><label><input type="checkbox"><strong>5. Falsifiability:</strong> Could my experiment theoretically prove my hypothesis wrong?</label></li>
+</ul>
+<blockquote class="blockquote">
+<p><em>“A sensible strategy is to establish a single primary research question around which to focus the study plan.”</em> — Brian Haynes / Farrugia et al.&nbsp;(2010)</p>
+</blockquote>
+<hr>
+</section>
+<section id="for-educators-club-advisors-program-mentors" class="level3">
+<h3 class="anchored" data-anchor-id="for-educators-club-advisors-program-mentors">For Educators, Club Advisors &amp; Program Mentors</h3>
+<p>Want to present this lesson in a classroom, science club, or outreach program (such as STEP)? <a href="developing-research-question-slides.pdf" class="btn btn-outline-secondary btn-sm">Download the Companion Beamer Slide Deck (PDF)</a></p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/professorfrancillon\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
