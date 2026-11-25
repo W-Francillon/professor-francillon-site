@@ -373,35 +373,75 @@ window.Quarto = {
 <p><a href="./outreach.html">← Back to K–12 Outreach</a></p>
 <style>
 :root {
-  --navy: #1A365D;
-  --amber: #C67D0A;
-  --slate: #4A5568;
-  --card-bg: #F8FAFC;
+  --papillon-purple: #5b21b6;
+  --papillon-dark: #191326;
+  --papillon-coral: #e86c3a;
+  --papillon-navy: #1e3a5f;
+  --card-bg: #f8fafc;
 }
 .pipeline-card {
-  background: var(--card-bg);
-  border-top: 4px solid var(--navy);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-top: 4px solid var(--papillon-navy);
   border-radius: 6px;
-  padding: 1rem;
+  padding: 1.25rem;
   height: 100%;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
 }
 .pipeline-card.highlight {
-  border-top-color: var(--amber);
-  background: #FFFBEB;
+  border-top-color: var(--papillon-purple);
+  background: #faf5ff;
 }
 .step-num {
   display: inline-block;
-  background: var(--navy);
-  color: white;
-  font-weight: bold;
-  font-size: 0.75rem;
-  padding: 0.15rem 0.55rem;
+  background: #eff6ff;
+  color: var(--papillon-navy);
+  font-weight: 700;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.65rem;
   border-radius: 4px;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.65rem;
 }
 .pipeline-card.highlight .step-num {
-  background: var(--amber);
+  background: #f3e8ff;
+  color: var(--papillon-purple);
+}
+.card-heading {
+  display: block;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.45rem;
+}
+.if-then-box {
+  background-color: #faf5ff;
+  border-left: 4px solid var(--papillon-purple);
+  padding: 1.25rem 1.5rem;
+  margin: 1.25rem 0;
+  border-radius: 3px;
+}
+.slide-btn {
+  display: inline-block;
+  background-color: var(--papillon-dark);
+  color: #ffffff !important;
+  text-decoration: none !important;
+  font-size: 0.92rem;
+  font-weight: 500;
+  padding: 0.6rem 1.25rem;
+  border-radius: 2px;
+  transition: background-color 0.15s ease;
+}
+.slide-btn:hover {
+  background-color: #3b1d6e;
+  color: #ffffff !important;
+}
+/* Make Mermaid diagrams larger and full-width */
+.mermaid svg {
+  width: 100% !important;
+  max-width: 920px !important;
+  height: auto !important;
 }
 </style>
 <section id="part-1-the-big-picture-the-scientific-method" class="level2">
@@ -412,20 +452,29 @@ window.Quarto = {
 <div>
 <p></p><figure class="figure"><p></p>
 <div>
-<pre class="mermaid mermaid-js">flowchart LR
-    A["1. Observation"] --&gt; B["2. Research Question"]
-    B --&gt; C["3. Hypothesis"]
-    C --&gt; D["4. Experiment"]
-    D --&gt; E["5. Data &amp; Analysis"]
-    E --&gt; F["6. Conclusion &amp; Share"]
+<pre class="mermaid mermaid-js">%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '16px', 'fontFamily': 'system-ui, -apple-system, sans-serif' }}}%%
+flowchart TD
+    subgraph TopRow [" "]
+        direction LR
+        A["&lt;b&gt;1. Observation&lt;/b&gt;&lt;br/&gt;Spot a pattern or gap"] --&gt; B["&lt;b&gt;2. Research Question&lt;/b&gt;&lt;br/&gt;Ask a focused question"] --&gt; C["&lt;b&gt;3. Hypothesis&lt;/b&gt;&lt;br/&gt;Predict: If X, then Y"]
+    end
+
+    subgraph BottomRow [" "]
+        direction RL
+        D["&lt;b&gt;4. Experiment&lt;/b&gt;&lt;br/&gt;Test 1 variable (X)"] --&gt; E["&lt;b&gt;5. Data &amp; Analysis&lt;/b&gt;&lt;br/&gt;Graph &amp; check results"] --&gt; F["&lt;b&gt;6. Conclusion &amp; Share&lt;/b&gt;&lt;br/&gt;Present your findings"]
+    end
+
+    C --&gt; D
     E -.-&gt;|"If hypothesis is rejected,&lt;br/&gt;refine &amp; re-test"| B
 
-    style A fill:#F8FAFC,stroke:#1A365D,stroke-width:2px,color:#1A365D
-    style B fill:#FFFBEB,stroke:#C67D0A,stroke-width:3px,color:#1A365D
-    style C fill:#FFFBEB,stroke:#C67D0A,stroke-width:3px,color:#1A365D
-    style D fill:#F8FAFC,stroke:#1A365D,stroke-width:2px,color:#1A365D
-    style E fill:#F8FAFC,stroke:#1A365D,stroke-width:2px,color:#1A365D
-    style F fill:#F8FAFC,stroke:#1A365D,stroke-width:2px,color:#1A365D
+    style TopRow fill:transparent,stroke:none
+    style BottomRow fill:transparent,stroke:none
+    style A fill:#f8fafc,stroke:#1e3a5f,stroke-width:2px,color:#0f172a,padding:14px
+    style B fill:#f3e8ff,stroke:#5b21b6,stroke-width:3px,color:#5b21b6,padding:14px
+    style C fill:#f3e8ff,stroke:#5b21b6,stroke-width:3px,color:#5b21b6,padding:14px
+    style D fill:#f8fafc,stroke:#1e3a5f,stroke-width:2px,color:#0f172a,padding:14px
+    style E fill:#f8fafc,stroke:#1e3a5f,stroke-width:2px,color:#0f172a,padding:14px
+    style F fill:#f8fafc,stroke:#1e3a5f,stroke-width:2px,color:#0f172a,padding:14px
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -435,32 +484,32 @@ window.Quarto = {
 <div class="grid">
 <div class="g-col-12 g-col-md-4">
 <div class="pipeline-card">
-<p><span class="step-num">Step 1</span> <strong>Observation &amp; Background</strong> Notice a pattern, problem, or gap in existing knowledge and read what others have already discovered.</p>
+<p><span class="step-num">Step 1</span> <span class="card-heading">Observation &amp; Background</span> Notice a pattern, problem, or gap in existing knowledge and read what others have already discovered.</p>
 </div>
 </div>
 <div class="g-col-12 g-col-md-4">
 <div class="pipeline-card highlight">
-<p><span class="step-num">Step 2 • Focus Below</span> <strong>Research Question</strong> Narrow a broad curiosity into one clear, focused, and measurable question.</p>
+<p><span class="step-num">Step 2 • Focus Below</span> <span class="card-heading">Research Question</span> Narrow a broad curiosity into one clear, focused, and measurable question.</p>
 </div>
 </div>
 <div class="g-col-12 g-col-md-4">
 <div class="pipeline-card highlight">
-<p><span class="step-num">Step 3 • Focus Below</span> <strong>Testable Hypothesis</strong> Make an educated, falsifiable <strong>If–Then</strong> prediction <em>before</em> collecting any data.</p>
+<p><span class="step-num">Step 3 • Focus Below</span> <span class="card-heading">Testable Hypothesis</span> Make an educated, falsifiable <strong>If–Then</strong> prediction <em>before</em> collecting any data.</p>
 </div>
 </div>
 <div class="g-col-12 g-col-md-4">
 <div class="pipeline-card">
-<p><span class="step-num">Step 4</span> <strong>Controlled Experiment</strong> Change <strong>only one</strong> variable at a time while holding all other conditions constant.</p>
+<p><span class="step-num">Step 4</span> <span class="card-heading">Controlled Experiment</span> Change <strong>only one</strong> variable at a time while holding all other conditions constant.</p>
 </div>
 </div>
 <div class="g-col-12 g-col-md-4">
 <div class="pipeline-card">
-<p><span class="step-num">Step 5</span> <strong>Data &amp; Analysis</strong> Organize measurements into graphs and tables to see whether the evidence supports or rejects your prediction.</p>
+<p><span class="step-num">Step 5</span> <span class="card-heading">Data &amp; Analysis</span> Organize measurements into graphs and tables to see whether the evidence supports or rejects your prediction.</p>
 </div>
 </div>
 <div class="g-col-12 g-col-md-4">
 <div class="pipeline-card">
-<p><span class="step-num">Step 6</span> <strong>Conclusion &amp; Share</strong> Communicate your findings through a poster, report, or presentation—even if your hypothesis was disproven.</p>
+<p><span class="step-num">Step 6</span> <span class="card-heading">Conclusion &amp; Share</span> Communicate your findings through a poster, report, or presentation—even if your hypothesis was disproven.</p>
 </div>
 </div>
 </div>
@@ -487,15 +536,16 @@ window.Quarto = {
 <div>
 <p></p><figure class="figure"><p></p>
 <div>
-<pre class="mermaid mermaid-js">flowchart LR
+<pre class="mermaid mermaid-js">%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '15px', 'fontFamily': 'system-ui, -apple-system, sans-serif' }}}%%
+flowchart LR
     S1["&lt;b&gt;Stage 1: Topic&lt;/b&gt;&lt;br/&gt;Broad Subject&lt;br/&gt;&lt;i&gt;Identify a knowledge gap&lt;/i&gt;"] --&gt; S2["&lt;b&gt;Stage 2: Variables&lt;/b&gt;&lt;br/&gt;Isolate 2 Factors&lt;br/&gt;&lt;i&gt;Independent (X) &amp; Dependent (Y)&lt;/i&gt;"]
     S2 --&gt; S3["&lt;b&gt;Stage 3: Question&lt;/b&gt;&lt;br/&gt;How does X affect Y?&lt;br/&gt;&lt;i&gt;Clear, concise, open-ended&lt;/i&gt;"]
     S3 --&gt; S4["&lt;b&gt;Stage 4: Prediction&lt;/b&gt;&lt;br/&gt;If X changes, Y will...&lt;br/&gt;&lt;i&gt;Testable hypothesis&lt;/i&gt;"]
 
-    style S1 fill:#F8FAFC,stroke:#1A365D,stroke-width:2px
-    style S2 fill:#F8FAFC,stroke:#1A365D,stroke-width:2px
-    style S3 fill:#F8FAFC,stroke:#1A365D,stroke-width:2px
-    style S4 fill:#FFFBEB,stroke:#C67D0A,stroke-width:2px
+    style S1 fill:#f8fafc,stroke:#1e3a5f,stroke-width:2px,padding:12px
+    style S2 fill:#f8fafc,stroke:#1e3a5f,stroke-width:2px,padding:12px
+    style S3 fill:#f3e8ff,stroke:#5b21b6,stroke-width:2px,padding:12px
+    style S4 fill:#fff7ed,stroke:#e86c3a,stroke-width:2px,padding:12px
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -504,7 +554,7 @@ window.Quarto = {
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="watermarked_STEP_Image.jpg" class="img-fluid figure-img" style="width:85.0%"></p>
+<p><img src="images/watermarked_STEP_Image.jpg" class="img-fluid figure-img" style="width:85.0%"></p>
 <figcaption>Visualizing the Research Process</figcaption>
 </figure>
 </div>
@@ -652,7 +702,7 @@ window.Quarto = {
 <section id="formulating-a-testable-hypothesis" class="level3">
 <h3 class="anchored" data-anchor-id="formulating-a-testable-hypothesis">3. Formulating a Testable Hypothesis</h3>
 <p>A hypothesis is a formal, educated prediction written <strong>before</strong> you collect a single piece of data.</p>
-<div style="background-color: #F8FAFC; border-left: 5px solid #C67D0A; padding: 1.2rem; margin: 1rem 0; border-radius: 4px;">
+<div class="if-then-box">
 <p><strong>The Standard “If–Then” Format:</strong></p>
 <blockquote class="blockquote">
 <p><strong>“If [Independent Variable <span class="math inline">X</span> is changed in a specific way], then [Dependent Variable <span class="math inline">Y</span> will respond in a predicted way].”</strong></p>
@@ -755,7 +805,8 @@ window.Quarto = {
 </section>
 <section id="for-educators-club-advisors-program-mentors" class="level3">
 <h3 class="anchored" data-anchor-id="for-educators-club-advisors-program-mentors">For Educators, Club Advisors &amp; Program Mentors</h3>
-<p>Want to present this lesson in a classroom, science club, or outreach program (such as STEP)? <a href="developing-research-question-slides.pdf" class="btn btn-outline-secondary btn-sm">Download the Companion Beamer Slide Deck (PDF)</a></p>
+<p>Want to present this lesson in a classroom, science club, or outreach program (such as STEP)?</p>
+<p><a href="developing-research-question-slides.pdf" class="slide-btn">Download Companion Slide Deck (PDF)</a></p>
 
 
 </section>
