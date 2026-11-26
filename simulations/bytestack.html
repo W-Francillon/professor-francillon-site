@@ -921,6 +921,14 @@
         document.getElementById("startBtn").textContent = "RETRY";
         document.getElementById("overlay").classList.remove("hidden");
         beep(130, 0.35, "sawtooth");
+        try {
+          window.parent.postMessage({
+            type: "BYTESTACK_GAMEOVER",
+            score: score,
+            bytesCleared: bytesCleared,
+            level: level
+          }, "*");
+        } catch (err) {}
       }
       drawNext();
     }
